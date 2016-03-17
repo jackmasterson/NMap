@@ -14,19 +14,12 @@
 
 
 	    <ul data-bind="foreach: placeList">
-	        <li data-bind="text:name, click: $parent.setPlace"></li>
+	        <li data-bind="text:title, click: $parent.setPlace"></li>
 	    </ul>
 
 	        <div data-bind="with: currentPlace">
 	            <h2 data-bind="text: title"></h2>
-	            <h3 data-bind="text: address"></h3>
-	            
-	            <div>
-	                <h3>Nicknames:</h3>
-	                <ul data-bind="foreach: title">
-	                    <li data-bind="text: $data"></li>
-	                </ul>
-	            </div>
+	            <h4 data-bind="text: address"></h4>
 	        </div>
 
 
