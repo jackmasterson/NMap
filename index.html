@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Neighborhood Miz-Ap</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-
-
-
-	<script src="js/jquery.js"></script>
-    <script src="js/script.js"></script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html>
   <head>
-    <title>Simple Map</title>
+    <title>Asbury Park - Stuff to See!</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
   </head>
-  <body onload="initMap()">
-    <div id="map"></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs	
-&callback=initMap"
-    async defer></script>
+  <body>
+  	<div id="floating-panel">
+      <input></input>
+    </div>
+	<div id="map"></div>
+
+
+	    <ul data-bind="foreach: placeList">
+	        <li data-bind="text:name, click: $parent.setPlace"></li>
+	    </ul>
+
+	        <div data-bind="with: currentPlace">
+	            <h2 data-bind="text: title"></h2>
+	            <h3 data-bind="text: address"></h3>
+	            
+	            <div>
+	                <h3>Nicknames:</h3>
+	                <ul data-bind="foreach: title">
+	                    <li data-bind="text: $data"></li>
+	                </ul>
+	            </div>
+	        </div>
+
+
+	<script src="js/lib/jquery.js"></script>
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/script.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs	
+&callback=initMap" async defer></script>
+	<script src="js/after.js" async defer></script>
+
+
   </body>
 </html>
