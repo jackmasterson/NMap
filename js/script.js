@@ -23,10 +23,10 @@ var	initialPlaces =  [
 			address: '1300 Ocean Ave, Asbury Park, NJ 07712'
 		}
 	];
-
+var markers = [];
 var map;
 
-function initMap() {
+	function initMap() {
       	var mapDiv = document.getElementById('map');
 
       	
@@ -36,28 +36,31 @@ function initMap() {
           zoom: 15
         });
 
-        var marker;
+	function drop() {
 
-		
+	  for (var i = 0; i < initialPlaces.length; i++) {
+	    addMarkerWithTimeout(initialPlaces[i].position, i * 300);
+	  }
+	};
+	drop();
 
 
-function drop() {
-  for (var i =0; i < initialPlaces.length; i++) {
-  	var place = initialPlaces[i];
-    setTimeout(function() {
-      		marker = new google.maps.Marker({
-			position: place.position,
-			title: place.title,
-			map: map,
-			address: place.address,
-			draggable: true,
-			animation: google.maps.Animation.DROP
-		});;
-    }, i * 200);
-  }
-};
-drop();
-		
+
+	function addMarkerWithTimeout(position, timeout) {
+
+	  window.setTimeout(function() {
+	    markers.push(new google.maps.Marker({
+	      position: position,
+	      title: place.title,
+	      address: place.address,
+	      map: map,
+	      animation: google.maps.Animation.DROP,
+	    }));
+	  }, timeout);
+
+
+	};
+
 
 
 };
