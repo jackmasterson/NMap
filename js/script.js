@@ -23,7 +23,8 @@ var	initialPlaces =  [
 			address: '1300 Ocean Ave, Asbury Park, NJ 07712'
 		}
 	];
-var markers = [];
+
+
 var map;
 
 	function initMap() {
@@ -36,34 +37,35 @@ var map;
           zoom: 15
         });
 
-	function drop() {
 
-	  for (var i = 0; i < initialPlaces.length; i++) {
-	    addMarkerWithTimeout(initialPlaces[i].position, i * 300);
+
+var Marker = function() {
+
+
+for(i=0;i<initialPlaces.length;i++){
+	var place = initialPlaces[i];
+
+		var marker = new google.maps.Marker({
+			position: place.position,
+			title: place.title,
+			map: map,
+			address: place.address,
+			animation: google.maps.Animation.DROP
+		});
+		  marker.addListener('click', toggleBounce);
+
+		
+	}
+	function toggleBounce() {
+	  if (marker.getAnimation() !== null) {
+	    marker.setAnimation(null);
+	  } else {
+	    marker.setAnimation(google.maps.Animation.BOUNCE);
 	  }
 	};
-	drop();
-
-
-
-	function addMarkerWithTimeout(position, timeout) {
-
-	  window.setTimeout(function() {
-	    markers.push(new google.maps.Marker({
-	      position: position,
-	      title: place.title,
-	      address: place.address,
-	      map: map,
-	      animation: google.maps.Animation.DROP,
-	    }));
-	  }, timeout);
-
-
-	};
-
-
 
 };
+
 
 
 var Place = function(data) {
@@ -71,9 +73,14 @@ var Place = function(data) {
 	this.title = ko.observable(data.title);
 	this.map = ko.observable(data.map);
 	this.address = ko.observable(data.address);
+	this.animation = google.maps.Animation.DROP
+
+//	console.log(data.position);
+//	console.log(this.position);
+//	console.log(data.title);
+//	console.log(data.address);
 
 };
-
 
 
 var ViewModel = function() {
@@ -88,16 +95,28 @@ var ViewModel = function() {
 
 	this.currentPlace = ko.observable( this.placeList()[0] );
 
+	
+	this.markers = ko.observableArray([]);
 
-	this.searchList = ko.observable( this.placeList()[1] );
+
+	self.markers.push( new Marker() );
+
+
+
+
 
 
 	this.setPlace = function(clickedPlace) {
 		self.currentPlace(clickedPlace);
+		console.log(clickedPlace);
 	};
+
+
+};
+ko.applyBindings(new ViewModel());
 };
 
-ko.applyBindings(new ViewModel());
+
 
 
 
