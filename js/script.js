@@ -52,20 +52,22 @@ for(i=0;i<initialPlaces.length;i++){
 			address: place.address,
 			animation: google.maps.Animation.DROP
 		});
-		  marker.addListener('click', toggleBounce);
-
-		
+		bindEvent(marker, place, i);
 	}
-	function toggleBounce() {
-	  if (marker.getAnimation() !== null) {
-	    marker.setAnimation(null);
-	  } else {
-	    marker.setAnimation(google.maps.Animation.BOUNCE);
-	  }
-	};
+	
+
+
+	function bindEvent(marker, place, i) {
+		google.maps.event.addListener(marker, 'click', function() {
+			if (marker.getAnimation() !== null) {
+		    marker.setAnimation(null);
+		  } else {
+		    marker.setAnimation(google.maps.Animation.BOUNCE);
+		  }
+		})
+	}
 
 };
-
 
 
 var Place = function(data) {
