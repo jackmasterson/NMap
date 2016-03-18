@@ -39,46 +39,21 @@ var map;
 
 
 
-var Marker = function() {
+var Marker = function(name, lat, long, address) {
 
 
-for(i=0;i<initialPlaces.length;i++){
-	var place = initialPlaces[i];
+	this.name = name;
+	this.lat = ko.observable(lat);
+	this.long = ko.observable(long);
+	this.address = ko.observable(address);
 
-		var marker = new google.maps.Marker({
-			position: place.position,
-			title: place.title,
-			map: map,
-			address: place.address,
-			animation: google.maps.Animation.DROP,
-
-		});
-		bindEvent(marker, place, i);
-	}
-	
-
-
-
-	function bindEvent(marker, place, i) {
-		var image = 'img/marker-blue.png';
-		image.id = "blue-marker";
-		google.maps.event.addListener(marker, 'click', function() {
-			if (marker.getAnimation() !== null) {
-		    marker.setAnimation(null);
-		  } else {
-		    marker.setAnimation(google.maps.Animation.BOUNCE);
-		    marker.setIcon(image)
-		  }
-		})
-		google.maps.event.addListener(marker, 'click', function() {
-			if (marker.getAnimation() !== google.maps.Animation.Bounce) {
-				timeoutID = window.setTimeout(stopBouncing, 2200);
-			};
-			function stopBouncing() {
-				marker.setAnimation(null);
-			}
-		})
-	}
+	var marker = new google.maps.Marker({
+		position: new google.maps.LatLng(lat, long),
+		title: name,
+		map: map,
+	})
+//	this.animation = google.maps.Animation.DROP;
+//	this.icon = ko.observable(data.null)
 
 };
 
@@ -106,19 +81,42 @@ var ViewModel = function() {
 
 	initialPlaces.forEach(function(placeItem){
 		self.placeList.push( new Place(placeItem) );
-	})
+	});
 
 	this.currentPlace = ko.observable( this.placeList()[0] );
+	console.log(this.placeList()[0]);
 
 	
-	this.markers = ko.observableArray([]);
+	points: ko.observableArray([
+		new Marker('Johnny Mac House of Spirits', 40.216147,
+			-74.012914, '208 Main St, Asbury Park, NJ 07712'),
+		new Marker('The Stone Pony', 40.220001, -74.000947,
+			'913 Ocean Ave, Asbury Park, NJ 07712'),
+		new Marker('Porta Pizza and Wine Bar', 40.220239, -74.002344,
+			'911 Kingsley St, Asbury Park, NJ 07712'),
+		new Marker('Silverball Museum', 40.2207, -73.999884,
+			'1000 Ocean Ave, Asbury Park, NJ 07712'),
+		new Marker('Convention Hall', 40.223796, -73.998585,
+			'1300 Ocean Ave, Asbury Park, NJ 07712')
+	])
+
+	/*this.markers = ko.observableArray([]);
+
+	initialPlaces.forEach(function(placeItem){
+		self.markers.push( new google.maps.Marker(placeItem) );
+	});
+	
+	this.currentMarker = ko.observable( this.markers()[0]);
+	console.log(this.markers()[0]);
+*/
 
 
-	self.markers.push( new Marker() );
 
 
-
-
+	this.setMarker = function(clickedMarker) {
+		self.currentMarker(clickedMarker);
+		console.log(clickedMarker);
+	}
 
 
 	this.setPlace = function(clickedPlace) {
@@ -130,6 +128,7 @@ var ViewModel = function() {
 };
 ko.applyBindings(new ViewModel());
 };
+
 
 
 
