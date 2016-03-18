@@ -17,7 +17,7 @@
 		</section>
     </div>
 	<div id="map"></div>
-	<div id="points" data-bind="foreach: points"></div>
+	<div id="points" data-bind="template: { name: 'pointsTmpl', foreach: points }"></div>
 
 
 
@@ -25,7 +25,13 @@
 	        <li data-bind="text:title, click: $parent.setPlace"></li>
 	    </ul>
 
-
+<script id="pointsTmpl" type="text/html">
+    <p>
+        <span data-bind="text: name"></span>; 
+        <span data-bind="text: lat"></span>; 
+        </br><span data-bind="text: address"></span>;
+    </p>
+</script>
 
 
 

@@ -41,7 +41,7 @@ var map;
 
 var Marker = function(name, lat, long, address) {
 
-
+	var image = 'img/marker-blue.png';
 	this.name = name;
 	this.lat = ko.observable(lat);
 	this.long = ko.observable(long);
@@ -51,9 +51,22 @@ var Marker = function(name, lat, long, address) {
 		position: new google.maps.LatLng(lat, long),
 		title: name,
 		map: map,
+		animation: google.maps.Animation.DROP,
 	})
+
+	google.maps.event.addListener(marker, 'click', function() {
+		marker.setIcon(image);
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		timeoutID = window.setTimeout(stopBouncing, 2200);
+		function stopBouncing() {
+				marker.setAnimation(null);
+		};
+	});
+
+
 //	this.animation = google.maps.Animation.DROP;
 //	this.icon = ko.observable(data.null)
+
 
 };
 
@@ -87,7 +100,7 @@ var ViewModel = function() {
 	console.log(this.placeList()[0]);
 
 	
-	points: ko.observableArray([
+	this.points = ko.observableArray([
 		new Marker('Johnny Mac House of Spirits', 40.216147,
 			-74.012914, '208 Main St, Asbury Park, NJ 07712'),
 		new Marker('The Stone Pony', 40.220001, -74.000947,
@@ -100,15 +113,11 @@ var ViewModel = function() {
 			'1300 Ocean Ave, Asbury Park, NJ 07712')
 	])
 
-	/*this.markers = ko.observableArray([]);
 
-	initialPlaces.forEach(function(placeItem){
-		self.markers.push( new google.maps.Marker(placeItem) );
-	});
 	
-	this.currentMarker = ko.observable( this.markers()[0]);
-	console.log(this.markers()[0]);
-*/
+	this.currentMarker = ko.observable( this.points()[0] );
+	console.log(this.points()[0]);
+	console.log(this.points()[1]);
 
 
 
