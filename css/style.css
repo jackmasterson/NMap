@@ -25,3 +25,8 @@ html, body {
   height: 15px;
   width: 15px;
 }
+
+#blue-marker {
+  height: 15px;
+  width: 50px;
+}

@@ -50,19 +50,24 @@ for(i=0;i<initialPlaces.length;i++){
 			title: place.title,
 			map: map,
 			address: place.address,
-			animation: google.maps.Animation.DROP
+			animation: google.maps.Animation.DROP,
+
 		});
 		bindEvent(marker, place, i);
 	}
 	
 
 
+
 	function bindEvent(marker, place, i) {
+		var image = 'img/marker-blue.png';
+		image.id = "blue-marker";
 		google.maps.event.addListener(marker, 'click', function() {
 			if (marker.getAnimation() !== null) {
 		    marker.setAnimation(null);
 		  } else {
 		    marker.setAnimation(google.maps.Animation.BOUNCE);
+		    marker.setIcon(image)
 		  }
 		})
 		google.maps.event.addListener(marker, 'click', function() {
