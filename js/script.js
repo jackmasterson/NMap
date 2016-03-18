@@ -65,6 +65,14 @@ for(i=0;i<initialPlaces.length;i++){
 		    marker.setAnimation(google.maps.Animation.BOUNCE);
 		  }
 		})
+		google.maps.event.addListener(marker, 'click', function() {
+			if (marker.getAnimation() !== google.maps.Animation.Bounce) {
+				timeoutID = window.setTimeout(stopBouncing, 2200);
+			};
+			function stopBouncing() {
+				marker.setAnimation(null);
+			}
+		})
 	}
 
 };
