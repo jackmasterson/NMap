@@ -20,7 +20,7 @@
 	<div id="points" data-bind="template: { name: 'pointsTmpl', foreach: points }"></div>
 
 
-
+	<li id="clicked"></li>
 	    <ul data-bind="foreach: placeList">
 	        <li data-bind="text:title, click: $parent.setPlace"></li>
 	    </ul>

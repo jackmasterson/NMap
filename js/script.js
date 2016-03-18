@@ -37,7 +37,7 @@ function initMap() {
           zoom: 15
         });
 
-	var infowindow = new google.maps.InfoWindow();
+
 
 
 	var Marker = function(name, lat, long, address) {
@@ -55,54 +55,41 @@ function initMap() {
 		animation: google.maps.Animation.DROP,
 		icon: null
 	});
+	 var contentString = '<div id="content">'+
+      '<h1>Name</h1>'+
+      '<h2>Address L1</h2>'+
+      '<h2>Address L2</h2>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+    marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  });
+
+	var clickedMarker;
 	google.maps.event.addListener(marker, 'click', function() {
 
 
-		var clickedMarker = marker;
-		console.log(clickedMarker.title);
+		clickedMarker = marker;
+		
+	// var nonClicked = clickedMarker.not( document.)
 
+		console.log(clickedMarker.title);
 		if(clickedMarker == marker) {
-			marker.setIcon('img/marker-blue.png');
 			marker.setAnimation(google.maps.Animation.BOUNCE);
-			timeoutID = window.setTimeout(stopBouncing, 2200);
+			timeoutID = window.setTimeout(stopBouncing, 3000);
 			function stopBouncing() {
 				marker.setAnimation(null);
 			};
 		}
-		else{
-			marker.setIcon(null);
-		}
 
-		});
+	});
+};
 
 
-/*
-	var click = function() {
-			google.maps.event.addListener(marker, 'click', function() {
-	        if (marker.icon == null) 
-		        {
-		            marker.setIcon('img/marker-blue.png');
-		            marker.setAnimation(google.maps.Animation.BOUNCE);
-					timeoutID = window.setTimeout(stopBouncing, 2200);
-					function stopBouncing() {
-						marker.setAnimation(null);
-				}
-	        }
-	        else 
-		        {
-		            marker.setIcon(null);
-		        }
-			});	  
-			google.maps.event.addListener(marker, 'click', function() {      
-			if(self.icon == null)
-		        {
-		            Marker.setIcon('img/marker-blue.png');
-		        }
-			});
-		};
-		click();
-*/		
-	};
+
 
 
 	var Place = function(data) {
@@ -112,10 +99,6 @@ function initMap() {
 		this.address = ko.observable(data.address);
 		this.animation = google.maps.Animation.DROP
 
-	//	console.log(data.position);
-	//	console.log(this.position);
-	//	console.log(data.title);
-	//	console.log(data.address);
 
 	};
 
@@ -131,7 +114,7 @@ function initMap() {
 		});
 
 		this.currentPlace = ko.observable( this.placeList()[0] );
-		console.log(this.placeList()[0]);
+
 
 		
 		this.points = ko.observableArray([
@@ -146,24 +129,24 @@ function initMap() {
 			new Marker('Convention Hall', 40.223796, -73.998585,
 				'1300 Ocean Ave, Asbury Park, NJ 07712')
 		]);
+
+
 	    
+
 
 		this.currentMarker = ko.observable( this.points()[0] );
 
-
-
-
-
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
-			console.log(clickedPlace);
-		};
+		};		
+
+
 
 
 
 	};
 	ko.applyBindings(new ViewModel());
-	};
+};
 
 
 
