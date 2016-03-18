@@ -52,22 +52,24 @@ var Marker = function(name, lat, long, address) {
 		title: name,
 		map: map,
 		animation: google.maps.Animation.DROP,
+
 	})
 
-	google.maps.event.addListener(marker, 'click', function() {
-		marker.setIcon(image);
-		marker.setAnimation(google.maps.Animation.BOUNCE);
-		timeoutID = window.setTimeout(stopBouncing, 2200);
-		function stopBouncing() {
-				marker.setAnimation(null);
-		};
-	});
-
-
-//	this.animation = google.maps.Animation.DROP;
-//	this.icon = ko.observable(data.null)
-
-
+	google.maps.event.addListener(marker, 'click', function changeImage() {
+        if (marker.icon == null) 
+	        {
+	            marker.setIcon('img/marker-blue.png');
+	            marker.setAnimation(google.maps.Animation.BOUNCE);
+				timeoutID = window.setTimeout(stopBouncing, 2200);
+				function stopBouncing() {
+					marker.setAnimation(null);
+			};
+        }
+        else 
+	        {
+	            marker.setIcon(null);
+	        }
+		});
 };
 
 
