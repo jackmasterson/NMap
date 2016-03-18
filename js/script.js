@@ -33,22 +33,33 @@ function initMap() {
         var map = new google.maps.Map(mapDiv, {
           center: {lat: 40.220391, lng: -74.012082},
           scrollwheel: false,
-          zoom: 14
+          zoom: 15
         });
 
+        var marker;
 
-	for(i=0;i<initialPlaces.length;i++){
-
-		var place = initialPlaces[i];
+		
 
 
-		var marker = new google.maps.Marker({
+function drop() {
+  for (var i =0; i < initialPlaces.length; i++) {
+  	var place = initialPlaces[i];
+    setTimeout(function() {
+      		marker = new google.maps.Marker({
 			position: place.position,
 			title: place.title,
 			map: map,
-			address: place.address
-		});
-	}
+			address: place.address,
+			draggable: true,
+			animation: google.maps.Animation.DROP
+		});;
+    }, i * 200);
+  }
+};
+drop();
+		
+
+
 };
 
 
@@ -75,13 +86,15 @@ var ViewModel = function() {
 	this.currentPlace = ko.observable( this.placeList()[0] );
 
 
+	this.searchList = ko.observable( this.placeList()[1] );
+
+
 	this.setPlace = function(clickedPlace) {
 		self.currentPlace(clickedPlace);
 	};
 };
 
 ko.applyBindings(new ViewModel());
-
 
 
 

@@ -20,4 +20,8 @@ html, body {
   line-height: 30px;
   padding-left: 10px;
 }
-   
+
+#searchImg {
+  height: 15px;
+  width: 15px;
+}
