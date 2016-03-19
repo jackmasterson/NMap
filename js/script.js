@@ -100,9 +100,16 @@ function initMap() {
 				function stopBouncing() {
 				marker.setAnimation(null);
 	  		};
-			if (marker.getAnimation() == google.maps.Animation.BOUNCE) {
-				marker.setIcon(image);
-			}
+	  		if(marker.icon == image) {
+	  			marker.setIcon(null);
+	  			infowindow.close(map, marker);
+	  			marker.setAnimation(null);
+	  		}
+	  		else{
+	  			marker.setIcon(image);
+	  		}
+
+
 
 	  	console.log(marker.title);
 		});
