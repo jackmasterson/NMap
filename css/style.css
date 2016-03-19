@@ -27,11 +27,15 @@ html, body {
 }
 #content {
   text-align: center;
+
 }
+
 .markerImg {
   height: 170px;
-  width: 170px;
+  width: 190px;
   margin: auto;
+  margin-left: 15px;
   padding: auto;
   border-radius: 15px;
+  border: 5px solid black;
 }
