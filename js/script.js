@@ -53,9 +53,17 @@ function initMap() {
         });
 
 	var Marker = function(data) {
-		
+
+		function drop() {
+
+		    addMarkerWithTimeout(data.position, data.nums * 300);
+		  
+		}
+		drop();
 		
 
+	function addMarkerWithTimeout(position, timeout) {
+  		window.setTimeout(function() {
 		var marker = new google.maps.Marker({
 			position: data.position,
 			title: data.title,
@@ -64,8 +72,9 @@ function initMap() {
 			map: map,
 			num: data.num,
 			animation: google.maps.Animation.DROP
-
 		});
+
+
 
 
 	
@@ -97,6 +106,9 @@ function initMap() {
 
 	  	console.log(marker.title);
 		});
+	  	}, timeout);
+	}
+
 }
 
 
