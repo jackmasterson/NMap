@@ -102,32 +102,22 @@ function initMap() {
 					function stopBouncing() {
 					marker.setAnimation(null);
 		  		};
-
-
-		  		if(marker.icon == image) {
-		  			marker.setIcon(null);
-		  			infowindow.close(map, marker);
-		  			marker.setAnimation(null);
-
-		  		}
-		  		else{
-		  			marker.setIcon(image);
-
-		  		}
+		  		if(marker.icon == image) 
+			  		{
+			  			marker.setIcon(null);
+			  			infowindow.close(map, marker);
+			  			marker.setAnimation(null);
+			  		}
+		  		else
+			  		{
+			  			marker.setIcon(image);
+			  		}
 			  	console.log(marker.title);
-			  	console.log(marker.icon);
 			});
-			console.log(marker.icon);
-
-
-
-
 
 	  	}, timeout);
-
-	}
-
-}
+	};
+};
 
 
 	var Place = function(data) {
@@ -149,8 +139,7 @@ function initMap() {
 		});
 		this.currentPlace = ko.observable( this.placeList()[0] );
 
-			
-
+		
 		this.markerList = ko.observableArray([]);
 		initialPlaces.forEach(function(markerItem){
 			self.markerList.push( new Marker(markerItem) );

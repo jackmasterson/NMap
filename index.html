@@ -16,14 +16,14 @@
 			<ul id="places"></ul>
 		</section>
     </div>
+  	<div id="list">
+    	<h3>Check 'em Out</h3>
+        <div data-bind="foreach: placeList">
+            <h5 data-bind="text: title"></h5>
+        </div>
+    </div>
 	<div id="map"></div>
 	
-
-
-	<li id="clicked"></li>
-	    <ul data-bind="foreach: placeList">
-	        <li data-bind="text:title, click: $parent.setPlace"></li>
-	    </ul>
 
 
 

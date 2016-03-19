@@ -20,6 +20,20 @@ html, body {
   line-height: 30px;
   padding-left: 10px;
 }
+#list {
+  position: absolute;
+  margin-top: 80px;
+  height: 60%;
+  width: 15%;
+  z-index: 5;
+  background-color: black;
+  text-align: center;
+  background: beige;
+  border: 2px solid black;
+  border-radius: 15px;
+  font-family: 'Roboto','sans-serif';
+
+}
 
 #searchImg {
   height: 15px;
