@@ -3,27 +3,36 @@ var	initialPlaces =  [
 		 {
 			position: {lat: 40.216147, lng: -74.012914},
 			title: 'Johnny Mac House of Spirits',
-			address: '208 Main St, Asbury Park, NJ 07712'
+			address: '208 Main St, Asbury Park, NJ 07712',
+			src: 'img/macs.jpg'
 
 		}, {
 			position: {lat: 40.220001, lng: -74.000947},
 			title: 'The Stone Pony',
-			address: '913 Ocean Ave, Asbury Park, NJ 07712'
+			address: '913 Ocean Ave, Asbury Park, NJ 07712',
+			src: 'img/pony.jpg'
+
 		}, {
 			position: {lat: 40.220239, lng: -74.002344},
 			title: 'Porta Pizza/Wine Bar',
-			address: '911 Kingsley St, Asbury Park, NJ 07712'
+			address: '911 Kingsley St, Asbury Park, NJ 07712',
+			src: 'img/porta.jpg'
+
 		}, {
 			position: {lat: 40.2207, lng: -73.999884},
 			title: 'Silverball Museum',
-			address: '1000 Ocean Ave, Asbury Park, NJ 07712'
+			address: '1000 Ocean Ave, Asbury Park, NJ 07712',
+			src: 'img/silverball.jpg'
+
 		}, {
 			position: {lat: 40.223796, lng: -73.998585},
 			title: 'Convention Hall',
-			address: '1300 Ocean Ave, Asbury Park, NJ 07712'
+			address: '1300 Ocean Ave, Asbury Park, NJ 07712',
+			src: 'img/hall.jpg'
+
 		}
 	];
-console.log(initialPlaces[0].position);
+
 
 
 var map;
@@ -42,57 +51,35 @@ function initMap() {
 
 
 	var Marker = function(data) {
-
-
 		console.log(data.position);
+		console.log(data.title);
 
 		var marker = new google.maps.Marker({
 			position: data.position,
-			title: name,
+			title: data.title,
 			address: data.address,
+			src: data.src,
 			map: map,
 			animation: google.maps.Animation.DROP,
 		});
 
 
-		
-		var contentString = 
-			'<div id="content">' +
-		      '<h3>' + marker.title + '</h3>' +
-		      '<h4>' + marker.address + '</h4>' +
-		    '</div>';
-	
-
-		var infowindow = new google.maps.InfoWindow({
-			content: contentString
-		});
-
-			marker.addListener('click', function() {
-			infowindow.open(map, marker);
-		});
+	 var contentString = 
+	 '<div id="content">'+
+      	'<h4>'+marker.title+'</h4>'+
+      	'<h5>'+marker.address+'</h5>'+
+      	'<img class="markerImg" src='+marker.src+'>'+
+     '</div>';
 		
 
+	  var infowindow = new google.maps.InfoWindow({
+	    content: contentString
+	  });
+	    marker.addListener('click', function() {
+	    infowindow.open(map, marker);
+	  });
 
-
-
-
-		var clickedMarker;
-		google.maps.event.addListener(marker, 'click', function() {
-			clickedMarker = marker;
-			// var nonClicked = clickedMarker.not( document.)
-			console.log(clickedMarker.title);
-			if(clickedMarker == marker) {
-				marker.setAnimation(google.maps.Animation.BOUNCE);
-				timeoutID = window.setTimeout(stopBouncing, 3000);
-				function stopBouncing() {
-					marker.setAnimation(null);
-				};
-			}
-		});
 	};
-
-
-
 
 
 	var Place = function(data) {
@@ -102,16 +89,8 @@ function initMap() {
 		this.address = ko.observable(data.address);
 		this.animation = google.maps.Animation.DROP
 
-		console.log(data.position);
+
 	};	
-
-
-	
-
-
-
-
-
 
 	var ViewModel = function() {
 
@@ -129,33 +108,11 @@ function initMap() {
 			self.markerList.push( new Marker(markerItem) );
 		});
 
-
-		/*
-		this.points = ko.observableArray([
-			new Marker('Johnny Mac House of Spirits', 40.216147,
-				-74.012914, '208 Main St, Asbury Park, NJ 07712'),
-			new Marker('The Stone Pony', 40.220001, -74.000947,
-				'913 Ocean Ave, Asbury Park, NJ 07712'),
-			new Marker('Porta Pizza and Wine Bar', 40.220239, -74.002344,
-				'911 Kingsley St, Asbury Park, NJ 07712'),
-			new Marker('Silverball Museum', 40.2207, -73.999884,
-				'1000 Ocean Ave, Asbury Park, NJ 07712'),
-			new Marker('Convention Hall', 40.223796, -73.998585,
-				'1300 Ocean Ave, Asbury Park, NJ 07712')
-		]);
-
-	    */
-
-
 		this.currentMarker = ko.observable( this.markerList()[0] );
 
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
 		};		
-
-
-
-
 
 	};
 	ko.applyBindings(new ViewModel());
