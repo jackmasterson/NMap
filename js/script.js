@@ -23,6 +23,7 @@ var	initialPlaces =  [
 			address: '1300 Ocean Ave, Asbury Park, NJ 07712'
 		}
 	];
+console.log(initialPlaces[0].position);
 
 
 var map;
@@ -40,53 +41,55 @@ function initMap() {
 
 
 
-	var Marker = function(name, lat, long, address) {
-
-		var image = 'img/marker-blue.png';
-		this.name = name;
-		this.lat = ko.observable(lat);
-		this.long = ko.observable(long);
-		this.address = ko.observable(address);
-
-	var marker = new google.maps.Marker({
-		position: new google.maps.LatLng(lat, long),
-		title: name,
-		map: map,
-		animation: google.maps.Animation.DROP,
-		icon: null
-	});
-	 var contentString = '<div id="content">'+
-      '<h1>Name</h1>'+
-      '<h2>Address L1</h2>'+
-      '<h2>Address L2</h2>'+
-      '</div>';
-
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-    marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
-
-	var clickedMarker;
-	google.maps.event.addListener(marker, 'click', function() {
+	var Marker = function(data) {
 
 
-		clickedMarker = marker;
+		console.log(data.position);
+
+		var marker = new google.maps.Marker({
+			position: data.position,
+			title: name,
+			address: data.address,
+			map: map,
+			animation: google.maps.Animation.DROP,
+		});
+
+
 		
-	// var nonClicked = clickedMarker.not( document.)
+		var contentString = 
+			'<div id="content">' +
+		      '<h3>' + marker.title + '</h3>' +
+		      '<h4>' + marker.address + '</h4>' +
+		    '</div>';
+	
 
-		console.log(clickedMarker.title);
-		if(clickedMarker == marker) {
-			marker.setAnimation(google.maps.Animation.BOUNCE);
-			timeoutID = window.setTimeout(stopBouncing, 3000);
-			function stopBouncing() {
-				marker.setAnimation(null);
-			};
-		}
+		var infowindow = new google.maps.InfoWindow({
+			content: contentString
+		});
 
-	});
-};
+			marker.addListener('click', function() {
+			infowindow.open(map, marker);
+		});
+		
+
+
+
+
+
+		var clickedMarker;
+		google.maps.event.addListener(marker, 'click', function() {
+			clickedMarker = marker;
+			// var nonClicked = clickedMarker.not( document.)
+			console.log(clickedMarker.title);
+			if(clickedMarker == marker) {
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+				timeoutID = window.setTimeout(stopBouncing, 3000);
+				function stopBouncing() {
+					marker.setAnimation(null);
+				};
+			}
+		});
+	};
 
 
 
@@ -99,8 +102,15 @@ function initMap() {
 		this.address = ko.observable(data.address);
 		this.animation = google.maps.Animation.DROP
 
+		console.log(data.position);
+	};	
 
-	};
+
+	
+
+
+
+
 
 
 	var ViewModel = function() {
@@ -108,15 +118,19 @@ function initMap() {
 		var self = this;
 
 		this.placeList = ko.observableArray([]);
-
 		initialPlaces.forEach(function(placeItem){
 			self.placeList.push( new Place(placeItem) );
 		});
-
 		this.currentPlace = ko.observable( this.placeList()[0] );
 
 
-		
+		this.markerList = ko.observableArray([]);
+		initialPlaces.forEach(function(markerItem){
+			self.markerList.push( new Marker(markerItem) );
+		});
+
+
+		/*
 		this.points = ko.observableArray([
 			new Marker('Johnny Mac House of Spirits', 40.216147,
 				-74.012914, '208 Main St, Asbury Park, NJ 07712'),
@@ -130,11 +144,10 @@ function initMap() {
 				'1300 Ocean Ave, Asbury Park, NJ 07712')
 		]);
 
+	    */
 
-	    
 
-
-		this.currentMarker = ko.observable( this.points()[0] );
+		this.currentMarker = ko.observable( this.markerList()[0] );
 
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
