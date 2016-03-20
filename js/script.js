@@ -1,5 +1,7 @@
 
+
 function initMap() {
+	var image = 'img/marker-blue.png';
 
 	var mapDiv = document.getElementById('map');
     var map = new google.maps.Map(mapDiv, {
@@ -53,7 +55,7 @@ function initMap() {
 		
 	];
 
-console.log(initialPlaces[0].marker);
+//console.log(initialPlaces[0].marker);
 
 
 
@@ -64,7 +66,7 @@ console.log(initialPlaces[0].marker);
 		}
 		drop();
 
-		var image = 'img/marker-blue.png';
+
 
 		var markers;
 
@@ -91,6 +93,8 @@ console.log(initialPlaces[0].marker);
 				    stuff: map, marker
 				})
 			}));
+
+		//	console.log(markers.infowindow.stuff);
 
 				    markers.addListener('click', function() {
 			    	markers.infowindow.open(map, markers);
@@ -174,7 +178,7 @@ Searched();
 		});
 		this.currentPlace = ko.observable( this.placeList()[0] );
 	//	console.log(this.currentPlace().infowindow);
-		console.log(this.placeList()[0]);
+		//console.log(this.placeList()[0]);
 		
 
 		this.markerList = ko.observableArray([]);
@@ -193,18 +197,28 @@ Searched();
 			var curMark = self.currentPlace().marker()[0];
 			console.log(curMark);
 
-		//	console.log(curMark.infowindow.__proto__.open(map, curMark));
-			console.log(curMark.infowindow.stuff);
+
 			var stuffStored = curMark.infowindow.stuff;
-			console.log(stuffStored);
+		//	console.log(stuffStored);
 
 		$('#placeClick').click( function() { 
+
 				curMark.infowindow.open(stuffStored);
-			//	self.setAnimation(google.maps.Animation.BOUNCE);
-			//		timeoutID = window.setTimeout(stopBouncing, 2200);
-			//			function stopBouncing() {
-			//			marker.setAnimation(null);
-			  //		};
+				curMark.setAnimation(google.maps.Animation.BOUNCE);
+					timeoutID = window.setTimeout(stopBouncing, 2200);
+						function stopBouncing() {
+							curMark.setAnimation(null);
+			  		};
+			  		if(curMark.icon == image) 
+				  		{
+				  			curMark.setIcon(null);
+				  			curMark.infowindow.close(map, curMark);
+				  			curMark.setAnimation(null);
+				  		}
+			  		else
+				  		{
+				  			curMark.setIcon(image);
+				  		}
 
 			});
 
