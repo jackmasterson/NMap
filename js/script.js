@@ -1,5 +1,14 @@
 
-var	initialPlaces =  [
+function initMap() {
+
+	var mapDiv = document.getElementById('map');
+    var map = new google.maps.Map(mapDiv, {
+          center: {lat: 40.220391, lng: -74.012082},
+          scrollwheel: false,
+          zoom: 15
+        });
+
+   var	initialPlaces = [
 		 {
 			position: {lat: 40.216147, lng: -74.012914},
 			title: 'Johnny Mac House of Spirits',
@@ -7,7 +16,6 @@ var	initialPlaces =  [
 			src: 'img/macs.jpg',
 			nums: 1,
 			icon: null
-
 		}, {
 			position: {lat: 40.220001, lng: -74.000947},
 			title: 'The Stone Pony',
@@ -15,7 +23,6 @@ var	initialPlaces =  [
 			src: 'img/pony.jpg',
 			nums: 2,
 			icon: null
-
 		}, {
 			position: {lat: 40.220239, lng: -74.002344},
 			title: 'Porta Pizza/Wine Bar',
@@ -23,7 +30,6 @@ var	initialPlaces =  [
 			src: 'img/porta.jpg',
 			nums: 3,
 			icon: null
-
 		}, {
 			position: {lat: 40.2207, lng: -73.999884},
 			title: 'Silverball Museum',
@@ -31,7 +37,6 @@ var	initialPlaces =  [
 			src: 'img/silverball.jpg',
 			nums: 4,
 			icon: null
-
 		}, {
 			position: {lat: 40.223796, lng: -73.998585},
 			title: 'Convention Hall',
@@ -40,20 +45,11 @@ var	initialPlaces =  [
 			nums: 5,
 			icon: null
 		}
+		
 	];
 
 
-var map;
 
-function initMap() {
-      	var mapDiv = document.getElementById('map');
-
-      	
-        var map = new google.maps.Map(mapDiv, {
-          center: {lat: 40.220391, lng: -74.012082},
-          scrollwheel: false,
-          zoom: 15
-        });
 
 	var Marker = function(data) {
 
@@ -64,7 +60,11 @@ function initMap() {
 
 		var image = 'img/marker-blue.png';
 
-		function addMarkerWithTimeout(position, timeout) {
+
+	
+		    var image = 'img/marker-blue.png';
+
+		  function addMarkerWithTimeout(position, timeout) {
 	  		window.setTimeout(function() {
 			var marker = new google.maps.Marker({
 				position: data.position,
@@ -83,23 +83,12 @@ function initMap() {
 				      	'<img class="markerImg" src='+data.src+'>'+
 				    '</div>',
 				})
-			
 			});
 
-			console.log(marker.infowindow.content);
-			console.log(marker.title);
 
-			$('#placeClick').click( function() { 
-				marker.infowindow.open(map, marker);
-				marker.setAnimation(google.maps.Animation.BOUNCE);
-					timeoutID = window.setTimeout(stopBouncing, 2200);
-						function stopBouncing() {
-						marker.setAnimation(null);
-			  		};
-
-			});
 				
-		    var image = 'img/marker-blue.png';
+		     var image = 'img/marker-blue.png';
+
 
 				    marker.addListener('click', function() {
 			    	marker.infowindow.open(map, marker);
@@ -118,14 +107,14 @@ function initMap() {
 				  		{
 				  			marker.setIcon(image);
 				  		}
-				  	console.log(marker.title);
-				});
+				  		});
+				  	}, timeout);
+	//			  	console.log(marker.title);
+				
+			}
+		}
 
-		  }, timeout);
 
-	};
-
-};
 
 	var Searched = function() {
 		$(document).ready(function(){
@@ -156,7 +145,9 @@ function initMap() {
 		});
 		
 	}
+
 Searched();
+
 
 	var Place = function(data) {
 		this.position = ko.observable(data.position);
@@ -164,12 +155,13 @@ Searched();
 		this.map = ko.observable(data.map);
 		this.address = ko.observable(data.address);
 		this.animation = google.maps.Animation.DROP;
+		this.infowindow = ko.observable(data.infowindow);
 
 	};	
 
 
-	var ViewModel = function() {
 
+	var ViewModel = function() {
 		var self = this;
 
 		this.placeList = ko.observableArray([]);
@@ -177,29 +169,57 @@ Searched();
 			self.placeList.push( new Place(placeItem) );
 		});
 		this.currentPlace = ko.observable( this.placeList()[0] );
-
+	//	console.log(this.currentPlace().infowindow);
+		console.log(this.placeList()[0]);
 		
+
 		this.markerList = ko.observableArray([]);
 		initialPlaces.forEach(function(markerItem){
 			self.markerList.push( new Marker(markerItem) );
 		});
+	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
 
-		this.currentMarker = ko.observable( this.markerList()[0] );
+
+		
 
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
-			console.log(self.currentPlace);
+			console.log(self.currentPlace().infowindow().content);
+			
+		
+	/*	$('#placeClick').click( function() { 
+				self.currentPlace().infowindow()
+					.open(map, );
+			//	self.setAnimation(google.maps.Animation.BOUNCE);
+			//		timeoutID = window.setTimeout(stopBouncing, 2200);
+			//			function stopBouncing() {
+			//			marker.setAnimation(null);
+			  //		};
+
+			});
+*/
 		};	
 
 
-
 	};
+
 
 	ko.applyBindings(new ViewModel());
 };
 
 
+
+
+			/*$('#placeClick').click( function() { 
+				marker.infowindow.open(map, marker);
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+					timeoutID = window.setTimeout(stopBouncing, 2200);
+						function stopBouncing() {
+						marker.setAnimation(null);
+			  		};
+
+			});*/
 
 
 

@@ -8,6 +8,7 @@
   </head>
   <body>
   	<div id="floating-panel">
+ 
     	<header id="header">
 				<img id="searchImg" src="img/search.png">
 				<input id="place" placeholder="Places to Visit" autofocus></input>
@@ -22,7 +23,7 @@
   	<div id="list">
     	<h3>Check 'em Out</h3>
         <div id="placeClick" data-bind="foreach: placeList">
-            	<a href="#/">
+            	<a href="#/" data-bind="click: $parent.setPlace">
             		<h5 data-bind="text: title"></h5>
             	</a>
         </div>
