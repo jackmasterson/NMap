@@ -91,7 +91,6 @@ console.log(initialPlaces[0].marker);
 				})
 			}));
 
-			console.log(markers);
 				    markers.addListener('click', function() {
 			    	markers.infowindow.open(map, markers);
 					markers.setAnimation(google.maps.Animation.BOUNCE);
@@ -110,19 +109,10 @@ console.log(initialPlaces[0].marker);
 				  			markers.setIcon(image);
 				  		}
 				  		});
-			console.log(data.marker[0].position);
+					console.log(data.marker);
 
-			
-
-
-				
-		     var image = 'img/marker-blue.png';
-
-
-
-				  	}, timeout);
-	//			  	console.log(marker.title);
-				
+			  	}, timeout);
+	//			  	console.log(marker.title);	
 			}
 		}
 
@@ -168,6 +158,7 @@ Searched();
 		this.address = ko.observable(data.address);
 		this.animation = google.maps.Animation.DROP;
 		this.infowindow = ko.observable(data.infowindow);
+		this.marker = ko.observable(data.marker);
 
 	};	
 
@@ -192,17 +183,19 @@ Searched();
 	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
 
-
+	console.log(this.placeList()[0].marker())
 		
 
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
-			console.log(self.currentPlace().infowindow().content);
+			var curMark = self.currentPlace().marker()[0];
+
+			console.log(curMark.infowindow);
 			
-		
+			curMark.infowindow.open(map, marker);
 	/*	$('#placeClick').click( function() { 
 				self.currentPlace().infowindow()
-					.open(map, );
+					.open(map, marker);
 			//	self.setAnimation(google.maps.Animation.BOUNCE);
 			//		timeoutID = window.setTimeout(stopBouncing, 2200);
 			//			function stopBouncing() {
