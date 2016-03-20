@@ -119,6 +119,29 @@ function initMap() {
 	};
 };
 
+	var Searched = function() {
+		var places = [];
+		var placeInput  = document.getElementById("place");
+		var messageBox  = document.getElementById("display");
+		var br = '</br>'
+
+		function insert ( ) {
+		 places.push( placeInput.value );
+		 clearAndShow();
+
+		}
+		function clearAndShow () {
+		  placeInput.value = "";
+		  messageBox.innerHTML = "";
+		  messageBox.innerHTML = "Searched: " + br + places.join(br);
+		}
+
+		$('#button').click( function() { 
+			insert();
+
+		});
+	}
+Searched();
 
 	var Place = function(data) {
 		this.position = ko.observable(data.position);
