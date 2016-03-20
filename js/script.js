@@ -1,5 +1,7 @@
 
+
 function initMap() {
+	var image = 'img/marker-blue.png';
 
 	var mapDiv = document.getElementById('map');
     var map = new google.maps.Map(mapDiv, {
@@ -15,39 +17,45 @@ function initMap() {
 			address: '208 Main St, Asbury Park, NJ 07712',
 			src: 'img/macs.jpg',
 			nums: 1,
-			icon: null
+			icon: null,
+			marker: marker = []
 		}, {
 			position: {lat: 40.220001, lng: -74.000947},
 			title: 'The Stone Pony',
 			address: '913 Ocean Ave, Asbury Park, NJ 07712',
 			src: 'img/pony.jpg',
 			nums: 2,
-			icon: null
+			icon: null,
+			marker: marker = []
 		}, {
 			position: {lat: 40.220239, lng: -74.002344},
 			title: 'Porta Pizza/Wine Bar',
 			address: '911 Kingsley St, Asbury Park, NJ 07712',
 			src: 'img/porta.jpg',
 			nums: 3,
-			icon: null
+			icon: null,
+			marker: marker = []
 		}, {
 			position: {lat: 40.2207, lng: -73.999884},
 			title: 'Silverball Museum',
 			address: '1000 Ocean Ave, Asbury Park, NJ 07712',
 			src: 'img/silverball.jpg',
 			nums: 4,
-			icon: null
+			icon: null,
+			marker: marker = []
 		}, {
 			position: {lat: 40.223796, lng: -73.998585},
 			title: 'Convention Hall',
 			address: '1300 Ocean Ave, Asbury Park, NJ 07712',
 			src: 'img/hall.jpg',
 			nums: 5,
-			icon: null
+			icon: null,
+			marker: marker = []
 		}
 		
 	];
 
+//console.log(initialPlaces[0].marker);
 
 
 
@@ -58,15 +66,15 @@ function initMap() {
 		}
 		drop();
 
-		var image = 'img/marker-blue.png';
 
 
-	
-		    var image = 'img/marker-blue.png';
+		var markers;
+
 
 		  function addMarkerWithTimeout(position, timeout) {
 	  		window.setTimeout(function() {
-			var marker = new google.maps.Marker({
+	  		var markerPushed = data.marker.push(
+			markers = new google.maps.Marker({
 				position: data.position,
 				title: data.title,
 				address: data.address,
@@ -82,35 +90,34 @@ function initMap() {
 				      	'<h5>'+data.address+'</h5>'+
 				      	'<img class="markerImg" src='+data.src+'>'+
 				    '</div>',
+				    stuff: map, marker
 				})
-			});
+			}));
 
+		//	console.log(markers.infowindow.stuff);
 
-				
-		     var image = 'img/marker-blue.png';
-
-
-				    marker.addListener('click', function() {
-			    	marker.infowindow.open(map, marker);
-					marker.setAnimation(google.maps.Animation.BOUNCE);
+				    markers.addListener('click', function() {
+			    	markers.infowindow.open(map, markers);
+					markers.setAnimation(google.maps.Animation.BOUNCE);
 					timeoutID = window.setTimeout(stopBouncing, 2200);
 						function stopBouncing() {
-						marker.setAnimation(null);
+						markers.setAnimation(null);
 			  		};
-			  		if(marker.icon == image) 
+			  		if(markers.icon == image) 
 				  		{
-				  			marker.setIcon(null);
-				  			marker.infowindow.close(map, marker);
-				  			marker.setAnimation(null);
+				  			markers.setIcon(null);
+				  			markers.infowindow.close(map, markers);
+				  			markers.setAnimation(null);
 				  		}
 			  		else
 				  		{
-				  			marker.setIcon(image);
+				  			markers.setIcon(image);
 				  		}
 				  		});
-				  	}, timeout);
-	//			  	console.log(marker.title);
-				
+		//			console.log(data.marker);
+
+			  	}, timeout);
+	//			  	console.log(marker.title);	
 			}
 		}
 
@@ -156,6 +163,7 @@ Searched();
 		this.address = ko.observable(data.address);
 		this.animation = google.maps.Animation.DROP;
 		this.infowindow = ko.observable(data.infowindow);
+		this.marker = ko.observable(data.marker);
 
 	};	
 
@@ -170,7 +178,7 @@ Searched();
 		});
 		this.currentPlace = ko.observable( this.placeList()[0] );
 	//	console.log(this.currentPlace().infowindow);
-		console.log(this.placeList()[0]);
+		//console.log(this.placeList()[0]);
 		
 
 		this.markerList = ko.observableArray([]);
@@ -179,27 +187,41 @@ Searched();
 		});
 	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
-
-
 		
+
+	
 
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
-			console.log(self.currentPlace().infowindow().content);
-			
-		
-	/*	$('#placeClick').click( function() { 
-				self.currentPlace().infowindow()
-					.open(map, );
-			//	self.setAnimation(google.maps.Animation.BOUNCE);
-			//		timeoutID = window.setTimeout(stopBouncing, 2200);
-			//			function stopBouncing() {
-			//			marker.setAnimation(null);
-			  //		};
 
-			});
-*/
+
+			var curMark = self.currentPlace().marker()[0];
+
+
+
+
+			  		if(curMark.icon == null)
+				  		{
+				  			curMark.setIcon(image);
+				  			curMark.infowindow.open(map, curMark);
+				  			curMark.setAnimation(google.maps.Animation.BOUNCE);
+							timeoutID = window.setTimeout(stopBouncing, 2200);
+								function stopBouncing() {
+									curMark.setAnimation(null);
+								};
+
+
+				  		}
+					else 
+				  		{
+				  			curMark.setIcon(null);
+				  			curMark.infowindow.close(map, curMark);
+				  			curMark.setAnimation(null);
+
+				  		}
+
 		};	
+
 
 
 	};
@@ -207,8 +229,6 @@ Searched();
 
 	ko.applyBindings(new ViewModel());
 };
-
-
 
 
 			/*$('#placeClick').click( function() { 
