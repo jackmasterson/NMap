@@ -88,6 +88,16 @@ function initMap() {
 
 			console.log(marker.infowindow.content);
 			console.log(marker.title);
+
+			$('#placeClick').click( function() { 
+				marker.infowindow.open(map, marker);
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+					timeoutID = window.setTimeout(stopBouncing, 2200);
+						function stopBouncing() {
+						marker.setAnimation(null);
+			  		};
+
+			});
 				
 		    var image = 'img/marker-blue.png';
 
@@ -110,10 +120,9 @@ function initMap() {
 				  		}
 				  	console.log(marker.title);
 				});
-	
+
 		  }, timeout);
-	
-	
+
 	};
 
 };
