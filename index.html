@@ -24,7 +24,7 @@
     	<h3>Check 'em Out</h3>
         <div id="placeClick" data-bind="foreach: placeList">
             	<a href="#/" data-bind="click: $parent.setPlace">
-            		<h5 data-bind="text: title"></h5>
+            		<h5 id="placeClickHead" data-bind="text: title"></h5>
             	</a>
         </div>
     </div>

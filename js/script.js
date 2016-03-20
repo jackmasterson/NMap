@@ -187,52 +187,41 @@ Searched();
 		});
 	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
-
-
 		
+
+	
 
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
 
+
 			var curMark = self.currentPlace().marker()[0];
-			console.log(curMark);
 
-			var len = initialPlaces.length;
-			
-			for(i=0;i<len;i++){
-				console.log(initialPlaces[i]);
-			}
-//do something with clearing the array of the curMark
 
-			var stuffStored = curMark.infowindow.stuff;
-		//	console.log(stuffStored);
 
-		$('#placeClick').click( function() { 
 
-			//	curMark.infowindow.open(stuffStored);
-	
-			  		
-			  		if(curMark.icon == image) 
-				  		{
-				  			curMark.setIcon(null);
-				  			curMark.infowindow.close(map, curMark);
-				  			curMark.setAnimation(null);
-				  		}
-			  		else
+			  		if(curMark.icon == null)
 				  		{
 				  			curMark.setIcon(image);
 				  			curMark.infowindow.open(map, curMark);
-				  			curMark.setAnimation(google.maps.Animation.BOUNCE);
 				  			curMark.setAnimation(google.maps.Animation.BOUNCE);
 							timeoutID = window.setTimeout(stopBouncing, 2200);
 								function stopBouncing() {
 									curMark.setAnimation(null);
 								};
-				  		}
-			});
 
+
+				  		}
+					else 
+				  		{
+				  			curMark.setIcon(null);
+				  			curMark.infowindow.close(map, curMark);
+				  			curMark.setAnimation(null);
+
+				  		}
 
 		};	
+
 
 
 	};
@@ -240,8 +229,6 @@ Searched();
 
 	ko.applyBindings(new ViewModel());
 };
-
-
 
 
 			/*$('#placeClick').click( function() { 
