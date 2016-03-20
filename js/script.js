@@ -88,6 +88,7 @@ console.log(initialPlaces[0].marker);
 				      	'<h5>'+data.address+'</h5>'+
 				      	'<img class="markerImg" src='+data.src+'>'+
 				    '</div>',
+				    stuff: map, marker
 				})
 			}));
 
@@ -109,7 +110,7 @@ console.log(initialPlaces[0].marker);
 				  			markers.setIcon(image);
 				  		}
 				  		});
-					console.log(data.marker);
+		//			console.log(data.marker);
 
 			  	}, timeout);
 	//			  	console.log(marker.title);	
@@ -183,19 +184,22 @@ Searched();
 	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
 
-	console.log(this.placeList()[0].marker())
+
 		
 
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
-			var curMark = self.currentPlace().marker()[0];
 
-			console.log(curMark.infowindow);
-			
-			curMark.infowindow.open(map, marker);
-	/*	$('#placeClick').click( function() { 
-				self.currentPlace().infowindow()
-					.open(map, marker);
+			var curMark = self.currentPlace().marker()[0];
+			console.log(curMark);
+
+		//	console.log(curMark.infowindow.__proto__.open(map, curMark));
+			console.log(curMark.infowindow.stuff);
+			var stuffStored = curMark.infowindow.stuff;
+			console.log(stuffStored);
+
+		$('#placeClick').click( function() { 
+				curMark.infowindow.open(stuffStored);
 			//	self.setAnimation(google.maps.Animation.BOUNCE);
 			//		timeoutID = window.setTimeout(stopBouncing, 2200);
 			//			function stopBouncing() {
@@ -203,7 +207,7 @@ Searched();
 			  //		};
 
 			});
-*/
+
 		};	
 
 
