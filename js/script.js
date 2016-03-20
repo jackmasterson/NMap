@@ -197,18 +197,21 @@ Searched();
 			var curMark = self.currentPlace().marker()[0];
 			console.log(curMark);
 
+			var len = initialPlaces.length;
+			
+			for(i=0;i<len;i++){
+				console.log(initialPlaces[i]);
+			}
+//do something with clearing the array of the curMark
 
 			var stuffStored = curMark.infowindow.stuff;
 		//	console.log(stuffStored);
 
 		$('#placeClick').click( function() { 
 
-				curMark.infowindow.open(stuffStored);
-				curMark.setAnimation(google.maps.Animation.BOUNCE);
-					timeoutID = window.setTimeout(stopBouncing, 2200);
-						function stopBouncing() {
-							curMark.setAnimation(null);
-			  		};
+			//	curMark.infowindow.open(stuffStored);
+	
+			  		
 			  		if(curMark.icon == image) 
 				  		{
 				  			curMark.setIcon(null);
@@ -218,9 +221,16 @@ Searched();
 			  		else
 				  		{
 				  			curMark.setIcon(image);
+				  			curMark.infowindow.open(map, curMark);
+				  			curMark.setAnimation(google.maps.Animation.BOUNCE);
+				  			curMark.setAnimation(google.maps.Animation.BOUNCE);
+							timeoutID = window.setTimeout(stopBouncing, 2200);
+								function stopBouncing() {
+									curMark.setAnimation(null);
+								};
 				  		}
-
 			});
+
 
 		};	
 
