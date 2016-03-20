@@ -120,6 +120,13 @@ function initMap() {
 };
 
 	var Searched = function() {
+		$(document).ready(function(){
+		    $('#place').keypress(function(e){
+		      if(e.keyCode==13)
+		      $('#button').click();
+		    });
+		});
+		
 		var places = [];
 		var placeInput  = document.getElementById("place");
 		var messageBox  = document.getElementById("display");
