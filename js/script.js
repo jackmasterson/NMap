@@ -39,10 +39,8 @@ var	initialPlaces =  [
 			src: 'img/hall.jpg',
 			nums: 5,
 			icon: null
-
 		}
 	];
-
 
 
 var map;
@@ -66,8 +64,6 @@ function initMap() {
 
 		var image = 'img/marker-blue.png';
 
-
-
 		function addMarkerWithTimeout(position, timeout) {
 	  		window.setTimeout(function() {
 			var marker = new google.maps.Marker({
@@ -78,45 +74,48 @@ function initMap() {
 				map: map,
 				num: data.num,
 				icon: null,
-				animation: google.maps.Animation.DROP
+				animation: google.maps.Animation.DROP,
+				infowindow: new google.maps.InfoWindow({
+					content: 
+					'<div id="content">'+
+				      	'<h4>'+data.title+'</h4>'+
+				      	'<h5>'+data.address+'</h5>'+
+				      	'<img class="markerImg" src='+data.src+'>'+
+				    '</div>',
+				})
+			
 			});
 
-
-			 var contentString = 
-			 '<div id="content">'+
-		      	'<h4>'+marker.title+'</h4>'+
-		      	'<h5>'+marker.address+'</h5>'+
-		      	'<img class="markerImg" src='+marker.src+'>'+
-		     '</div>';
+			console.log(marker.infowindow.content);
+			console.log(marker.title);
 				
-		     var image = 'img/marker-blue.png';
-			  var infowindow = new google.maps.InfoWindow({
-			    content: contentString
-			  });
+		    var image = 'img/marker-blue.png';
 
-
-		    marker.addListener('click', function() {
-		    	infowindow.open(map, marker);
-				marker.setAnimation(google.maps.Animation.BOUNCE);
-				timeoutID = window.setTimeout(stopBouncing, 2200);
-					function stopBouncing() {
-					marker.setAnimation(null);
-		  		};
-		  		if(marker.icon == image) 
-			  		{
-			  			marker.setIcon(null);
-			  			infowindow.close(map, marker);
-			  			marker.setAnimation(null);
-			  		}
-		  		else
-			  		{
-			  			marker.setIcon(image);
-			  		}
-			  	console.log(marker.title);
-			});
-
-	  	}, timeout);
+				    marker.addListener('click', function() {
+			    	marker.infowindow.open(map, marker);
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+					timeoutID = window.setTimeout(stopBouncing, 2200);
+						function stopBouncing() {
+						marker.setAnimation(null);
+			  		};
+			  		if(marker.icon == image) 
+				  		{
+				  			marker.setIcon(null);
+				  			marker.infowindow.close(map, marker);
+				  			marker.setAnimation(null);
+				  		}
+			  		else
+				  		{
+				  			marker.setIcon(image);
+				  		}
+				  	console.log(marker.title);
+				});
+	
+		  }, timeout);
+	
+	
 	};
+
 };
 
 	var Searched = function() {
@@ -126,7 +125,7 @@ function initMap() {
 		      $('#button').click();
 		    });
 		});
-		
+
 		var places = [];
 		var placeInput  = document.getElementById("place");
 		var messageBox  = document.getElementById("display");
@@ -140,13 +139,13 @@ function initMap() {
 		function clearAndShow () {
 		  placeInput.value = "";
 		  messageBox.innerHTML = "";
-		  messageBox.innerHTML = "Searched: " + br + places.join(br);
+		  messageBox.innerHTML = places.join(br);
 		}
 
 		$('#button').click( function() { 
 			insert();
-
 		});
+		
 	}
 Searched();
 
@@ -155,9 +154,10 @@ Searched();
 		this.title = ko.observable(data.title);
 		this.map = ko.observable(data.map);
 		this.address = ko.observable(data.address);
-		this.animation = google.maps.Animation.DROP
+		this.animation = google.maps.Animation.DROP;
 
 	};	
+
 
 	var ViewModel = function() {
 
@@ -182,6 +182,7 @@ Searched();
 			self.currentPlace(clickedPlace);
 			console.log(self.currentPlace);
 		};	
+
 
 
 	};

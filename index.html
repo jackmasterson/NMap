@@ -12,18 +12,19 @@
 				<img id="searchImg" src="img/search.png">
 				<input id="place" placeholder="Places to Visit" autofocus></input>
 				 <input type="button" value="Save/Show" id="button" />
-				 <div>
-	
-					<h3 id="display"></h3>
-
+				 <div id="displayDiv">
+					<h3 id="searched">Searched:</h3>
+					<h4 id="display"></h4>
 				</div>
 		</header>
 
     </div>
   	<div id="list">
     	<h3>Check 'em Out</h3>
-        <div data-bind="foreach: placeList">
-            <h5 data-bind="text: title"></h5>
+        <div id="placeClick" data-bind="foreach: placeList">
+            	<a href="#/">
+            		<h5 data-bind="text: title"></h5>
+            	</a>
         </div>
     </div>
 	<div id="map"></div>

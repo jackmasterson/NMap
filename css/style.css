@@ -53,3 +53,15 @@ html, body {
   border-radius: 15px;
   border: 5px solid black;
 }
+#displayDiv {
+  background-color: rgba(0,0,0,.5);
+  height: 100%;
+}
+#display{
+  background-color: #CCC;
+  font-style: italic;
+  color: rgba(0,0,0,0.5);
+}
+#searched{
+  padding-top: 15px;
+}
