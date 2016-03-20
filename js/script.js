@@ -66,9 +66,8 @@ console.log(initialPlaces[0].marker);
 
 		var image = 'img/marker-blue.png';
 
+		var markers;
 
-	
-		    var image = 'img/marker-blue.png';
 
 		  function addMarkerWithTimeout(position, timeout) {
 	  		window.setTimeout(function() {
@@ -91,15 +90,8 @@ console.log(initialPlaces[0].marker);
 				    '</div>',
 				})
 			}));
-			console.log(data.marker[0].position);
-			console.log(data.marker[1].position);
-			
 
-
-				
-		     var image = 'img/marker-blue.png';
-
-
+			console.log(markers);
 				    markers.addListener('click', function() {
 			    	markers.infowindow.open(map, markers);
 					markers.setAnimation(google.maps.Animation.BOUNCE);
@@ -118,6 +110,16 @@ console.log(initialPlaces[0].marker);
 				  			markers.setIcon(image);
 				  		}
 				  		});
+			console.log(data.marker[0].position);
+
+			
+
+
+				
+		     var image = 'img/marker-blue.png';
+
+
+
 				  	}, timeout);
 	//			  	console.log(marker.title);
 				
