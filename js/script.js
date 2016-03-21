@@ -96,6 +96,37 @@ function initMap() {
 
 		//	console.log(markers.infowindow.stuff);
 
+			  		var len = initialPlaces.length;
+		//	console.log(markers.infowindow.stuff);
+		markers.addListener('click', function() {
+			for(i=0;i<len;i++){
+				var mark = initialPlaces[i].marker[0];
+				console.log(initialPlaces[i].marker[0].icon);
+				mark.setIcon(null);
+				mark.infowindow.close(map, markers);
+			}
+			if(markers.icon == null)
+			{
+				markers.setIcon(image);
+				markers.infowindow.open(map, markers);
+				markers.setAnimation(google.maps.Animation.BOUNCE);
+				timeoutID = window.setTimeout(stopBouncing, 2200);
+				function stopBouncing() {
+					markers.setAnimation(null);
+				};
+
+			}
+			else 
+			{
+				markers.setIcon(null);
+				markers.infowindow.close(map, markers);
+				markers.setAnimation(null);
+			}				 
+		});
+		//			console.log(data.marker);
+
+	}, timeout);
+/*
 				    markers.addListener('click', function() {
 			    	markers.infowindow.open(map, markers);
 					markers.setAnimation(google.maps.Animation.BOUNCE);
@@ -113,10 +144,10 @@ function initMap() {
 				  		{
 				  			markers.setIcon(image);
 				  		}
-				  		});
+				 });
 		//			console.log(data.marker);
 
-			  	}, timeout);
+			  	}, timeout);*/
 	//			  	console.log(marker.title);	
 			}
 		}
@@ -203,32 +234,27 @@ Searched();
 			console.log(len);
 			
 			for(i=0;i<len;i++){
-
 				var mark = initialPlaces[i].marker[0];
-				console.log(mark.infowindow);
 				mark.setIcon(null);
 				mark.infowindow.close(map, curMark);
 			}
+			if(curMark.icon == null)
+			{
+				curMark.setIcon(image);
+				curMark.infowindow.open(map, curMark);
+				curMark.setAnimation(google.maps.Animation.BOUNCE);
+				timeoutID = window.setTimeout(stopBouncing, 2200);
+				function stopBouncing() {
+					curMark.setAnimation(null);
+				};
 
-			  		if(curMark.icon == null)
-				  		{
-				  			curMark.setIcon(image);
-				  			curMark.infowindow.open(map, curMark);
-				  			curMark.setAnimation(google.maps.Animation.BOUNCE);
-							timeoutID = window.setTimeout(stopBouncing, 2200);
-								function stopBouncing() {
-									curMark.setAnimation(null);
-								};
-
-				  		}
-					else 
-				  		{
-				  			curMark.setIcon(null);
-				  			curMark.infowindow.close(map, curMark);
-				  			curMark.setAnimation(null);
-
-				  		}
-
+			}
+			else 
+			{
+				curMark.setIcon(null);
+				curMark.infowindow.close(map, curMark);
+				curMark.setAnimation(null);
+			}
 		};	
 
 
