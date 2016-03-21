@@ -194,11 +194,21 @@ Searched();
 		this.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
 
+	//		console.log(clickedPlace.address());
 
 			var curMark = self.currentPlace().marker()[0];
 
+			console.log(curMark.address);
+			var len = initialPlaces.length;
+			console.log(len);
+			
+			for(i=0;i<len;i++){
 
-
+				var mark = initialPlaces[i].marker[0];
+				console.log(mark.infowindow);
+				mark.setIcon(null);
+				mark.infowindow.close(map, curMark);
+			}
 
 			  		if(curMark.icon == null)
 				  		{
@@ -209,7 +219,6 @@ Searched();
 								function stopBouncing() {
 									curMark.setAnimation(null);
 								};
-
 
 				  		}
 					else 
