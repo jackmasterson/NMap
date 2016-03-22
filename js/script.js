@@ -98,59 +98,34 @@ function initMap() {
 
 			  		var len = initialPlaces.length;
 		//	console.log(markers.infowindow.stuff);
-		markers.addListener('click', function() {
-			for(i=0;i<len;i++){
-				var mark = initialPlaces[i].marker[0];
-				console.log(initialPlaces[i].marker[0].icon);
-				mark.setIcon(null);
-				mark.infowindow.close(map, markers);
-			}
-			if(markers.icon == null)
-			{
-				markers.setIcon(image);
-				markers.infowindow.open(map, markers);
-				markers.setAnimation(google.maps.Animation.BOUNCE);
-				timeoutID = window.setTimeout(stopBouncing, 2200);
-				function stopBouncing() {
-					markers.setAnimation(null);
-				};
-
-			}
-			else 
-			{
-				markers.setIcon(null);
-				markers.infowindow.close(map, markers);
-				markers.setAnimation(null);
-			}				 
-		});
-		//			console.log(data.marker);
-
-	}, timeout);
-/*
-				    markers.addListener('click', function() {
-			    	markers.infowindow.open(map, markers);
+			markers.addListener('click', function() {
+				for(i=0;i<len;i++){
+					var mark = initialPlaces[i].marker[0];
+					console.log(initialPlaces[i].marker[0].icon);
+					mark.setIcon(null);
+					mark.infowindow.close(map, markers);
+				}
+				if(markers.icon == null)
+				{
+					markers.setIcon(image);
+					markers.infowindow.open(map, markers);
 					markers.setAnimation(google.maps.Animation.BOUNCE);
 					timeoutID = window.setTimeout(stopBouncing, 2200);
-						function stopBouncing() {
+					function stopBouncing() {
 						markers.setAnimation(null);
-			  		};
-			  		if(markers.icon == image) 
-				  		{
-				  			markers.setIcon(null);
-				  			markers.infowindow.close(map, markers);
-				  			markers.setAnimation(null);
-				  		}
-			  		else
-				  		{
-				  			markers.setIcon(image);
-				  		}
-				 });
-		//			console.log(data.marker);
+					};
 
-			  	}, timeout);*/
-	//			  	console.log(marker.title);	
-			}
-		}
+				}
+				else 
+				{
+					markers.setIcon(null);
+					markers.infowindow.close(map, markers);
+					markers.setAnimation(null);
+				}				 
+			});
+		}, timeout);
+	}
+};
 
 
 
@@ -264,17 +239,16 @@ Searched();
 
 	ko.applyBindings(new ViewModel());
 };
+//apis to check out
+//instagram api
+//yelp api
+//census api
 
 
-			/*$('#placeClick').click( function() { 
-				marker.infowindow.open(map, marker);
-				marker.setAnimation(google.maps.Animation.BOUNCE);
-					timeoutID = window.setTimeout(stopBouncing, 2200);
-						function stopBouncing() {
-						marker.setAnimation(null);
-			  		};
 
-			});*/
+
+
+
 
 
 

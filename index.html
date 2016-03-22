@@ -17,6 +17,12 @@
 					<h3 id="searched">Searched:</h3>
 					<h4 id="display"></h4>
 				</div>
+      			<div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
 		</header>
 
     </div>
@@ -29,7 +35,6 @@
         </div>
     </div>
 	<div id="map"></div>
-	
 
 
 
@@ -40,8 +45,26 @@
     <script src="js/script.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs	
 &callback=initMap" async defer></script>
-	<script src="js/after.js" async defer></script>
+
+
 
 
   </body>
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '545327365627709',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 </html>
