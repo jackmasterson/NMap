@@ -244,8 +244,36 @@ Searched();
 //yelp api
 //census api
 
+//census api 
+
+var key = "7e7eaf7f8c2f106b19718825f5daf1aa8898aaae";
+var youtubeURL =  "https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.search.list?" +
+        "part=snippet" +
+        "&order=10" +
+        "&q=skateboarding+dog" +
+        "&type=video" +
+        "&videoDefinition=high";
 
 
+
+// After the API loads, call a function to enable the search box.
+function handleAPILoaded() {
+  $('#search-button').attr('disabled', false);
+}
+
+// Search for a specified string.
+function search() {
+  var q = $('#query').val();
+  var request = gapi.client.youtube.search.list({
+    q: q,
+    part: 'snippet'
+  });
+
+  request.execute(function(response) {
+    var str = JSON.stringify(response.result);
+    $('#search-container').html('<pre>' + str + '</pre>');
+  });
+}
 
 
 

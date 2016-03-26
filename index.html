@@ -17,22 +17,24 @@
 					<h3 id="searched">Searched:</h3>
 					<h4 id="display"></h4>
 				</div>
-      			<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
-</div>
+      			
 		</header>
 
     </div>
   	<div id="list">
     	<h3>Check 'em Out</h3>
+    	    <div id="buttons">
+      <label> <input id="query" value='cats' type="text"/><button id="search-button" disabled onclick="search()">Search</button></label>
+    </div>
+    <div id="search-container">
+    </div>
+
         <div id="placeClick" data-bind="foreach: placeList">
             	<a href="#/" data-bind="click: $parent.setPlace">
             		<h5 id="placeClickHead" data-bind="text: title"></h5>
             	</a>
         </div>
+        <div id="census-header"></div>
     </div>
 	<div id="map"></div>
 
@@ -43,28 +45,17 @@
 	<script src="js/lib/jquery.js"></script>
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs	
 &callback=initMap" async defer></script>
+
+<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+
+
 
 
 
 
   </body>
-  <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '545327365627709',
-      xfbml      : true,
-      version    : 'v2.5'
-    });
-  };
 
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-</script>
 </html>
