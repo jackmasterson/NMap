@@ -1,4 +1,34 @@
+function socrataData() {
+	var $socrataElem = $('#socrata-header')
+	var socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
+		'id=1600000US3401960';
+	$.getJSON(socrataURL, function(data){
+		$socrataElem.text('Information Courtesy Socrata Open Data Network');
+		
+		console.log(data[0]);
+		var infos=data;
+		for(var i=0; i<infos.length; i++){
+			var info = infos[i];
+		
+		$socrataElem.append('<ul class="info">Asbury Park, NJ' +
+			'<li id="infoHead">Year: ' + info.year + '</li>' +
+			'<li id="infoHead">Population: ' + info.population + '</li>' +
+			'<li id="infoHead">High School Graduation Rate: ' 
+				+ info.percent_high_school_graduate + '%</li>' +
+			'<li id="infoHead">Bachelors Degree: ' 
+				+ info.percent_bachelors_degree + '%</li>' +
+			'<li id="infoHead">Associates Degree: ' 
+				+ info.percent_associates_degree + '%</li>' +
+			'</ul>')
+		}
 
+		
+
+	});
+	console.log("HEY");
+};
+
+socrataData();
 
 function initMap() {
 	var image = 'img/marker-blue.png';

@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+
   	<div id="floating-panel">
+      <div id="socrata-header"></div>
  
     	<header id="header">
 				<img id="searchImg" src="img/search.png">
@@ -34,7 +36,7 @@
             		<h5 id="placeClickHead" data-bind="text: title"></h5>
             	</a>
         </div>
-        <div id="census-header"></div>
+        
     </div>
 	<div id="map"></div>
 
@@ -45,11 +47,9 @@
 	<script src="js/lib/jquery.js"></script>
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/script.js"></script>
-    <script src="js/auth.js"></script>
+
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs	
 &callback=initMap" async defer></script>
-
-<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
 
 
 

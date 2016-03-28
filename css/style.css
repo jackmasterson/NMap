@@ -65,3 +65,6 @@ html, body {
 #searched{
   padding-top: 15px;
 }
+.info {
+  list-style-type: none;
+}
