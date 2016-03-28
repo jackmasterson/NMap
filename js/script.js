@@ -1,5 +1,5 @@
 function socrataData() {
-	var $socrataElem = $('#socrata-header')
+	var $socrataElem = $('#socrata-header');
 	var socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
 		'id=1600000US3401960';
 	$.getJSON(socrataURL, function(data){
@@ -21,14 +21,57 @@ function socrataData() {
 				+ info.percent_associates_degree + '%</li>' +
 			'</ul>')
 		}
-
-		
-
 	});
-	console.log("HEY");
+
 };
 
 socrataData();
+
+function jamBase() {
+	var $jamBaseElem = $('#jamBase-header');
+
+var jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
+	'&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
+	
+	$.getJSON(jamBaseURL, function(data){
+		$jamBaseElem.text('Live Music, Courtesy JamBase');
+
+		var infos = data.Events;
+
+		for(i=0;i<infos.length;i++){
+			
+			var info = data.Events[i];
+			var artists = info.Artists
+			
+			for(t=0;t<artists.length;t++){
+				var artist = info.Artists[t];
+				console.log(artist);
+				console.log(info);
+				$jamBaseElem.append('<ul class="concerts">' +
+				'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
+				'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
+				'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
+					'">Tickets</a></li>' +
+				'</ul>');
+		}
+			}
+			
+
+	});
+
+};
+jamBase();
+
+function brew() {
+	var $brewElem = $('#brew-header');
+	var brewURL = 'http://api.brewerydb.com/v2/?key=' +
+		'cb4169f2bfe563503b7f35400cdf0f98';
+	$.getJSON(brewURL, function(data){
+		$brewElem.text('Beer Event Info Supplied by BreweryDB.com');
+
+		console.log(data);
+	})
+};
 
 function initMap() {
 	var image = 'img/marker-blue.png';
