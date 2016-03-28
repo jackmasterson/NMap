@@ -7,49 +7,33 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-
-  	<div id="floating-panel">
-      
-      
-      <div id="brew-header"></div>
- 
-    	<header id="header">
-				<img id="searchImg" src="img/search.png">
-				<input id="place" placeholder="Places to Visit" autofocus></input>
-				 <input type="button" value="Save/Show" id="button" />
-				 <div id="displayDiv">
-					<h3 id="searched">Searched:</h3>
-					<h4 id="display"></h4>
-				</div>
-      			
-		</header>
-
-    </div>
-  	<div id="list">
-    	<h3>Check 'em Out</h3>
-    	    <div id="buttons">
-      <label> <input id="query" value='cats' type="text"/><button id="search-button" disabled onclick="search()">Search</button></label>
-    </div>
-    <div id="search-container">
-    </div>
-
+    <div id="list">
         <div id="placeClick" data-bind="foreach: placeList">
-            	<a href="#/" data-bind="click: $parent.setPlace">
-            		<h5 id="placeClickHead" data-bind="text: title"></h5>
-            	</a>
-        </div>
-        
+              <a href="#/" data-bind="click: $parent.setPlace">
+                <h5 id="placeClickHead" data-bind="text: title"></h5>
+              </a>
+        </div> 
+        <a href="#" id="placeClickHead" class="slideout-menu-toggle"> Live Shows</a>
     </div>
+    <div id="search">
+        <input id="place" placeholder="Places to Visit" autofocus></input>
+         <input type="button" value="Search" id="button" />
+          <div id="display"></div>
+    </div>
+
+
 
 	<div id="map"></div>
+
+
   <div id="socrata-header"></div>
   <div id="jamBase-header"></div>
+  <div id="brew-header"></div>
 
-<!--/.slideout-menu-->
 
-  <a href="#" class="slideout-menu-toggle"> Live Shows</a>
 
-<!--/.header-->
+
+
 
 
 
