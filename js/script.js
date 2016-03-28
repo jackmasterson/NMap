@@ -37,24 +37,35 @@ function socrataData() {
 	var $socrataElem = $('#socrata-header');
 	var socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
 		'id=1600000US3401960';
-	$.getJSON(socrataURL, function(data){
-		$socrataElem.text('Information Courtesy Socrata Open Data Network');
+	var socrataTimeout = setTimeout(function(){
+		$socrataElem.text('You were supposed to see some awesome census data ' +
+			'about Asbury Park, NJ, but the request failed. And its all. my.' +
+			' fault. Im sorry to let you down.');
+	}, 1000);
+
+	$.ajax({
+		url: socrataURL,
+		dataType: "json",
+		//jsonp: "callback",
+		success: function(response){
+			console.log(response[0]);
+			$socrataElem.text('Information Courtesy Socrata Open Data Network');
+			var infos=response;
+			for(var i=0; i<infos.length; i++){
+				var info = infos[i];
 		
-		console.log(data[0]);
-		var infos=data;
-		for(var i=0; i<infos.length; i++){
-			var info = infos[i];
-		
-		$socrataElem.append('<ul class="info">Asbury Park, NJ Census Facts | ' +
-			'<li id="infoHead"> Year: ' + info.year + ' | </li> ' +
-			'<li id="infoHead"> Population: ' + info.population + ' | </li> ' +
-			'<li id="infoHead"> High School Graduation Rate: ' 
-				+ info.percent_high_school_graduate + '% | </li> ' +
-			'<li id="infoHead"> Bachelors Degree: ' 
-				+ info.percent_bachelors_degree + '% | </li> ' +
-			'<li id="infoHead"> Associates Degree: ' 
-				+ info.percent_associates_degree + '% | </li> ' +
-			'</ul>')
+				$socrataElem.prepend('<ul class="info">Asbury Park, NJ Census Facts | ' +
+					'<li id="infoHead"> Year: ' + info.year + ' | </li> ' +
+					'<li id="infoHead"> Population: ' + info.population + ' | </li> ' +
+					'<li id="infoHead"> High School Graduation Rate: ' 
+						+ info.percent_high_school_graduate + '% | </li> ' +
+					'<li id="infoHead"> Bachelors Degree: ' 
+						+ info.percent_bachelors_degree + '% | </li> ' +
+					'<li id="infoHead"> Associates Degree: ' 
+						+ info.percent_associates_degree + '% | </li> ' +
+					'</ul>')
+			}
+			clearTimeout(socrataTimeout);
 		}
 	});
 
@@ -64,14 +75,49 @@ socrataData();
 
 function jamBase() {
 	var $jamBaseElem = $('#jamBase-header');
-
 	var jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
 	'&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
-    $jamBaseElem.append('<h3>Menu ' +
-    	'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
-    	'<li>Artist: Johnny Rockets</li>' +
-    	'<li>Venue: The Saint</li>' +
-    	'<li>Tickets</li>');
+	var jamBaseTimeout = setTimeout(function(){
+		$jamBaseElem.text('This was supposed to show a bunch of information ' +
+			'about concerts in the area, and the request failed. Im so, so sorry. '+
+			'So instead, here is a picture of a microphone, which should make up for' +
+			' it. Right?');
+		var mic = '</br><img src="img/microphone.jpg" id="mic">';
+		$jamBaseElem.append(mic);
+	}, 3000);
+
+	$.ajax({
+		url: jamBaseURL,
+		dataType: "json",
+		success: function(response) {
+			console.log("SUCCESS!");
+			$jamBaseElem.text('Live Music, Courtesy JamBase');
+
+			var infos = response.Events;
+
+			for(i=0;i<infos.length;i++){
+				
+				var info = response.Events[i];
+				var artists = info.Artists
+				
+				for(t=0;t<artists.length;t++){
+					var artist = info.Artists[t];
+		//			console.log(artist);
+		//			console.log(info);
+					$jamBaseElem.append('<ul class="concerts">' +
+						'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
+						'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
+						'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
+						'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
+							'">Tickets</a></li>' +
+						'</ul></br>');
+			}
+		}
+			clearTimeout(jamBaseTimeout);
+
+		}
+	});
+
 	
 	/*$.getJSON(jamBaseURL, function(data){
 		$jamBaseElem.text('Live Music, Courtesy JamBase');
