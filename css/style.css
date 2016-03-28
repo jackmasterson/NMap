@@ -65,9 +65,67 @@ html, body {
 #searched{
   padding-top: 15px;
 }
-.info {
+.info, #infoHead {
   list-style-type: none;
+  display: inline-block;
+}
+.info {
+  position: absolute;
+  top: 80%;
+  text-align: center;
+  margin-right: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+
+}
+.concerts {
+  position: absolute;
+  top: 80%;
+  text-align: center;
+  margin-right: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+
 }
 .concerts {
   list-style-type: none;
 }
+#jamBase-header {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: #333;
+    z-index: 100;
+    list-style-type: none;
+    color: white;
+    padding: auto;
+}
+
+/*slideout menu courtesy of alijafarian.com/jquery-horizontal-slideout-menu*/
+
+  #jamBase-header .slideout-menu-toggle {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    display: inline-block;
+    padding: 6px 9px 5px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    line-height: 1;
+    background: #222;
+    color: #999;
+    text-decoration: none;
+    vertical-align: top;
+  }
