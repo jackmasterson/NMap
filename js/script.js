@@ -100,7 +100,7 @@ function jamBase() {
 		var mic = '</br><img src="img/microphone.jpg" id="mic">';
 		$jamBaseElem.append(mic);
 	}, 5000);
-
+/*
 	$.ajax({
 		url: jamBaseURL,
 		dataType: "json",
@@ -120,53 +120,25 @@ function jamBase() {
 			
 			for(t=0;t<artists.length;t++){
 				var artist = info.Artists[t];
-				console.log(artist);
+	
 	//			console.log(artist);
 	//			console.log(info);
 				
 
-					var jamBaseStuff = '<ul class="concerts">' +
-				'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
-				'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
-				'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
-				'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
-					'">Tickets</a></li>' +
-				'</ul></br>';
-				$jamBaseElem.append(jamBaseStuff);
-			}
+				var jamBaseStuff = '<ul class="concerts">' +
+					'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
+					'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
+					'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
+					'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
+						'">Tickets</a></li>' +
+					'</ul></br>';
+					$jamBaseElem.append(jamBaseStuff);
+				}
 		};
 			clearTimeout(jamBaseTimeout);
 
 		}
-	});
-
-	
-	/*$.getJSON(jamBaseURL, function(data){
-		$jamBaseElem.text('Live Music, Courtesy JamBase');
-
-		var infos = data.Events;
-
-		for(i=0;i<infos.length;i++){
-			
-			var info = data.Events[i];
-			var artists = info.Artists
-			
-			for(t=0;t<artists.length;t++){
-				var artist = info.Artists[t];
-	//			console.log(artist);
-	//			console.log(info);
-				$jamBaseElem.append('<ul class="concerts">' +
-				'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
-				'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
-				'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
-				'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
-					'">Tickets</a></li>' +
-				'</ul></br>');
-		}
-			}
-
 	});*/
-
 };
 jamBase();
 
@@ -367,7 +339,7 @@ Searched();
 	//	console.log(this.currentPlace().infowindow);
 		//console.log(this.placeList()[0]);
 		
-console.log(this.placeList());
+		console.log(this.placeList());
 		this.markerList = ko.observableArray([]);
 		initialPlaces.forEach(function(markerItem){
 			self.markerList.push( new Marker(markerItem) );
@@ -377,9 +349,15 @@ console.log(this.placeList());
 		
 		self.filterPins = ko.computed(function () {
 		    var search = this.query().toLowerCase();
-		    return ko.utils.arrayFilter(self.placeList(), function (search) {
-		        return self.placeList()[0].title().toLowerCase().indexOf(search) >= 0;
+		    console.log(search);
+		    return ko.utils.arrayFilter(self.placeList(), function (item) {
+		    	console.log(self.placeList());
+		    	console.log(item.title());
+		    	return item.title().toLowerCase().indexOf(item) >=0;
 		    });
+		 //   return ko.utils.arrayFilter(self.placeList(), function (item) {
+		//        return self.placeList()[0].title().toLowerCase().indexOf(search) >= 0;
+		//    });
 		});
 
 
