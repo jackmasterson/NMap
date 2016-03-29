@@ -359,8 +359,8 @@ Searched();
 		    	console.log(lowerIndex);
 
 		   // 	if(lower == search){
-		   		if(lowerIndex == true) {
-		   			console.log("YES");
+		   		if(lowerIndex !== true) {
+		   			console.log(item.title());
 		   		}
 
 //return pin.toLowerCase().indexOf(search) >= 0;
