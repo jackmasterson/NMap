@@ -323,6 +323,7 @@ Searched();
 	var ViewModel = function() {
 		var self = this;
 
+
 		query = ko.observable('');
 
 
@@ -340,6 +341,7 @@ Searched();
 		//console.log(this.placeList()[0]);
 		
 		console.log(this.placeList());
+
 		this.markerList = ko.observableArray([]);
 		initialPlaces.forEach(function(markerItem){
 			self.markerList.push( new Marker(markerItem) );
@@ -360,7 +362,7 @@ Searched();
 		    	var len = self.placeList().length;
 //		    	console.log(len);
 //		    	console.log(self.placeList());
-//		    	console.log(self.markerList());
+//		    	console.log(self.markerList());******
 		    	var list = self.placeList();
 	if(lowerIndex !== true) {
 		self.placeList.remove( item ); 
@@ -368,6 +370,16 @@ Searched();
 		//		return self.placeList(); 
 
 		console.log(self.placeList());
+		
+ $('body').keyup(function(e){
+   if(e.keyCode == 8){
+       // user has pressed backspace
+       if(lowerIndex !== true) {
+       self.placeList.push( item );
+   };
+       console.log(self.placeList());
+   }
+   });
 	
 
 
@@ -385,6 +397,7 @@ Searched();
 
 		   		}*/
 		    });
+
 
 		});
 
