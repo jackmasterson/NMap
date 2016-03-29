@@ -357,13 +357,34 @@ Searched();
 		    	console.log(lower);
 		    	console.log(search);
 		    	console.log(lowerIndex);
+		    	var len = self.placeList().length;
+//		    	console.log(len);
+//		    	console.log(self.placeList());
+//		    	console.log(self.markerList());
+		    	var list = self.placeList();
+	
+		self.placeList.remove( function (item) { 
+			if(lowerIndex !== true) {
+				return self.placeList(); 
+			}
+		});
+		console.log(self.placeList());
+	
 
 
-		   		if(lowerIndex !== true) {
+		    	
+		    /*	for(i=0;i<len;i++) {
+		    		
+		    			console.log(self.placeList()[i].title());
+		    			var name = self.placeList()[i].title();
+		    			
+		    	}
+		  		if(lowerIndex !== true) {
 		   			console.log(item.title());
+		   			console.log(self.placeList()[0].title());
 		   			return item;
-		   			$(item).remove();
-		   		}
+
+		   		}*/
 		    });
 
 		});
