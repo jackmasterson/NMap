@@ -21,6 +21,21 @@ $(document).ready(function () {
     });
 });
 
+var divs = $('div[data-filter]');
+$('#place').on('keyup', function() {
+    var val = $.trim(this.value);
+    divs.hide();
+    divs.filter(function() {
+        return $(this).data('filter').search(val) >= 0
+    }).show();
+});
+
+divs.on('click', function() {
+    divs.not(this).hide();
+    var text = $.trim($(this).text());
+    $('#place').val(text);
+})
+
 /*function brew() {
 	var $brewElem = $('#brew-header');
 	var brewURL = 'http://api.brewerydb.com/v2/?beers&key=' +
@@ -49,7 +64,6 @@ function socrataData() {
 		//jsonp: "callback",
 		success: function(response){
 			console.log(response[0]);
-			$socrataElem.text('Information Courtesy Socrata Open Data Network');
 			var infos=response;
 			for(var i=0; i<infos.length; i++){
 				var info = infos[i];
@@ -63,6 +77,7 @@ function socrataData() {
 						+ info.percent_bachelors_degree + '% | </li> ' +
 					'<li id="infoHead"> Associates Degree: ' 
 						+ info.percent_associates_degree + '% | </li> ' +
+					'<li id="infoHead"> Information Courtesy Socrata Open Data Network | </li> ' +
 					'</ul>')
 			}
 			clearTimeout(socrataTimeout);
@@ -84,9 +99,9 @@ function jamBase() {
 			' it. Right?');
 		var mic = '</br><img src="img/microphone.jpg" id="mic">';
 		$jamBaseElem.append(mic);
-	}, 3000);
+	}, 5000);
 
-	$.ajax({
+/*	$.ajax({
 		url: jamBaseURL,
 		dataType: "json",
 		success: function(response) {
@@ -116,7 +131,7 @@ function jamBase() {
 			clearTimeout(jamBaseTimeout);
 
 		}
-	});
+	});*/
 
 	
 	/*$.getJSON(jamBaseURL, function(data){
@@ -321,12 +336,21 @@ Searched();
 		this.infowindow = ko.observable(data.infowindow);
 		this.marker = ko.observable(data.marker);
 
+
 	};	
 
 
 
 	var ViewModel = function() {
 		var self = this;
+
+		query = ko.observable('');
+
+
+		
+
+
+
 
 		this.placeList = ko.observableArray([]);
 		initialPlaces.forEach(function(placeItem){
@@ -336,7 +360,7 @@ Searched();
 	//	console.log(this.currentPlace().infowindow);
 		//console.log(this.placeList()[0]);
 		
-
+console.log(this.placeList());
 		this.markerList = ko.observableArray([]);
 		initialPlaces.forEach(function(markerItem){
 			self.markerList.push( new Marker(markerItem) );
@@ -344,6 +368,14 @@ Searched();
 	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
 		
+		self.filterPins = ko.computed(function () {
+		    var search = this.query().toLowerCase();
+		    return ko.utils.arrayFilter(self.placeList(), function (search) {
+		        return self.placeList()[0].title().toLowerCase().indexOf(search) >= 0;
+		    });
+		});
+
+
 
 	
 
@@ -385,6 +417,7 @@ Searched();
 
 
 	};
+
 
 
 	ko.applyBindings(new ViewModel());

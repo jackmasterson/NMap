@@ -10,16 +10,17 @@
     <div id="list">
         <div id="placeClick" data-bind="foreach: placeList">
               <a href="#/" data-bind="click: $parent.setPlace">
-                <h5 id="placeClickHead" data-bind="text: title"></h5>
+                <h5 id="placeClickHead" data-bind="text: title" data-filter="text: title"></h5>
               </a>
         </div> 
         <a href="#" id="placeClickHead" class="slideout-menu-toggle"> Live Shows</a>
     </div>
     <div id="search">
-        <input id="place" placeholder="Places to Visit" autofocus></input>
+        <input id="place" type="search" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Places to Visit" autofocus></input>
          <input type="button" value="Search" id="button" />
           <div id="display"></div>
     </div>
+
 
 
 
