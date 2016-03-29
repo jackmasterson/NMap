@@ -362,12 +362,11 @@ Searched();
 //		    	console.log(self.placeList());
 //		    	console.log(self.markerList());
 		    	var list = self.placeList();
-	
-		self.placeList.remove( function (item) { 
-			if(lowerIndex !== true) {
-				return self.placeList(); 
-			}
-		});
+	if(lowerIndex !== true) {
+		self.placeList.remove( item ); 
+			};
+		//		return self.placeList(); 
+
 		console.log(self.placeList());
 	
 
