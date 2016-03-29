@@ -349,24 +349,23 @@ Searched();
 		
 		self.filterPins = ko.computed(function () {
 		    var search = this.query().toLowerCase();
-		    console.log(search);
-		    return ko.utils.arrayFilter(self.placeList(), function (item) {
-		    //	console.log(self.placeList());
-		    //	console.log(item.title().toLowerCase().indexOf(item));
-		    	var lower = item.title().toLowerCase();
-		    	console.log(lower);
-		    //	console.log(ko.utils.arrayForEach.self.placeList());
-	//	    return ko.utils.arrayForEach(self.placeList(), function (place){
-	//	    	console.log(place.title());
-		    	if(lower == search){
-		   		console.log('haiii');
-		    	}
-	//	    })
 
+		    return ko.utils.arrayFilter(self.placeList(), function (item) {
+
+		    	var lower = item.title().toLowerCase();
+		    	var lowerIndex = lower.indexOf(search) >=0;
+		    	console.log(lower);
+		    	console.log(search);
+		    	console.log(lowerIndex);
+
+		   // 	if(lower == search){
+		   		if(lowerIndex == true) {
+		   			console.log("YES");
+		   		}
+
+//return pin.toLowerCase().indexOf(search) >= 0;
 		    });
-		 //   return ko.utils.arrayFilter(self.placeList(), function (item) {
-		//        return self.placeList()[0].title().toLowerCase().indexOf(search) >= 0;
-		//    });
+
 		});
 
 
