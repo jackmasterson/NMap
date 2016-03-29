@@ -359,11 +359,15 @@ Searched();
 		    	console.log(lowerIndex);
 
 		   // 	if(lower == search){
-		   		if(lowerIndex !== true) {
-		   			console.log(item.title());
-		   		}
 
-//return pin.toLowerCase().indexOf(search) >= 0;
+		   		if(lowerIndex == true) {
+		   			console.log(item//.title()
+		   				);
+		   			return item;
+		   		//	console.log(self.placeList()[0]);
+		   		//	$(self.placeList()[0]).css('display', 'none');
+		   		//	console.log("WHOOPS");
+		   		}
 		    });
 
 		});
