@@ -101,37 +101,44 @@ function jamBase() {
 		$jamBaseElem.append(mic);
 	}, 5000);
 
-/*	$.ajax({
+	$.ajax({
 		url: jamBaseURL,
 		dataType: "json",
 		success: function(response) {
 			console.log("SUCCESS!");
 			$jamBaseElem.text('Live Music, Courtesy JamBase');
 
-			var infos = response.Events;
+				var infos = response.Events;
 
-			for(i=0;i<infos.length;i++){
+
+		for(i=0;i<infos.length;i++){
+			
+			var info = response.Events[i];
+
+			var artists = info.Artists
+
+			
+			for(t=0;t<artists.length;t++){
+				var artist = info.Artists[t];
+				console.log(artist);
+	//			console.log(artist);
+	//			console.log(info);
 				
-				var info = response.Events[i];
-				var artists = info.Artists
-				
-				for(t=0;t<artists.length;t++){
-					var artist = info.Artists[t];
-		//			console.log(artist);
-		//			console.log(info);
-					$jamBaseElem.append('<ul class="concerts">' +
-						'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
-						'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
-						'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
-						'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
-							'">Tickets</a></li>' +
-						'</ul></br>');
+
+					var jamBaseStuff = '<ul class="concerts">' +
+				'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
+				'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
+				'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
+				'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
+					'">Tickets</a></li>' +
+				'</ul></br>';
+				$jamBaseElem.append(jamBaseStuff);
 			}
-		}
+		};
 			clearTimeout(jamBaseTimeout);
 
 		}
-	});*/
+	});
 
 	
 	/*$.getJSON(jamBaseURL, function(data){
