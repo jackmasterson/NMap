@@ -358,15 +358,11 @@ Searched();
 		    	console.log(search);
 		    	console.log(lowerIndex);
 
-		   // 	if(lower == search){
 
-		   		if(lowerIndex == true) {
-		   			console.log(item//.title()
-		   				);
+		   		if(lowerIndex !== true) {
+		   			console.log(item.title());
 		   			return item;
-		   		//	console.log(self.placeList()[0]);
-		   		//	$(self.placeList()[0]).css('display', 'none');
-		   		//	console.log("WHOOPS");
+		   			$(item).remove();
 		   		}
 		    });
 
