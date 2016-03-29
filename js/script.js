@@ -351,9 +351,18 @@ Searched();
 		    var search = this.query().toLowerCase();
 		    console.log(search);
 		    return ko.utils.arrayFilter(self.placeList(), function (item) {
-		    	console.log(self.placeList());
-		    	console.log(item.title());
-		    	return item.title().toLowerCase().indexOf(item) >=0;
+		    //	console.log(self.placeList());
+		    //	console.log(item.title().toLowerCase().indexOf(item));
+		    	var lower = item.title().toLowerCase();
+		    	console.log(lower);
+		    //	console.log(ko.utils.arrayForEach.self.placeList());
+	//	    return ko.utils.arrayForEach(self.placeList(), function (place){
+	//	    	console.log(place.title());
+		    	if(lower == search){
+		   		console.log('haiii');
+		    	}
+	//	    })
+
 		    });
 		 //   return ko.utils.arrayFilter(self.placeList(), function (item) {
 		//        return self.placeList()[0].title().toLowerCase().indexOf(search) >= 0;
