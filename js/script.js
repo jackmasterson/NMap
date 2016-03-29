@@ -364,22 +364,42 @@ Searched();
 //		    	console.log(self.placeList());
 //		    	console.log(self.markerList());******
 		    	var list = self.placeList();
-	if(lowerIndex !== true) {
+	
+	var removeItems = function() {
+		if(lowerIndex !== true) {
 		self.placeList.remove( item ); 
 			};
 		//		return self.placeList(); 
 
 		console.log(self.placeList());
-		
- $('body').keyup(function(e){
+	};
+	removeItems();
+
+$('body').keyup(function(e){
    if(e.keyCode == 8){
        // user has pressed backspace
-       if(lowerIndex !== true) {
-       self.placeList.push( item );
-   };
-       console.log(self.placeList());
+       //addItems();
+       if(lowerIndex === true) {
+       console.log(item.title());
+       //run a func to see if that item exists onscreen already; if so, do nothing
+       //if not, add it
+   		}
+   		else{
+
+   		}
    }
    });
+/*
+	var addItems = function() {
+			if(lowerIndex !== true) {
+		       self.placeList.push( item );
+		   }
+		};*/
+		
+
+		       console.log(self.placeList());
+
+	});
 	
 
 
@@ -399,7 +419,7 @@ Searched();
 		    });
 
 
-		});
+	
 
 
 
