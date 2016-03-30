@@ -363,68 +363,37 @@ Searched();
 //		    	console.log(len);
 //		    	console.log(self.placeList());
 //		    	console.log(self.markerList());******
-		    	var list = self.placeList();
 	
-	var removeItems = function() {
-		if(lowerIndex !== true) {
-		self.placeList.remove( item ); 
-			};
-		//		return self.placeList(); 
-
-
-	};
-	removeItems();
-
-$('body').keyup(function(e){
-   if(e.keyCode == 8){
-       // user has pressed backspace
-       //addItems();
-     /*  var len = self.placeList().length;
-       //console.log(len);
-       for(i=0;i<len;i++) {
-       		var list = self.placeList()[i].title();
-       		if(list !== item.title()) {
-       			console.log('OKay');
-       		}
-       }*/
-       var list = self.placeList()[0].title();
-       var itemTitle = item.title();
-       if(lowerIndex === true){
-       	if(list !== itemTitle){
-       		self.placeList.push(item);
-       	}
-       }
-   	}
-   });
-/*
-	var addItems = function() {
-			if(lowerIndex !== true) {
-		       self.placeList.push( item );
-		   }
-		};*/
-		
-
-		       console.log(self.placeList());
-		       console.log(item.title());
-       console.log(self.placeList()[0].title());
-
-	});
 	
+				var removeItems = function() {
+					if(lowerIndex !== true) {
+					self.placeList.remove( item ); 
+						};
+					//		return self.placeList(); 
 
 
-		    	
-		    /*	for(i=0;i<len;i++) {
-		    		
-		    			console.log(self.placeList()[i].title());
-		    			var name = self.placeList()[i].title();
-		    			
-		    	}
-		  		if(lowerIndex !== true) {
-		   			console.log(item.title());
-		   			console.log(self.placeList()[0].title());
-		   			return item;
+				};
+				removeItems();
 
-		   		}*/
+					$('body').keyup(function(e){
+					   if(e.keyCode == 8, 13){
+					       // user has pressed backspace or enter
+
+						       var list = self.placeList()[0].title();
+						       var itemTitle = item.title();
+						       if(lowerIndex === true){
+						       	if(list !== itemTitle){
+
+						       		self.placeList.push(item);
+						       	
+						       	}
+						       }
+					   		}
+					   });
+
+
+				});
+	
 		    });
 
 
