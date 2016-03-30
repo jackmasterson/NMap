@@ -371,7 +371,7 @@ Searched();
 			};
 		//		return self.placeList(); 
 
-		console.log(self.placeList());
+
 	};
 	removeItems();
 
@@ -379,15 +379,22 @@ $('body').keyup(function(e){
    if(e.keyCode == 8){
        // user has pressed backspace
        //addItems();
-       if(lowerIndex === true) {
-       console.log(item.title());
-       //run a func to see if that item exists onscreen already; if so, do nothing
-       //if not, add it
-   		}
-   		else{
-
-   		}
-   }
+     /*  var len = self.placeList().length;
+       //console.log(len);
+       for(i=0;i<len;i++) {
+       		var list = self.placeList()[i].title();
+       		if(list !== item.title()) {
+       			console.log('OKay');
+       		}
+       }*/
+       var list = self.placeList()[0].title();
+       var itemTitle = item.title();
+       if(lowerIndex === true){
+       	if(list !== itemTitle){
+       		self.placeList.push(item);
+       	}
+       }
+   	}
    });
 /*
 	var addItems = function() {
@@ -398,6 +405,8 @@ $('body').keyup(function(e){
 		
 
 		       console.log(self.placeList());
+		       console.log(item.title());
+       console.log(self.placeList()[0].title());
 
 	});
 	
