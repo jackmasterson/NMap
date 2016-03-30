@@ -373,6 +373,7 @@ Searched();
 
 
 				};
+
 				removeItems();
 
 					$('body').keyup(function(e){
@@ -383,8 +384,9 @@ Searched();
 						       var itemTitle = item.title();
 						       if(lowerIndex === true){
 						       	if(list !== itemTitle){
-
+						       		if(self.placeList().length<5){
 						       		self.placeList.push(item);
+						       	};
 						       	
 						       	}
 						       }
