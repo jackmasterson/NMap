@@ -63,7 +63,7 @@ function socrataData() {
 		dataType: "json",
 		//jsonp: "callback",
 		success: function(response){
-			console.log(response[0]);
+	//		console.log(response[0]);
 			var infos=response;
 			for(var i=0; i<infos.length; i++){
 				var info = infos[i];
@@ -100,12 +100,12 @@ function jamBase() {
 		var mic = '</br><img src="img/microphone.jpg" id="mic">';
 		$jamBaseElem.append(mic);
 	}, 5000);
-/*
-	$.ajax({
+
+	/*$.ajax({
 		url: jamBaseURL,
 		dataType: "json",
 		success: function(response) {
-			console.log("SUCCESS!");
+	//		console.log("SUCCESS!");
 			$jamBaseElem.text('Live Music, Courtesy JamBase');
 
 				var infos = response.Events;
@@ -304,6 +304,8 @@ function initMap() {
 	}
 
 Searched();
+	
+
 
 
 	var Place = function(data) {
@@ -321,31 +323,28 @@ Searched();
 
 
 	var ViewModel = function() {
-		var self = this;
 
+			var self = this;
 
-		query = ko.observable('');
+			query = ko.observable('');
+			
+			this.placeList = ko.observableArray([]);
+			initialPlaces.forEach(function(placeItem){
+				self.placeList.push( new Place(placeItem) );
+			});
 
+			this.currentPlace = ko.observable( this.placeList()[0] );
 
-		
+		//	console.log(this.currentPlace().infowindow);
+			//console.log(this.placeList()[0]);
+			
+	//		console.log(this.placeList());
 
+			this.markerList = ko.observableArray([]);
+			initialPlaces.forEach(function(markerItem){
+				self.markerList.push( new Marker(markerItem) );
+			});
 
-
-
-		this.placeList = ko.observableArray([]);
-		initialPlaces.forEach(function(placeItem){
-			self.placeList.push( new Place(placeItem) );
-		});
-		this.currentPlace = ko.observable( this.placeList()[0] );
-	//	console.log(this.currentPlace().infowindow);
-		//console.log(this.placeList()[0]);
-		
-		console.log(this.placeList());
-
-		this.markerList = ko.observableArray([]);
-		initialPlaces.forEach(function(markerItem){
-			self.markerList.push( new Marker(markerItem) );
-		});
 	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
 		
@@ -353,12 +352,13 @@ Searched();
 		    var search = this.query().toLowerCase();
 
 		    return ko.utils.arrayFilter(self.placeList(), function (item) {
+		    	// console.log(item);
 
 		    	var lower = item.title().toLowerCase();
 		    	var lowerIndex = lower.indexOf(search) >=0;
-		    	console.log(lower);
-		    	console.log(search);
-		    	console.log(lowerIndex);
+//		    	console.log(lower);
+//		    	console.log(search);
+//		    	console.log(lowerIndex);
 		    	var len = self.placeList().length;
 //		    	console.log(len);
 //		    	console.log(self.placeList());
@@ -376,12 +376,19 @@ Searched();
 
 				removeItems();
 
-					$('body').keyup(function(e){
-					   if(e.keyCode == 8, 13){
-					       // user has pressed backspace or enter
 
+
+					$('body').keyup(function(e){
+					   if(e.keyCode == 8){
+					       // user has pressed backspace or enter
+					    if($('#place').val() == ''){
+      						alert('Input can not be left blank');
+   
+				
 						       var list = self.placeList()[0].title();
+						       
 						       var itemTitle = item.title();
+
 						       if(lowerIndex === true){
 						       	if(list !== itemTitle){
 						       		if(self.placeList().length<5){
@@ -390,7 +397,9 @@ Searched();
 						       	
 						       	}
 						       }
+						       
 					   		}
+					   	}
 					   });
 
 
