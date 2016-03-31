@@ -36,17 +36,6 @@ divs.on('click', function() {
     $('#place').val(text);
 })
 
-/*function brew() {
-	var $brewElem = $('#brew-header');
-	var brewURL = 'http://api.brewerydb.com/v2/?beers&key=' +
-		'cb4169f2bfe563503b7f35400cdf0f98';
-	$.getJSON(brewURL, function(data){
-		$brewElem.text('Beer Event Info Supplied by BreweryDB.com');
-
-		console.log(data);
-	})
-};
-brew();*/
 
 function socrataData() {
 	var $socrataElem = $('#socrata-header');
@@ -162,7 +151,8 @@ function initMap() {
 			src: 'img/macs.jpg',
 			nums: 1,
 			icon: null,
-			marker: marker = []
+			marker: marker = [],
+			visible: true
 		}, {
 			position: {lat: 40.220001, lng: -74.000947},
 			title: 'The Stone Pony',
@@ -170,7 +160,8 @@ function initMap() {
 			src: 'img/pony.jpg',
 			nums: 2,
 			icon: null,
-			marker: marker = []
+			marker: marker = [],
+			visible: true
 		}, {
 			position: {lat: 40.220239, lng: -74.002344},
 			title: 'Porta Pizza/Wine Bar',
@@ -178,7 +169,8 @@ function initMap() {
 			src: 'img/porta.jpg',
 			nums: 3,
 			icon: null,
-			marker: marker = []
+			marker: marker = [],
+			visible: true
 		}, {
 			position: {lat: 40.2207, lng: -73.999884},
 			title: 'Silverball Museum',
@@ -186,7 +178,8 @@ function initMap() {
 			src: 'img/silverball.jpg',
 			nums: 4,
 			icon: null,
-			marker: marker = []
+			marker: marker = [],
+			visible: true
 		}, {
 			position: {lat: 40.223796, lng: -73.998585},
 			title: 'Convention Hall',
@@ -194,7 +187,8 @@ function initMap() {
 			src: 'img/hall.jpg',
 			nums: 5,
 			icon: null,
-			marker: marker = []
+			marker: marker = [],
+			visible: true
 		}
 		      
 	];
@@ -204,6 +198,15 @@ function initMap() {
 
 
 	var Marker = function(data) {
+		this.position = ko.observable(data.position);
+		this.title = ko.observable(data.title);
+		this.map = ko.observable(data.map);
+		this.address = ko.observable(data.address);
+		this.animation = google.maps.Animation.DROP;
+		this.infowindow = ko.observable(data.infowindow);
+		this.marker = ko.observable(data.marker);
+		this.visible = ko.observable(data.visible);
+
 
 		function drop() {
 		    addMarkerWithTimeout(data.position, data.nums * 300);
@@ -226,6 +229,7 @@ function initMap() {
 				map: map,
 				num: data.num,
 				icon: null,
+				visible: data.visible,
 				animation: google.maps.Animation.DROP,
 				infowindow: new google.maps.InfoWindow({
 					content: 
@@ -236,11 +240,13 @@ function initMap() {
 				    '</div>',
 				    stuff: map, marker
 				})
+
 			}));
+
 
 		//	console.log(markers.infowindow.stuff);
 
-			  		var len = initialPlaces.length;
+			var len = initialPlaces.length;
 		//	console.log(markers.infowindow.stuff);
 			markers.addListener('click', function() {
 				for(i=0;i<len;i++){
@@ -265,8 +271,10 @@ function initMap() {
 					markers.setIcon(null);
 					markers.infowindow.close(map, markers);
 					markers.setAnimation(null);
-				}				 
+				}		
 			});
+						 
+			
 		}, timeout);
 	}
 };
@@ -351,23 +359,31 @@ Searched();
 		self.filterPins = ko.computed(function () {
 		    var search = this.query().toLowerCase();
 
-		    return ko.utils.arrayFilter(self.placeList(), function (item) {
-		    	// console.log(item);
+
+		    return ko.utils.arrayFilter(self.markerList(), function (item) {
+		   // 	 console.log(item);
 
 		    	var lower = item.title().toLowerCase();
 		    	var lowerIndex = lower.indexOf(search) >=0;
-//		    	console.log(lower);
-//		    	console.log(search);
-//		    	console.log(lowerIndex);
+		    	console.log(lowerIndex);
+
+		    	//i think changing the lowerIndex variable might be crucial to 
+		    	//getting the markers to disappear
+		    	//also just change "markerList()" to "placeList()" to get it
+		    	//to work again
+
 		    	var len = self.placeList().length;
-//		    	console.log(len);
-//		    	console.log(self.placeList());
-//		    	console.log(self.markerList());******
+
+				console.log(self.markerList()[0].visible());
+				console.log(self.placeList());
 	
 	
 				var removeItems = function() {
 					if(lowerIndex !== true) {
-					self.placeList.remove( item ); 
+					self.placeList.remove( item );
+					self.markerList.remove( item );
+
+
 						};
 					//		return self.placeList(); 
 
@@ -375,6 +391,8 @@ Searched();
 				};
 
 				removeItems();
+				console.log(item);
+		
 
 
 
@@ -404,6 +422,7 @@ Searched();
 
 
 				});
+
 	
 		    });
 
@@ -421,9 +440,9 @@ Searched();
 
 			var curMark = self.currentPlace().marker()[0];
 
-			console.log(curMark.address);
+		//	console.log(curMark.address);
 			var len = initialPlaces.length;
-			console.log(len);
+		//	console.log(len);
 			
 			for(i=0;i<len;i++){
 				var mark = initialPlaces[i].marker[0];
