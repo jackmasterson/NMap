@@ -251,7 +251,7 @@ function initMap() {
 			markers.addListener('click', function() {
 				for(i=0;i<len;i++){
 					var mark = initialPlaces[i].marker[0];
-					console.log(initialPlaces[i].marker[0].icon);
+		//			console.log(initialPlaces[i].marker[0].icon);
 					mark.setIcon(null);
 					mark.infowindow.close(map, markers);
 				}
@@ -273,6 +273,7 @@ function initMap() {
 					markers.setAnimation(null);
 				}		
 			});
+
 						 
 			
 		}, timeout);
@@ -365,23 +366,32 @@ Searched();
 
 		    	var lower = item.title().toLowerCase();
 		    	var lowerIndex = lower.indexOf(search) >=0;
-		    	console.log(lowerIndex);
+	//	    	console.log(lowerIndex);
 
 		    	//i think changing the lowerIndex variable might be crucial to 
 		    	//getting the markers to disappear
 		    	//also just change "markerList()" to "placeList()" to get it
 		    	//to work again
 
-		    	var len = self.placeList().length;
+		    	var len = self.markerList().length;
 
-				console.log(self.markerList()[0].visible());
-				console.log(self.placeList());
+
+	//			console.log(self.markerList()[0].visible());
+		//		console.log(self.markerList());
+		//		console.log(self.markerList()[0].title());
+		//		console.log(self.markerList()[1].title());
+		//		console.log(item.title());
 	
-	
+				
 				var removeItems = function() {
 					if(lowerIndex !== true) {
-					self.placeList.remove( item );
-					self.markerList.remove( item );
+				//	self.placeList.remove( item );
+					marker.forEach(function(markers) {
+      					markers.setMap(null);
+    				});
+    				console.log(marker);
+    				console.log(markers);
+		//			self.markerList()[0].visible(false);
 
 
 						};
@@ -395,7 +405,7 @@ Searched();
 		
 
 
-
+/*
 					$('body').keyup(function(e){
 					   if(e.keyCode == 8, 13){
 					       // user has pressed backspace or enter
@@ -418,14 +428,13 @@ Searched();
 						       
 					   		}
 					   	}
-					   });
+					   });*/
 
 
 				});
 
 	
 		    });
-
 
 	
 
