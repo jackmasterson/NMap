@@ -379,10 +379,10 @@ Searched();
 
 
 					$('body').keyup(function(e){
-					   if(e.keyCode == 8){
+					   if(e.keyCode == 8, 13){
 					       // user has pressed backspace or enter
 					    if($('#place').val() == ''){
-      						alert('Input can not be left blank');
+      						
    
 				
 						       var list = self.placeList()[0].title();
