@@ -358,6 +358,9 @@ Searched();
 
 		
 		self.filterPins = ko.computed(function () {
+
+
+
 		    var search = this.query().toLowerCase();
 
 
@@ -368,12 +371,12 @@ Searched();
 		    	var lowerIndex = lower.indexOf(search) >=0;
 	//	    	console.log(lowerIndex);
 
-		    	//i think changing the lowerIndex variable might be crucial to 
-		    	//getting the markers to disappear
+
 		    	//also just change "markerList()" to "placeList()" to get it
 		    	//to work again
 
 		    	var len = self.markerList().length;
+		//    	console.log(self.markerList);
 
 
 	//			console.log(self.markerList()[0].visible());
@@ -381,28 +384,76 @@ Searched();
 		//		console.log(self.markerList()[0].title());
 		//		console.log(self.markerList()[1].title());
 		//		console.log(item.title());
-	
+		var set = function(){
+			   	initialPlaces.forEach(function(markers) {
+			  //marker.forEach(function(markers){
+			   			
+			   			var list = self.markerList();
+			 //  			console.log(list[0]);
+			   			var firstList = list[0];
+			 //  			console.log(firstList, 'hey');
+			   //			console.log(markers);
+			   			console.log(item.title());
+			   			console.log(lowerIndex);
+			   			console.log(search);
+			  // 			console.log(initialPlaces[0].marker[0]);
+			   	//		console.log(initialPlaces);
+			   	console.log(len);
+			   		for (var p=0;p<len;p++){
+			   			console.log(initialPlaces[p]);
+			   			var q = initialPlaces[p].marker[0];
+			   			if(lowerIndex !== true){
+			   				set = q.setMap();
+			   			}
+			   		}
+			   		//	var q = initialPlaces[0].marker[0]
+			   		//	set = initialPlaces.setMap();
+			   	//		if(item.title() !== lowerIndex){
+			   	//			console.log('Mebbe');
+			   	//		}
+			   	//console.log(markers.setMap());
+			   	//		if(lowerIndex === true){
+			   	//			set = markers.setMap();
+			   	//		}
+			   			//set = list[0].setMap();
+			   //			set = firstList.setMap();
+
+			   	//		if(markers.title() !== )
+			 //			console.log(self.markerList());
+		//	   			console.log(marker);
+		//	   			console.log(markers);
+		//	   			set = self.markers.setMap();
+		//				set = markers.setMap();
+
+
+
+			});
+
+
+			   };
+			   	$('body').keyup(function(e){
+					   if(e.keyCode == 13){
+				//	   	if(lowerIndex !== true) {
+					   	set();
+	//				   }
+					   }
+					});
 				
 				var removeItems = function() {
 					if(lowerIndex !== true) {
-				//	self.placeList.remove( item );
-					marker.forEach(function(markers) {
-      					markers.setMap(null);
-    				});
-    				console.log(marker);
-    				console.log(markers);
-		//			self.markerList()[0].visible(false);
+					self.placeList.remove( item );
 
 
+			//		self.markerList()[0].setMap(null);
 						};
-					//		return self.placeList(); 
-
-
 				};
 
 				removeItems();
-				console.log(item);
-		
+			//	console.log(item);
+	
+
+
+
 
 
 /*
