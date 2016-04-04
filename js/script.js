@@ -367,30 +367,25 @@ Searched();
 
 		    	var len = self.markerList().length;
 
-		var set = function(){
-			  	initialPlaces.forEach(function(markers){
-			   			var list = self.markerList();
-			   			var firstList = list[0];
-			   		
-			   		for (var p=0;p<len;p++){
-			   			var q = initialPlaces[p].marker[0];
-
-			   			if(lowerIndex !== true){
-			   				var lowerQ = q.title.toLowerCase();
-			   				var lowerIndexQ = lowerQ.indexOf(search) >=0;
-
-			   				if(lowerIndexQ !== true){
-			   					q.setMap();
-			   				}
-			   			}
-			   		}
-				});
-			  };
-			set();
 			var removeItems = function() {
 					if(lowerIndex !== true) {
-					self.placeList.remove( item ); 
-						};
+						self.placeList.remove( item ); 
+					};
+			  		initialPlaces.forEach(function(markers){
+			   		
+				   		for (var p=0;p<len;p++){
+				   			var q = initialPlaces[p].marker[0];
+
+				   			if(lowerIndex !== true){
+				   				var lowerQ = q.title.toLowerCase();
+				   				var lowerIndexQ = lowerQ.indexOf(search) >=0;
+
+				   				if(lowerIndexQ !== true){
+				   					q.setMap();
+				   				}
+				   			}
+				   		}
+					});
 				};
 				removeItems();
 
@@ -398,11 +393,7 @@ Searched();
 					   if(e.keyCode == 8, 13){
 					       // user has pressed backspace or enter
 					    if($('#place').val() == ''){
-      						
-   
-				
 						       var list = self.placeList()[0].title();
-						       
 						       var itemTitle = item.title();
 
 						       if(lowerIndex === true){
