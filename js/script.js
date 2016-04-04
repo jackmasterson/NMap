@@ -344,17 +344,12 @@ Searched();
 
 			this.currentPlace = ko.observable( this.placeList()[0] );
 
-		//	console.log(this.currentPlace().infowindow);
-			//console.log(this.placeList()[0]);
-			
-	//		console.log(this.placeList());
 
 			this.markerList = ko.observableArray([]);
 			initialPlaces.forEach(function(markerItem){
 				self.markerList.push( new Marker(markerItem) );
 			});
 
-	//	this.currentMarker = ko.observable( this.markerList()[0] );
 
 		
 		self.filterPins = ko.computed(function () {
@@ -365,153 +360,46 @@ Searched();
 
 
 		    return ko.utils.arrayFilter(self.markerList(), function (item) {
-		   // 	 console.log(item);
+
 
 		    	var lower = item.title().toLowerCase();
 		    	var lowerIndex = lower.indexOf(search) >=0;
-	//	    	console.log(lowerIndex);
-
-
-		    	//also just change "markerList()" to "placeList()" to get it
-		    	//to work again
 
 		    	var len = self.markerList().length;
-		//    	console.log(self.markerList);
 
-
-	//			console.log(self.markerList()[0].visible());
-		//		console.log(self.markerList());
-		//		console.log(self.markerList()[0].title());
-		//		console.log(self.markerList()[1].title());
-		//		console.log(item.title());
 		var set = function(){
-			   	//self.markerList().forEach(function(markers) {
-			  //marker.forEach(function(markers){
+
 			  	initialPlaces.forEach(function(markers){
 			   			
 			   			var list = self.markerList();
-			 //  			console.log(list[0]);
+
 			   			var firstList = list[0];
-			 //  			console.log(firstList, 'hey');
-			   //			console.log(markers);
-			   	//		console.log(item.title());
-//			   			console.log(lowerIndex);
-			   			console.log(search);
-			  // 			console.log(initialPlaces[0].marker[0]);
-			   	//		console.log(initialPlaces);
-	//		   	console.log(len);
-//				console.log(self.markerList());
-//				console.log(initialPlaces);
+
+
 			   		for (var p=0;p<len;p++){
-	//		   			console.log(initialPlaces[p]);
+
 			   			var q = initialPlaces[p].marker[0];
-			   			
-			   		//	var lowerQ = q.title.toLowerCase();
-			   			
-			   			
-			   			//because we're doing item.title which is always 
-			   			//johnny macs; we should be doing ____?
+
 			   			
 			   			if(lowerIndex !== true){
-			   			//	console.log('Yup', q);
-			   			//	console.log(q.title);
+
 			   				var lowerQ = q.title.toLowerCase();
-			   //				console.log(lowerQ);
+
 			   				var lowerIndexQ = lowerQ.indexOf(search) >=0;
-			   				console.log(lowerIndexQ);
+
 			   				
 			   				if(lowerIndexQ !== true){
 			   					q.setMap();
 			   				}
-			   	//var lower = item.title().toLowerCase();
-		    	//var lowerIndex = lower.indexOf(search) >=0;
-			   				//then create an array of the q's whose
-			   				//lowerIndex !==true using knockout?
-			   				
 
-			   			//	set = q.setMap();
 			   			}
 			   		}
-			   		//	var q = initialPlaces[0].marker[0]
-			   		//	set = initialPlaces.setMap();
-			   	//		if(item.title() !== lowerIndex){
-			   	//			console.log('Mebbe');
-			   	//		}
-			   	//console.log(markers.setMap());
-			   	//		if(lowerIndex === true){
-			   	//			set = markers.setMap();
-			   	//		}
-			   			//set = list[0].setMap();
-			   //			set = firstList.setMap();
-
-			   	//		if(markers.title() !== )
-			 //			console.log(self.markerList());
-		//	   			console.log(marker);
-		//	   			console.log(markers);
-		//	   			set = self.markers.setMap();
-		//				set = markers.setMap();
-
-
-
-			});
-
-
-			   };
-		//	   	$('body').keyup(function(e){
-		//			   if(e.keyCode == 13){
-		
-					   	set();
-
-		//			   }
-		//			});
-				
-				var removeItems = function() {
-					if(lowerIndex !== true) {
-					self.placeList.remove( item );
-
-
-			//		self.markerList()[0].setMap(null);
-						};
-				};
-
-				removeItems();
-			//	console.log(item);
-	
-
-
-
-
-
-/*
-					$('body').keyup(function(e){
-					   if(e.keyCode == 8, 13){
-					       // user has pressed backspace or enter
-					    if($('#place').val() == ''){
-      						
-   
-				
-						       var list = self.placeList()[0].title();
-						       
-						       var itemTitle = item.title();
-
-						       if(lowerIndex === true){
-						       	if(list !== itemTitle){
-						       		if(self.placeList().length<5){
-						       		self.placeList.push(item);
-						       	};
-						       	
-						       	}
-						       }
-						       
-					   		}
-					   	}
-					   });*/
-
-
 				});
-
-	
-		    });
+			  };
+			  
+			set();
+		});
+	});
 
 	
 
