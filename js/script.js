@@ -385,25 +385,51 @@ Searched();
 		//		console.log(self.markerList()[1].title());
 		//		console.log(item.title());
 		var set = function(){
-			   	initialPlaces.forEach(function(markers) {
+			   	//self.markerList().forEach(function(markers) {
 			  //marker.forEach(function(markers){
+			  	initialPlaces.forEach(function(markers){
 			   			
 			   			var list = self.markerList();
 			 //  			console.log(list[0]);
 			   			var firstList = list[0];
 			 //  			console.log(firstList, 'hey');
 			   //			console.log(markers);
-			   			console.log(item.title());
-			   			console.log(lowerIndex);
+			   	//		console.log(item.title());
+//			   			console.log(lowerIndex);
 			   			console.log(search);
 			  // 			console.log(initialPlaces[0].marker[0]);
 			   	//		console.log(initialPlaces);
-			   	console.log(len);
+	//		   	console.log(len);
+//				console.log(self.markerList());
+//				console.log(initialPlaces);
 			   		for (var p=0;p<len;p++){
-			   			console.log(initialPlaces[p]);
+	//		   			console.log(initialPlaces[p]);
 			   			var q = initialPlaces[p].marker[0];
+			   			
+			   		//	var lowerQ = q.title.toLowerCase();
+			   			
+			   			
+			   			//because we're doing item.title which is always 
+			   			//johnny macs; we should be doing ____?
+			   			
 			   			if(lowerIndex !== true){
-			   				set = q.setMap();
+			   			//	console.log('Yup', q);
+			   			//	console.log(q.title);
+			   				var lowerQ = q.title.toLowerCase();
+			   //				console.log(lowerQ);
+			   				var lowerIndexQ = lowerQ.indexOf(search) >=0;
+			   				console.log(lowerIndexQ);
+			   				
+			   				if(lowerIndexQ !== true){
+			   					q.setMap();
+			   				}
+			   	//var lower = item.title().toLowerCase();
+		    	//var lowerIndex = lower.indexOf(search) >=0;
+			   				//then create an array of the q's whose
+			   				//lowerIndex !==true using knockout?
+			   				
+
+			   			//	set = q.setMap();
 			   			}
 			   		}
 			   		//	var q = initialPlaces[0].marker[0]
@@ -431,13 +457,13 @@ Searched();
 
 
 			   };
-			   	$('body').keyup(function(e){
-					   if(e.keyCode == 13){
-				//	   	if(lowerIndex !== true) {
+		//	   	$('body').keyup(function(e){
+		//			   if(e.keyCode == 13){
+		
 					   	set();
-	//				   }
-					   }
-					});
+
+		//			   }
+		//			});
 				
 				var removeItems = function() {
 					if(lowerIndex !== true) {
