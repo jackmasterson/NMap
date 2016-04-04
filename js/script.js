@@ -360,17 +360,10 @@ Searched();
 
 
 		    return ko.utils.arrayFilter(self.placeList(), function (item) {
-
-
 		    	var lower = item.title().toLowerCase();
 		    	var lowerIndex = lower.indexOf(search) >=0;
-
-		    	var len = self.markerList().length;
-
-			var removeItems = function() {
-					if(lowerIndex !== true) {
-						self.placeList.remove( item ); 
-					};
+		    	var len = self.placeList().length;
+				var removeMark = function() {
 			  		initialPlaces.forEach(function(markers){
 			   		
 				   		for (var p=0;p<len;p++){
@@ -386,32 +379,44 @@ Searched();
 				   			}
 				   		}
 					});
+			  	};
+			  	removeMark();
+
+			var removeItems = function() {
+					if(lowerIndex !== true) {
+						self.placeList.remove( item ); 
+					};
+
 				};
 				removeItems();
+			var addBack = function() {
 
 					$('body').keyup(function(e){
-					   if(e.keyCode == 8, 13){
-					       // user has pressed backspace or enter
-					    if($('#place').val() == ''){
-						       var list = self.placeList()[0].title();
-						       var itemTitle = item.title();
+						if(e.keyCode == 8, 13){
+						       // user has pressed backspace or enter
+						    if($('#place').val() == ''){
+							       var list = self.placeList()[0].title();
+							       var itemTitle = item.title();
 
-						       if(lowerIndex === true){
-						       	if(list !== itemTitle){
-						       		if(self.placeList().length<5){
-						       		self.placeList.push(item);
-						       	};
-						       	
-						       	}
-						       }
-						       
-					   		}
-					   	}
-					   });
+
+							    if(lowerIndex === true){
+							       	if(list !== itemTitle){
+							       		if(self.placeList().length<5){
+							       		self.placeList.push(item);
+							       		};
+							    	}
+							    }
+							       
+						   	}
+						}
+					});
+
+			};
+			addBack();
 				
 
+			});
 		});
-	});
 
 	
 
