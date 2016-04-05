@@ -363,40 +363,61 @@ Searched();
 		    	var lower = item.title().toLowerCase();
 		    	var lowerIndex = lower.indexOf(search) >=0;
 		    	var len = self.placeList().length;
+		    	var q;
+		    	var lowerQ;
+		    	var lowerIndexQ;
 				var removeMark = function() {
-			  		initialPlaces.forEach(function(markers){
+			  		
+					
+					if(lowerIndex !== true) {
+						self.placeList.remove( item ); 
+					};
 			   		
 				   		for (var p=0;p<len;p++){
-				   			var q = initialPlaces[p].marker[0];
+				   			q = initialPlaces[p].marker[0];
 
 				   			if(lowerIndex !== true){
-				   				var lowerQ = q.title.toLowerCase();
-				   				var lowerIndexQ = lowerQ.indexOf(search) >=0;
+				   				lowerQ = q.title.toLowerCase();
+				   				lowerIndexQ = lowerQ.indexOf(search) >=0;
 
 				   				if(lowerIndexQ !== true){
 				   					q.setMap();
 				   				}
 				   			}
 				   		}
-					});
+				
 			  	};
 			  	removeMark();
 
-			var removeItems = function() {
-					if(lowerIndex !== true) {
-						self.placeList.remove( item ); 
-					};
-
-				};
-				removeItems();
 			var addBack = function() {
 
 					$('body').keyup(function(e){
 						if(e.keyCode == 8, 13){
+							console.log('ENTER');
 						       // user has pressed backspace or enter
+					if($('#place').val() == ''){
+				   		for (var p=0;p<len;p++){
+				   			q = initialPlaces[p].marker[0];
+				   			console.log(q);
+
+
+				   			if(lowerIndex !== true){
+				   				lowerQ = q.title.toLowerCase();
+				   				lowerIndexQ = lowerQ.indexOf(search) >=0;
+				   				console.log(q);
+
+
+				   				if(lowerIndexQ !== true){
+				   					q.setMap(map);
+				   					console.log(q);
+				   				}
+				   			}
+				   		}
+				   	}
 						    if($('#place').val() == ''){
 							       var list = self.placeList()[0].title();
 							       var itemTitle = item.title();
+
 
 
 							    if(lowerIndex === true){
@@ -408,6 +429,8 @@ Searched();
 							    }
 							       
 						   	}
+
+
 						}
 					});
 
