@@ -367,10 +367,7 @@ Searched();
 		    	var t;
 		    	var lowerQ;
 		    	var lowerIndexQ;
-				var removes = function() {	
-					$( "#place" ).keyup(function() {
-  					
-						
+				var removeMark = function() {				
 	   		
 				   		for (var p=0;p<len;p++){
 				   			q = initialPlaces[p].marker[0];
@@ -386,24 +383,17 @@ Searched();
 				   				if(lowerIndexQ !== true){
 				   					q.setMap();
 				   					self.placeList.remove( item );
-
-
 				   				}
 				   			}
-				   		}
-					});	
+				   		}			
 			  	};
-			  	removes();
+			  	removeMark();
 
 				var addBack = function() {
 
 					$('body').keyup(function(e){
 						if(e.keyCode == 13, 8){					
 						       // user has pressed backspace or enter
-				
-
-
-
 							var addMark = function() {
 				   				for (var p=0;p<len;p++){
 				   					q = initialPlaces[p].marker[0];
@@ -425,8 +415,6 @@ Searched();
 							    var list = self.placeList()[0].title();
 							    var itemTitle = item.title();
 
-
-
 							    if(lowerIndex === true){
 							       	if(list !== itemTitle){
 							       		if(self.placeList().length<5){
@@ -434,12 +422,13 @@ Searched();
 							       		};
 							    	}
 							    }						       
-						   	}	   
-						}
-					    if($('#place').val() == ''){
+						   	}
+						if(e.keyCode == 8){	
 					    	addMark();
 					    	addList();
+						}	   
 						}
+
 					});
 			};
 			addBack();
