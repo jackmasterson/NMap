@@ -364,17 +364,20 @@ Searched();
 		    	var lowerIndex = lower.indexOf(search) >=0;
 		    	var len = self.placeList().length;
 		    	var q;
+		    	var t;
 		    	var lowerQ;
 		    	var lowerIndexQ;
-				var removeMark = function() {
-			  		
-					
-					if(lowerIndex !== true) {
-						self.placeList.remove( item ); 
-					};
-			   		
+				var removes = function() {	
+					$( "#place" ).keyup(function() {
+  					
+						
+	   		
 				   		for (var p=0;p<len;p++){
 				   			q = initialPlaces[p].marker[0];
+				   			l = initialPlaces[p];
+				   			t = initialPlaces[p].title;
+				   			console.log(l);
+				   			console.log(t);
 
 				   			if(lowerIndex !== true){
 				   				lowerQ = q.title.toLowerCase();
@@ -382,41 +385,45 @@ Searched();
 
 				   				if(lowerIndexQ !== true){
 				   					q.setMap();
+				   					self.placeList.remove( item );
+
+
 				   				}
 				   			}
 				   		}
-				
+					});	
 			  	};
-			  	removeMark();
+			  	removes();
 
-			var addBack = function() {
+				var addBack = function() {
 
 					$('body').keyup(function(e){
-						if(e.keyCode == 8, 13){
-						
+						if(e.keyCode == 13, 8){					
 						       // user has pressed backspace or enter
-							if($('#place').val() == ''){
+				
+
+
+
+							var addMark = function() {
 				   				for (var p=0;p<len;p++){
 				   					q = initialPlaces[p].marker[0];
 				   						console.log(q);
 
+						   			if(lowerIndex !== true){
+						   				lowerQ = q.title.toLowerCase();
+						   				lowerIndexQ = lowerQ.indexOf(search) >=0;
+						   				console.log(q);
 
-					   			if(lowerIndex !== true){
-					   				lowerQ = q.title.toLowerCase();
-					   				lowerIndexQ = lowerQ.indexOf(search) >=0;
-					   				console.log(q);
-
-
-					   				if(lowerIndexQ !== true){
-					   					q.setMap(map);
-					   					console.log(q);
-					   				}
+						   				if(lowerIndexQ !== true){
+						   					q.setMap(map);
+						   					console.log(q);
+						   				}
+						   			}
 					   			}
-				   		}
-				   	}
-						    if($('#place').val() == ''){
-							       var list = self.placeList()[0].title();
-							       var itemTitle = item.title();
+					   		};
+					   		var addList = function() {
+							    var list = self.placeList()[0].title();
+							    var itemTitle = item.title();
 
 
 
@@ -426,18 +433,16 @@ Searched();
 							       		self.placeList.push(item);
 							       		};
 							    	}
-							    }
-							       
-						   	}
-
-
+							    }						       
+						   	}	   
+						}
+					    if($('#place').val() == ''){
+					    	addMark();
+					    	addList();
 						}
 					});
-
 			};
 			addBack();
-				
-
 			});
 		});
 
