@@ -393,25 +393,25 @@ Searched();
 
 					$('body').keyup(function(e){
 						if(e.keyCode == 8, 13){
-							console.log('ENTER');
+						
 						       // user has pressed backspace or enter
-					if($('#place').val() == ''){
-				   		for (var p=0;p<len;p++){
-				   			q = initialPlaces[p].marker[0];
-				   			console.log(q);
+							if($('#place').val() == ''){
+				   				for (var p=0;p<len;p++){
+				   					q = initialPlaces[p].marker[0];
+				   						console.log(q);
 
 
-				   			if(lowerIndex !== true){
-				   				lowerQ = q.title.toLowerCase();
-				   				lowerIndexQ = lowerQ.indexOf(search) >=0;
-				   				console.log(q);
+					   			if(lowerIndex !== true){
+					   				lowerQ = q.title.toLowerCase();
+					   				lowerIndexQ = lowerQ.indexOf(search) >=0;
+					   				console.log(q);
 
 
-				   				if(lowerIndexQ !== true){
-				   					q.setMap(map);
-				   					console.log(q);
-				   				}
-				   			}
+					   				if(lowerIndexQ !== true){
+					   					q.setMap(map);
+					   					console.log(q);
+					   				}
+					   			}
 				   		}
 				   	}
 						    if($('#place').val() == ''){
