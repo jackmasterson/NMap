@@ -353,60 +353,77 @@ Searched();
 
 		
 		self.filterPins = ko.computed(function () {
-
-
-
+		    
 		    var search = this.query().toLowerCase();
-
 
 		    return ko.utils.arrayFilter(self.placeList(), function (item) {
 		    	var lower = item.title().toLowerCase();
+	//	    	console.log(lower);
 		    	var lowerIndex = lower.indexOf(search) >=0;
+		//    	console.log(lowerIndex);
 		    	var len = self.placeList().length;
 		    	var q;
 		    	var t;
 		    	var lowerQ;
 		    	var lowerIndexQ;
 				var removeMark = function() {				
-	   		
+
 				   		for (var p=0;p<len;p++){
 				   			q = initialPlaces[p].marker[0];
 				   			l = initialPlaces[p];
 				   			t = initialPlaces[p].title;
-				   			console.log(l);
-				   			console.log(t);
+		//		   			console.log(q);
+				//   			console.log(l);
+				  // 			console.log(t);
 
 				   			if(lowerIndex !== true){
 				   				lowerQ = q.title.toLowerCase();
+		//		   				console.log(q);
 				   				lowerIndexQ = lowerQ.indexOf(search) >=0;
+				   				self.placeList.remove( item );
 
 				   				if(lowerIndexQ !== true){
 				   					q.setMap();
-				   					self.placeList.remove( item );
+				   				}
+				   				if(lowerIndexQ !== true){
+				   					//item needs to be plural
+				   					//it needs to iterate, not just happen once
+				   					//look at while statements
+				   					
 				   				}
 				   			}
-				   		}			
+				   		}	
+
+		
+
 			  	};
-			  	removeMark();
+
+					$('#place').keyup(function(e){
+						if(e.keyCode == 13){
+						console.log('YO');	
+							removeMark();
+
+						}
+					});
 
 				var addBack = function() {
 
-					$('body').keyup(function(e){
+					$('#place').keyup(function(e){
 						if(e.keyCode == 13, 8){					
 						       // user has pressed backspace or enter
 							var addMark = function() {
 				   				for (var p=0;p<len;p++){
 				   					q = initialPlaces[p].marker[0];
-				   						console.log(q);
+				  // 						console.log(q);
 
 						   			if(lowerIndex !== true){
 						   				lowerQ = q.title.toLowerCase();
 						   				lowerIndexQ = lowerQ.indexOf(search) >=0;
-						   				console.log(q);
+				//		   				console.log(q);
 
 						   				if(lowerIndexQ !== true){
 						   					q.setMap(map);
-						   					console.log(q);
+				//		   					console.log(q);
 						   				}
 						   			}
 					   			}
@@ -435,7 +452,7 @@ Searched();
 			});
 		});
 
-	
+
 
 
 
