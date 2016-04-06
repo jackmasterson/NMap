@@ -372,25 +372,18 @@ Searched();
 				   			q = initialPlaces[p].marker[0];
 				   			l = initialPlaces[p];
 				   			t = initialPlaces[p].title;
-		//		   			console.log(q);
-				//   			console.log(l);
-				  // 			console.log(t);
+
 
 				   			if(lowerIndex !== true){
 				   				lowerQ = q.title.toLowerCase();
-		//		   				console.log(q);
+
 				   				lowerIndexQ = lowerQ.indexOf(search) >=0;
 				   				self.placeList.remove( item );
 
 				   				if(lowerIndexQ !== true){
 				   					q.setMap();
 				   				}
-				   				if(lowerIndexQ !== true){
-				   					//item needs to be plural
-				   					//it needs to iterate, not just happen once
-				   					//look at while statements
-				   					
-				   				}
+
 				   			}
 				   		}	
 
@@ -398,18 +391,17 @@ Searched();
 
 			  	};
 
+			  	//activates function on pressing enter
 					$('#place').keyup(function(e){
 						if(e.keyCode == 13){
-						console.log('YO');	
 							removeMark();
-
 						}
 					});
 
 				var addBack = function() {
 
-					$('#place').keyup(function(e){
-						if(e.keyCode == 13, 8){					
+			
+										
 						       // user has pressed backspace or enter
 							var addMark = function() {
 				   				for (var p=0;p<len;p++){
@@ -428,6 +420,7 @@ Searched();
 						   			}
 					   			}
 					   		};
+					   		addMark();
 					   		var addList = function() {
 							    var list = self.placeList()[0].title();
 							    var itemTitle = item.title();
@@ -440,15 +433,14 @@ Searched();
 							    	}
 							    }						       
 						   	}
-						if(e.keyCode == 8){	
-					    	addMark();
 					    	addList();
-						}	   
-						}
-
-					});
+		
 			};
-			addBack();
+								$('#reset').click( function() { 
+									console.log('CLICKED');
+									addBack();
+								});
+
 			});
 		});
 
