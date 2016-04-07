@@ -12,6 +12,7 @@
               <a href="#/" data-bind="click: $parent.setPlace">
                 <h5 id="placeClickHead" data-bind="text: title" data-filter="text: title"></h5>
               </a>
+                    <ul data-bind="$parent.ViewModel visible: item"></ul> 
         </div> 
         <a href="#" id="placeClickHead" class="slideout-menu-toggle"> Live Shows</a>
     </div>
@@ -21,7 +22,7 @@
          <input type="button" value="Reset Search" id="reset" />
           <div id="display"></div>
     </div>
-    <ul data-bind="$parent.ViewModel text:'item.title()', foreach: filterPins"></ul> 
+
 
 
 

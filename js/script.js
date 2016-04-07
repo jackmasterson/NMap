@@ -315,7 +315,7 @@ function initMap() {
 Searched();
 	
 
-
+/*
 
 	var Place = function(data) {
 		this.position = ko.observable(data.position);
@@ -328,7 +328,7 @@ Searched();
 
 
 	};	
-
+*/
 
 
 	var ViewModel = function() {
@@ -339,20 +339,26 @@ Searched();
 			
 			this.placeList = ko.observableArray([]);
 			initialPlaces.forEach(function(placeItem){
-				self.placeList.push( new Place(placeItem) );
+				self.placeList.push( new Marker(placeItem) );
 			});
 
 			this.currentPlace = ko.observable( this.placeList()[0] );
 
-
+/*
 			this.markerList = ko.observableArray([]);
 			initialPlaces.forEach(function(markerItem){
-				self.markerList.push( new Marker(markerItem) );
+				self.markerList.push( new Marker(placeItem) );
 			});
 
+			console.log(this.markerList());*/
+	//	ViewModel.shouldShowMessage(true);
 
-		
-		self.filterPins = ko.computed(function () {
+		for(p=0;p<5;p++){
+			console.log(self.placeList()[p].title());
+			var item = self.placeList()[p].title();
+			item = ko.observable(true);
+		};
+	/*	self.filterPins = ko.computed(function () {
 		    
 		    var search = this.query().toLowerCase();
 
@@ -366,38 +372,59 @@ Searched();
 		    	var t;
 		    	var lowerQ;
 		    	var lowerIndexQ;
-				var removeMark = function() {				
+		    	var list;
+		    	console.log(lowerIndex);
 
-				   		for (var p=0;p<len;p++){
+		//    	console.log('one');
+			//	var removeMark = function() {
+		//		console.log('two');		
+			//	console.log(self.placeList()[0].title());	
+
+			//might be searching from the searched spot, not the updated
+			//one; figure out where it searches from and why it won't 
+			//update	
+
+		//		*/
+
+
+				   /*		for (var p=0;p<len;p++){
 				   			q = initialPlaces[p].marker[0];
 				   			l = initialPlaces[p];
 				   			t = initialPlaces[p].title;
+				   		//	console.log('three');
 
 
 				   			if(lowerIndex !== true){
 				   				lowerQ = q.title.toLowerCase();
 
 				   				lowerIndexQ = lowerQ.indexOf(search) >=0;
-				   				self.placeList.remove( item );
+				   	//			self.placeList.remove( item );
 
 				   				if(lowerIndexQ !== true){
 				   					q.setMap();
+				   		//			console.log('four');
+				   		//			console.log(q);
 				   				}
 
 				   			}
-				   		}	
+				   		}	*/
 
-		
-
-			  	};
+			/*		var resetPlaces = function(){
+	//					console.log(self.markerList());
+					}
+					resetPlaces();
+*/
+			 // 	};
 
 			  	//activates function on pressing enter
-					$('#place').keyup(function(e){
-						if(e.keyCode == 13){
-							removeMark();
-						}
-					});
-
+			//		$('#place').keyup(function(e){
+			//			if(e.keyCode == 13){
+				//			removeMark();
+		
+							
+			//			}
+			//		});
+/*
 				var addBack = function() {
 
 			
@@ -415,36 +442,38 @@ Searched();
 
 						   				if(lowerIndexQ !== true){
 						   					q.setMap(map);
-				//		   					console.log(q);
+						   					console.log(q, 'bruh');
 						   				}
 						   			}
 					   			}
 					   		};
 					   		addMark();
 					   		var addList = function() {
-							    var list = self.placeList()[0].title();
+							    list = self.placeList()[0].title();
 							    var itemTitle = item.title();
+				//			    console.log(list);
+					//		    console.log(itemTitle);
 
 							    if(lowerIndex === true){
 							       	if(list !== itemTitle){
 							       		if(self.placeList().length<5){
 							       		self.placeList.push(item);
+							       		console.log(self.placeList(), 'place1');
 							       		};
 							    	}
-							    }						       
+							    }		
+
 						   	}
 					    	addList();
-		
 			};
-								$('#reset').click( function() { 
-									console.log('CLICKED');
+								$('#reset').click( function() { 			
 									addBack();
 								});
 
 			});
 		});
 
-
+*/
 
 
 
