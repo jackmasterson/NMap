@@ -336,6 +336,7 @@ Searched();
 			var self = this;
 
 
+
 			
 			self.placeList = ko.observableArray([]);
 			initialPlaces.forEach(function(placeItem){
@@ -343,15 +344,82 @@ Searched();
 			});
 
 			this.currentPlace = ko.observable( this.placeList()[0] );
-			this.item = ko.observable(true);
-
-
 			query = ko.observable('');
+			/*
+			self.filteredItems = ko.computed(function () {
+			    var filter = query().toLowerCase();
+			    console.log(filter);
+			    console.log(self.placeList());
 
-			self.filterPins = ko.computed(function () {
-				var search = query().toLowerCase();
-				console.log(search);
+			    if (!filter) {
+			        return self.placeList();
+			        console.log(self.placeList());
+			    } else {
+			        return ko.utils.arrayFilter(this.placeList(), function (item) {
+			            return item.title().toLowerCase().indexOf(filter) !== -1;
+			        });
+			    }
+
+			}, self);
+			
+*/
+			
+		
 				
+
+
+			
+
+
+			
+
+
+/*
+					var title = self.placeList()[p].title()
+			    	var lower = title.toLowerCase();
+			    	var lowerIndex = lower.indexOf(search) >=0;
+			    	if(!search){
+			    		console.log(title);
+						return self.item = ko.observable(true);
+			    	}
+			});
+		};
+		for(p=0;p<5;p++){
+			console.log(self.placeList()[p].title());
+			var woot = self.placeList()[p].title();
+		   	var lower = item.title().toLowerCase();
+		   	var lowerIndex = lower.indexOf(search) >=0;
+		   	if(lowerIndex === true){
+				var okay = '<h5>' + woot + '</h5>';
+			//	$('#placeClickHead').append(okay);
+			//	item = ko.observable(true);
+			}
+		};*/
+
+				/*for(p=0;p<5;p++){
+					
+					var title = self.placeList()[p].title()
+			    	var lower = title.toLowerCase();
+			    	var lowerIndex = lower.indexOf(search) >=0;
+				self.show = function() {
+					
+						self.item(true)
+					
+				};
+				self.now = function() {
+					if(lowerIndex === true){
+						self.show();
+					}
+				};
+				self.hide = function() {
+					self.item(false)
+				};
+*/
+
+		self.filterPins = ko.computed(function () {
+		    
+		    var search = this.query().toLowerCase();		
+			self.item = ko.observable(true);
 
 				for(p=0;p<5;p++){
 
@@ -359,15 +427,16 @@ Searched();
 			    	var lower = title.toLowerCase();
 			    	var lowerIndex = lower.indexOf(search) >=0;
 			    	if(lowerIndex === true){
-						this.item = ko.observable(true);
-			    		console.log(title, this.item());
+						self.item = ko.observable(true);
+			    		console.log(title, self.item());
 
 			    	}
 			    	else {
-			    		this.item = ko.observable(false);
-			    		console.log(title, this.item());
+			    		self.item = ko.observable(false);
+			    		console.log(title, self.item());
 			    	}
 			    }
+			    
 			});
 
 /*
