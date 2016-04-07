@@ -9,9 +9,9 @@
   <body>
     <div id="list">
 
-        <div data-bind="visible: item, foreach: placeList">
+        <div data-bind="foreach: placeList">
             <a href="#/">
-                <li id="placeClickHead" data-bind="text: title">
+                <li id="placeClickHead" data-bind="text: title, visible: $root.item">
                   
                 </li>
               </a>

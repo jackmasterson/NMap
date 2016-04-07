@@ -332,10 +332,11 @@ Searched();
 
 
 	var ViewModel = function() {
-			this.item = ko.observable(true);
+
 			var self = this;
 
 			query = ko.observable('');
+			console.log(query())
 			
 			this.placeList = ko.observableArray([]);
 			initialPlaces.forEach(function(placeItem){
@@ -343,6 +344,30 @@ Searched();
 			});
 
 			this.currentPlace = ko.observable( this.placeList()[0] );
+			this.item = ko.observable(true);
+
+		
+			self.filterPins = ko.computed(function () {
+				var search = query().toLowerCase();
+				console.log(search)
+				
+
+				for(p=0;p<5;p++){
+
+					var woot = self.placeList()[p].title()
+			    	var lower = woot.toLowerCase();
+			    	var lowerIndex = lower.indexOf(search) >=0;
+			    	if(lowerIndex === true){
+			
+			    		console.log(woot, self.item());
+			    		self.item = ko.observable(true);
+			    	}
+			    	else {
+			    		self.item = ko.observable(false);
+			    		console.log(woot, self.item());
+			    	}
+			    }
+			});
 
 /*
 		for(p=0;p<5;p++){
@@ -352,16 +377,12 @@ Searched();
 		//	$('#placeClickHead').append(okay);
 		//	item = ko.observable(true);
 		};
-
-
+			for(p=0;p<5;p++){
+				var woot = self.placeList()[p].title()
+		    	var lower = item.title().toLowerCase();
+		    	var lowerIndex = lower.indexOf(search) >=0;
+		    }
 */
-
-
-
-
-
-
-
 
 /*
 			this.markerList = ko.observableArray([]);
@@ -370,13 +391,7 @@ Searched();
 			});
 
 			console.log(this.markerList());*/
-	//	ViewModel.shouldShowMessage(true);
-
-
-			
-				
-		
-			
+	//	ViewModel.shouldShowMessage(true);			
 
 	/*	self.filterPins = ko.computed(function () {
 		    
