@@ -332,7 +332,7 @@ Searched();
 
 
 	var ViewModel = function() {
-
+			this.item = ko.observable(true);
 			var self = this;
 
 			query = ko.observable('');
@@ -345,6 +345,25 @@ Searched();
 			this.currentPlace = ko.observable( this.placeList()[0] );
 
 /*
+		for(p=0;p<5;p++){
+			console.log(self.placeList()[p].title());
+			var woot = self.placeList()[p].title()
+			var okay = '<h5>' + woot + '</h5>';
+		//	$('#placeClickHead').append(okay);
+		//	item = ko.observable(true);
+		};
+
+
+*/
+
+
+
+
+
+
+
+
+/*
 			this.markerList = ko.observableArray([]);
 			initialPlaces.forEach(function(markerItem){
 				self.markerList.push( new Marker(placeItem) );
@@ -353,11 +372,12 @@ Searched();
 			console.log(this.markerList());*/
 	//	ViewModel.shouldShowMessage(true);
 
-		for(p=0;p<5;p++){
-			console.log(self.placeList()[p].title());
-			var item = self.placeList()[p].title();
-			item = ko.observable(true);
-		};
+
+			
+				
+		
+			
+
 	/*	self.filterPins = ko.computed(function () {
 		    
 		    var search = this.query().toLowerCase();

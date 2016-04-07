@@ -8,12 +8,21 @@
   </head>
   <body>
     <div id="list">
-        <div id="placeClick" data-bind="foreach: placeList">
-              <a href="#/" data-bind="click: $parent.setPlace">
-                <h5 id="placeClickHead" data-bind="text: title" data-filter="text: title"></h5>
+
+        <div data-bind="visible: item, foreach: placeList">
+            <a href="#/">
+                <li id="placeClickHead" data-bind="text: title">
+                  
+                </li>
               </a>
-                    <ul data-bind="$parent.ViewModel visible: item"></ul> 
         </div> 
+
+ 
+
+
+
+
+
         <a href="#" id="placeClickHead" class="slideout-menu-toggle"> Live Shows</a>
     </div>
     <div id="search">
