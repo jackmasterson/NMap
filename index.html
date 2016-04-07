@@ -9,10 +9,10 @@
   <body>
     <div id="list">
 
-        <div data-bind="foreach: placeList">
-            <a href="#/">
-                <li id="placeClickHead" data-bind="text: title, visible: $root.item">
-                  
+        <div >
+            <a href="#/" data-bind="foreach: placeList" >
+                <li data-bind="visible: $root.item">  
+                  <h5 id="placeClickHead" data-bind="text: title"></h5>
                 </li>
               </a>
         </div> 
@@ -28,7 +28,7 @@
     <div id="search">
         <input id="place" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Places to Visit" autofocus></input>
          <input type="button" value="Search" id="button" />
-         <input type="button" value="Reset Search" id="reset" />
+         <input type="button" value="Reset Search" id="reset"/>
           <div id="display"></div>
     </div>
 

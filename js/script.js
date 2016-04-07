@@ -335,10 +335,9 @@ Searched();
 
 			var self = this;
 
-			query = ko.observable('');
-			console.log(query())
+
 			
-			this.placeList = ko.observableArray([]);
+			self.placeList = ko.observableArray([]);
 			initialPlaces.forEach(function(placeItem){
 				self.placeList.push( new Marker(placeItem) );
 			});
@@ -346,25 +345,27 @@ Searched();
 			this.currentPlace = ko.observable( this.placeList()[0] );
 			this.item = ko.observable(true);
 
-		
+
+			query = ko.observable('');
+
 			self.filterPins = ko.computed(function () {
 				var search = query().toLowerCase();
-				console.log(search)
+				console.log(search);
 				
 
 				for(p=0;p<5;p++){
 
-					var woot = self.placeList()[p].title()
-			    	var lower = woot.toLowerCase();
+					var title = self.placeList()[p].title()
+			    	var lower = title.toLowerCase();
 			    	var lowerIndex = lower.indexOf(search) >=0;
 			    	if(lowerIndex === true){
-			
-			    		console.log(woot, self.item());
-			    		self.item = ko.observable(true);
+						this.item = ko.observable(true);
+			    		console.log(title, this.item());
+
 			    	}
 			    	else {
-			    		self.item = ko.observable(false);
-			    		console.log(woot, self.item());
+			    		this.item = ko.observable(false);
+			    		console.log(title, this.item());
 			    	}
 			    }
 			});
