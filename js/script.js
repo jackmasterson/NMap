@@ -169,19 +169,15 @@ function initMap() {
 				position: pos,
 				map: map,
 				animation: google.maps.Animation.DROP,
-				infowindow: new google.maps.InfoWindow({
-					content: infoContent
-				})
+				content: infoContent
+				
 			}); 
+			var infowindow = new google.maps.InfoWindow();
+			google.maps.event.addListener(marker, 'click', function() {
+		        infowindow.setContent(this.content);
+		        infowindow.open(map,this);
+		    });
 
-
-			
-			marker.addListener('click', function() {
-		    	console.log('CLIQUED');
-		    	this.infowindow.open(map, this);
-
-
-		  });
 
 		}
 
@@ -200,7 +196,7 @@ function initMap() {
 		this.infowindow = ko.observable(data.infowindow);
 		this.marker = ko.observable(data.marker);
 		this.visible = ko.observable(data.visible);
-
+};
 /*
 		function drop() {
 		    addMarkerWithTimeout(data.position, data.nums * 300);
@@ -301,8 +297,8 @@ function initMap() {
 						 
 			
 		
-	}*/
-};
+	}
+};*/
 
 
 
