@@ -132,7 +132,55 @@ function jamBase() {
 jamBase();
 
 
-
+ var	initialPlaces = [
+		 {
+			position: {lat: 40.216147, lng: -74.012914},
+			title: 'Johnny Mac House of Spirits',
+			address: '208 Main St, Asbury Park, NJ 07712',
+			src: 'img/macs.jpg',
+			nums: 1,
+			icon: null,
+			marker: marker = [],
+			visible: true
+		}, {
+			position: {lat: 40.220001, lng: -74.000947},
+			title: 'The Stone Pony',
+			address: '913 Ocean Ave, Asbury Park, NJ 07712',
+			src: 'img/pony.jpg',
+			nums: 2,
+			icon: null,
+			marker: marker = [],
+			visible: true
+		}, {
+			position: {lat: 40.220239, lng: -74.002344},
+			title: 'Porta Pizza/Wine Bar',
+			address: '911 Kingsley St, Asbury Park, NJ 07712',
+			src: 'img/porta.jpg',
+			nums: 3,
+			icon: null,
+			marker: marker = [],
+			visible: true
+		}, {
+			position: {lat: 40.2207, lng: -73.999884},
+			title: 'Silverball Museum',
+			address: '1000 Ocean Ave, Asbury Park, NJ 07712',
+			src: 'img/silverball.jpg',
+			nums: 4,
+			icon: null,
+			marker: marker = [],
+			visible: true
+		}, {
+			position: {lat: 40.223796, lng: -73.998585},
+			title: 'Convention Hall',
+			address: '1300 Ocean Ave, Asbury Park, NJ 07712',
+			src: 'img/hall.jpg',
+			nums: 5,
+			icon: null,
+			marker: marker = [],
+			visible: true
+		}
+		      
+	];
 function initMap() {
 	var image = 'img/marker-blue.png';
 
@@ -333,261 +381,8 @@ Searched();
 
 	var ViewModel = function() {
 
-			var self = this;
-
-
-
-			
-			self.placeList = ko.observableArray([]);
-			initialPlaces.forEach(function(placeItem){
-				self.placeList.push( new Marker(placeItem) );
-			});
-
-			this.currentPlace = ko.observable( this.placeList()[0] );
-			query = ko.observable('');
-			/*
-			self.filteredItems = ko.computed(function () {
-			    var filter = query().toLowerCase();
-			    console.log(filter);
-			    console.log(self.placeList());
-
-			    if (!filter) {
-			        return self.placeList();
-			        console.log(self.placeList());
-			    } else {
-			        return ko.utils.arrayFilter(this.placeList(), function (item) {
-			            return item.title().toLowerCase().indexOf(filter) !== -1;
-			        });
-			    }
-
-			}, self);
-			
-*/
-			
-		
-				
-
-
-			
-
-
-			
-
-
-/*
-					var title = self.placeList()[p].title()
-			    	var lower = title.toLowerCase();
-			    	var lowerIndex = lower.indexOf(search) >=0;
-			    	if(!search){
-			    		console.log(title);
-						return self.item = ko.observable(true);
-			    	}
-			});
-		};
-		for(p=0;p<5;p++){
-			console.log(self.placeList()[p].title());
-			var woot = self.placeList()[p].title();
-		   	var lower = item.title().toLowerCase();
-		   	var lowerIndex = lower.indexOf(search) >=0;
-		   	if(lowerIndex === true){
-				var okay = '<h5>' + woot + '</h5>';
-			//	$('#placeClickHead').append(okay);
-			//	item = ko.observable(true);
-			}
-		};*/
-
-				/*for(p=0;p<5;p++){
-					
-					var title = self.placeList()[p].title()
-			    	var lower = title.toLowerCase();
-			    	var lowerIndex = lower.indexOf(search) >=0;
-				self.show = function() {
-					
-						self.item(true)
-					
-				};
-				self.now = function() {
-					if(lowerIndex === true){
-						self.show();
-					}
-				};
-				self.hide = function() {
-					self.item(false)
-				};
-*/
-
-		self.filterPins = ko.computed(function () {
-		    
-		    var search = this.query().toLowerCase();		
-			self.item = ko.observable(true);
-
-				for(p=0;p<5;p++){
-
-					var title = self.placeList()[p].title()
-			    	var lower = title.toLowerCase();
-			    	var lowerIndex = lower.indexOf(search) >=0;
-			    	if(lowerIndex === true){
-						self.item = ko.observable(true);
-			    		console.log(title, self.item());
-
-			    	}
-			    	else {
-			    		self.item = ko.observable(false);
-			    		console.log(title, self.item());
-			    	}
-			    }
-			    
-			});
-
-/*
-		for(p=0;p<5;p++){
-			console.log(self.placeList()[p].title());
-			var woot = self.placeList()[p].title()
-			var okay = '<h5>' + woot + '</h5>';
-		//	$('#placeClickHead').append(okay);
-		//	item = ko.observable(true);
-		};
-			for(p=0;p<5;p++){
-				var woot = self.placeList()[p].title()
-		    	var lower = item.title().toLowerCase();
-		    	var lowerIndex = lower.indexOf(search) >=0;
-		    }
-*/
-
-/*
-			this.markerList = ko.observableArray([]);
-			initialPlaces.forEach(function(markerItem){
-				self.markerList.push( new Marker(placeItem) );
-			});
-
-			console.log(this.markerList());*/
-	//	ViewModel.shouldShowMessage(true);			
-
-	/*	self.filterPins = ko.computed(function () {
-		    
-		    var search = this.query().toLowerCase();
-
-		    return ko.utils.arrayFilter(self.placeList(), function (item) {
-		    	var lower = item.title().toLowerCase();
-	//	    	console.log(lower);
-		    	var lowerIndex = lower.indexOf(search) >=0;
-		//    	console.log(lowerIndex);
-		    	var len = self.placeList().length;
-		    	var q;
-		    	var t;
-		    	var lowerQ;
-		    	var lowerIndexQ;
-		    	var list;
-		    	console.log(lowerIndex);
-
-		//    	console.log('one');
-			//	var removeMark = function() {
-		//		console.log('two');		
-			//	console.log(self.placeList()[0].title());	
-
-			//might be searching from the searched spot, not the updated
-			//one; figure out where it searches from and why it won't 
-			//update	
-
-		//		*/
-
-
-				   /*		for (var p=0;p<len;p++){
-				   			q = initialPlaces[p].marker[0];
-				   			l = initialPlaces[p];
-				   			t = initialPlaces[p].title;
-				   		//	console.log('three');
-
-
-				   			if(lowerIndex !== true){
-				   				lowerQ = q.title.toLowerCase();
-
-				   				lowerIndexQ = lowerQ.indexOf(search) >=0;
-				   	//			self.placeList.remove( item );
-
-				   				if(lowerIndexQ !== true){
-				   					q.setMap();
-				   		//			console.log('four');
-				   		//			console.log(q);
-				   				}
-
-				   			}
-				   		}	*/
-
-			/*		var resetPlaces = function(){
-	//					console.log(self.markerList());
-					}
-					resetPlaces();
-*/
-			 // 	};
-
-			  	//activates function on pressing enter
-			//		$('#place').keyup(function(e){
-			//			if(e.keyCode == 13){
-				//			removeMark();
-		
-							
-			//			}
-			//		});
-/*
-				var addBack = function() {
-
-			
-										
-						       // user has pressed backspace or enter
-							var addMark = function() {
-				   				for (var p=0;p<len;p++){
-				   					q = initialPlaces[p].marker[0];
-				  // 						console.log(q);
-
-						   			if(lowerIndex !== true){
-						   				lowerQ = q.title.toLowerCase();
-						   				lowerIndexQ = lowerQ.indexOf(search) >=0;
-				//		   				console.log(q);
-
-						   				if(lowerIndexQ !== true){
-						   					q.setMap(map);
-						   					console.log(q, 'bruh');
-						   				}
-						   			}
-					   			}
-					   		};
-					   		addMark();
-					   		var addList = function() {
-							    list = self.placeList()[0].title();
-							    var itemTitle = item.title();
-				//			    console.log(list);
-					//		    console.log(itemTitle);
-
-							    if(lowerIndex === true){
-							       	if(list !== itemTitle){
-							       		if(self.placeList().length<5){
-							       		self.placeList.push(item);
-							       		console.log(self.placeList(), 'place1');
-							       		};
-							    	}
-							    }		
-
-						   	}
-					    	addList();
-			};
-								$('#reset').click( function() { 			
-									addBack();
-								});
-
-			});
-		});
-
-*/
-
-
-
-	
-
-		this.setPlace = function(clickedPlace) {
+		self.setPlace = function(clickedPlace) {
 			self.currentPlace(clickedPlace);
-
-	//		console.log(clickedPlace.address());
 
 			var curMark = self.currentPlace().marker()[0];
 
@@ -620,12 +415,24 @@ Searched();
 		};	
 
 
+	};
+
+	var viewModel = {
+		self: this, 
+		placeList: ko.observableArray([]),
+		stuff: initPlaces = function() {
+				initialPlaces.forEach(function(placeItem){
+					self.placeList.push( new Marker(placeItem) )
+				})
+		},
+	//	currentPlace: ko.observable( self.placeList()[0]),
+		spot: ko.observableArray(initialPlaces),
+		query: ko.observable('')
 
 	};
 
 
-
-	ko.applyBindings(new ViewModel());
+	ko.applyBindings(viewModel);
 };
 //apis to check out
 //instagram api

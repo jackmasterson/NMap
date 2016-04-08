@@ -1,13 +1,25 @@
+var beers = [
+  {name:"Blue", brewery:"Man", style:"Group"},
+  {name:"Purple", brewery:"Is", style:"Cool"}
+  // …
+];
 
+var viewModel = {
+  beers: ko.observableArray(beers),
+  query: ko.observable(''),
+    search: function(value) {
+    // remove all the current beers, which removes them from the view
+    viewModel.beers.removeAll();
 
-function viewModel() {
- var self = this;
- self.msg = ko.observable()
- self.show = function() {
- self.msg(true)
- }
- self.hide = function() {
- self.msg(false)
- }
+    for(var x in beers) {
+      if(beers[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+        viewModel.beers.push(beers[x]);
+      }
+    }
+  }
 };
-ko.applyBindings(new viewModel());
+
+viewModel.query.subscribe(viewModel.search);
+
+
+ko.applyBindings(viewModel);
