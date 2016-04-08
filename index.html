@@ -23,11 +23,12 @@
         
     </div>
     <div id="search">
-        <input id="place" name="q" autocomplete="off" placeholder="Places to Visit" autofocus></input>
-         <button id="button" data-bind="click: search">Search</button>
+        <input id="spot"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Places to Visit" autofocus></input>
+         <button id="button">Search</button>
          <button id="reset">Reset Search</button>
           <div id="display"></div>
     </div>
+
 
 
 

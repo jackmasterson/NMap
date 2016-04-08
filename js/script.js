@@ -169,7 +169,7 @@ function initMap() {
 			var markers = ko.observableArray([marker]);
 
 			var mark = markers()[0];
-			console.log(mark.icon);
+//			console.log(mark.icon);
 
 
 			var infowindow = new google.maps.InfoWindow();
@@ -192,122 +192,112 @@ function initMap() {
 		}
 };
 
+var places = ko.observableArray([ 
+	{
+		position: {lat: 40.216147, lng: -74.012914},
+		title: 'Johnny Mac House of Spirits',
+		address: '208 Main St, Asbury Park, NJ 07712',
+		src: 'img/macs.jpg',
+		nums: 1,
+		icon: null,
+		marker: [],
+		href: 'http://www.johnnymacbar.com/',
+		visible: true
+	}, {
+		position: {lat: 40.220001, lng: -74.000947},
+		title: 'The Stone Pony',
+		address: '913 Ocean Ave, Asbury Park, NJ 07712',
+		src: 'img/pony.jpg',
+		nums: 2,
+		icon: null,
+		marker: marker = [],
+		href: 'http://stoneponyonline.com/',
+		visible: true
+	}, {
+		position: {lat: 40.220239, lng: -74.002344},
+		title: 'Porta Pizza/Wine Bar',
+		address: '911 Kingsley St, Asbury Park, NJ 07712',
+		src: 'img/porta.jpg',
+		nums: 3,
+		icon: null,
+		marker: marker = [],
+		href: 'http://pizzaporta.com/ASBURY-PARK',
+		visible: true
+	}, {
+		position: {lat: 40.2207, lng: -73.999884},
+		title: 'Silverball Museum',
+		address: '1000 Ocean Ave, Asbury Park, NJ 07712',
+		src: 'img/silverball.jpg',
+		nums: 4,
+		icon: null,
+		marker: marker = [],
+		href: 'http://silverballmuseum.com/',
+		visible: true
+	}, {
+		position: {lat: 40.223796, lng: -73.998585},
+		title: 'Convention Hall',
+		address: '1300 Ocean Ave, Asbury Park, NJ 07712',
+		src: 'img/hall.jpg',
+		nums: 5,
+		icon: null,
+		marker: marker = [],
+		href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
+		visible: true
+	}		      
+]);
 
-	var Searched = function() {
-		$(document).ready(function(){
-		    $('#place').keypress(function(e){
-		      if(e.keyCode==13)
-		      $('#button').click();
-		    });
-		});
+function searched() {
+	$(document).ready(function(){
+	    $('#spot').keypress(function(e){
+	      if(e.keyCode==13)
+	      $('#button').click();
+	    });
+	});
 
-		var places = [];
-		var placeInput  = document.getElementById("place");
-		var messageBox  = document.getElementById("display");
-		var br = '</br>'
+	var places = [];
+	var placeInput  = document.getElementById("spot");
+	var messageBox  = document.getElementById("display");
+	var br = '</br>'
 
-		function insert ( ) {
-		 places.push( placeInput.value );
-		 clearAndShow();
+	function insert ( ) {
+	 places.push( placeInput.value );
+	 clearAndShow();
 
-		}
-		function clearAndShow () {
-		  placeInput.value = "";
-		  messageBox.innerHTML = "";
-		  messageBox.innerHTML = places.join(br);
-		}
-
-		$('#button').click( function() { 
-			insert();
-		});
-		
+	}
+	function clearAndShow () {
+	  placeInput.value = "";
+	  messageBox.innerHTML = "";
+	  messageBox.innerHTML = places.join(br);
 	}
 
-Searched();
+	$('#button').click( function() { 
+		insert();
+	});
+};
+
+var viewModel = {
+	self: this, 
+	initMap: initMap,
+	place: ko.observable(places()),
+	searched: searched(),
+	query: ko.observable('')
+};
+
+var test = viewModel.place();
+console.log(test);
+
+viewModel.place = ko.computed(function() {
+    var search = this.query().toLowerCase();
+    console.log(search);
+    console.log(places,'Good');
+
+    return ko.utils.arrayFilter(places(), function(spot) {
+    	console.log(spot.title.toLowerCase());
+        return spot.title.toLowerCase().indexOf(search) >= 0;
+    });
+}, viewModel);
 
 
- var places = ko.observableArray([ 
- 		{
-			position: {lat: 40.216147, lng: -74.012914},
-			title: 'Johnny Mac House of Spirits',
-			address: '208 Main St, Asbury Park, NJ 07712',
-			src: 'img/macs.jpg',
-			nums: 1,
-			icon: null,
-			marker: [],
-			href: 'http://www.johnnymacbar.com/',
-			visible: true
-		}, {
-			position: {lat: 40.220001, lng: -74.000947},
-			title: 'The Stone Pony',
-			address: '913 Ocean Ave, Asbury Park, NJ 07712',
-			src: 'img/pony.jpg',
-			nums: 2,
-			icon: null,
-			marker: marker = [],
-			href: 'http://stoneponyonline.com/',
-			visible: true
-		}, {
-			position: {lat: 40.220239, lng: -74.002344},
-			title: 'Porta Pizza/Wine Bar',
-			address: '911 Kingsley St, Asbury Park, NJ 07712',
-			src: 'img/porta.jpg',
-			nums: 3,
-			icon: null,
-			marker: marker = [],
-			href: 'http://pizzaporta.com/ASBURY-PARK',
-			visible: true
-		}, {
-			position: {lat: 40.2207, lng: -73.999884},
-			title: 'Silverball Museum',
-			address: '1000 Ocean Ave, Asbury Park, NJ 07712',
-			src: 'img/silverball.jpg',
-			nums: 4,
-			icon: null,
-			marker: marker = [],
-			href: 'http://silverballmuseum.com/',
-			visible: true
-		}, {
-			position: {lat: 40.223796, lng: -73.998585},
-			title: 'Convention Hall',
-			address: '1300 Ocean Ave, Asbury Park, NJ 07712',
-			src: 'img/hall.jpg',
-			nums: 5,
-			icon: null,
-			marker: marker = [],
-			href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
-			visible: true
-		}		      
-	]);
-
-
-	
-	var viewModel = {
-		self: this, 
-		placeList: ko.observableArray([]),
-	//	currentPlace: ko.observable( self.placeList()[0]),
-	//	spot: ko.observableArray(places),
-		initMap: initMap,
-		query: ko.observable(''),
-		place: ko.observable(places())
-
-	};
-	console.log(viewModel.place());
-
-
-	ko.applyBindings(viewModel);
-
-//apis to check out
-//instagram api
-//yelp api
-//census api
-
-//census api 
-
-
-
-
-
-
+ko.applyBindings(viewModel);
 
 
