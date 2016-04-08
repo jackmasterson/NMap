@@ -184,26 +184,24 @@ function initMap() {
 
 			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(marker, 'click', function() {
+
 		        infowindow.setContent(this.content);
 		        infowindow.open(map,this);
 		        mark.setIcon(null);
 		      if(marker.icon == null)
 		        {
-		          this.setIcon(icon);
+		          var self = this;
+		          self.setIcon(icon);
 		       //   markers.infowindow.open(map, markers);
-		          this.setAnimation(google.maps.Animation.BOUNCE);
+		          self.setAnimation(google.maps.Animation.BOUNCE);
 		          timeoutID = window.setTimeout(stopBouncing, 2200);
 		          function stopBouncing() {
-		            marker.setAnimation(null);
+		            self.setAnimation(null);
+		            self.setIcon(null);
 		          };
 
 		        }
-		        else 
-		        {
-		          marker.setIcon(null);
-		      //    markers.infowindow.close(map, markers);
-		          marker.setAnimation(null);
-		        } 
+
 
 		        
 		    });
@@ -213,7 +211,6 @@ function initMap() {
 
 };
 
-//console.log(initialPlaces[0].marker);
 
 
 
