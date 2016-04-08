@@ -194,14 +194,33 @@ function initMap() {
           scrollwheel: false,
           zoom: 15
         });  
-    for(i in places){
-    	var pos = places[i].position;
-	    var marker = new google.maps.Marker({
-		    position: pos,
-		    map: map,
-		    animation: google.maps.Animation.DROP
-		}); 
-	};
+
+	    for(i in places){
+
+	    	var place = places[i];
+	    	var pos = place.position;
+	    	var src = place.src;
+	    	var nums = place.nums
+
+
+
+				    var marker = new google.maps.Marker({
+					    position: pos,
+					    map: map,
+					    animation: google.maps.Animation.DROP,
+						infowindow: new google.maps.InfoWindow({
+								content: 
+								'<div id="content">'+
+							      	'<h4>'+place.title+'</h4>'+
+							      	'<h5>'+place.address+'</h5>'+
+							      	'<img class="markerImg" src='+place.src+'>'+
+							    '</div>',
+						}),
+
+					}); 
+
+		
+		}
 
 };
 
@@ -244,7 +263,7 @@ function initMap() {
 				icon: null,
 				visible: data.visible,
 				animation: google.maps.Animation.DROP,
-					infowindow: new google.maps.InfoWindow({
+				infowindow: new google.maps.InfoWindow({
 						content: 
 						'<div id="content">'+
 					      	'<h4>'+data.title+'</h4>'+
