@@ -132,11 +132,6 @@ function jamBase() {
 jamBase();
 
 
-
-
-
-	// var places = ko.observable(places);
-
 function initMap() {
 
 	var icon = 'img/marker-blue.png';
@@ -150,12 +145,8 @@ function initMap() {
         });  
 
 	    for(i in places()){
-	    //	console.log([i]);
-	//    	infowindow = infowindow[i];
-		//	console.log(places());
-	//		console.log(places());
+
 	    	var place = places()[i];
-	  //  	console.log(place);
 	    	var pos = place.position;
 	    	var src = place.src;
 	    	var nums = place.nums;
@@ -165,8 +156,7 @@ function initMap() {
 				        '<h4>' + place.title + '</h4>' +
 				        '<h5>' + place.address + '</h5>' +
 				        '<img class="markerImg" src=' + place.src +'>' +
-				      '</div>'
-				
+				      '</div>'	
 			};
 			
 			var marker = new google.maps.Marker({
@@ -177,7 +167,7 @@ function initMap() {
 				icon: null
 			}); 
 			var markers = ko.observableArray([marker]);
-		//	console.log(markers()[0]);
+
 			var mark = markers()[0];
 			console.log(mark.icon);
 
@@ -188,145 +178,19 @@ function initMap() {
 		        infowindow.setContent(this.content);
 		        infowindow.open(map,this);
 		        mark.setIcon(null);
-		      if(marker.icon == null)
-		        {
+		      if(marker.icon == null){
 		          var self = this;
 		          self.setIcon(icon);
-		       //   markers.infowindow.open(map, markers);
 		          self.setAnimation(google.maps.Animation.BOUNCE);
 		          timeoutID = window.setTimeout(stopBouncing, 2200);
 		          function stopBouncing() {
 		            self.setAnimation(null);
 		            self.setIcon(null);
 		          };
-
 		        }
-
-
-		        
 		    });
-
-
 		}
-
 };
-
-
-
-
-	var Marker = function(data) {
-		this.position = ko.observable(data.position);
-		this.title = ko.observable(data.title);
-		this.map = ko.observable(data.map);
-		this.address = ko.observable(data.address);
-		//this.animation = google.maps.Animation.DROP;
-		this.infowindow = ko.observable(data.infowindow);
-		this.marker = ko.observable(data.marker);
-		this.visible = ko.observable(data.visible);
-};
-/*
-		function drop() {
-		    addMarkerWithTimeout(data.position, data.nums * 300);
-		}
-		drop();
-
-
-
-
-		var markers;
-		console.log(data.marker);
-
-		  function addMarkerWithTimeout(position, timeout) {
-	  		window.setTimeout(function() {
-	  		var markerPushed = data.marker.push(
-			markers = new google.maps.Marker({
-				position: data.position,
-				title: data.title,
-				address: data.address,
-				src: data.src,
-				setMap: map,
-				num: data.num,
-				icon: null,
-				visible: data.visible,
-				animation: google.maps.Animation.DROP,
-				infowindow: new google.maps.InfoWindow({
-						content: 
-						'<div id="content">'+
-					      	'<h4>'+data.title+'</h4>'+
-					      	'<h5>'+data.address+'</h5>'+
-					      	'<img class="markerImg" src='+data.src+'>'+
-					    '</div>',
-					  //  stuff: map, marker
-					})
-
-			}), timeout);
-	
-	  		
-				});	
-					}
-};			
-
-			
-	  		/*var markerPushed = data.marker.push(
-			markers = new google.maps.Marker({
-				position: data.position,
-				title: data.title,
-				address: data.address,
-				src: data.src,
-				map: map,
-				num: data.num,
-				icon: null,
-				visible: data.visible,
-				animation: google.maps.Animation.DROP,
-				infowindow: new google.maps.InfoWindow({
-					content: 
-					'<div id="content">'+
-				      	'<h4>'+data.title+'</h4>'+
-				      	'<h5>'+data.address+'</h5>'+
-				      	'<img class="markerImg" src='+data.src+'>'+
-				    '</div>',
-				    stuff: map, marker
-				})
-
-			}));*/
-
-
-		//	console.log(markers.infowindow.stuff);
-
-		/*	var len = initialPlaces.length;
-		//	console.log(markers.infowindow.stuff);
-			markers.addListener('click', function() {
-				for(i=0;i<len;i++){
-					var mark = initialPlaces[i].marker[0];
-		//			console.log(initialPlaces[i].marker[0].icon);
-					mark.setIcon(null);
-					mark.infowindow.close(map, markers);
-				}
-				if(markers.icon == null)
-				{
-					markers.setIcon(image);
-					markers.infowindow.open(map, markers);
-					markers.setAnimation(google.maps.Animation.BOUNCE);
-					timeoutID = window.setTimeout(stopBouncing, 2200);
-					function stopBouncing() {
-						markers.setAnimation(null);
-					};
-
-				}
-				else 
-				{
-					markers.setIcon(null);
-					markers.infowindow.close(map, markers);
-					markers.setAnimation(null);
-				}		
-			});
-
-						 
-			
-		
-	}
-};*/
-
 
 
 	var Searched = function() {
@@ -360,31 +224,8 @@ function initMap() {
 	}
 
 Searched();
-	
-
-/*
-
-	var Place = function(data) {
-		this.position = ko.observable(data.position);
-		this.title = ko.observable(data.title);
-		this.map = ko.observable(data.map);
-		this.address = ko.observable(data.address);
-		this.animation = google.maps.Animation.DROP;
-		this.infowindow = ko.observable(data.infowindow);
-		this.marker = ko.observable(data.marker);
 
 
-	};	
-*/
-	
-	var viewModel = {
-		self: this, 
-		placeList: ko.observableArray([]),
-	//	currentPlace: ko.observable( self.placeList()[0]),
-		spot: ko.observableArray(places),
-		query: ko.observable('')
-
-	};
  var places = ko.observableArray([ 
  		{
 			position: {lat: 40.216147, lng: -74.012914},
@@ -394,6 +235,7 @@ Searched();
 			nums: 1,
 			icon: null,
 			marker: [],
+			href: 'http://www.johnnymacbar.com/',
 			visible: true
 		}, {
 			position: {lat: 40.220001, lng: -74.000947},
@@ -403,6 +245,7 @@ Searched();
 			nums: 2,
 			icon: null,
 			marker: marker = [],
+			href: 'http://stoneponyonline.com/',
 			visible: true
 		}, {
 			position: {lat: 40.220239, lng: -74.002344},
@@ -412,6 +255,7 @@ Searched();
 			nums: 3,
 			icon: null,
 			marker: marker = [],
+			href: 'http://pizzaporta.com/ASBURY-PARK',
 			visible: true
 		}, {
 			position: {lat: 40.2207, lng: -73.999884},
@@ -421,6 +265,7 @@ Searched();
 			nums: 4,
 			icon: null,
 			marker: marker = [],
+			href: 'http://silverballmuseum.com/',
 			visible: true
 		}, {
 			position: {lat: 40.223796, lng: -73.998585},
@@ -430,17 +275,24 @@ Searched();
 			nums: 5,
 			icon: null,
 			marker: marker = [],
+			href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
 			visible: true
 		}		      
 	]);
-	/*var initPlaces = function() {
-			places.forEach(function(placeItem){
-				viewModel.placeList.push( new Marker(placeItem) )
-			}); 
-		};
 
-	initPlaces();*/
 
+	
+	var viewModel = {
+		self: this, 
+		placeList: ko.observableArray([]),
+	//	currentPlace: ko.observable( self.placeList()[0]),
+	//	spot: ko.observableArray(places),
+		initMap: initMap,
+		query: ko.observable(''),
+		place: ko.observable(places())
+
+	};
+	console.log(viewModel.place());
 
 
 	ko.applyBindings(viewModel);
