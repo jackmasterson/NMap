@@ -139,7 +139,7 @@ jamBase();
 
 function initMap() {
 
-	var image = 'img/marker-blue.png';
+	var icon = 'img/marker-blue.png';
 	var myLatLng = {lat: 40.220391, lng: -74.012082};
 
 	var mapDiv = document.getElementById('map');
@@ -159,23 +159,36 @@ function initMap() {
 	    	var pos = place.position;
 	    	var src = place.src;
 	    	var nums = place.nums;
-	    	var infoContent = 
-	    	'<div id="content">' +
-		        '<h4>' + place.title + '</h4>' +
-		        '<h5>' + place.address + '</h5>' +
-		        '<img class="markerImg" src=' + place.src +'>' +
-		      '</div>';
+	    	var infoContent = {
+	    		contents: 
+			    	'<div id="content">' +
+				        '<h4>' + place.title + '</h4>' +
+				        '<h5>' + place.address + '</h5>' +
+				        '<img class="markerImg" src=' + place.src +'>' +
+				      '</div>'
+				
+			};
+		
 			var marker = new google.maps.Marker({
 				position: pos,
 				map: map,
 				animation: google.maps.Animation.DROP,
-				content: infoContent
-				
+				content: infoContent.contents,
+				icon: null
+		
 			}); 
+
 			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(marker, 'click', function() {
 		        infowindow.setContent(this.content);
 		        infowindow.open(map,this);
+				if(marker.icon === null){
+					this.setIcon(icon)
+				}
+				else{
+					marker.setIcon(null)
+				}
+		        
 		    });
 
 
