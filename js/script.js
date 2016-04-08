@@ -186,11 +186,12 @@ function initMap() {
 			google.maps.event.addListener(marker, 'click', function() {
 		        infowindow.setContent(this.content);
 		        infowindow.open(map,this);
+		        mark.setIcon(null);
 		      if(marker.icon == null)
 		        {
-		          marker.setIcon(icon);
+		          this.setIcon(icon);
 		       //   markers.infowindow.open(map, markers);
-		          marker.setAnimation(google.maps.Animation.BOUNCE);
+		          this.setAnimation(google.maps.Animation.BOUNCE);
 		          timeoutID = window.setTimeout(stopBouncing, 2200);
 		          function stopBouncing() {
 		            marker.setAnimation(null);
