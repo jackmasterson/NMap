@@ -168,26 +168,42 @@ function initMap() {
 				      '</div>'
 				
 			};
-		
+			
 			var marker = new google.maps.Marker({
 				position: pos,
 				map: map,
 				animation: google.maps.Animation.DROP,
 				content: infoContent.contents,
 				icon: null
-		
 			}); 
+			var markers = ko.observableArray([marker]);
+		//	console.log(markers()[0]);
+			var mark = markers()[0];
+			console.log(mark.icon);
+
 
 			var infowindow = new google.maps.InfoWindow();
 			google.maps.event.addListener(marker, 'click', function() {
 		        infowindow.setContent(this.content);
 		        infowindow.open(map,this);
-				if(marker.icon === null){
-					this.setIcon(icon)
-				}
-				else{
-					marker.setIcon(null)
-				}
+		      if(marker.icon == null)
+		        {
+		          marker.setIcon(icon);
+		       //   markers.infowindow.open(map, markers);
+		          marker.setAnimation(google.maps.Animation.BOUNCE);
+		          timeoutID = window.setTimeout(stopBouncing, 2200);
+		          function stopBouncing() {
+		            marker.setAnimation(null);
+		          };
+
+		        }
+		        else 
+		        {
+		          marker.setIcon(null);
+		      //    markers.infowindow.close(map, markers);
+		          marker.setAnimation(null);
+		        } 
+
 		        
 		    });
 
