@@ -135,6 +135,7 @@ jamBase();
 function initMap() {
 
 	var icon = 'img/marker-blue.png';
+
 	var myLatLng = {lat: 40.220391, lng: -74.012082};
 
 	var mapDiv = document.getElementById('map');
@@ -145,17 +146,17 @@ function initMap() {
         });  
 
 	    for(i in places()){
-
-	    	var place = places()[i];
-	    	var pos = place.position;
-	    	var src = place.src;
-	    	var nums = place.nums;
+	    //	console.log(viewModel.place()[i].title);
+	    	var positions = places()[i];
+	    	var pos = positions.position;
+	    	var src = positions.src;
+	    	var nums = positions.nums;
 	    	var infoContent = {
 	    		contents: 
 			    	'<div id="content">' +
-				        '<h4>' + place.title + '</h4>' +
-				        '<h5>' + place.address + '</h5>' +
-				        '<img class="markerImg" src=' + place.src +'>' +
+				        '<h4>' + positions.title + '</h4>' +
+				        '<h5>' + positions.address + '</h5>' +
+				        '<img class="markerImg" src=' + positions.src +'>' +
 				      '</div>'	
 			};
 			
@@ -192,6 +193,7 @@ function initMap() {
 		}
 };
 
+
 var places = ko.observableArray([ 
 	{
 		position: {lat: 40.216147, lng: -74.012914},
@@ -200,7 +202,7 @@ var places = ko.observableArray([
 		src: 'img/macs.jpg',
 		nums: 1,
 		icon: null,
-		marker: [],
+		marker: marker = [],
 		href: 'http://www.johnnymacbar.com/',
 		visible: true
 	}, {
@@ -283,6 +285,7 @@ var viewModel = {
 	query: ko.observable('')
 };
 
+console.log(viewModel.place()[0].marker);
 var test = viewModel.place();
 console.log(test);
 
