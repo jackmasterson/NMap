@@ -140,6 +140,8 @@ function initMap() {
 
 	    for(i in places()){
 	    //	console.log(viewModel.place()[i].title);
+
+
 	    	var positions = places()[i];
 	    	var pos = positions.position;
 	    	var src = positions.src;
@@ -164,6 +166,7 @@ function initMap() {
 
 			var mark = markers()[0];
 //			console.log(mark.icon);
+//			console.log(places()[i].marker[0].position);
 
 
 			var infowindow = new google.maps.InfoWindow();
@@ -277,6 +280,15 @@ var viewModel = {
 	searched: searched(),
 	query: ko.observable('')
 };
+	console.log(places()[0].marker.map);
+/* *************************
+			var mapSet = places()[0].marker;
+			mapSet.setMap(null)
+			console.log(mapSet);
+		
+			mapSet.setMap();
+			mapSet.setMap(map);
+		 ************************* */
 
 console.log(viewModel.place()[0].marker);
 var test = viewModel.place();
