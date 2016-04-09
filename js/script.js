@@ -131,8 +131,21 @@ function jamBase() {
 };
 jamBase();
 
-
+var markerStuff = [];
 function initMap() {
+	var Splaces = 
+	{
+		position: {lat: 40.216147, lng: -74.012914},
+		title: 'Johnny Mac House of Spirits',
+		address: '208 Main St, Asbury Park, NJ 07712',
+		src: 'img/macs.jpg',
+		nums: 1,
+		icon: null,
+		marker: marker = [],
+		href: 'http://www.johnnymacbar.com/',
+		visible: true
+	};
+	console.log(Splaces.position);
 
 	var icon = 'img/marker-blue.png';
 
@@ -146,7 +159,7 @@ function initMap() {
         });  
 
 	    for(i in places()){
-	    //	console.log(viewModel.place()[i].title);
+
 	    	var positions = places()[i];
 	    	var pos = positions.position;
 	    	var src = positions.src;
@@ -167,7 +180,21 @@ function initMap() {
 				content: infoContent.contents,
 				icon: null
 			}); 
-			var markers = ko.observableArray([marker]);
+
+			viewModel.place()[i].marker.push( marker );
+			console.log(places()[i].marker[0].position);
+			var mapSet = places()[i].marker[0];
+			console.log(mapSet);
+		
+			mapSet.setMap();
+			mapSet.setMap(map);
+
+		//	console.log(marker());
+		//	var markPush = markStuff.push(marker());
+		//	console.log(marker());
+		//	console.log(markStuff);
+			var markers = ko.observableArray([markerStuff]);
+		//	console.log(markers());
 
 			var mark = markers()[0];
 //			console.log(mark.icon);
@@ -190,8 +217,44 @@ function initMap() {
 		          };
 		        }
 		    });
+
 		}
+		console.log(markerStuff);
 };
+console.log(markerStuff);
+
+
+
+var	initialPlaces =  [
+		 {
+			position: {lat: 40.216147, lng: -74.012914},
+			title: 'Johnny Mac House of Spirits',
+			map: map,
+			address: '208 Main St, Asbury Park, NJ 07712'
+
+		}, {
+			position: {lat: 40.220001, lng: -74.000947},
+			title: 'The Stone Pony',
+			map: map,
+			address: ['913 Ocean Ave, Asbury Park, NJ 07712']
+		}
+	];
+
+
+	
+	
+
+	var Place = function(data) {
+		/*self.position = ko.observable(data.position);
+		this.title = ko.observable(data.title);
+		this.map = ko.observable(data.map);
+		this.address = ko.observable(data.address);
+		this.animation = google.maps.Animation.DROP
+		*/
+		console.log(places());
+		};
+		
+
 
 
 var places = ko.observableArray([ 
@@ -282,23 +345,38 @@ var viewModel = {
 	initMap: initMap,
 	place: ko.observable(places()),
 	searched: searched(),
-	query: ko.observable('')
+	query: ko.observable(''),
+	places: Place()
 };
 
-console.log(viewModel.place()[0].marker);
+console.log(markerStuff);
+
+console.log(viewModel.place()[1].marker);
 var test = viewModel.place();
-console.log(test);
+//console.log(test);
 
-viewModel.place = ko.computed(function() {
-    var search = this.query().toLowerCase();
-    console.log(search);
-    console.log(places,'Good');
+function filterNames() {
+	viewModel.place = ko.computed(function() {
+	    var search = this.query().toLowerCase();
+	    console.log(search);
+	    
 
-    return ko.utils.arrayFilter(places(), function(spot) {
-    	console.log(spot.title.toLowerCase());
-        return spot.title.toLowerCase().indexOf(search) >= 0;
-    });
-}, viewModel);
+	    return ko.utils.arrayFilter(places(), function(spot) {
+	    	var spotDex = spot.title.toLowerCase().indexOf(search);
+	        return spotDex >= 0;
+	    });
+	}, viewModel);
+};
+filterNames();
+
+function filterPins() {
+	viewModel.place = ko.computed(function () {
+	    var search = this.query().toLowerCase();
+		    return ko.utils.arrayFilter(self.marker(), function (pin) {
+		        return pin.name().toLowerCase().indexOf(search) >= 0;
+		    });
+	});
+};
 
 
 ko.applyBindings(viewModel);
