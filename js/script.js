@@ -96,16 +96,11 @@ function jamBase() {
 		success: function(response) {
 	//		console.log("SUCCESS!");
 			$jamBaseElem.text('Live Music, Courtesy JamBase');
-
 				var infos = response.Events;
-
-
 		for(i=0;i<infos.length;i++){
 			
 			var info = response.Events[i];
-
 			var artists = info.Artists
-
 			
 			for(t=0;t<artists.length;t++){
 				var artist = info.Artists[t];
@@ -113,7 +108,6 @@ function jamBase() {
 	//			console.log(artist);
 	//			console.log(info);
 				
-
 				var jamBaseStuff = '<ul class="concerts">' +
 					'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
 					'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
@@ -125,67 +119,16 @@ function jamBase() {
 				}
 		};
 			clearTimeout(jamBaseTimeout);
-
 		}
 	});*/
 };
 jamBase();
 
 
-
-
- var places = [ 
- 		{
-			position: {lat: 40.216147, lng: -74.012914},
-			title: 'Johnny Mac House of Spirits',
-			address: '208 Main St, Asbury Park, NJ 07712',
-			src: 'img/macs.jpg',
-			nums: 1,
-			icon: null,
-			marker: [],
-			visible: true
-		}, {
-			position: {lat: 40.220001, lng: -74.000947},
-			title: 'The Stone Pony',
-			address: '913 Ocean Ave, Asbury Park, NJ 07712',
-			src: 'img/pony.jpg',
-			nums: 2,
-			icon: null,
-			marker: marker = [],
-			visible: true
-		}, {
-			position: {lat: 40.220239, lng: -74.002344},
-			title: 'Porta Pizza/Wine Bar',
-			address: '911 Kingsley St, Asbury Park, NJ 07712',
-			src: 'img/porta.jpg',
-			nums: 3,
-			icon: null,
-			marker: marker = [],
-			visible: true
-		}, {
-			position: {lat: 40.2207, lng: -73.999884},
-			title: 'Silverball Museum',
-			address: '1000 Ocean Ave, Asbury Park, NJ 07712',
-			src: 'img/silverball.jpg',
-			nums: 4,
-			icon: null,
-			marker: marker = [],
-			visible: true
-		}, {
-			position: {lat: 40.223796, lng: -73.998585},
-			title: 'Convention Hall',
-			address: '1300 Ocean Ave, Asbury Park, NJ 07712',
-			src: 'img/hall.jpg',
-			nums: 5,
-			icon: null,
-			marker: marker = [],
-			visible: true
-		}		      
-	];
-
 function initMap() {
 
-	var image = 'img/marker-blue.png';
+	var icon = 'img/marker-blue.png';
+
 	var myLatLng = {lat: 40.220391, lng: -74.012082};
 
 	var mapDiv = document.getElementById('map');
@@ -195,233 +138,160 @@ function initMap() {
           zoom: 15
         });  
 
-	    for(i in places){
-
-	    	var place = places[i];
-	    	var pos = place.position;
-	    	var src = place.src;
-	    	var nums = place.nums
-
-
-
-				    var marker = new google.maps.Marker({
-					    position: pos,
-					    map: map,
-					    animation: google.maps.Animation.DROP,
-						infowindow: new google.maps.InfoWindow({
-								content: 
-								'<div id="content">'+
-							      	'<h4>'+place.title+'</h4>'+
-							      	'<h5>'+place.address+'</h5>'+
-							      	'<img class="markerImg" src='+place.src+'>'+
-							    '</div>',
-						}),
-
-					}); 
-
-		
-		}
-
-};
-
-//console.log(initialPlaces[0].marker);
-
-
-
-	var Marker = function(data) {
-		this.position = ko.observable(data.position);
-		this.title = ko.observable(data.title);
-		this.map = ko.observable(data.map);
-		this.address = ko.observable(data.address);
-		//this.animation = google.maps.Animation.DROP;
-		this.infowindow = ko.observable(data.infowindow);
-		this.marker = ko.observable(data.marker);
-		this.visible = ko.observable(data.visible);
-
-/*
-		function drop() {
-		    addMarkerWithTimeout(data.position, data.nums * 300);
-		}
-		drop();
-
-
-
-
-		var markers;
-		console.log(data.marker);
-
-		  function addMarkerWithTimeout(position, timeout) {
-	  		window.setTimeout(function() {
-	  		var markerPushed = data.marker.push(
-			markers = new google.maps.Marker({
-				position: data.position,
-				title: data.title,
-				address: data.address,
-				src: data.src,
-				setMap: map,
-				num: data.num,
-				icon: null,
-				visible: data.visible,
-				animation: google.maps.Animation.DROP,
-				infowindow: new google.maps.InfoWindow({
-						content: 
-						'<div id="content">'+
-					      	'<h4>'+data.title+'</h4>'+
-					      	'<h5>'+data.address+'</h5>'+
-					      	'<img class="markerImg" src='+data.src+'>'+
-					    '</div>',
-					  //  stuff: map, marker
-					})
-
-			}), timeout);
-	
-	  		
-				});	
-					}
-};			
-
+	    for(i in places()){
+	    //	console.log(viewModel.place()[i].title);
+	    	var positions = places()[i];
+	    	var pos = positions.position;
+	    	var src = positions.src;
+	    	var nums = positions.nums;
+	    	var infoContent = {
+	    		contents: 
+			    	'<div id="content">' +
+				        '<h4>' + positions.title + '</h4>' +
+				        '<h5>' + positions.address + '</h5>' +
+				        '<img class="markerImg" src=' + positions.src +'>' +
+				      '</div>'	
+			};
 			
-	  		/*var markerPushed = data.marker.push(
-			markers = new google.maps.Marker({
-				position: data.position,
-				title: data.title,
-				address: data.address,
-				src: data.src,
+			var marker = new google.maps.Marker({
+				position: pos,
 				map: map,
-				num: data.num,
-				icon: null,
-				visible: data.visible,
 				animation: google.maps.Animation.DROP,
-				infowindow: new google.maps.InfoWindow({
-					content: 
-					'<div id="content">'+
-				      	'<h4>'+data.title+'</h4>'+
-				      	'<h5>'+data.address+'</h5>'+
-				      	'<img class="markerImg" src='+data.src+'>'+
-				    '</div>',
-				    stuff: map, marker
-				})
+				content: infoContent.contents,
+				icon: null
+			}); 
+			var markers = ko.observableArray([marker]);
 
-			}));*/
+			var mark = markers()[0];
+//			console.log(mark.icon);
 
 
-		//	console.log(markers.infowindow.stuff);
+			var infowindow = new google.maps.InfoWindow();
+			google.maps.event.addListener(marker, 'click', function() {
 
-		/*	var len = initialPlaces.length;
-		//	console.log(markers.infowindow.stuff);
-			markers.addListener('click', function() {
-				for(i=0;i<len;i++){
-					var mark = initialPlaces[i].marker[0];
-		//			console.log(initialPlaces[i].marker[0].icon);
-					mark.setIcon(null);
-					mark.infowindow.close(map, markers);
-				}
-				if(markers.icon == null)
-				{
-					markers.setIcon(image);
-					markers.infowindow.open(map, markers);
-					markers.setAnimation(google.maps.Animation.BOUNCE);
-					timeoutID = window.setTimeout(stopBouncing, 2200);
-					function stopBouncing() {
-						markers.setAnimation(null);
-					};
-
-				}
-				else 
-				{
-					markers.setIcon(null);
-					markers.infowindow.close(map, markers);
-					markers.setAnimation(null);
-				}		
-			});
-
-						 
-			
-		
-	}*/
+		        infowindow.setContent(this.content);
+		        infowindow.open(map,this);
+		        mark.setIcon(null);
+		      if(marker.icon == null){
+		          var self = this;
+		          self.setIcon(icon);
+		          self.setAnimation(google.maps.Animation.BOUNCE);
+		          timeoutID = window.setTimeout(stopBouncing, 2200);
+		          function stopBouncing() {
+		            self.setAnimation(null);
+		            self.setIcon(null);
+		          };
+		        }
+		    });
+		}
 };
 
 
+var places = ko.observableArray([ 
+	{
+		position: {lat: 40.216147, lng: -74.012914},
+		title: 'Johnny Mac House of Spirits',
+		address: '208 Main St, Asbury Park, NJ 07712',
+		src: 'img/macs.jpg',
+		nums: 1,
+		icon: null,
+		marker: marker = [],
+		href: 'http://www.johnnymacbar.com/',
+		visible: true
+	}, {
+		position: {lat: 40.220001, lng: -74.000947},
+		title: 'The Stone Pony',
+		address: '913 Ocean Ave, Asbury Park, NJ 07712',
+		src: 'img/pony.jpg',
+		nums: 2,
+		icon: null,
+		marker: marker = [],
+		href: 'http://stoneponyonline.com/',
+		visible: true
+	}, {
+		position: {lat: 40.220239, lng: -74.002344},
+		title: 'Porta Pizza/Wine Bar',
+		address: '911 Kingsley St, Asbury Park, NJ 07712',
+		src: 'img/porta.jpg',
+		nums: 3,
+		icon: null,
+		marker: marker = [],
+		href: 'http://pizzaporta.com/ASBURY-PARK',
+		visible: true
+	}, {
+		position: {lat: 40.2207, lng: -73.999884},
+		title: 'Silverball Museum',
+		address: '1000 Ocean Ave, Asbury Park, NJ 07712',
+		src: 'img/silverball.jpg',
+		nums: 4,
+		icon: null,
+		marker: marker = [],
+		href: 'http://silverballmuseum.com/',
+		visible: true
+	}, {
+		position: {lat: 40.223796, lng: -73.998585},
+		title: 'Convention Hall',
+		address: '1300 Ocean Ave, Asbury Park, NJ 07712',
+		src: 'img/hall.jpg',
+		nums: 5,
+		icon: null,
+		marker: marker = [],
+		href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
+		visible: true
+	}		      
+]);
 
-	var Searched = function() {
-		$(document).ready(function(){
-		    $('#place').keypress(function(e){
-		      if(e.keyCode==13)
-		      $('#button').click();
-		    });
-		});
+function searched() {
+	$(document).ready(function(){
+	    $('#spot').keypress(function(e){
+	      if(e.keyCode==13)
+	      $('#button').click();
+	    });
+	});
 
-		var places = [];
-		var placeInput  = document.getElementById("place");
-		var messageBox  = document.getElementById("display");
-		var br = '</br>'
+	var places = [];
+	var placeInput  = document.getElementById("spot");
+	var messageBox  = document.getElementById("display");
+	var br = '</br>'
 
-		function insert ( ) {
-		 places.push( placeInput.value );
-		 clearAndShow();
+	function insert ( ) {
+	 places.push( placeInput.value );
+	 clearAndShow();
 
-		}
-		function clearAndShow () {
-		  placeInput.value = "";
-		  messageBox.innerHTML = "";
-		  messageBox.innerHTML = places.join(br);
-		}
-
-		$('#button').click( function() { 
-			insert();
-		});
-		
+	}
+	function clearAndShow () {
+	  placeInput.value = "";
+	  messageBox.innerHTML = "";
+	  messageBox.innerHTML = places.join(br);
 	}
 
-Searched();
-	
+	$('#button').click( function() { 
+		insert();
+	});
+};
 
-/*
+var viewModel = {
+	self: this, 
+	initMap: initMap,
+	place: ko.observable(places()),
+	searched: searched(),
+	query: ko.observable('')
+};
 
-	var Place = function(data) {
-		this.position = ko.observable(data.position);
-		this.title = ko.observable(data.title);
-		this.map = ko.observable(data.map);
-		this.address = ko.observable(data.address);
-		this.animation = google.maps.Animation.DROP;
-		this.infowindow = ko.observable(data.infowindow);
-		this.marker = ko.observable(data.marker);
+console.log(viewModel.place()[0].marker);
+var test = viewModel.place();
+console.log(test);
 
+viewModel.place = ko.computed(function() {
+    var search = this.query().toLowerCase();
+    console.log(search);
+    console.log(places,'Good');
 
-	};	
-*/
-	
-	var viewModel = {
-		self: this, 
-		placeList: ko.observableArray([]),
-	//	currentPlace: ko.observable( self.placeList()[0]),
-		spot: ko.observableArray(places),
-		query: ko.observable('')
-
-	};
-	var initPlaces = function() {
-			places.forEach(function(placeItem){
-				viewModel.placeList.push( new Marker(placeItem) )
-			}); 
-		};
-
-	initPlaces();
+    return ko.utils.arrayFilter(places(), function(spot) {
+    	console.log(spot.title.toLowerCase());
+        return spot.title.toLowerCase().indexOf(search) >= 0;
+    });
+}, viewModel);
 
 
-
-	ko.applyBindings(viewModel);
-
-//apis to check out
-//instagram api
-//yelp api
-//census api
-
-//census api 
-
-
-
-
-
-
-
-
+ko.applyBindings(viewModel);
