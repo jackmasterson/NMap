@@ -123,8 +123,8 @@ function jamBase() {
 	});*/
 };
 jamBase();
-function makeMark() {
-      for(i in places()){
+var makeMark = function() {
+      for(i in places()) {
         var positions = places()[i];
         var pos = positions.position;
         var src = positions.src;
@@ -148,6 +148,10 @@ function makeMark() {
   //    marker.setMap(map);
   };
 };
+
+var madeMark = {
+	//create a JSON, maybe you can access it/fool around with it?
+}
 var map;
 function initMap() {
       var icon = 'img/marker-blue.png';
@@ -251,10 +255,11 @@ var viewModel = {
 	self: this, 
 	initMap: initMap,
 	place: ko.observable(places()),
+	marks: makeMark,
 	searched: searched(),
 	query: ko.observable('')
 };
-	console.log(places()[0].marker.map);
+	//console.log(places()[0].marker.map);
 /* *************************
 			var mapSet = places()[0].marker;
 			mapSet.setMap(null)
@@ -264,20 +269,42 @@ var viewModel = {
 			mapSet.setMap(map);
 		 ************************* */
 
-console.log(viewModel.place()[0].marker);
+//console.log(viewModel.place()[0].marker);
 var test = viewModel.place();
-console.log(test);
+//console.log(test);
 
 viewModel.place = ko.computed(function() {
     var search = this.query().toLowerCase();
     console.log(search);
-    console.log(places,'Good');
+  //  console.log(places,'Good');
 
     return ko.utils.arrayFilter(places(), function(spot) {
-    	console.log(spot.title.toLowerCase());
+ //   	console.log(spot.title.toLowerCase());
+   // 	console.log(spot);
         return spot.title.toLowerCase().indexOf(search) >= 0;
+        
     });
 }, viewModel);
+
+console.log(viewModel.place);
+console.log(viewModel.marks);
+viewModel.marks = ko.computed(function() {
+    var search = this.query().toLowerCase();
+    console.log(search);
+  //  console.log(places,'Good');
+
+    return ko.utils.arrayFilter(makeMark, function(stuff) {
+ //   	console.log(spot.title.toLowerCase());
+   // 	console.log(spot);
+		   console.log(stuff);
+		       // return spot.title.toLowerCase().indexOf(search) >= 0;
+		        
+		    });
+		}, viewModel);
+
+/*    return ko.utils.arrayFilter(makeMark, function(stuff) {
+    	console.log(stuff);
+    });*/
 
 
 ko.applyBindings(viewModel);
