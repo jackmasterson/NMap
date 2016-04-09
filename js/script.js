@@ -123,70 +123,44 @@ function jamBase() {
 	});*/
 };
 jamBase();
-
-
+function makeMark() {
+      for(i in places()){
+        var positions = places()[i];
+        var pos = positions.position;
+        var src = positions.src;
+        var nums = positions.nums;
+        var infoContent = {
+          contents: 
+            '<div id="content">' +
+                '<h4>' + positions.title + '</h4>' +
+                '<h5>' + positions.address + '</h5>' +
+                '<img class="markerImg" src=' + positions.src +'>' +
+              '</div>'  
+      };
+      var markOpts = {
+        position: pos,
+        map: map,
+        animation: google.maps.Animation.DROP,
+        content: infoContent.contents,
+        icon: null
+      }
+      var marker = new google.maps.Marker(markOpts);
+  //    marker.setMap(map);
+  };
+};
+var map;
 function initMap() {
-
-	var icon = 'img/marker-blue.png';
-
-	var myLatLng = {lat: 40.220391, lng: -74.012082};
-
-	var mapDiv = document.getElementById('map');
-    var map = new google.maps.Map(mapDiv, {
-          center: myLatLng,
-          scrollwheel: false,
-          zoom: 15
-        });  
-
-	    for(i in places()){
-	    //	console.log(viewModel.place()[i].title);
-
-
-	    	var positions = places()[i];
-	    	var pos = positions.position;
-	    	var src = positions.src;
-	    	var nums = positions.nums;
-	    	var infoContent = {
-	    		contents: 
-			    	'<div id="content">' +
-				        '<h4>' + positions.title + '</h4>' +
-				        '<h5>' + positions.address + '</h5>' +
-				        '<img class="markerImg" src=' + positions.src +'>' +
-				      '</div>'	
-			};
-			
-			var marker = new google.maps.Marker({
-				position: pos,
-				map: map,
-				animation: google.maps.Animation.DROP,
-				content: infoContent.contents,
-				icon: null
-			}); 
-			var markers = ko.observableArray([marker]);
-
-			var mark = markers()[0];
-//			console.log(mark.icon);
-//			console.log(places()[i].marker[0].position);
-
-
-			var infowindow = new google.maps.InfoWindow();
-			google.maps.event.addListener(marker, 'click', function() {
-
-		        infowindow.setContent(this.content);
-		        infowindow.open(map,this);
-		        mark.setIcon(null);
-		      if(marker.icon == null){
-		          var self = this;
-		          self.setIcon(icon);
-		          self.setAnimation(google.maps.Animation.BOUNCE);
-		          timeoutID = window.setTimeout(stopBouncing, 2200);
-		          function stopBouncing() {
-		            self.setAnimation(null);
-		            self.setIcon(null);
-		          };
-		        }
-		    });
-		}
+      var icon = 'img/marker-blue.png';
+      var myLatLng = {lat: 40.220391, lng: -74.012082};
+      var mapDiv = document.getElementById('map');
+      var mapOptions = {
+            center: myLatLng,
+            scrollwheel: false,
+            zoom: 15
+      };
+      map = new google.maps.Map(mapDiv, mapOptions); 
+      makeMark();
+      
 };
 
 
