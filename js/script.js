@@ -123,7 +123,8 @@ function jamBase() {
 	});*/
 };
 jamBase();
-var makeMark = function() {
+var makeMark = function(name) {
+	var marker;
 
       for(i in places()) {
         var positions = places()[i];
@@ -131,29 +132,39 @@ var makeMark = function() {
         var src = positions.src;
         var nums = positions.nums;
         var infoContent = {
-          contents: 
-            '<div id="content">' +
-                '<h4>' + positions.title + '</h4>' +
-                '<h5>' + positions.address + '</h5>' +
-                '<img class="markerImg" src=' + positions.src +'>' +
-              '</div>'  
-      };
-      console.log();
-
-     // positions.marker.push(new google.maps.Marker());
-      console.log(positions.marker);
-      console.log(positions.title);
- //     var marker = positions.marker[0];
-  //    marker.setMap(map);
-  };
+	          contents: 
+	            '<div id="content">' +
+	                '<h4>' + positions.title + '</h4>' +
+	                '<h5>' + positions.address + '</h5>' +
+	                '<img class="markerImg" src=' + positions.src +'>' +
+	              '</div>'  
+	      };
+      	console.log();
+  		};
 };
 
-var madeMark = {
-	//create a JSON, maybe you can access it/fool around with it?
-	//if possible, create the marker within the 'places' JSON
-	//that way you can use setMap: null at some point
-	//mess with making makeMark() an observable/obs array
-}
+		function point() {
+			for(p in places()){ 
+			  var markOptsTest = places()[p].markOpts;
+			  var marker = new google.maps.Marker(markOptsTest);
+			  marker.setMap(map);
+			  marker.setAnimation(google.maps.Animation.DROP);
+			 }
+			console.log(places()[0]);
+  		    this.isVisible = ko.observable(false);
+		    this.name = ko.observable(name);
+		    this.isVisible.subscribe(function(currentState) {
+			    if (currentState) {
+			    	marker.setVisible(true);
+			    } else {
+			        marker.setVisible(false);
+			    }
+			  });
+
+			  this.isVisible(true);
+		};
+
+
 var map;
 function initMap() {
       var icon = 'img/marker-blue.png';
@@ -165,17 +176,8 @@ function initMap() {
             zoom: 15
       };
       map = new google.maps.Map(mapDiv, mapOptions);
-     	for(p in places()){ 
-     		console.log([p]);
-      		console.log(places()[p].marker);
-  		
+      point();
 
-
-		  console.log(places()[p].markOpts);
-		  var markOptsTest = places()[p].markOpts
-		  var marker = new google.maps.Marker(markOptsTest);
-		  marker.setMap(map);
-		}
 };
 
 
@@ -297,37 +299,37 @@ var viewModel = {
 	self: this, 
 	initMap: initMap,
 	place: ko.observable(places()),
-	marks: makeMark,
+//	points: point(),
 	searched: searched(),
 	query: ko.observable('')
 };
-	//console.log(places()[0].marker.map);
-/* *************************
-			var mapSet = places()[0].marker;
-			mapSet.setMap(null)
-			console.log(mapSet);
-		
-			mapSet.setMap();
-			mapSet.setMap(map);
-		 ************************* */
 
 //console.log(viewModel.place()[0].marker);
 var test = viewModel.place();
 //console.log(test);
+console.log(viewModel.place()[0].markOpts);
+
+
+
+
 
 viewModel.place = ko.computed(function() {
     var search = this.query().toLowerCase();
-  //  console.log(search);
-    //console.log(self.marker);
-    //marker.setMap(null);
-  //  console.log(places,'Good');
-
-    return ko.utils.arrayFilter(places(), function(spot) {
- //   	console.log(spot.title.toLowerCase());
-   // 	console.log(spot);
-        return spot.title.toLowerCase().indexOf(search) >= 0;
-    });
+	    return ko.utils.arrayFilter(places(), function(spot) {
+	    	var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+	        return doesMatch;
+    });       
 }, viewModel);
+
+/*
+/////////start here tomorrow
+var markerList = ko.observableArray([]);
+ 	places().forEach(function(markerItem){
+ 		self.markerList.push( new makeMark(markerItem) );
+ 	});
+ console.log(markerList());
+ */
+
 
 //console.log(viewModel.place);
 //console.log(viewModel.marks);
