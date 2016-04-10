@@ -124,6 +124,7 @@ function jamBase() {
 };
 jamBase();
 var makeMark = function() {
+
       for(i in places()) {
         var positions = places()[i];
         var pos = positions.position;
@@ -137,20 +138,21 @@ var makeMark = function() {
                 '<img class="markerImg" src=' + positions.src +'>' +
               '</div>'  
       };
-      var markOpts = {
-        position: pos,
-        map: map,
-        animation: google.maps.Animation.DROP,
-        content: infoContent.contents,
-        icon: null
-      }
-      var marker = new google.maps.Marker(markOpts);
+      console.log();
+
+     // positions.marker.push(new google.maps.Marker());
+      console.log(positions.marker);
+      console.log(positions.title);
+ //     var marker = positions.marker[0];
   //    marker.setMap(map);
   };
 };
 
 var madeMark = {
 	//create a JSON, maybe you can access it/fool around with it?
+	//if possible, create the marker within the 'places' JSON
+	//that way you can use setMap: null at some point
+	//mess with making makeMark() an observable/obs array
 }
 var map;
 function initMap() {
@@ -162,9 +164,18 @@ function initMap() {
             scrollwheel: false,
             zoom: 15
       };
-      map = new google.maps.Map(mapDiv, mapOptions); 
-      makeMark();
-      
+      map = new google.maps.Map(mapDiv, mapOptions);
+     	for(p in places()){ 
+     		console.log([p]);
+      		console.log(places()[p].marker);
+  		
+
+
+		  console.log(places()[p].markOpts);
+		  var markOptsTest = places()[p].markOpts
+		  var marker = new google.maps.Marker(markOptsTest);
+		  marker.setMap(map);
+		}
 };
 
 
@@ -177,8 +188,15 @@ var places = ko.observableArray([
 		nums: 1,
 		icon: null,
 		marker: marker = [],
+		markOpts: {
+	        position: {lat: 40.216147, lng: -74.012914},
+	 //       animation: google.maps.Animation.DROP,
+	 //       content: infoContent.contents,
+	        icon: null
+	      },
 		href: 'http://www.johnnymacbar.com/',
-		visible: true
+		visible: true,
+		setMap: map
 	}, {
 		position: {lat: 40.220001, lng: -74.000947},
 		title: 'The Stone Pony',
@@ -187,6 +205,12 @@ var places = ko.observableArray([
 		nums: 2,
 		icon: null,
 		marker: marker = [],
+		markOpts: {
+	        position: {lat: 40.220001, lng: -74.000947},
+	 //       animation: google.maps.Animation.DROP,
+	 //       content: infoContent.contents,
+	        icon: null
+	      },
 		href: 'http://stoneponyonline.com/',
 		visible: true
 	}, {
@@ -197,6 +221,12 @@ var places = ko.observableArray([
 		nums: 3,
 		icon: null,
 		marker: marker = [],
+		markOpts: {
+	        position: {lat: 40.220239, lng: -74.002344},
+	 //       animation: google.maps.Animation.DROP,
+	 //       content: infoContent.contents,
+	        icon: null
+	      },
 		href: 'http://pizzaporta.com/ASBURY-PARK',
 		visible: true
 	}, {
@@ -207,6 +237,12 @@ var places = ko.observableArray([
 		nums: 4,
 		icon: null,
 		marker: marker = [],
+		markOpts: {
+	        position: {lat: 40.2207, lng: -73.999884},
+	 //       animation: google.maps.Animation.DROP,
+	 //       content: infoContent.contents,
+	        icon: null
+	      },
 		href: 'http://silverballmuseum.com/',
 		visible: true
 	}, {
@@ -217,6 +253,12 @@ var places = ko.observableArray([
 		nums: 5,
 		icon: null,
 		marker: marker = [],
+		markOpts: {
+	        position: {lat: 40.223796, lng: -73.998585},
+	 //       animation: google.maps.Animation.DROP,
+	 //       content: infoContent.contents,
+	        icon: null
+	      },
 		href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
 		visible: true
 	}		      
@@ -275,32 +317,21 @@ var test = viewModel.place();
 
 viewModel.place = ko.computed(function() {
     var search = this.query().toLowerCase();
-    console.log(search);
+  //  console.log(search);
+    //console.log(self.marker);
+    //marker.setMap(null);
   //  console.log(places,'Good');
 
     return ko.utils.arrayFilter(places(), function(spot) {
  //   	console.log(spot.title.toLowerCase());
    // 	console.log(spot);
         return spot.title.toLowerCase().indexOf(search) >= 0;
-        
     });
 }, viewModel);
 
-console.log(viewModel.place);
-console.log(viewModel.marks);
-viewModel.marks = ko.computed(function() {
-    var search = this.query().toLowerCase();
-    console.log(search);
-  //  console.log(places,'Good');
+//console.log(viewModel.place);
+//console.log(viewModel.marks);
 
-    return ko.utils.arrayFilter(makeMark, function(stuff) {
- //   	console.log(spot.title.toLowerCase());
-   // 	console.log(spot);
-		   console.log(stuff);
-		       // return spot.title.toLowerCase().indexOf(search) >= 0;
-		        
-		    });
-		}, viewModel);
 
 /*    return ko.utils.arrayFilter(makeMark, function(stuff) {
     	console.log(stuff);
