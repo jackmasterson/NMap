@@ -145,6 +145,7 @@ var Pin = function Pin(map, position, name, address, src) {
 
   this.name = ko.observable(name);
   this.position  = ko.observable(position);
+  this.address = ko.observable(address);
 
 
 
@@ -237,12 +238,11 @@ function initMap() {
             zoom: 15
       };
       map = new google.maps.Map(mapDiv, mapOptions);
-	  
-
-			
+	  	
 			self.pins = ko.observableArray([]);
 			places().forEach(function(placeItem){
-				self.pins.push( new Pin(map, placeItem.position, placeItem.title));
+				self.pins.push( new Pin(map, placeItem.position, 
+					placeItem.title, placeItem.address, placeItem.src));
 				console.log(placeItem);
 			})/*
 				new Pin(map, {lat: 40.216147, lng: -74.012914}, 'Johnny Mac House of Spirits', 
@@ -256,9 +256,6 @@ function initMap() {
 				new Pin(map, {lat: 40.223796, lng: -73.998585}, 'Convention Hall',
 					'1300 Ocean Ave, Asbury Park, NJ 07712', 'img/hall.jpg'),
 				]);*/
-
-
-//  	console.log(viewModel.query());
 
 
 	  	self.filterPins = ko.computed(function() {
