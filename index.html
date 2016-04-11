@@ -8,25 +8,35 @@
   </head>
   <body>
     <div id="list">
-        <div id="placeClick" data-bind="foreach: placeList">
-              <a href="#/" data-bind="click: $parent.setPlace">
-                <h5 id="placeClickHead" data-bind="text: title" data-filter="text: title"></h5>
-              </a>
-        </div> 
-        <a href="#" id="placeClickHead" class="slideout-menu-toggle"> Live Shows</a>
+      <ul data-bind="template: {name:'placeTemp', foreach: place}"></ul>
+
+        <a href="#" class="slideout-menu-toggle"> Live Shows</a>
+     
+      <script type="text/html" id="placeTemp">
+        
+        <a target="_blank" data-bind="attr: { href: href }"><li data-bind="text: title"></li></a>
+      </script>
+
+      <input placeholder="Search…" type="search" data-bind="click: search" autocomplete="off">
+
+
+        
     </div>
     <div id="search">
-        <input id="place" name="q" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Places to Visit" autofocus></input>
-         <input type="button" value="Search" id="button" />
-         <input type="button" value="Reset Search" id="reset" />
+
+        <input id="spot"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Places to Visit" autofocus></input>
+         <button id="button">Search</button>
+         <button id="reset">Reset Search</button>
           <div id="display"></div>
     </div>
-    <ul data-bind="$parent.ViewModel text:'item.title()', foreach: filterPins"></ul> 
 
 
 
 
-	<div id="map"></div>
+
+
+  <div id="map"></div>
+
 
 
   <div id="socrata-header"></div>
@@ -41,12 +51,12 @@
 
 
 
-	<script src="js/lib/jquery.js"></script>
+  <script src="js/lib/jquery.js"></script>
     <script src="js/lib/knockout-3.2.0.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/script.js" async></script>
 
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs	
-    &callback=initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
+    &callback=viewModel.initMap" async defer></script>
 
 
 
