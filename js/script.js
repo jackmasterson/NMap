@@ -167,12 +167,15 @@ var Pin = function Pin(map, position, name, address, src) {
 		    })
   		}));
 
-var placeMark = ko.observable(places()[0]);
-console.log(placeMark());
-markers.addListener('click', function() {
-	
-			//console.log(places()[i].marker);
-			//console.log(places()[0].marker);
+	var placeList = ko.observable(places()[0]);
+	//console.log(placeList());
+	//this.currentPlace = ko.observable( placeList()[0]);
+
+	this.setPlace = function(clickPlace){
+		self.currentPlace(clickedPlace);
+	}
+//	console.log(placeMark());
+	function clickPin(){
 			var mark = places()[0].marker;
 			for(i in places()){
 			//	console.log(i);
@@ -198,8 +201,16 @@ markers.addListener('click', function() {
 				markers.infoWindow.close(map, markers);
 				markers.setAnimation(null);
 			}
+	}
+	markers.addListener('click', function() {
+		clickPin();
+	});
+	//if a href is clicked, run clickPin();
 
-		});
+	//$('#mac').click(function(){
+	//	clickPin();
+	//})
+
 
   this.isVisible = ko.observable(false);
 
@@ -212,8 +223,6 @@ markers.addListener('click', function() {
   });
 
   this.isVisible(true);
-
-
 
 }
 
@@ -229,14 +238,13 @@ function initMap() {
       };
       map = new google.maps.Map(mapDiv, mapOptions);
 	  
-      	places().forEach(function(markerItem){
-      	//	console.log(markerItem);
-			var markOptsItem = markerItem.markOpts;
-			var markLatLng = markerItem.position;
-			var markName = markerItem.title
-		});
+
 			
-			self.pins = ko.observableArray([
+			self.pins = ko.observableArray([]);
+			places().forEach(function(placeItem){
+				self.pins.push( new Pin(map, placeItem.position, placeItem.title));
+				console.log(placeItem);
+			})/*
 				new Pin(map, {lat: 40.216147, lng: -74.012914}, 'Johnny Mac House of Spirits', 
 					'208 Main St, Asbury Park, NJ 07712', 'img/macs.jpg'),
 				new Pin(map, {lat: 40.220001, lng: -74.000947}, 'The Stone Pony', 
@@ -247,7 +255,7 @@ function initMap() {
 					'1000 Ocean Ave, Asbury Park, NJ 07712', 'img/silverball.jpg'),
 				new Pin(map, {lat: 40.223796, lng: -73.998585}, 'Convention Hall',
 					'1300 Ocean Ave, Asbury Park, NJ 07712', 'img/hall.jpg'),
-				]);
+				]);*/
 
 
 //  	console.log(viewModel.query());
@@ -286,6 +294,7 @@ var places = ko.observableArray([
 
 	      },
 		href: 'http://www.johnnymacbar.com/',
+		id: 'mac',
 		visible: true,
 	}, {
 		position: {lat: 40.220001, lng: -74.000947},
@@ -302,6 +311,7 @@ var places = ko.observableArray([
 	        icon: null
 	      },
 		href: 'http://stoneponyonline.com/',
+		id: 'pony',
 		visible: true
 	}, {
 		position: {lat: 40.220239, lng: -74.002344},
@@ -318,6 +328,7 @@ var places = ko.observableArray([
 	        icon: null
 	      },
 		href: 'http://pizzaporta.com/ASBURY-PARK',
+		id: 'porta',
 		visible: true
 	}, {
 		position: {lat: 40.2207, lng: -73.999884},
@@ -334,6 +345,7 @@ var places = ko.observableArray([
 	        icon: null
 	      },
 		href: 'http://silverballmuseum.com/',
+		id: 'silver',
 		visible: true
 	}, {
 		position: {lat: 40.223796, lng: -73.998585},
@@ -350,6 +362,7 @@ var places = ko.observableArray([
 	        icon: null
 	      },
 		href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
+		id: 'hall',
 		visible: true
 	}		      
 ]);
@@ -405,15 +418,19 @@ var test = viewModel.place();
 
 
 
-
+var currentSpot;
 
 viewModel.place = ko.computed(function() {
     var search = this.query().toLowerCase();
 	    return ko.utils.arrayFilter(places(), function(spot) {
 	    	var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
 
-	    	if(doesMatch === false){	    		
-	    		console.log(spot.title, 'false');
+	    	if(doesMatch === true){	    		
+	    	//	console.log(spot.title, 'true');
+	    		currentSpot = ko.observableArray([]);
+	    		currentSpot.push(spot);
+	//    		console.log(currentSpot()[0].title);
+	  //  		console.log(currentSpot());
 	    	}
 
 	        return doesMatch;
@@ -421,6 +438,16 @@ viewModel.place = ko.computed(function() {
     });       
 }, viewModel);
 
+	 /*   var markers;
+//	    console.log(places().marker);
+	    places()[0].marker.push(
+ 		 markers = new google.maps.Marker({
+		    position: position,
+		    animation: google.maps.Animation.DROP,
+		    infoWindow: new google.maps.InfoWindow({
+		    	content: contentString
+		    })
+  		}));*/
 
 
 
