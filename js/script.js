@@ -138,7 +138,7 @@ jamBase();
 };*/
 
 var Pin = function Pin(map, position, name, address, src) {
-  var marker;
+  var markers;
   var infowindow;
   var image = 'img/marker-blue.png';
 
@@ -153,76 +153,65 @@ var Pin = function Pin(map, position, name, address, src) {
 	var contentString = 
 		'<div id="content">'+
 	      	'<h4>'+name+'</h4>'+
-	  //   	'<h5>'+address+'</h5>'+
-	   //   	'<img class="markerImg" src='+src+'>'+
+	     	'<h5>'+address+'</h5>'+
+	      	'<img class="markerImg" src='+src+'>'+
 	    '</div>';
-  marker = new google.maps.Marker({
-    position: position,
-    animation: google.maps.Animation.DROP,
-    infoWindow: new google.maps.InfoWindow({
-    	content: contentString
-    })
+	    var markers;
+//	    console.log(places().marker);
+	    places()[0].marker.push(
+ 		 markers = new google.maps.Marker({
+		    position: position,
+		    animation: google.maps.Animation.DROP,
+		    infoWindow: new google.maps.InfoWindow({
+		    	content: contentString
+		    })
+  		}));
 
-  });
+var placeMark = ko.observable(places()[0]);
+console.log(placeMark());
+markers.addListener('click', function() {
+	
+			//console.log(places()[i].marker);
+			//console.log(places()[0].marker);
+			var mark = places()[0].marker;
+			for(i in places()){
+			//	console.log(i);
+				console.log(mark[i]);
+			mark[i].setIcon(null);
+			mark[i].infoWindow.close(map, markers);
+		}
+			if(markers.icon == null)
+		
+			{
+				markers.setIcon(image);
+				markers.infoWindow.open(map, markers);
+				markers.setAnimation(google.maps.Animation.BOUNCE);
+				timeoutID = window.setTimeout(stopBouncing, 2200);
+				function stopBouncing() {
+					markers.setAnimation(null);
+				};
 
-google.maps.InfoWindow.prototype.opened = false;
-/*var infoWindow = ko.observable(
-		new google.maps.InfoWindow({
-			content: contentString
-		})
-	);
-var infoArray = [];
-infoArray.push(infoWindow());
-console.log(infoArray);
-console.log(infoWindow());
-//console.log(infoWindow());*/
-marker.addListener('click', function() {
-
-	if(this.infoWindow.opened){
-	   // do something
-	   this.infoWindow.close(map, marker);
-	   this.infoWindow.opened = false;
-	}
-	else{
-	   // do something else
-	   this.infoWindow.open(map, marker);
-	   this.infoWindow.opened = true;
-	}
-
-	if(marker.icon == null)
-	{
-		marker.setIcon(image);
-		marker.infoWindow.open(map, marker);
-		marker.setAnimation(google.maps.Animation.BOUNCE);
-		timeoutID = window.setTimeout(stopBouncing, 2200);
-		function stopBouncing() {
-			marker.setAnimation(null);
-		};
-
-	}
-	else 
-	{
-		marker.setIcon(null);
-		marker.infoWindow.close(map, marker);
-		marker.setAnimation(null);
-	}
-});
-
-/*marker.addListener('click', function() {
-			marker.setIcon(null);
-			infoWindow.open(map, marker);
+			}
+			else 
+			{
+				markers.setIcon(null);
+				markers.infoWindow.close(map, markers);
+				markers.setAnimation(null);
+			}
+		/*	markers.setIcon(null);
+			markers.infoWindow.open(map, markers);
 		//	iWind.open(map, marker);
-			if(infoWindow.opened){
-   				infoWindow.close(map, marker);
+			if(markers.infoWindow.opened){
+   				markers.infoWindow.close(map, markers);
 		//   		iWind.close(map, marker);
 			}
 		else{
 		   // do something else
-		   infoWindow.open(map, marker);
-		   infoWindow.opened = true;
-		}
+		   markers.infoWindow.open(map, markers);
+		   markers.infoWindow.opened = true;
+		}*/
 
-		});*/
+		});
 
 //pop the clicked; make an array holding the last clicked infowindow
 //and then pop() it
@@ -234,9 +223,9 @@ marker.addListener('click', function() {
 
   this.isVisible.subscribe(function(currentState) {
     if (currentState) {
-      marker.setMap(map);
+      markers.setMap(map);
     } else {
-      marker.setMap(null);
+      markers.setMap(null);
     }
   });
 
@@ -259,6 +248,7 @@ function initMap() {
       map = new google.maps.Map(mapDiv, mapOptions);
 	  
       	places().forEach(function(markerItem){
+      	//	console.log(markerItem);
 			var markOptsItem = markerItem.markOpts;
 			var markLatLng = markerItem.position;
 			var markName = markerItem.title
@@ -287,7 +277,7 @@ function initMap() {
 
 	  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
 	  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
-	  	  		pin.isVisible(doesMatch);
+	  	//  		pin.isVisible(doesMatch);
 
 	  	  		return doesMatch;
 	  	  	});
