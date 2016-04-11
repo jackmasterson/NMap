@@ -140,29 +140,95 @@ jamBase();
 var Pin = function Pin(map, position, name, address, src) {
   var marker;
   var infowindow;
+  var image = 'img/marker-blue.png';
 
 
   this.name = ko.observable(name);
   this.position  = ko.observable(position);
-    var contentString = 
-					'<div id="content">'+
-				      	'<h4>'+name+'</h4>'+
-				     	'<h5>'+address+'</h5>'+
-				      	'<img class="markerImg" src='+src+'>'+
-				    '</div>';
+
+
+
  // this.lon  = ko.observable(lon);
   //this.text = ko.observable(text);
-
+	var contentString = 
+		'<div id="content">'+
+	      	'<h4>'+name+'</h4>'+
+	  //   	'<h5>'+address+'</h5>'+
+	   //   	'<img class="markerImg" src='+src+'>'+
+	    '</div>';
   marker = new google.maps.Marker({
     position: position,
-    animation: google.maps.Animation.DROP
+    animation: google.maps.Animation.DROP,
+    infoWindow: new google.maps.InfoWindow({
+    	content: contentString
+    })
+
   });
- infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+
+google.maps.InfoWindow.prototype.opened = false;
+/*var infoWindow = ko.observable(
+		new google.maps.InfoWindow({
+			content: contentString
+		})
+	);
+var infoArray = [];
+infoArray.push(infoWindow());
+console.log(infoArray);
+console.log(infoWindow());
+//console.log(infoWindow());*/
+marker.addListener('click', function() {
+
+	if(this.infoWindow.opened){
+	   // do something
+	   this.infoWindow.close(map, marker);
+	   this.infoWindow.opened = false;
+	}
+	else{
+	   // do something else
+	   this.infoWindow.open(map, marker);
+	   this.infoWindow.opened = true;
+	}
+
+	if(marker.icon == null)
+	{
+		marker.setIcon(image);
+		marker.infoWindow.open(map, marker);
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		timeoutID = window.setTimeout(stopBouncing, 2200);
+		function stopBouncing() {
+			marker.setAnimation(null);
+		};
+
+	}
+	else 
+	{
+		marker.setIcon(null);
+		marker.infoWindow.close(map, marker);
+		marker.setAnimation(null);
+	}
+});
+
+/*marker.addListener('click', function() {
+			marker.setIcon(null);
+			infoWindow.open(map, marker);
+		//	iWind.open(map, marker);
+			if(infoWindow.opened){
+   				infoWindow.close(map, marker);
+		//   		iWind.close(map, marker);
+			}
+		else{
+		   // do something else
+		   infoWindow.open(map, marker);
+		   infoWindow.opened = true;
+		}
+
+		});*/
+
+//pop the clicked; make an array holding the last clicked infowindow
+//and then pop() it
+
+
+
 
   this.isVisible = ko.observable(false);
 
@@ -210,7 +276,8 @@ function initMap() {
 				new Pin(map, {lat: 40.223796, lng: -73.998585}, 'Convention Hall',
 					'1300 Ocean Ave, Asbury Park, NJ 07712', 'img/hall.jpg'),
 				]);
-		//	});
+
+
 //  	console.log(viewModel.query());
 
 
