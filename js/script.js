@@ -124,7 +124,7 @@ function jamBase() {
 };
 jamBase();
 
-var Marker = function(data) {
+/*var Marker = function(data) {
 	this.position = ko.observable(data.position);
 //	console.log(data);
 	this.title = ko.observable(data.title);
@@ -135,19 +135,33 @@ var Marker = function(data) {
 	this.markOpts = ko.observable(data.markOpts);
 //	console.log(data.markOpts);
 
-};
+};*/
 
-var Pin = function Pin(map, position, name) {
+var Pin = function Pin(map, position, name, address, src) {
   var marker;
+  var infowindow;
+
 
   this.name = ko.observable(name);
   this.position  = ko.observable(position);
+    var contentString = 
+					'<div id="content">'+
+				      	'<h4>'+name+'</h4>'+
+				     	'<h5>'+address+'</h5>'+
+				      	'<img class="markerImg" src='+src+'>'+
+				    '</div>';
  // this.lon  = ko.observable(lon);
   //this.text = ko.observable(text);
 
   marker = new google.maps.Marker({
     position: position,
     animation: google.maps.Animation.DROP
+  });
+ infowindow = new google.maps.InfoWindow({
+    content: contentString
+  });
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
   });
 
   this.isVisible = ko.observable(false);
@@ -178,32 +192,40 @@ function initMap() {
       };
       map = new google.maps.Map(mapDiv, mapOptions);
 	  
-      //	places().forEach(function(markerItem){
-		//	var markOptsItem = markerItem.markOpts;
+      	places().forEach(function(markerItem){
+			var markOptsItem = markerItem.markOpts;
+			var markLatLng = markerItem.position;
+			var markName = markerItem.title
+		});
 			
 			self.pins = ko.observableArray([
-				new Pin(map, {lat: 40.216147, lng: -74.012914}, 'Johnny Mac House of Spirits'),
-				new Pin(map, {lat: 40.220001, lng: -74.000947}, 'The Stone Pony'),
-				new Pin(map, {lat: 40.220239, lng: -74.002344}, 'Porta Pizza/Wine Bar'),
-				new Pin(map, {lat: 40.2207, lng: -73.999884}, 'Silverball Museum'),
-				new Pin(map, {lat: 40.223796, lng: -73.998585}, 'Convention Hall'),
+				new Pin(map, {lat: 40.216147, lng: -74.012914}, 'Johnny Mac House of Spirits', 
+					'208 Main St, Asbury Park, NJ 07712', 'img/macs.jpg'),
+				new Pin(map, {lat: 40.220001, lng: -74.000947}, 'The Stone Pony', 
+					'913 Ocean Ave, Asbury Park, NJ 07712', 'img/pony.jpg'),
+				new Pin(map, {lat: 40.220239, lng: -74.002344}, 'Porta Pizza/Wine Bar',
+					'911 Kingsley St, Asbury Park, NJ 07712', 'img/porta.jpg'),
+				new Pin(map, {lat: 40.2207, lng: -73.999884}, 'Silverball Museum', 
+					'1000 Ocean Ave, Asbury Park, NJ 07712', 'img/silverball.jpg'),
+				new Pin(map, {lat: 40.223796, lng: -73.998585}, 'Convention Hall',
+					'1300 Ocean Ave, Asbury Park, NJ 07712', 'img/hall.jpg'),
 				]);
 		//	});
-  	console.log(viewModel.query());
+//  	console.log(viewModel.query());
 
 
-  	self.filterPins = ko.computed(function() {
-  	  	var search = viewModel.query().toLowerCase();
-  	  	console.log(search);
+	  	self.filterPins = ko.computed(function() {
+	  	  	var search = viewModel.query().toLowerCase();
+	  	  	console.log(search);
 
-  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
-  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
-  	  		pin.isVisible(doesMatch);
+	  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
+	  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
+	  	  		pin.isVisible(doesMatch);
 
-  	  		return doesMatch;
-  	  	});
+	  	  		return doesMatch;
+	  	  	});
 
-  	});
+	  	});
 };
 
 
