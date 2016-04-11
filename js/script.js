@@ -123,25 +123,7 @@ function jamBase() {
 	});*/
 };
 jamBase();
-/*var makeMark = function(name) {
-	var marker;
 
-      for(i in places()) {
-        var positions = places()[i];
-        var pos = positions.position;
-        var src = positions.src;
-        var nums = positions.nums;
-        var infoContent = {
-	          contents: 
-	            '<div id="content">' +
-	                '<h4>' + positions.title + '</h4>' +
-	                '<h5>' + positions.address + '</h5>' +
-	                '<img class="markerImg" src=' + positions.src +'>' +
-	              '</div>'  
-	      };
-      	console.log();
-  		};
-};*/
 var Marker = function(data) {
 	this.position = ko.observable(data.position);
 //	console.log(data);
@@ -154,43 +136,11 @@ var Marker = function(data) {
 //	console.log(data.markOpts);
 
 };
-/*
-var newMark = function newmark(map, position) {
 
-	var marker; 
-
-	this.position = ko.observable(position);
-
-	places().forEach(function(markerItem){
-
-	//	console.log(markerItem);
-		var markOptsItem = markerItem.markOpts;
-//		console.log(markOptsItem);
-		marker = new google.maps.Marker({
-			position: markerItem.position,
-			animation: google.maps.Animation.DROP
-		});
-		//marker.setMap(map);
-		//marker.setAnimation(google.maps.Animation.DROP);
-//		console.log(markerList());
-	});
-
-	this.isVisible = ko.observable(false);
-	this.isVisible.subscribe(function(currentState){
-		if(currentState){
-			marker.setMap(map);
-		} else {
-			marker.setMap(null);
-		}
-	});
-
-	this.isVisible(true);
-
-}*/
-var Pin = function Pin(map, position) {
+var Pin = function Pin(map, position, name) {
   var marker;
 
-  //this.name = ko.observable(name);
+  this.name = ko.observable(name);
   this.position  = ko.observable(position);
  // this.lon  = ko.observable(lon);
   //this.text = ko.observable(text);
@@ -211,6 +161,9 @@ var Pin = function Pin(map, position) {
   });
 
   this.isVisible(true);
+
+
+
 }
 
 var map;
@@ -224,11 +177,33 @@ function initMap() {
             zoom: 15
       };
       map = new google.maps.Map(mapDiv, mapOptions);
+	  
+      //	places().forEach(function(markerItem){
+		//	var markOptsItem = markerItem.markOpts;
+			
+			self.pins = ko.observableArray([
+				new Pin(map, {lat: 40.216147, lng: -74.012914}, 'Johnny Mac House of Spirits'),
+				new Pin(map, {lat: 40.220001, lng: -74.000947}, 'The Stone Pony'),
+				new Pin(map, {lat: 40.220239, lng: -74.002344}, 'Porta Pizza/Wine Bar'),
+				new Pin(map, {lat: 40.2207, lng: -73.999884}, 'Silverball Museum'),
+				new Pin(map, {lat: 40.223796, lng: -73.998585}, 'Convention Hall'),
+				]);
+		//	});
+  	console.log(viewModel.query());
 
-      	places().forEach(function(markerItem){
-			var markOptsItem = markerItem.markOpts;
-			var pin = new Pin(map, markOptsItem.position);
-		});
+
+  	self.filterPins = ko.computed(function() {
+  	  	var search = viewModel.query().toLowerCase();
+  	  	console.log(search);
+
+  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
+  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
+  	  		pin.isVisible(doesMatch);
+
+  	  		return doesMatch;
+  	  	});
+
+  	});
 };
 
 
@@ -359,8 +334,7 @@ var viewModel = {
 	place: ko.observable(places()),
 //	points: point(),
 	searched: searched(),
-	query: ko.observable(''),
-	allPlaces: []
+	query: ko.observable('')
 };
 
 //console.log(viewModel.place()[0].marker);
@@ -375,20 +349,11 @@ var test = viewModel.place();
 viewModel.place = ko.computed(function() {
     var search = this.query().toLowerCase();
 	    return ko.utils.arrayFilter(places(), function(spot) {
-	    //	console.log(spot.markOpts.position);
-//	    	console.log(places());
-//console.log(places()[0]);
-
-
 	    	var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
-//	    	console.log(spot);
-	//    	console.log(doesMatch);
-	    //	console.log(markerList())
 
 	    	if(doesMatch === false){	    		
 	    		console.log(spot.title, 'false');
 	    	}
-
 
 	        return doesMatch;
 
@@ -409,12 +374,24 @@ function markSearch() {
 		
 	}, viewModel);
 };
+/*
+var filterPins = ko.computed(function () {
+    var search  = viewModel.query().toLowerCase();
+
+    return ko.utils.arrayFilter(self.pins(), function (pin) {
+        var doesMatch = pin..toLowerCase().indexOf(search) >= 0;
+
+        pin.isVisible(doesMatch);
+
+        return doesMatch;
+    });
+});
 $( "#spot" ).keypress(function() {
 	//write a function clear newMark();
 	//newMark = null;
 
 	//markSearch();
-});
+});*/
 
 
 
