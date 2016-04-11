@@ -198,26 +198,8 @@ markers.addListener('click', function() {
 				markers.infoWindow.close(map, markers);
 				markers.setAnimation(null);
 			}
-		/*	markers.setIcon(null);
-			markers.infoWindow.open(map, markers);
-		//	iWind.open(map, marker);
-			if(markers.infoWindow.opened){
-   				markers.infoWindow.close(map, markers);
-		//   		iWind.close(map, marker);
-			}
-		else{
-		   // do something else
-		   markers.infoWindow.open(map, markers);
-		   markers.infoWindow.opened = true;
-		}*/
 
 		});
-
-//pop the clicked; make an array holding the last clicked infowindow
-//and then pop() it
-
-
-
 
   this.isVisible = ko.observable(false);
 
@@ -277,7 +259,7 @@ function initMap() {
 
 	  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
 	  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
-	  	//  		pin.isVisible(doesMatch);
+	  	  		pin.isVisible(doesMatch);
 
 	  	  		return doesMatch;
 	  	  	});
@@ -440,76 +422,11 @@ viewModel.place = ko.computed(function() {
 }, viewModel);
 
 
-function markSearch() {
-	var markTest = ko.computed(function() {
-		var search = viewModel.query().toLowerCase();
-		console.log(search);
-		return ko.utils.arrayFilter(newMark(), function(stuff) {
-
-		});
-		//console.log(markerList());
-			//var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
-			//return doesMatch;
-		
-	}, viewModel);
-};
-/*
-var filterPins = ko.computed(function () {
-    var search  = viewModel.query().toLowerCase();
-    return ko.utils.arrayFilter(self.pins(), function (pin) {
-        var doesMatch = pin..toLowerCase().indexOf(search) >= 0;
-        pin.isVisible(doesMatch);
-        return doesMatch;
-    });
-});
-$( "#spot" ).keypress(function() {
-	//write a function clear newMark();
-	//newMark = null;
-	//markSearch();
-});*/
 
 
 
 
-///something worth playing with below
 
-/*markerList = ko.computed(function() {
-    var search = this.query().toLowerCase();
-     
-}, viewModel);*/
-/*
-viewModel.Marker = ko.computed(function() {
-	var search = this.query().toLowerCase();
-	return ko.utils.arrayFilter(...)
-})
-	    	/*if(doesMatch !== false){
-	    		var stuff = spot.markOpts.position = null;
-	    		console.log(spot.title, 'false');
-	//    		places()[0].setMap(map);
-	    	}*/
-
-
-
-	/*places().forEach(function(markerItem){
-		markerList.push( new Marker(markerItem) );
-		console.log(markerItem);
-		var markOptsItem = markerItem.markOpts;
-//		console.log(markOptsItem);
-		var marker = new google.maps.Marker(markOptsItem);
-		marker.setMap(map);
-		marker.setAnimation(google.maps.Animation.DROP);
-		marker.setVisible(true);
-	})*/
- 
-
-
-//console.log(viewModel.place);
-//console.log(viewModel.marks);
-
-
-/*    return ko.utils.arrayFilter(makeMark, function(stuff) {
-    	console.log(stuff);
-    });*/
 
 
 ko.applyBindings(viewModel);
