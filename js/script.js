@@ -377,19 +377,15 @@ function markSearch() {
 /*
 var filterPins = ko.computed(function () {
     var search  = viewModel.query().toLowerCase();
-
     return ko.utils.arrayFilter(self.pins(), function (pin) {
         var doesMatch = pin..toLowerCase().indexOf(search) >= 0;
-
         pin.isVisible(doesMatch);
-
         return doesMatch;
     });
 });
 $( "#spot" ).keypress(function() {
 	//write a function clear newMark();
 	//newMark = null;
-
 	//markSearch();
 });*/
 
@@ -407,11 +403,9 @@ viewModel.Marker = ko.computed(function() {
 	var search = this.query().toLowerCase();
 	return ko.utils.arrayFilter(...)
 })
-
 	    	/*if(doesMatch !== false){
 	    		var stuff = spot.markOpts.position = null;
 	    		console.log(spot.title, 'false');
-
 	//    		places()[0].setMap(map);
 	    	}*/
 
@@ -426,7 +420,6 @@ viewModel.Marker = ko.computed(function() {
 		marker.setMap(map);
 		marker.setAnimation(google.maps.Animation.DROP);
 		marker.setVisible(true);
-
 	})*/
  
 
