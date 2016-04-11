@@ -123,7 +123,7 @@ function jamBase() {
 	});*/
 };
 jamBase();
-var makeMark = function(name) {
+/*var makeMark = function(name) {
 	var marker;
 
       for(i in places()) {
@@ -141,29 +141,77 @@ var makeMark = function(name) {
 	      };
       	console.log();
   		};
+};*/
+var Marker = function(data) {
+	this.position = ko.observable(data.position);
+//	console.log(data);
+	this.title = ko.observable(data.title);
+	this.map = ko.observable(data.map);
+	this.address = ko.observable(data.address);
+//	this.animation = google.maps.Animation.DROP;
+	this.infowindow = ko.observable(data.infowindow);
+	this.markOpts = ko.observable(data.markOpts);
+//	console.log(data.markOpts);
+
 };
+/*
+var newMark = function newmark(map, position) {
 
-		function point() {
-			for(p in places()){ 
-			  var markOptsTest = places()[p].markOpts;
-			  var marker = new google.maps.Marker(markOptsTest);
-			  marker.setMap(map);
-			  marker.setAnimation(google.maps.Animation.DROP);
-			 }
-			console.log(places()[0]);
-  		    this.isVisible = ko.observable(false);
-		    this.name = ko.observable(name);
-		    this.isVisible.subscribe(function(currentState) {
-			    if (currentState) {
-			    	marker.setVisible(true);
-			    } else {
-			        marker.setVisible(false);
-			    }
-			  });
+	var marker; 
 
-			  this.isVisible(true);
-		};
+	this.position = ko.observable(position);
 
+	places().forEach(function(markerItem){
+
+	//	console.log(markerItem);
+		var markOptsItem = markerItem.markOpts;
+//		console.log(markOptsItem);
+		marker = new google.maps.Marker({
+			position: markerItem.position,
+			animation: google.maps.Animation.DROP
+		});
+		//marker.setMap(map);
+		//marker.setAnimation(google.maps.Animation.DROP);
+//		console.log(markerList());
+	});
+
+	this.isVisible = ko.observable(false);
+	this.isVisible.subscribe(function(currentState){
+		if(currentState){
+			marker.setMap(map);
+		} else {
+			marker.setMap(null);
+		}
+	});
+
+	this.isVisible(true);
+
+}*/
+var Pin = function Pin(map, position) {
+  var marker;
+
+  //this.name = ko.observable(name);
+  this.position  = ko.observable(position);
+ // this.lon  = ko.observable(lon);
+  //this.text = ko.observable(text);
+
+  marker = new google.maps.Marker({
+    position: position,
+    animation: google.maps.Animation.DROP
+  });
+
+  this.isVisible = ko.observable(false);
+
+  this.isVisible.subscribe(function(currentState) {
+    if (currentState) {
+      marker.setMap(map);
+    } else {
+      marker.setMap(null);
+    }
+  });
+
+  this.isVisible(true);
+}
 
 var map;
 function initMap() {
@@ -176,9 +224,13 @@ function initMap() {
             zoom: 15
       };
       map = new google.maps.Map(mapDiv, mapOptions);
-      point();
 
+      	places().forEach(function(markerItem){
+			var markOptsItem = markerItem.markOpts;
+			var pin = new Pin(map, markOptsItem.position);
+		});
 };
+
 
 
 var places = ko.observableArray([ 
@@ -195,10 +247,10 @@ var places = ko.observableArray([
 	 //       animation: google.maps.Animation.DROP,
 	 //       content: infoContent.contents,
 	        icon: null
+
 	      },
 		href: 'http://www.johnnymacbar.com/',
 		visible: true,
-		setMap: map
 	}, {
 		position: {lat: 40.220001, lng: -74.000947},
 		title: 'The Stone Pony',
@@ -266,6 +318,8 @@ var places = ko.observableArray([
 	}		      
 ]);
 
+
+
 function searched() {
 	$(document).ready(function(){
 	    $('#spot').keypress(function(e){
@@ -295,19 +349,24 @@ function searched() {
 	});
 };
 
+
+
+
 var viewModel = {
 	self: this, 
+
 	initMap: initMap,
 	place: ko.observable(places()),
 //	points: point(),
 	searched: searched(),
-	query: ko.observable('')
+	query: ko.observable(''),
+	allPlaces: []
 };
 
 //console.log(viewModel.place()[0].marker);
 var test = viewModel.place();
 //console.log(test);
-console.log(viewModel.place()[0].markOpts);
+//console.log(viewModel.place()[0].markOpts);
 
 
 
@@ -316,19 +375,83 @@ console.log(viewModel.place()[0].markOpts);
 viewModel.place = ko.computed(function() {
     var search = this.query().toLowerCase();
 	    return ko.utils.arrayFilter(places(), function(spot) {
+	    //	console.log(spot.markOpts.position);
+//	    	console.log(places());
+//console.log(places()[0]);
+
+
 	    	var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+//	    	console.log(spot);
+	//    	console.log(doesMatch);
+	    //	console.log(markerList())
+
+	    	if(doesMatch === false){	    		
+	    		console.log(spot.title, 'false');
+	    	}
+
+
 	        return doesMatch;
+
     });       
 }, viewModel);
 
+
+function markSearch() {
+	var markTest = ko.computed(function() {
+		var search = viewModel.query().toLowerCase();
+		console.log(search);
+		return ko.utils.arrayFilter(newMark(), function(stuff) {
+
+		});
+		//console.log(markerList());
+			//var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+			//return doesMatch;
+		
+	}, viewModel);
+};
+$( "#spot" ).keypress(function() {
+	//write a function clear newMark();
+	//newMark = null;
+
+	//markSearch();
+});
+
+
+
+
+///something worth playing with below
+
+/*markerList = ko.computed(function() {
+    var search = this.query().toLowerCase();
+     
+}, viewModel);*/
 /*
-/////////start here tomorrow
-var markerList = ko.observableArray([]);
- 	places().forEach(function(markerItem){
- 		self.markerList.push( new makeMark(markerItem) );
- 	});
- console.log(markerList());
- */
+viewModel.Marker = ko.computed(function() {
+	var search = this.query().toLowerCase();
+	return ko.utils.arrayFilter(...)
+})
+
+	    	/*if(doesMatch !== false){
+	    		var stuff = spot.markOpts.position = null;
+	    		console.log(spot.title, 'false');
+
+	//    		places()[0].setMap(map);
+	    	}*/
+
+
+
+	/*places().forEach(function(markerItem){
+		markerList.push( new Marker(markerItem) );
+		console.log(markerItem);
+		var markOptsItem = markerItem.markOpts;
+//		console.log(markOptsItem);
+		var marker = new google.maps.Marker(markOptsItem);
+		marker.setMap(map);
+		marker.setAnimation(google.maps.Animation.DROP);
+		marker.setVisible(true);
+
+	})*/
+ 
 
 
 //console.log(viewModel.place);
