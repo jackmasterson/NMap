@@ -454,43 +454,31 @@ viewModel.place = ko.computed(function() {
 
    			var takers = ko.observableArray([]);
 
-   var Take = function (num){
-		var noClue = '<script type="text/html" id="placeTemp">' +
-        '<a target="_blank" onClick="myClick' + num + '" data-bind="attr: ' +
-        '{ href: href, id: id }"><li id="noBull" data-bind="text: title">' +
+   var Take = function (data){
+ //  	console.log(data);
+   	var num = data.nums;
+   	var href = data.href;
+   	var title = data.title;
+   //	console.log(href);
+   	//console.log(title);
+   	//console.log(num);
+
+		var noClue = '<a target="_blank" href=' + href + '"' +
+		'onClick="myClick' + num + '"><li id="noBull">' + title +
         '</li></a> ||'
-   	'</script>'
    //	$('#list').remove(noClue);
-   	$('#list').append(noClue);
+	   	$('#list').append(noClue);
 
    };
 
-  /* var template = '<script type = "text/html" id="placeTemp">' +
-   		'<div id="comp"></div>' +
-   	'<script>';
-   	$('#list').append(template);
-   var Take = function(num) {
-	   var tempInfo = '<a target="_blank" onClick="myClick' + num +
-	   		'" data-bind="attr: {href: href}">' +
-	   		'<li id="noBull" data-bind="text: title"></li> ||'
-	   		$('#comp').append(tempInfo);
-   	};*/
-
 			places().forEach(function(listClick){
 				console.log(listClick.nums);
-				takers.push( new Take(listClick.nums));
+				takers.push( new Take(listClick));
+				
 			});
 			console.log(takers());
-/*
-var Pin = function Pin(map, position, name, address, src) {
-  var markers;
-  var infowindow;
-  var image = 'img/marker-blue.png';
 
 
-  this.name = ko.observable(name);
-  this.position  = ko.observable(position);
-  this.address = ko.observable(address);*/
 
 
 
