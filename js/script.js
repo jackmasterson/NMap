@@ -455,30 +455,36 @@ viewModel.place = ko.computed(function() {
    			var takers = ko.observableArray([]);
 
    var Take = function (data){
- //  	console.log(data);
-   	var num = data.nums;
-   	var href = data.href;
-   	var title = data.title;
-   //	console.log(href);
-   	//console.log(title);
-   	//console.log(num);
+	   	var num = data.nums;
+	   	var href = data.href;
+	   	var title = data.title;
+	   //	console.log(href);
+	   	//console.log(title);
+	   	//console.log(num);
 
-		var noClue = '<a target="_blank" href=' + href + '"' +
+		var noClue = '<a target="_blank"' +
 		'onClick="myClick' + num + '"><li id="noBull">' + title +
         '</li></a> ||'
-   //	$('#list').remove(noClue);
-	   	$('#list').append(noClue);
+
+   	$('#list').append(noClue);
 
    };
 
 			places().forEach(function(listClick){
-				console.log(listClick.nums);
+				console.log(listClick)
 				takers.push( new Take(listClick));
-				
 			});
 			console.log(takers());
+/*
+var Pin = function Pin(map, position, name, address, src) {
+  var markers;
+  var infowindow;
+  var image = 'img/marker-blue.png';
 
 
+  this.name = ko.observable(name);
+  this.position  = ko.observable(position);
+  this.address = ko.observable(address);*/
 
 
 
