@@ -279,7 +279,7 @@ var places = ko.observableArray([
 		title: 'Johnny Mac House of Spirits',
 		address: '208 Main St, Asbury Park, NJ 07712',
 		src: 'img/macs.jpg',
-		nums: 1,
+		nums: '(0)',
 		icon: null,
 		marker: marker = [],
 		markOpts: {
@@ -297,7 +297,7 @@ var places = ko.observableArray([
 		title: 'The Stone Pony',
 		address: '913 Ocean Ave, Asbury Park, NJ 07712',
 		src: 'img/pony.jpg',
-		nums: 2,
+		nums: '(1)',
 		icon: null,
 		marker: marker = [],
 		markOpts: {
@@ -314,7 +314,7 @@ var places = ko.observableArray([
 		title: 'Porta Pizza/Wine Bar',
 		address: '911 Kingsley St, Asbury Park, NJ 07712',
 		src: 'img/porta.jpg',
-		nums: 3,
+		nums: '(2)',
 		icon: null,
 		marker: marker = [],
 		markOpts: {
@@ -331,7 +331,7 @@ var places = ko.observableArray([
 		title: 'Silverball Museum',
 		address: '1000 Ocean Ave, Asbury Park, NJ 07712',
 		src: 'img/silverball.jpg',
-		nums: 4,
+		nums: '(3)',
 		icon: null,
 		marker: marker = [],
 		markOpts: {
@@ -348,7 +348,7 @@ var places = ko.observableArray([
 		title: 'Convention Hall',
 		address: '1300 Ocean Ave, Asbury Park, NJ 07712',
 		src: 'img/hall.jpg',
-		nums: 5,
+		nums: '(4)',
 		icon: null,
 		marker: marker = [],
 		markOpts: {
@@ -452,9 +452,45 @@ viewModel.place = ko.computed(function() {
   		}));*/
 
 
+   			var takers = ko.observableArray([]);
+
+   var Take = function (num){
+		var noClue = '<script type="text/html" id="placeTemp">' +
+        '<a target="_blank" onClick="myClick' + num + '" data-bind="attr: ' +
+        '{ href: href, id: id }"><li id="noBull" data-bind="text: title">' +
+        '</li></a> ||'
+   	'</script>'
+   //	$('#list').remove(noClue);
+   	$('#list').append(noClue);
+
+   };
+
+  /* var template = '<script type = "text/html" id="placeTemp">' +
+   		'<div id="comp"></div>' +
+   	'<script>';
+   	$('#list').append(template);
+   var Take = function(num) {
+	   var tempInfo = '<a target="_blank" onClick="myClick' + num +
+	   		'" data-bind="attr: {href: href}">' +
+	   		'<li id="noBull" data-bind="text: title"></li> ||'
+	   		$('#comp').append(tempInfo);
+   	};*/
+
+			places().forEach(function(listClick){
+				console.log(listClick.nums);
+				takers.push( new Take(listClick.nums));
+			});
+			console.log(takers());
+/*
+var Pin = function Pin(map, position, name, address, src) {
+  var markers;
+  var infowindow;
+  var image = 'img/marker-blue.png';
 
 
-
+  this.name = ko.observable(name);
+  this.position  = ko.observable(position);
+  this.address = ko.observable(address);*/
 
 
 
