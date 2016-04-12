@@ -168,19 +168,16 @@ var Pin = function Pin(map, position, name, address, src) {
 		    })
   		}));
 
-	var placeList = ko.observable(places()[0]);
-	//console.log(placeList());
-	//this.currentPlace = ko.observable( placeList()[0]);
 
-	this.setPlace = function(clickPlace){
-		self.currentPlace(clickedPlace);
-	}
-//	console.log(placeMark());
+
+	//google.maps.event.trigger(clickPin(), click);
+
+
 	function clickPin(){
 			var mark = places()[0].marker;
 			for(i in places()){
 			//	console.log(i);
-				console.log(mark[i]);
+//				console.log(mark[i]);
 			mark[i].setIcon(null);
 			mark[i].infoWindow.close(map, markers);
 		}
@@ -213,6 +210,8 @@ var Pin = function Pin(map, position, name, address, src) {
 	//})
 
 
+
+
   this.isVisible = ko.observable(false);
 
   this.isVisible.subscribe(function(currentState) {
@@ -226,6 +225,7 @@ var Pin = function Pin(map, position, name, address, src) {
   this.isVisible(true);
 
 }
+
 
 var map;
 function initMap() {
@@ -243,19 +243,18 @@ function initMap() {
 			places().forEach(function(placeItem){
 				self.pins.push( new Pin(map, placeItem.position, 
 					placeItem.title, placeItem.address, placeItem.src));
-				console.log(placeItem);
-			})/*
-				new Pin(map, {lat: 40.216147, lng: -74.012914}, 'Johnny Mac House of Spirits', 
-					'208 Main St, Asbury Park, NJ 07712', 'img/macs.jpg'),
-				new Pin(map, {lat: 40.220001, lng: -74.000947}, 'The Stone Pony', 
-					'913 Ocean Ave, Asbury Park, NJ 07712', 'img/pony.jpg'),
-				new Pin(map, {lat: 40.220239, lng: -74.002344}, 'Porta Pizza/Wine Bar',
-					'911 Kingsley St, Asbury Park, NJ 07712', 'img/porta.jpg'),
-				new Pin(map, {lat: 40.2207, lng: -73.999884}, 'Silverball Museum', 
-					'1000 Ocean Ave, Asbury Park, NJ 07712', 'img/silverball.jpg'),
-				new Pin(map, {lat: 40.223796, lng: -73.998585}, 'Convention Hall',
-					'1300 Ocean Ave, Asbury Park, NJ 07712', 'img/hall.jpg'),
-				]);*/
+	//			console.log(placeItem);
+			})
+
+   			self.currentPlace = ko.observable(self.pins());
+   			//console.log(self.pins());
+   			var clicked = ko.observable(self.currentPlace());
+   		//	console.log(clicked);
+   		//	console.log(self.currentPlace());
+
+
+
+		    
 
 
 	  	self.filterPins = ko.computed(function() {
@@ -364,7 +363,12 @@ var places = ko.observableArray([
 	}		      
 ]);
 
-
+console.log(places()[0].marker)
+//console.log(viewModel.place()[0].marker)
+var tried = places()[0].marker;
+    function myClick(id){
+        google.maps.event.trigger(tried[id], 'click');
+    };
 
 function searched() {
 	$(document).ready(function(){
@@ -408,6 +412,7 @@ var viewModel = {
 	query: ko.observable('')
 };
 
+
 //console.log(viewModel.place()[0].marker);
 var test = viewModel.place();
 //console.log(test);
@@ -445,6 +450,7 @@ viewModel.place = ko.computed(function() {
 		    	content: contentString
 		    })
   		}));*/
+
 
 
 
