@@ -366,6 +366,37 @@ var places = ko.observableArray([
 console.log(places()[0].marker)
 //console.log(viewModel.place()[0].marker)
 var tried = places()[0].marker;
+
+
+var listView = function() {
+
+   	var takers = ko.observableArray([]);
+
+   var Take = function (data){
+	   	var num = data.nums;
+	   	var href = data.href;
+	   	var title = data.title;
+	   //	console.log(href);
+	   	//console.log(title);
+	   	//console.log(num);
+
+		var noClue = '<a onClick="myClick' + num + '"><li id="noBull">' + title +
+        '</li></a> ||'
+
+   	$('#list').append(noClue);
+
+   };
+
+			places().forEach(function(listClick){
+//				console.log(listClick)
+				takers.push( new Take(listClick));
+			});
+//			console.log(takers());
+};
+
+
+
+
     function myClick(id){
         google.maps.event.trigger(tried[id], 'click');
     };
@@ -422,20 +453,16 @@ var test = viewModel.place();
 
 var currentSpot;
 
-viewModel.place = ko.computed(function() {
+viewModel.listView = ko.computed(function() {
     var search = this.query().toLowerCase();
-	    return ko.utils.arrayFilter(places(), function(spot) {
+    console.log(search);
+	    return ko.utils.arrayFilter(listView(), function(spot) {
+
 	    	var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
 
-	    	if(doesMatch === true){	    		
-	    	//	console.log(spot.title, 'true');
-	    		currentSpot = ko.observableArray([]);
-	    		currentSpot.push(spot);
-	//    		console.log(currentSpot()[0].title);
-	  //  		console.log(currentSpot());
-	    	}
 
-	        return doesMatch;
+
+	       // return doesMatch;
 
     });       
 }, viewModel);
@@ -451,30 +478,6 @@ viewModel.place = ko.computed(function() {
 		    })
   		}));*/
 
-
-   			var takers = ko.observableArray([]);
-
-   var Take = function (data){
-	   	var num = data.nums;
-	   	var href = data.href;
-	   	var title = data.title;
-	   //	console.log(href);
-	   	//console.log(title);
-	   	//console.log(num);
-
-		var noClue = '<a target="_blank"' +
-		'onClick="myClick' + num + '"><li id="noBull">' + title +
-        '</li></a> ||'
-
-   	$('#list').append(noClue);
-
-   };
-
-			places().forEach(function(listClick){
-				console.log(listClick)
-				takers.push( new Take(listClick));
-			});
-			console.log(takers());
 /*
 var Pin = function Pin(map, position, name, address, src) {
   var markers;
