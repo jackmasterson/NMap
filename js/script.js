@@ -1,51 +1,15 @@
 
 
-
-//Event Start Date time for eg: 2013-05-01T20:00:00 in local time zone.
-
-$(document).ready(function () {
-    $('.slideout-menu-toggle').on('click', function(event){
-    	event.preventDefault();
-    	// create menu variables
-    	var slideoutMenu = $('#jamBase-header');
-    	var slideoutMenuWidth = $('#jamBase-header').width();
-    	
-    	// toggle open class
-    	slideoutMenu.toggleClass("open");
-    	
-    	// slide menu
-    	if (slideoutMenu.hasClass("open")) {
-	    	slideoutMenu.animate({
-		    	right: "0px"
-	    	});	
-    	} else {
-	    	slideoutMenu.animate({
-		    	right: -slideoutMenuWidth
-	    	}, 250);	
-    	}
-    });
-});
-
-var divs = $('div[data-filter]');
-$('#place').on('keyup', function() {
-    var val = $.trim(this.value);
-    divs.hide();
-    divs.filter(function() {
-        return $(this).data('filter').search(val) >= 0
-    }).show();
-});
-
-divs.on('click', function() {
-    divs.not(this).hide();
-    var text = $.trim($(this).text());
-    $('#place').val(text);
-})
-
-
+//an API using the Open Data Network that allows for any kind of census data
+//compiled in recent years to be made available
+//used here mostly for education information from the most recent available
+//year, 2013
 function socrataData() {
 	var $socrataElem = $('#socrata-header');
 	var socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
 		'id=1600000US3401960';
+
+	//what you see if the info fails to load
 	var socrataTimeout = setTimeout(function(){
 		$socrataElem.text('You were supposed to see some awesome census data ' +
 			'about Asbury Park, NJ, but the request failed. And its all. my.' +
@@ -60,6 +24,7 @@ function socrataData() {
 			for(var i=0; i<infos.length; i++){
 				var info = infos[i];
 		
+		//formatting for the given info
 				$socrataElem.prepend('<ul class="info">Asbury Park, NJ Census Facts | ' +
 					'<li id="infoHead"> Year: ' + info.year + ' | </li> ' +
 					'<li id="infoHead"> Population: ' + info.population + ' | </li> ' +
@@ -78,13 +43,19 @@ function socrataData() {
 
 };
 
+//toggles the info when the link in the list view is clicked
+//so that it's not too info-oversaturated
 socrataData();
 $( "#socrata-data" ).click(function() {
   $( ".info" ).toggle( "slow", function() {
   });
 });
 
+//an API designed to give the upcoming live music events in a given area,
+//in this case Asbury Park; provides tickets, dates, venue, band, etc
 function jamBase() {
+
+	//gets us the current date for the concert events
 	var currentTime = new Date();
 	var month = currentTime.getMonth() + 1;
 	var dayStart = currentTime.getDate();
@@ -92,10 +63,12 @@ function jamBase() {
 	var year = currentTime.getFullYear();
 	var formatDateStart = year + '-'+ dayStart +'-'+ month+'T19:00:00';
 	var formatDateEnd = year + '-'+ dayEnd +'-'+ month+'T19:00:00';
-	console.log(formatDateStart, formatDateEnd);
+
 	var $jamBaseElem = $('#jamBase-header');
 	var jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
 	'&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
+
+	//what pops up after a failed ajax request
 	var jamBaseTimeout = setTimeout(function(){
 		$jamBaseElem.text('This was supposed to show a bunch of information ' +
 			'about concerts in the area, and the request failed. Im so, so sorry. '+
@@ -105,10 +78,13 @@ function jamBase() {
 		$jamBaseElem.append(mic);
 	}, 5000);
 
-	$.ajax({
+	/*$.ajax({
 		url: jamBaseURL,
 		dataType: "json",
 		success: function(response) {
+
+			//jamBase requires this logo be present on sites where
+			//their info is used
 			var logoAttr = '<a href="http://www.JamBase.com"' +
 				'target="_blank" title="JamBase Concert Search" id="tixImg">' +
 				'<img src= "http://images.jambase.com/logos/jambase140x70.gif"' +
@@ -116,6 +92,9 @@ function jamBase() {
 			$jamBaseElem.text('Upcoming Live Music in Asbury Park');
 			$jamBaseElem.append(logoAttr);
 			var infos = response.Events;
+
+			//iterates through the info in the JSON so that it can be
+			//formatted with the below code
 			for(i=0;i<infos.length;i++){
 				
 				var info = response.Events[i];
@@ -137,25 +116,53 @@ function jamBase() {
 			};
 			clearTimeout(jamBaseTimeout);
 		}
+	});*/
+
+	//establishes the slideout menu for the jamBase info
+	$(document).ready(function () {
+	    $('.slideout-menu-toggle').on('click', function(event){
+	    	event.preventDefault();
+	    	// create menu variables
+	    	var slideoutMenu = $('#jamBase-header');
+	    	var slideoutMenuWidth = $('#jamBase-header').width();
+	    	
+	    	// toggle open class
+	    	slideoutMenu.toggleClass("open");
+	    	
+	    	// slide menu
+	    	if (slideoutMenu.hasClass("open")) {
+		    	slideoutMenu.animate({
+			    	right: "0px"
+		    	});	
+	    	} else {
+		    	slideoutMenu.animate({
+			    	right: -slideoutMenuWidth
+		    	}, 250);	
+	    	}
+	    });
 	});
 };
 jamBase();
 
-var Take = function Take(data, name){
+
+//creates the list view but doesn't initiate it yet
+var List = function List(data, name){
   this.num = data.nums;
   this.href = data.href;
   this.title = data.title;
   this.id = data.id;
   this.name = ko.observable(name);
 
-
+  //this.num makes it so that the list items, when clicked, activate
+  //the corresponding marker/infowindow
     var listText = '<a onClick="myClick' + this.num + '"><li class="noBullet" id="'+
     this.id + '">' + this.title + '</li></a>'
 	
 	$('#listUL').append(listText);
-  	var pony = document.getElementById('pony');
+
 };
 
+//creates the individual markers but doesn't initiate them yet
 var Pin = function Pin(map, position, name, address, src) {
   var markers;
   var infowindow;
@@ -166,6 +173,7 @@ var Pin = function Pin(map, position, name, address, src) {
   this.position  = ko.observable(position);
   this.address = ko.observable(address);
 
+//content for the infoWindow
 	var contentString = 
 		'<div id="content">'+
 	      	'<h4>'+name+'</h4>'+
@@ -174,6 +182,7 @@ var Pin = function Pin(map, position, name, address, src) {
 	    '</div>';
 	    var markers;
 
+//pushes the markers, when created, into an accessible array
 	    places()[0].marker.push(
  		 markers = new google.maps.Marker({
 		    position: position,
@@ -183,6 +192,8 @@ var Pin = function Pin(map, position, name, address, src) {
 		    })
   		}));
 
+//contains the code for when a pin is clicked; there's animations,
+//icon changes, infoWindow activation, etc
 	function clickPin(){
 			var mark = places()[0].marker;
 			for(i in places()){
@@ -208,10 +219,16 @@ var Pin = function Pin(map, position, name, address, src) {
 				markers.setAnimation(null);
 			}
 	}
+
+	//makes it so that the above function will activate when a marker
+	//is clicked
 	markers.addListener('click', function() {
 		clickPin();
 	});
 
+	//makes the markers' visibility a parameter contingent on code below,
+	//where I use knockout to create a computed function and an 
+	//arrayFilter
   this.isVisible = ko.observable(false);
 
   this.isVisible.subscribe(function(currentState) {
@@ -229,17 +246,29 @@ var Pin = function Pin(map, position, name, address, src) {
 
 
 var map;
+
+//initiates the map
 function initMap() {
+		//this is the icon the marker changes to when clicked
       var icon = 'img/marker-blue.png';
+
+      //center of the map being called, Asbury Park, NJ
       var myLatLng = {lat: 40.220391, lng: -74.012082};
       var mapDiv = document.getElementById('map');
+
+      //sets the center of the map, makes it unscrollable, sets the
+      //zoom level
       var mapOptions = {
             center: myLatLng,
             scrollwheel: false,
             zoom: 15
       };
+
+      //actually creates the map with the above components
       map = new google.maps.Map(mapDiv, mapOptions);
 	  	
+	  	//where the markers are initiated, pushed into the observable
+	  	//array, self.pins()
 			self.pins = ko.observableArray([]);
 			places().forEach(function(placeItem){
 				self.pins.push( new Pin(map, placeItem.position, 
@@ -247,15 +276,18 @@ function initMap() {
 
 			})
 
+		//initiates the list view items
 			self.takers = ko.observableArray([]);
       		places().forEach(function(listClick){
 		        var listTitle = listClick.title;
-		        self.takers.push( new Take(listClick, listTitle));
+		        self.takers.push( new List(listClick, listTitle));
 
       		});
 
 
-
+      	//search function for the pins using knockout's computed functions,
+      	//arrayFilters, and the isVisible 'subscribe' parameter I created
+      	//earlier
 	  	self.filterPins = ko.computed(function() {
 	  	  	var search = viewModel.query().toLowerCase();
 
@@ -267,6 +299,7 @@ function initMap() {
 
 	  	});
 
+	  	//similar search function for the list view items
 		self.filterList = ko.computed(function() {
 			var search = viewModel.query().toLowerCase();
 			console.log(search);
@@ -278,11 +311,8 @@ function initMap() {
 	    		var elemID = document.getElementById(spot.id);
 	    		console.log(elemID);
 	    		if(doesMatch === true){
-	    			console.log(spot.title, 'true')
-	    			console.log(elemID);
 	    			elemID.style.display='block';
 	    		} else {
-	    			console.log(spot.title, 'false')
 	    			elemID.style.display='none';
 	    		}
 
