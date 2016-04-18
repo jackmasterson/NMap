@@ -323,7 +323,9 @@ function initMap() {
 
 
 
-
+//creates the 'places' observable Array, which contains all the needed
+//information I'll be using to create the markers, infowindows, list items,
+//etc
 var places = ko.observableArray([ 
 	{
 		position: {lat: 40.216147, lng: -74.012914},
@@ -335,8 +337,6 @@ var places = ko.observableArray([
 		marker: marker = [],
 		markOpts: {
 	        position: {lat: 40.216147, lng: -74.012914},
-	 //       animation: google.maps.Animation.DROP,
-	 //       content: infoContent.contents,
 	        icon: null
 
 	      },
@@ -353,8 +353,6 @@ var places = ko.observableArray([
 		marker: marker = [],
 		markOpts: {
 	        position: {lat: 40.220001, lng: -74.000947},
-	 //       animation: google.maps.Animation.DROP,
-	 //       content: infoContent.contents,
 	        icon: null
 	      },
 		href: 'http://stoneponyonline.com/',
@@ -370,8 +368,6 @@ var places = ko.observableArray([
 		marker: marker = [],
 		markOpts: {
 	        position: {lat: 40.220239, lng: -74.002344},
-	 //       animation: google.maps.Animation.DROP,
-	 //       content: infoContent.contents,
 	        icon: null
 	      },
 		href: 'http://pizzaporta.com/ASBURY-PARK',
@@ -387,8 +383,6 @@ var places = ko.observableArray([
 		marker: marker = [],
 		markOpts: {
 	        position: {lat: 40.2207, lng: -73.999884},
-	 //       animation: google.maps.Animation.DROP,
-	 //       content: infoContent.contents,
 	        icon: null
 	      },
 		href: 'http://silverballmuseum.com/',
@@ -404,8 +398,6 @@ var places = ko.observableArray([
 		marker: marker = [],
 		markOpts: {
 	        position: {lat: 40.223796, lng: -73.998585},
-	 //       animation: google.maps.Animation.DROP,
-	 //       content: infoContent.contents,
 	        icon: null
 	      },
 		href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
@@ -414,20 +406,17 @@ var places = ko.observableArray([
 	}		      
 ]);
 
-//console.log(places()[0].marker)
-//console.log(viewModel.place()[0].marker)
-var tried = places()[0].marker;
 
+//function to activate the markers when the list items are clicked
+function myClick(id){
+	var tried = places()[0].marker;
+    google.maps.event.trigger(tried[id], 'click');
+};
 
-
-
-
-    function myClick(id){
-        google.maps.event.trigger(tried[id], 'click');
-    };
-
+//function that makes it so when enter or search are clicked,
+//it adds the input value to a list of searched items
 function searched() {
-	console.log('werk');
+
 	$(document).ready(function(){
 	    $('#spot').keypress(function(e){
 	      if(e.keyCode==13)
@@ -456,56 +445,14 @@ function searched() {
 	});
 
 };
-
-
-
-
+\
 var viewModel = {
 	self: this, 
 	initMap: initMap,
 	place: ko.observable(places()),
-//	points: point(),
 	searched: searched(),
-	//listView: listView(),
 	query: ko.observable('')
 };
 
-
-//console.log(viewModel.place()[0].marker);
-var test = viewModel.place();
-//console.log(test);
-//console.log(viewModel.place()[0].markOpts);
-
-
-
-var currentSpot;
-
-
-
-
-	 /*   var markers;
-//	    console.log(places().marker);
-	    places()[0].marker.push(
- 		 markers = new google.maps.Marker({
-		    position: position,
-		    animation: google.maps.Animation.DROP,
-		    infoWindow: new google.maps.InfoWindow({
-		    	content: contentString
-		    })
-  		}));*/
-
-/*
-var Pin = function Pin(map, position, name, address, src) {
-  var markers;
-  var infowindow;
-  var image = 'img/marker-blue.png';
-
-
-  this.name = ko.observable(name);
-  this.position  = ko.observable(position);
-  this.address = ko.observable(address);*/
-
-
-
-
+//binds my HTML to knockoutjs info in the viewModel
 ko.applyBindings(viewModel);
