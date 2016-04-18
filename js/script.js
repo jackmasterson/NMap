@@ -136,7 +136,23 @@ jamBase();
 //	console.log(data.markOpts);
 
 };*/
+var Take = function Take(data, name){
+      this.num = data.nums;
+      this.href = data.href;
+      this.title = data.title;
+      console.log(this.title);
+      console.log(this.name);
+     // console.log(href);
+      //console.log(title);
+      //console.log(num);
 
+    var noClue = '<a onClick="myClick' + this.num + '"><li id="noBull">' + 
+    this.title + '</li></a> ||'
+
+    $('#list').append(noClue);
+   // console.log(noClue);
+
+   };
 var Pin = function Pin(map, position, name, address, src) {
   var markers;
   var infowindow;
@@ -246,22 +262,20 @@ function initMap() {
 	//			console.log(placeItem);
 			})
 
-   			self.currentPlace = ko.observable(self.pins());
-   			//console.log(self.pins());
-   			var clicked = ko.observable(self.currentPlace());
-   		//	console.log(clicked);
-   		//	console.log(self.currentPlace());
-
-
-
-		    
-
+   			//self.currentPlace = ko.observable(self.pins());
+   		//	var clicked = ko.observable(self.currentPlace());
+			self.takers = ko.observableArray([]);
+      		places().forEach(function(listClick){
+		        var listTitle = listClick.title;
+		        self.takers.push( new Take(listClick, listTitle));
+      		});
 
 	  	self.filterPins = ko.computed(function() {
 	  	  	var search = viewModel.query().toLowerCase();
 	  	  	console.log(search);
 
 	  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
+	  	  		console.log(pin);
 	  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
 	  	  		pin.isVisible(doesMatch);
 
@@ -269,6 +283,20 @@ function initMap() {
 	  	  	});
 
 	  	});
+
+		self.filterList = ko.computed(function() {
+			var search = viewModel.query().toLowerCase();
+			console.log(search);
+
+	    	return ko.utils.arrayFilter(self.takers(), function(spot) {
+	    		console.log(spot);
+	    		var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+
+	        	return doesMatch;
+
+    		});       
+		});
+
 };
 
 
@@ -370,28 +398,7 @@ var tried = places()[0].marker;
 
 var listView = function() {
 
-   	var takers = ko.observableArray([]);
 
-   var Take = function (data){
-	   	var num = data.nums;
-	   	var href = data.href;
-	   	var title = data.title;
-	   //	console.log(href);
-	   	//console.log(title);
-	   	//console.log(num);
-
-		var noClue = '<a onClick="myClick' + num + '"><li id="noBull">' + title +
-        '</li></a> ||'
-
-   	$('#list').append(noClue);
-
-   };
-
-			places().forEach(function(listClick){
-//				console.log(listClick)
-				takers.push( new Take(listClick));
-			});
-//			console.log(takers());
 };
 
 
@@ -435,11 +442,11 @@ function searched() {
 
 var viewModel = {
 	self: this, 
-
 	initMap: initMap,
 	place: ko.observable(places()),
 //	points: point(),
 	searched: searched(),
+	listView: listView(),
 	query: ko.observable('')
 };
 
@@ -453,19 +460,8 @@ var test = viewModel.place();
 
 var currentSpot;
 
-viewModel.listView = ko.computed(function() {
-    var search = this.query().toLowerCase();
-    console.log(search);
-	    return ko.utils.arrayFilter(listView(), function(spot) {
-
-	    	var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
 
 
-
-	       // return doesMatch;
-
-    });       
-}, viewModel);
 
 	 /*   var markers;
 //	    console.log(places().marker);
