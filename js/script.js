@@ -138,37 +138,23 @@ jamBase();
 };*/
 var Take = function Take(data, name){
       this.num = data.nums;
+
       this.href = data.href;
       this.title = data.title;
+
       this.id = data.id;
-      console.log(this.id);
-  //    console.log(this.title);
-    //  console.log(this.name);
-     // console.log(href);
-      //console.log(title);
-      //console.log(num);
-
-    var noClue = '<a onClick="myClick' + this.num + '"><li class="noBull" id="'+
-    this.id + '">' + 
-    this.title + '</li></a> ||'
+      this.name = ko.observable(name);
 
 
-  
+    var listText = '<a onClick="myClick' + this.num + '"><li class="noBullet" id="'+
+    this.id + '">' + this.title + '</li></a> ||'
+	
+	$('#listUL').append(listText);
+
 
    // console.log(noClue);
-  this.isVisible = ko.observable(false);
+  var pony = document.getElementById('pony');
 
-  this.isVisible.subscribe(function(currentState) {
-    if (currentState) {
-       $('#list').append(noClue);
-    }
-    else {
-    	document.getElementById('pony').style.visibility='hidden';
-    	//i think this is the key ot figuring it out
-    }
-  });
-
-  this.isVisible(true);
 
    };
 
@@ -249,6 +235,7 @@ var Pin = function Pin(map, position, name, address, src) {
   this.isVisible.subscribe(function(currentState) {
     if (currentState) {
       markers.setMap(map);
+  //    console.log(markers);
     } else {
       markers.setMap(null);
     }
@@ -284,18 +271,22 @@ function initMap() {
       		places().forEach(function(listClick){
 		        var listTitle = listClick.title;
 		        self.takers.push( new Take(listClick, listTitle));
+	//	        console.log(listTitle);
+
       		});
+
+
 
 	  	self.filterPins = ko.computed(function() {
 	  	  	var search = viewModel.query().toLowerCase();
-	  	  	console.log(search);
+	 // 	  	console.log(search);
 
 	  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
-	  	  		console.log(pin);
+	 // 	  		console.log(pin);
 	  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
 	  	  		pin.isVisible(doesMatch);
 
-	  	  		return doesMatch;
+	  	  	//	return doesMatch;
 	  	  	});
 
 	  	});
@@ -303,23 +294,35 @@ function initMap() {
 		self.filterList = ko.computed(function() {
 			var search = viewModel.query().toLowerCase();
 			console.log(search);
-			console.log(self.takers());
+	//		console.log(self.takers());
 
 	    	return ko.utils.arrayFilter(self.takers(), function(spot) {
-	    		console.log(spot);
+	    		
+	//    		console.log(takers());
 	    		var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+	 //   		console.log(doesMatch);
+	    	//	console.log(spot.title);
+	    		//spot.isVisible(doesMatch);
+	    		var elemID = document.getElementById(spot.id);
+	    		console.log(elemID);
+	    		if(doesMatch === true){
+	    			console.log(spot.title, 'true')
+	    			console.log(elemID);
+	    			elemID.style.visibility='visible';
+	    		} else {
+	    			console.log(spot.title, 'false')
+	    			elemID.style.visibility='hidden';
+	    		}
 
-	    		console.log(doesMatch);
-	    		spot.isVisible(doesMatch);
 
-
-	    		return doesMatch;
+	    		//return doesMatch;
 
 
     		});       
 		});
 
 };
+
 
 
 
@@ -413,7 +416,7 @@ var places = ko.observableArray([
 	}		      
 ]);
 
-console.log(places()[0].marker)
+//console.log(places()[0].marker)
 //console.log(viewModel.place()[0].marker)
 var tried = places()[0].marker;
 
@@ -468,7 +471,7 @@ var viewModel = {
 	place: ko.observable(places()),
 //	points: point(),
 	searched: searched(),
-	listView: listView(),
+	//listView: listView(),
 	query: ko.observable('')
 };
 
