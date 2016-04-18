@@ -32,8 +32,8 @@ html, body {
 }
 #list {
   position: absolute;
-  width: 80%;
-  margin: auto 10% auto 10%;
+  width: 20%;
+  margin: 15% 30% auto 5%;
   z-index: 5;
   background: white;
   text-align: center;
@@ -111,7 +111,7 @@ html, body {
 #jamBase-header {
     position: fixed;
     top: 0;
-    left: -250px;
+    right: -250px;
     width: 250px;
     height: 100%;
     background: #333;
@@ -126,7 +126,7 @@ html, body {
   #jamBase-header .slideout-menu-toggle {
     position: absolute;
     top: 12px;
-    right: 10px;
+    left: 10px;
     display: inline-block;
     padding: 6px 9px 5px;
     font-family: Arial, sans-serif;

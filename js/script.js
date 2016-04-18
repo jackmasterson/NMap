@@ -11,11 +11,11 @@ $(document).ready(function () {
     	// slide menu
     	if (slideoutMenu.hasClass("open")) {
 	    	slideoutMenu.animate({
-		    	left: "0px"
+		    	right: "0px"
 	    	});	
     	} else {
 	    	slideoutMenu.animate({
-		    	left: -slideoutMenuWidth
+		    	right: -slideoutMenuWidth
 	    	}, 250);	
     	}
     });
@@ -308,7 +308,7 @@ function initMap() {
 	    		if(doesMatch === true){
 	    			console.log(spot.title, 'true')
 	    			console.log(elemID);
-	    			elemID.style.display='block';
+	    			elemID.style.display='inline-block';
 	    		} else {
 	    			console.log(spot.title, 'false')
 	    			elemID.style.display='none';
@@ -420,11 +420,6 @@ var places = ko.observableArray([
 //console.log(viewModel.place()[0].marker)
 var tried = places()[0].marker;
 
-
-var listView = function() {
-
-
-};
 
 
 
