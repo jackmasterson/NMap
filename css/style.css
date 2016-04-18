@@ -7,6 +7,18 @@ html, body {
 a:visited {
   color: gray;
 }
+#header {
+  position: absolute;
+  width: 40%;
+  margin-left: 32%;
+  z-index: 5;
+  background: white;
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 15px;
+  font-family: 'Roboto','sans-serif';
+  padding: auto 40% auto auto;
+}
 #map {
   height: 100%;
 }
@@ -116,12 +128,14 @@ a:visited {
   padding: 15px;
   overflow-y: scroll;
 }
+#jamHead{
+  font-size: 10px;
+}
 #tix {
   color: white;
   font-color: white;
 }
 #tixImg{
-  margin-left: 20%;
   margin-top: 25px;
 }
 #jamBase-header {
@@ -134,8 +148,9 @@ a:visited {
     z-index: 100;
     list-style-type: none;
     color: white;
-    padding: auto;
+    padding: 15px;
     overflow-y: scroll;
+    text-align: center;
 }
 
 /*slideout menu courtesy of alijafarian.com/jquery-horizontal-slideout-menu*/
