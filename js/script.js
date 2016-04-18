@@ -43,13 +43,7 @@ function socrataData() {
 
 };
 
-//toggles the info when the link in the list view is clicked
-//so that it's not too info-oversaturated
-socrataData();
-$( "#socrata-data" ).click(function() {
-  $( ".info" ).toggle( "slow", function() {
-  });
-});
+
 
 //an API designed to give the upcoming live music events in a given area,
 //in this case Asbury Park; provides tickets, dates, venue, band, etc
@@ -142,7 +136,7 @@ function jamBase() {
 	    });
 	});
 };
-jamBase();
+
 
 
 //creates the list view but doesn't initiate it yet
@@ -249,7 +243,8 @@ var map;
 
 //initiates the map
 function initMap() {
-		//this is the icon the marker changes to when clicked
+
+	  //this is the icon the marker changes to when clicked
       var icon = 'img/marker-blue.png';
 
       //center of the map being called, Asbury Park, NJ
@@ -309,7 +304,7 @@ function initMap() {
 	    		var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
 
 	    		var elemID = document.getElementById(spot.id);
-	    		console.log(elemID);
+
 	    		if(doesMatch === true){
 	    			elemID.style.display='block';
 	    		} else {
@@ -317,6 +312,14 @@ function initMap() {
 	    		}
 
     		});       
+		});
+
+		//toggles the info when the link in the list view is clicked
+		//so that it's not too info-oversaturated
+		
+		$( "#socrata-data" ).click(function() {
+		  $( ".info" ).toggle( "slow", function() {
+		  });
 		});
 
 };
@@ -445,9 +448,11 @@ function searched() {
 	});
 
 };
-\
+
 var viewModel = {
 	self: this, 
+	socrataData: socrataData(),
+	jamBase: jamBase(),
 	initMap: initMap,
 	place: ko.observable(places()),
 	searched: searched(),
