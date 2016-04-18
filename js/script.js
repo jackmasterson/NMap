@@ -110,10 +110,10 @@ function jamBase() {
 		dataType: "json",
 		success: function(response) {
 			var logoAttr = '<a href="http://www.JamBase.com"' +
-				'target="_top" title="JamBase Concert Search">' +
+				'target="_blank" title="JamBase Concert Search" id="tixImg">' +
 				'<img src= "http://images.jambase.com/logos/jambase140x70.gif"' +
 				'alt="Search JamBase Concerts" border="0" /></a>'
-			$jamBaseElem.text('Live Music, Courtesy JamBase');
+			$jamBaseElem.text('Upcoming Live Music in Asbury Park');
 			$jamBaseElem.append(logoAttr);
 			var infos = response.Events;
 			for(i=0;i<infos.length;i++){

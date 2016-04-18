@@ -114,10 +114,15 @@ a:visited {
   list-style-type: none;
   text-align: center;
   padding: 15px;
+  overflow-y: scroll;
 }
 #tix {
   color: white;
   font-color: white;
+}
+#tixImg{
+  margin-left: 20%;
+  margin-top: 25px;
 }
 #jamBase-header {
     position: fixed;
@@ -130,6 +135,7 @@ a:visited {
     list-style-type: none;
     color: white;
     padding: auto;
+    overflow-y: scroll;
 }
 
 /*slideout menu courtesy of alijafarian.com/jquery-horizontal-slideout-menu*/
