@@ -41,7 +41,7 @@ html, body {
   border-radius: 15px;
   font-family: 'Roboto','sans-serif';
 }
-#noBull{
+.noBull{
     list-style-type: none;
     display: inline;
     margin: 5px;

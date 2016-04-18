@@ -140,23 +140,32 @@ var Take = function Take(data, name){
       this.num = data.nums;
       this.href = data.href;
       this.title = data.title;
-      console.log(this.title);
-      console.log(this.name);
+      this.id = data.id;
+      console.log(this.id);
+  //    console.log(this.title);
+    //  console.log(this.name);
      // console.log(href);
       //console.log(title);
       //console.log(num);
 
-    var noClue = '<a onClick="myClick' + this.num + '"><li id="noBull">' + 
+    var noClue = '<a onClick="myClick' + this.num + '"><li class="noBull" id="'+
+    this.id + '">' + 
     this.title + '</li></a> ||'
 
+
   
+
    // console.log(noClue);
   this.isVisible = ko.observable(false);
 
   this.isVisible.subscribe(function(currentState) {
     if (currentState) {
        $('#list').append(noClue);
-    } 
+    }
+    else {
+    	document.getElementById('pony').style.visibility='hidden';
+    	//i think this is the key ot figuring it out
+    }
   });
 
   this.isVisible(true);
@@ -299,10 +308,13 @@ function initMap() {
 	    	return ko.utils.arrayFilter(self.takers(), function(spot) {
 	    		console.log(spot);
 	    		var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+
 	    		console.log(doesMatch);
 	    		spot.isVisible(doesMatch);
 
+
 	    		return doesMatch;
+
 
     		});       
 		});
