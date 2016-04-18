@@ -1,3 +1,8 @@
+
+
+
+//Event Start Date time for eg: 2013-05-01T20:00:00 in local time zone.
+
 $(document).ready(function () {
     $('.slideout-menu-toggle').on('click', function(event){
     	event.preventDefault();
@@ -50,9 +55,7 @@ function socrataData() {
 	$.ajax({
 		url: socrataURL,
 		dataType: "json",
-		//jsonp: "callback",
 		success: function(response){
-	//		console.log(response[0]);
 			var infos=response;
 			for(var i=0; i<infos.length; i++){
 				var info = infos[i];
@@ -76,8 +79,20 @@ function socrataData() {
 };
 
 socrataData();
+$( "#socrata-data" ).click(function() {
+  $( ".info" ).toggle( "slow", function() {
+  });
+});
 
 function jamBase() {
+	var currentTime = new Date();
+	var month = currentTime.getMonth() + 1;
+	var dayStart = currentTime.getDate();
+	var dayEnd = currentTime.getDate() + 7;
+	var year = currentTime.getFullYear();
+	var formatDateStart = year + '-'+ dayStart +'-'+ month+'T19:00:00';
+	var formatDateEnd = year + '-'+ dayEnd +'-'+ month+'T19:00:00';
+	console.log(formatDateStart, formatDateEnd);
 	var $jamBaseElem = $('#jamBase-header');
 	var jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
 	'&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
@@ -90,73 +105,56 @@ function jamBase() {
 		$jamBaseElem.append(mic);
 	}, 5000);
 
-	/*$.ajax({
+	$.ajax({
 		url: jamBaseURL,
 		dataType: "json",
 		success: function(response) {
-	//		console.log("SUCCESS!");
+			var logoAttr = '<a href="http://www.JamBase.com"' +
+				'target="_top" title="JamBase Concert Search">' +
+				'<img src= "http://images.jambase.com/logos/jambase140x70.gif"' +
+				'alt="Search JamBase Concerts" border="0" /></a>'
 			$jamBaseElem.text('Live Music, Courtesy JamBase');
-				var infos = response.Events;
-		for(i=0;i<infos.length;i++){
-			
-			var info = response.Events[i];
-			var artists = info.Artists
-			
-			for(t=0;t<artists.length;t++){
-				var artist = info.Artists[t];
-	
-	//			console.log(artist);
-	//			console.log(info);
+			$jamBaseElem.append(logoAttr);
+			var infos = response.Events;
+			for(i=0;i<infos.length;i++){
 				
-				var jamBaseStuff = '<ul class="concerts">' +
-					'<a href="#" class="slideout-menu-toggle">&times;</a></h3>'+
-					'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
-					'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
-					'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
-						'">Tickets</a></li>' +
-					'</ul></br>';
-					$jamBaseElem.append(jamBaseStuff);
-				}
-		};
+				var info = response.Events[i];
+				var artists = info.Artists
+				var date = info.Date;
+				
+				for(t=0;t<artists.length;t++){
+					var artist = info.Artists[t];				
+					var jamBaseStuff = '<ul class="concerts">' +
+						'<a id="tix" href="#" class="slideout-menu-toggle">&times;</a></h3>'+
+						'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
+						'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
+						'<li id="concertsHead">Date: ' + date + '</li>' +
+						'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
+							'">Tickets</a></li>' +
+						'</ul>';
+						$jamBaseElem.append(jamBaseStuff);
+					}
+			};
 			clearTimeout(jamBaseTimeout);
 		}
-	});*/
+	});
 };
 jamBase();
 
-/*var Marker = function(data) {
-	this.position = ko.observable(data.position);
-//	console.log(data);
-	this.title = ko.observable(data.title);
-	this.map = ko.observable(data.map);
-	this.address = ko.observable(data.address);
-//	this.animation = google.maps.Animation.DROP;
-	this.infowindow = ko.observable(data.infowindow);
-	this.markOpts = ko.observable(data.markOpts);
-//	console.log(data.markOpts);
-
-};*/
 var Take = function Take(data, name){
-      this.num = data.nums;
-
-      this.href = data.href;
-      this.title = data.title;
-
-      this.id = data.id;
-      this.name = ko.observable(name);
+  this.num = data.nums;
+  this.href = data.href;
+  this.title = data.title;
+  this.id = data.id;
+  this.name = ko.observable(name);
 
 
     var listText = '<a onClick="myClick' + this.num + '"><li class="noBullet" id="'+
     this.id + '">' + this.title + '</li></a>'
 	
 	$('#listUL').append(listText);
-
-
-   // console.log(noClue);
-  var pony = document.getElementById('pony');
-
-
-   };
+  	var pony = document.getElementById('pony');
+};
 
 var Pin = function Pin(map, position, name, address, src) {
   var markers;
@@ -168,10 +166,6 @@ var Pin = function Pin(map, position, name, address, src) {
   this.position  = ko.observable(position);
   this.address = ko.observable(address);
 
-
-
- // this.lon  = ko.observable(lon);
-  //this.text = ko.observable(text);
 	var contentString = 
 		'<div id="content">'+
 	      	'<h4>'+name+'</h4>'+
@@ -179,7 +173,7 @@ var Pin = function Pin(map, position, name, address, src) {
 	      	'<img class="markerImg" src='+src+'>'+
 	    '</div>';
 	    var markers;
-//	    console.log(places().marker);
+
 	    places()[0].marker.push(
  		 markers = new google.maps.Marker({
 		    position: position,
@@ -189,16 +183,9 @@ var Pin = function Pin(map, position, name, address, src) {
 		    })
   		}));
 
-
-
-	//google.maps.event.trigger(clickPin(), click);
-
-
 	function clickPin(){
 			var mark = places()[0].marker;
 			for(i in places()){
-			//	console.log(i);
-//				console.log(mark[i]);
 			mark[i].setIcon(null);
 			mark[i].infoWindow.close(map, markers);
 		}
@@ -224,18 +211,13 @@ var Pin = function Pin(map, position, name, address, src) {
 	markers.addListener('click', function() {
 		clickPin();
 	});
-	//if a href is clicked, run clickPin();
-
-	//$('#mac').click(function(){
-	//	clickPin();
-	//})
 
   this.isVisible = ko.observable(false);
 
   this.isVisible.subscribe(function(currentState) {
     if (currentState) {
       markers.setMap(map);
-  //    console.log(markers);
+
     } else {
       markers.setMap(null);
     }
@@ -262,16 +244,13 @@ function initMap() {
 			places().forEach(function(placeItem){
 				self.pins.push( new Pin(map, placeItem.position, 
 					placeItem.title, placeItem.address, placeItem.src));
-	//			console.log(placeItem);
+
 			})
 
-   			//self.currentPlace = ko.observable(self.pins());
-   		//	var clicked = ko.observable(self.currentPlace());
 			self.takers = ko.observableArray([]);
       		places().forEach(function(listClick){
 		        var listTitle = listClick.title;
 		        self.takers.push( new Take(listClick, listTitle));
-	//	        console.log(listTitle);
 
       		});
 
@@ -279,14 +258,11 @@ function initMap() {
 
 	  	self.filterPins = ko.computed(function() {
 	  	  	var search = viewModel.query().toLowerCase();
-	 // 	  	console.log(search);
 
 	  	  	return ko.utils.arrayFilter(self.pins(), function(pin){
-	 // 	  		console.log(pin);
 	  	  		var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
 	  	  		pin.isVisible(doesMatch);
 
-	  	  	//	return doesMatch;
 	  	  	});
 
 	  	});
@@ -294,29 +270,21 @@ function initMap() {
 		self.filterList = ko.computed(function() {
 			var search = viewModel.query().toLowerCase();
 			console.log(search);
-	//		console.log(self.takers());
 
 	    	return ko.utils.arrayFilter(self.takers(), function(spot) {
 	    		
-	//    		console.log(takers());
 	    		var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
-	 //   		console.log(doesMatch);
-	    	//	console.log(spot.title);
-	    		//spot.isVisible(doesMatch);
+
 	    		var elemID = document.getElementById(spot.id);
 	    		console.log(elemID);
 	    		if(doesMatch === true){
 	    			console.log(spot.title, 'true')
 	    			console.log(elemID);
-	    			elemID.style.display='inline-block';
+	    			elemID.style.display='block';
 	    		} else {
 	    			console.log(spot.title, 'false')
 	    			elemID.style.display='none';
 	    		}
-
-
-	    		//return doesMatch;
-
 
     		});       
 		});
@@ -429,6 +397,7 @@ var tried = places()[0].marker;
     };
 
 function searched() {
+	console.log('werk');
 	$(document).ready(function(){
 	    $('#spot').keypress(function(e){
 	      if(e.keyCode==13)
@@ -455,6 +424,7 @@ function searched() {
 	$('#button').click( function() { 
 		insert();
 	});
+
 };
 
 
