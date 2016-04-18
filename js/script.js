@@ -147,7 +147,7 @@ var Take = function Take(data, name){
 
 
     var listText = '<a onClick="myClick' + this.num + '"><li class="noBullet" id="'+
-    this.id + '">' + this.title + '</li></a> ||'
+    this.id + '">' + this.title + '</li></a>'
 	
 	$('#listUL').append(listText);
 
@@ -308,10 +308,10 @@ function initMap() {
 	    		if(doesMatch === true){
 	    			console.log(spot.title, 'true')
 	    			console.log(elemID);
-	    			elemID.style.visibility='visible';
+	    			elemID.style.display='block';
 	    		} else {
 	    			console.log(spot.title, 'false')
-	    			elemID.style.visibility='hidden';
+	    			elemID.style.display='none';
 	    		}
 
 
