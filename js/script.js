@@ -149,10 +149,20 @@ var Take = function Take(data, name){
     var noClue = '<a onClick="myClick' + this.num + '"><li id="noBull">' + 
     this.title + '</li></a> ||'
 
-    $('#list').append(noClue);
+  
    // console.log(noClue);
+  this.isVisible = ko.observable(false);
+
+  this.isVisible.subscribe(function(currentState) {
+    if (currentState) {
+       $('#list').append(noClue);
+    } 
+  });
+
+  this.isVisible(true);
 
    };
+
 var Pin = function Pin(map, position, name, address, src) {
   var markers;
   var infowindow;
@@ -225,9 +235,6 @@ var Pin = function Pin(map, position, name, address, src) {
 	//	clickPin();
 	//})
 
-
-
-
   this.isVisible = ko.observable(false);
 
   this.isVisible.subscribe(function(currentState) {
@@ -287,12 +294,15 @@ function initMap() {
 		self.filterList = ko.computed(function() {
 			var search = viewModel.query().toLowerCase();
 			console.log(search);
+			console.log(self.takers());
 
 	    	return ko.utils.arrayFilter(self.takers(), function(spot) {
 	    		console.log(spot);
 	    		var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+	    		console.log(doesMatch);
+	    		spot.isVisible(doesMatch);
 
-	        	return doesMatch;
+	    		return doesMatch;
 
     		});       
 		});
