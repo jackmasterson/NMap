@@ -72,11 +72,11 @@ function jamBase() {
         $jamBaseElem.append(mic);
 
 
-    }, 3000);
+    }, 5000);
 
 
 
-   /*$.ajax({
+   $.ajax({
     	url: jamBaseURL,
     	dataType: "json",
     	success: function(response) {
@@ -117,7 +117,7 @@ function jamBase() {
     		};
     		clearTimeout(jamBaseTimeout);
     	}
-    });*/
+    });
 
     //establishes the slideout menu for the jamBase info
 	    $(document).ready(function() {
@@ -147,12 +147,13 @@ function jamBase() {
 
 
 //creates the list view but doesn't initiate it yet
-var List = function List(data, name) {
+var List = function List(data, name, tag) {
     this.num = data.nums;
     this.href = data.href;
     this.title = data.title;
     this.id = data.id;
     this.name = ko.observable(name);
+    this.tag = data.tag;
 
     //this.num makes it so that the list items, when clicked, activate
     //the corresponding marker/infowindow
@@ -284,7 +285,8 @@ function initMap() {
     self.takers = ko.observableArray([]);
     places().forEach(function(listClick) {
         var listTitle = listClick.title;
-        self.takers.push(new List(listClick, listTitle));
+        var listTag = listClick.tag;
+        self.takers.push(new List(listClick, listTitle, listTag));
 
     });
 
@@ -298,6 +300,8 @@ function initMap() {
         return ko.utils.arrayFilter(self.pins(), function(pin) {
             var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
             pin.isVisible(doesMatch);
+           //  var alsoMatch = pin.tag.toLowerCase().indexOf(search) >=0;
+
 
         });
 
@@ -309,11 +313,17 @@ function initMap() {
         console.log(search);
 
         return ko.utils.arrayFilter(self.takers(), function(spot) {
-
+        	console.log(spot);
             var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
+            var alsoMatch = spot.tag.toLowerCase().indexOf(search) >=0;
             var elemID = document.getElementById(spot.id);
 
             if (doesMatch === true) {
+                elemID.style.display = 'block';
+            } else {
+                elemID.style.display = 'none';
+            }
+            if (alsoMatch === true) {
                 elemID.style.display = 'block';
             } else {
                 elemID.style.display = 'none';
@@ -345,6 +355,7 @@ var places = ko.observableArray([{
         lng: -74.012914
     },
     title: 'Johnny Mac House of Spirits',
+    tag: 'bar',
     address: '208 Main St, Asbury Park, NJ 07712',
     src: 'img/macs.jpg',
     nums: '(0)',
@@ -367,6 +378,7 @@ var places = ko.observableArray([{
         lng: -74.000947
     },
     title: 'The Stone Pony',
+    tag: 'music',
     address: '913 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/pony.jpg',
     nums: '(1)',
@@ -388,6 +400,7 @@ var places = ko.observableArray([{
         lng: -74.002344
     },
     title: 'Porta Pizza/Wine Bar',
+    tag: 'bar',
     address: '911 Kingsley St, Asbury Park, NJ 07712',
     src: 'img/porta.jpg',
     nums: '(2)',
@@ -409,6 +422,7 @@ var places = ko.observableArray([{
         lng: -73.999884
     },
     title: 'Silverball Museum',
+    tag: 'vacation',
     address: '1000 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/silverball.jpg',
     nums: '(3)',
@@ -430,6 +444,7 @@ var places = ko.observableArray([{
         lng: -73.998585
     },
     title: 'Convention Hall',
+    tag: 'shopping',
     address: '1300 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/hall.jpg',
     nums: '(4)',
