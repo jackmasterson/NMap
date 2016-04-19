@@ -165,7 +165,7 @@ var List = function List(data, name, tag) {
 };
 
 //creates the individual markers but doesn't initiate them yet
-var Pin = function Pin(map, position, name, address, src) {
+var Pin = function Pin(map, position, name, address, src, tag) {
     var markers;
     var infowindow;
     var image = 'img/marker-blue.png';
@@ -173,6 +173,8 @@ var Pin = function Pin(map, position, name, address, src) {
     this.name = ko.observable(name);
     this.position = ko.observable(position);
     this.address = ko.observable(address);
+    this.tag = ko.observable(tag);
+
 
     //content for the infoWindow
     var contentString =
@@ -277,7 +279,7 @@ function initMap() {
     self.pins = ko.observableArray([]);
     places().forEach(function(placeItem) {
         self.pins.push(new Pin(map, placeItem.position,
-            placeItem.title, placeItem.address, placeItem.src));
+            placeItem.title, placeItem.address, placeItem.src, placeItem.tag));
 
     })
 
@@ -299,10 +301,11 @@ function initMap() {
 
         return ko.utils.arrayFilter(self.pins(), function(pin) {
             var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
+            var alsoMatch = pin.tag().toLowerCase().indexOf(search) >=0;
             pin.isVisible(doesMatch);
-           //  var alsoMatch = pin.tag.toLowerCase().indexOf(search) >=0;
+            pin.isVisible(alsoMatch);
 
-
+            console.log(pin);
         });
 
     });
