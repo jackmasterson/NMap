@@ -287,11 +287,12 @@ function initMap() {
     self.takers = ko.observableArray([]);
     places().forEach(function(listClick) {
         var listTitle = listClick.title;
-        var listTag = listClick.tag;
+        var listTag = ko.observableArray([]);
+        listTag = listClick.tag;
         self.takers.push(new List(listClick, listTitle, listTag));
 
     });
-
+  
 
     //search function for the pins using knockout's computed functions,
     //arrayFilters, and the isVisible 'subscribe' parameter I created
@@ -301,11 +302,10 @@ function initMap() {
 
         return ko.utils.arrayFilter(self.pins(), function(pin) {
             var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
-            var alsoMatch = pin.tag().toLowerCase().indexOf(search) >=0;
+    //        var alsoMatch = pin.tag().toLowerCase().indexOf(search) >=0;
             pin.isVisible(doesMatch);
-            pin.isVisible(alsoMatch);
+      //      pin.isVisible(alsoMatch);
 
-            console.log(pin);
         });
 
     });
@@ -315,22 +315,30 @@ function initMap() {
         var search = viewModel.query().toLowerCase();
         console.log(search);
 
-        return ko.utils.arrayFilter(self.takers(), function(spot) {
-        	console.log(spot);
-            var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
-            var alsoMatch = spot.tag.toLowerCase().indexOf(search) >=0;
-            var elemID = document.getElementById(spot.id);
+        return ko.utils.arrayFilter(self.takers(), function(spots) {
+        	//console.log(spots.tag);
+        	//console.log(self.takers());
+            var doesMatch = spots.title.toLowerCase().indexOf(search) >= 0;
+            
+            var elemID = document.getElementById(spots.id);
+            console.log(elemID);
 
             if (doesMatch === true) {
                 elemID.style.display = 'block';
             } else {
                 elemID.style.display = 'none';
             }
-            if (alsoMatch === true) {
-                elemID.style.display = 'block';
-            } else {
-                elemID.style.display = 'none';
-            }
+
+      	//	console.log(spot.tag);
+      	
+
+      			/*var alsoMatch = spotZ.tag.toLowerCase().indexOf(search) >=0;
+	      		if (alsoMatch === true) {
+	                elemID.style.display = 'block';
+	            } else {
+	                elemID.style.display = 'none';
+	            }*/
+      		    
 
         });
     });
@@ -358,7 +366,7 @@ var places = ko.observableArray([{
         lng: -74.012914
     },
     title: 'Johnny Mac House of Spirits',
-    tag: 'bar',
+    tag: ['bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza'],
     address: '208 Main St, Asbury Park, NJ 07712',
     src: 'img/macs.jpg',
     nums: '(0)',
@@ -381,7 +389,7 @@ var places = ko.observableArray([{
         lng: -74.000947
     },
     title: 'The Stone Pony',
-    tag: 'music',
+    tag: ['music', 'concerts', 'live'],
     address: '913 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/pony.jpg',
     nums: '(1)',
@@ -403,7 +411,7 @@ var places = ko.observableArray([{
         lng: -74.002344
     },
     title: 'Porta Pizza/Wine Bar',
-    tag: 'bar',
+    tag: ['bar', 'restaurant', 'pizza', 'nightclub'],
     address: '911 Kingsley St, Asbury Park, NJ 07712',
     src: 'img/porta.jpg',
     nums: '(2)',
@@ -425,7 +433,7 @@ var places = ko.observableArray([{
         lng: -73.999884
     },
     title: 'Silverball Museum',
-    tag: 'vacation',
+    tag: ['vacation', 'pinball'],
     address: '1000 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/silverball.jpg',
     nums: '(3)',
@@ -447,7 +455,7 @@ var places = ko.observableArray([{
         lng: -73.998585
     },
     title: 'Convention Hall',
-    tag: 'shopping',
+    tag: ['shopping', 'tourist', 'pictures'],
     address: '1300 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/hall.jpg',
     nums: '(4)',
