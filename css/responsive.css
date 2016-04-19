@@ -1,5 +1,5 @@
 /*handheld devices, portrait */
-@media only screen and (max-width: 780px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 750px) {
 	h1{
 		font-size: 18px;
 	}
@@ -38,7 +38,25 @@
 		display: none;
 	}
 	.info {
-	  line-height: 15px;
-	  font-size: 10px;
+	  z-index: 7;
+	  top: 70%;
+	  line-height: 20px;
+	  font-size: 15px;
 	}
+}
+@media only screen and (max-width: 770px) {
+	h1{
+		font-size: 28px;
+	}
+
+	#header {
+		margin-top: 5%;
+	}
+
+	#list {
+	  width: 300px;
+	  margin-top: 55%;
+	  font-size: 20px;
+	}
+
 }
