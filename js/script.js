@@ -241,6 +241,7 @@ function initMap() {
         lat: 40.220391,
         lng: -74.012082
     };
+
     var mapDiv = document.getElementById('map');
 
     //sets the center of the map, makes it unscrollable, sets the
@@ -305,9 +306,18 @@ function initMap() {
         });
     });
 
+    ///media queries
+
+	var mq = window.matchMedia('@media all and (min-width: 360px)');
+	if(mq.matches) {
+
+	} else {
+
+	    map.setZoom(14);
+	}
+
     //toggles the info when the link in the list view is clicked
     //so that it's not too info-oversaturated
-
     $("#socrata-data").click(function() {
         $(".info").toggle("slow", function() {});
     });
@@ -467,6 +477,8 @@ function searched() {
     });
 
 };
+
+
 
 var viewModel = {
     self: this,
