@@ -1,0 +1,29 @@
+/*galaxy s5*/
+@media only screen and (max-width: 360px) {
+	h1{
+		font-size: 18px;
+	}
+
+	#map {
+	  height: 100%;
+	  width: 100%;
+	}
+
+	#header {
+	  width: 50%;
+	}
+	#list {
+	  position: relative;
+	  width: 100%;
+	  font-size: 13px;
+	  margin-top: 0px;
+	}
+	.markerImg {
+		display: none;
+	}
+	.info {
+	  line-height: 15px;
+	  font-size: 10px;
+	}
+
+}
