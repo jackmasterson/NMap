@@ -51,15 +51,22 @@ function jamBase() {
     var jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
         '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
 
+  //  $jamBaseElem.prepend(close);
     //what pops up after a failed ajax request
     var jamBaseTimeout = setTimeout(function() {
+    	
+    	
         $jamBaseElem.text('This was supposed to show a bunch of information ' +
             'about concerts in the area, and the request failed. Im so, so sorry. ' +
             'So instead, here is a picture of a microphone, which should make up for' +
             ' it. Right?');
         var mic = '</br><img src="img/microphone.jpg" id="mic">';
         $jamBaseElem.append(mic);
-    }, 5000);
+
+
+    }, 3000);
+
+
 
    /*$.ajax({
     	url: jamBaseURL,
@@ -78,6 +85,7 @@ function jamBase() {
     		var top = '</br><h3 id="jamHead">*Note: If tickets are not available online, you' +
     			'will be directed back to this website</h7>';
     		$jamBaseElem.append(top);
+    		$jamBaseElem.prepend(close);
 
     		//iterates through the info in the JSON so that it can be
     		//formatted with the below code
@@ -104,28 +112,28 @@ function jamBase() {
     });*/
 
     //establishes the slideout menu for the jamBase info
-    $(document).ready(function() {
-        $('.slideout-menu-toggle').on('click', function(event) {
-            event.preventDefault();
-            // create menu variables
-            var slideoutMenu = $('#jamBase-header');
-            var slideoutMenuWidth = $('#jamBase-header').width();
+	    $(document).ready(function() {
+	        $('.slideout-menu-toggle').on('click', function(event) {
+	            event.preventDefault();
+	            // create menu variables
+	            var slideoutMenu = $('#jamBase-header');
+	            var slideoutMenuWidth = $('#jamBase-header').width();
 
-            // toggle open class
-            slideoutMenu.toggleClass("open");
+	            // toggle open class
+	            slideoutMenu.toggleClass("open");
 
-            // slide menu
-            if (slideoutMenu.hasClass("open")) {
-                slideoutMenu.animate({
-                    right: "0px"
-                });
-            } else {
-                slideoutMenu.animate({
-                    right: -slideoutMenuWidth
-                }, 250);
-            }
-        });
-    });
+	            // slide menu
+	            if (slideoutMenu.hasClass("open")) {
+	                slideoutMenu.animate({
+	                    right: "0px"
+	                });
+	            } else {
+	                slideoutMenu.animate({
+	                    right: -slideoutMenuWidth
+	                }, 250);
+	            }
+	        });
+	    });
 };
 
 
@@ -249,7 +257,7 @@ function initMap() {
     var mapOptions = {
         center: myLatLng,
         scrollwheel: false,
-        zoom: 15
+        zoom: 14
     };
 
     //actually creates the map with the above components
@@ -308,13 +316,7 @@ function initMap() {
 
     ///media queries
 
-	var mq = window.matchMedia('@media all and (min-width: 360px)');
-	if(mq.matches) {
 
-	} else {
-
-	    map.setZoom(14);
-	}
 
     //toggles the info when the link in the list view is clicked
     //so that it's not too info-oversaturated

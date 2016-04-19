@@ -3,6 +3,9 @@
 	h1{
 		font-size: 18px;
 	}
+	body {
+		background: #CCC;
+	}
 
 	#map {
 	  height: 100%;
@@ -14,9 +17,13 @@
 	}
 	#list {
 	  position: relative;
-	  width: 100%;
+	  width: 70%;
 	  font-size: 13px;
-	  margin-top: 0px;
+	  margin: 0px;
+	  padding: 0px;
+	}
+	#listUL{
+		text-align: left;
 	}
 	.markerImg {
 		display: none;
