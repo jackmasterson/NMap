@@ -12,9 +12,7 @@
 
     <div id="list">
      <ul id="listUL">
-        <a href="#" class="slideout-menu-toggle">Toggle Live Shows</a>
-        </br><a href="#" id="socrata-data">Asbury Park Info</a>
-        </br> <input id="spot"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Places to Visit" autofocus></input>
+        <input id="spot"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Places to Visit" autofocus></input>
         <button id="button">Search</button>
         <div id="display"></div>
       </ul>     
@@ -23,7 +21,14 @@
       <img id="header" src="img/apnj.jpg">
     </div>
     <div id="listBut">
-        <img id="toggleListButton" src="img/list.png" alt="Toggle List View">
+        <img class="toggle" id="toggleListButton" src="img/list.png" alt="Toggle List View">
+
+        <a href="#" class="slideout-menu-toggle">
+          <img class="toggle" src="img/mic.png" alt="Toggle Live Shows">
+        </a>
+        <a href="#" id="socrata-data">
+          <img class="toggle" src="img/census.jpg" alt="Toggle Census Info">
+        </a>
     </div>
 
 

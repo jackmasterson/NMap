@@ -1,5 +1,5 @@
 /*handheld devices, portrait */
-@media only screen and (min-device-width : 320px) and (max-device-width : 750px) {
+@media only screen and (min-device-width : 315px) and (max-device-width : 750px) {
 	h1{
 		font-size: 18px;
 	}
@@ -14,16 +14,16 @@
 
 	#header {
 	  margin-left: 5%;
-	  margin-top: 110%;
-	  height: 220px;
+	  margin-top: 107%;
+	  height: 180px;
 	  width: 280px;
 	}
 
 	#list {
 	  position: absolute;
 	  margin-left: 5%;
-	  margin-top: 110%;
-	  height: 220px;
+	  margin-top: 107%;
+	  height: 180px;
 	  width: 280px;
 	  z-index: 6;
 	  font-size: 15px;
@@ -39,12 +39,25 @@
 	}
 	.info {
 	  z-index: 7;
-	  top: 70%;
+	  top: 60%;
 	  line-height: 20px;
 	  font-size: 15px;
 	}
+	#listBut{
+	  position: absolute;
+	  z-index: 5;
+	  margin-top: 25%;
+	  margin-left: 5%;
+	  height: 250px;
+	  width: 100px;
+	}
+	.toggle{
+	  height: 75px;
+	  width: 75px;
+	  padding: 15px;
+	}
 }
-@media only screen and (max-width: 770px) {
+@media only screen and (min-width: 750px) and (max-width: 850px){
 	h1{
 		font-size: 28px;
 	}
@@ -58,5 +71,19 @@
 	  margin-top: 55%;
 	  font-size: 20px;
 	}
+	#listBut{
+	  position: absolute;
+	  z-index: 5;
+	  margin-top: 25%;
+	  margin-left: 5%;
+	  height: 250px;
+	  width: 100px;
+	}
+	.toggle{
+	  height: 75px;
+	  width: 75px;
+	  padding: 15px;
+	}
+
 
 }

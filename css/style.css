@@ -37,12 +37,13 @@ a:visited {
 #listBut{
   position: absolute;
   z-index: 5;
-  margin-top: 85px;
+  margin-top: 5px;
+  margin-left: 35%;
 }
-#toggleListButton{
-  height: 65px;
-  width: 55px;
-  margin: 15px;
+.toggle{
+  height: 75px;
+  width: 75px;
+  padding: 15px;
 }
 #list {
   position: absolute;
