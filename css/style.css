@@ -10,15 +10,14 @@ a:visited {
 }
 #header {
   position: absolute;
-  width: 40%;
-  margin-left: 32%;
+  margin-left: 62%;
+  margin-top: 43%;
   z-index: 5;
-  background: white;
-  text-align: center;
   border: 2px solid black;
   border-radius: 15px;
-  font-family: 'Roboto','sans-serif';
-  padding: auto 40% auto auto;
+  height: 150px;
+  width: 250px;
+
 }
 #map {
   height: 100%;
@@ -35,9 +34,19 @@ a:visited {
   font-family: 'Roboto','sans-serif';
   line-height: 30px;
 }
-
+#listBut{
+  position: absolute;
+  z-index: 5;
+  margin-top: 85px;
+}
+#toggleListButton{
+  height: 45px;
+  width: 65px;
+  border-radius: 15px;
+}
 #list {
   position: absolute;
+  display: none;
   width: 20%;
   margin: 15% 30% auto 2%;
   z-index: 5;

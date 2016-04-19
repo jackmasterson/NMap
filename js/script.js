@@ -1,3 +1,11 @@
+function toggleList(){
+	$('#toggleListButton').click(function(){
+	    $('#list').slideToggle();
+	});
+};
+toggleList();
+
+
 //an API using the Open Data Network that allows for any kind of census data
 //compiled in recent years to be made available
 //used here mostly for education information from the most recent available
