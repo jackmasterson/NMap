@@ -76,7 +76,7 @@ function jamBase() {
 
 
 
-   $.ajax({
+  /* $.ajax({
     	url: jamBaseURL,
     	dataType: "json",
     	success: function(response) {
@@ -117,7 +117,7 @@ function jamBase() {
     		};
     		clearTimeout(jamBaseTimeout);
     	}
-    });
+    });*/
 
     //establishes the slideout menu for the jamBase info
 	    $(document).ready(function() {
@@ -198,10 +198,25 @@ var Pin = function Pin(map, position, name, address, src, tag) {
     //contains the code for when a pin is clicked; there's animations,
     //icon changes, infoWindow activation, etc
     function clickPin() {
-        var mark = places()[0].marker;
+    	var mark = places()[0].marker;
+    	//console.log(mark);
+    	console.log(mark.length);
+    	var len = mark.length - 1;
+    	console.log(len);
+        for (i=0; i<len; i++) {
+        	console.log(mark[i]);
+            mark[i].setIcon(null);
+            mark[i].infoWindow.close(map, markers);
+        }
+    		//console.log(places()[i].marker[0]);
+    	//	console.log(mark);
+          //  mark.setIcon(null);
+          //  mark.infoWindow.close(map, markers);
+        
+        
+      //  console.log(places());
+        //console.log(places()[0].marker);
 
-        markers.setIcon(null);
-        markers.infoWindow.close(map, markers);
         if (markers.icon == null)
 
         {
@@ -220,10 +235,11 @@ var Pin = function Pin(map, position, name, address, src, tag) {
             markers.setAnimation(null);
         }
     }
-
+    //console.log(markers);
     //makes it so that the above function will activate when a marker
     //is clicked
     markers.addListener('click', function() {
+
         clickPin();
     });
 
@@ -325,7 +341,7 @@ function initMap() {
         console.log(search);
 
         return ko.utils.arrayFilter(self.takers(), function(spot) {
-        	console.log(spot.tag());
+        	//console.log(spot.tag());
             
             var elemID = document.getElementById(spot.id);
 		    var x = spot.tag();
@@ -336,7 +352,7 @@ function initMap() {
 			   	}
 			   	return false;
 			}
-			var x = spot.tag();
+
 			if (x.contains(search)) {
 					elemID.style.display = 'block';
 			} else {
