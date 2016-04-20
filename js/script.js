@@ -165,10 +165,13 @@ var List = function List(data, name, tag) {
 };
 
 //creates the individual markers but doesn't initiate them yet
-var Pin = function Pin(map, position, name, address, src, tag, href) {
+var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     var markers;
     var infowindow;
-    var image = 'img/marker-blue.png';
+   // console.log(img);
+    console.log(mkImg);
+   // console.log(image);
+   var image = mkImg;
 
     this.name = ko.observable(name);
     this.position = ko.observable(position);
@@ -297,7 +300,7 @@ function initMap() {
     places().forEach(function(placeItem) {
         self.pins.push(new Pin(map, placeItem.position,
             placeItem.title, placeItem.address, placeItem.src, placeItem.tag,
-            placeItem.href));
+            placeItem.href, placeItem.mkImg));
 
     })
 
@@ -389,9 +392,10 @@ var places = ko.observableArray([{
         lng: -74.012914
     },
     title: 'Johnny Mac House of Spirits',
-    tag: ['bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
+    tag: ['visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
     address: '208 Main St, Asbury Park, NJ 07712',
     src: 'img/macs.jpg',
+    mkImg: 'img/beer.png',
     nums: '(0)',
     icon: null,
     marker: marker = [],
@@ -412,9 +416,10 @@ var places = ko.observableArray([{
         lng: -74.000947
     },
     title: 'The Stone Pony',
-    tag: ['music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
+    tag: ['visit', 'music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
     address: '913 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/pony.jpg',
+    mkImg: 'img/music.png',
     nums: '(1)',
     icon: null,
     marker: marker = [],
@@ -434,9 +439,10 @@ var places = ko.observableArray([{
         lng: -74.002344
     },
     title: 'Porta Pizza/Wine Bar',
-    tag: ['bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
+    tag: ['visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
     address: '911 Kingsley St, Asbury Park, NJ 07712',
     src: 'img/porta.jpg',
+    mkImg: 'img/beer.png',
     nums: '(2)',
     icon: null,
     marker: marker = [],
@@ -456,9 +462,10 @@ var places = ko.observableArray([{
         lng: -73.999884
     },
     title: 'Silverball Museum',
-    tag: ['vacation', 'pinball', 'silverball', 'museum', 'silver'],
+    tag: ['visit', 'vacation', 'pinball', 'silverball', 'museum', 'silver'],
     address: '1000 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/silverball.jpg',
+    mkImg: 'img/pinball.png',
     nums: '(3)',
     icon: null,
     marker: marker = [],
@@ -478,9 +485,10 @@ var places = ko.observableArray([{
         lng: -73.998585
     },
     title: 'Convention Hall',
-    tag: ['shopping', 'tourist', 'pictures', 'convention', 'hall'],
+    tag: ['visit', 'shopping', 'tourist', 'pictures', 'convention', 'hall'],
     address: '1300 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/hall.jpg',
+    mkImg: 'img/shopping.png',
     nums: '(4)',
     icon: null,
     marker: marker = [],
