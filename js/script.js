@@ -157,12 +157,15 @@ var List = function List(data, name, tag) {
 
     //this.num makes it so that the list items, when clicked, activate
     //the corresponding marker/infowindow
-    var listText = '<a onClick="myClick' + this.num + '"><li class="noBullet" id="' +
-        this.id + '">' + this.title + '</li></a>'
+    var listText = '<a onClick="myClick' + this.num + '">' +
+    					'<li class="noBullet" id="' +
+        				this.id + '">' + this.title + '</li>' +
+        			'</a>'
 
     $('#listUL').append(listText);
 
 };
+
 
 //creates the individual markers but doesn't initiate them yet
 var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
@@ -175,27 +178,32 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     this.address = ko.observable(address);
     this.tag = ko.observable(tag);
     this.href = ko.observable(href);
-
-
+    var notes = '<input id="been" type="checkbox">'
 
     //content for the infoWindow
     var contentString =
         '<div id="content">' +
-        '<h4><a target="_blank" href="' + href + '">' + name + '</a></h4>' +
-        '<h5>' + address + '</h5>' +
-        '<img class="markerImg" src=' + src + '>' +
-        '</div>';
-    var markers;
+	        '<h4>' +
+	        	'<a target="_blank" href="' + href + '">' + name + '</a>' +
+	        '</h4>' +
+	        '<h5>' + address + '</h5>' +
+	        '<img class="markerImg" src=' + src + '>' +
+        '</div>' +
+        '<label>Been There</label><input type="checkbox" onClick="notes()"/>';
 
     //pushes the markers, when created, into an accessible array
     places()[0].marker.push(
         markers = new google.maps.Marker({
             position: position,
             animation: google.maps.Animation.DROP,
+            notes: notes,
             infoWindow: new google.maps.InfoWindow({
                 content: contentString
             })
         }));
+
+
+
 
     //contains the code for when a pin is clicked; there's animations,
     //icon changes, infoWindow activation, etc
@@ -222,26 +230,14 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
             markers.infoWindow.close(map, markers);
             markers.setAnimation(null);
         }
-    }
-    function beenThere() {
-    	var beenThere = document.getElementById('been');
-	    markers.addListener('mouseover', function(){
-	    	beenThere.style.display='block'
-	    });
-	    markers.addListener('mouseout', function(){
-	    	beenThere.style.display='none'
-	    })
-	};
-	beenThere();
 
+    }
 
     //makes it so that the above function will activate when a marker
     //is clicked
     markers.addListener('click', function() {
         clickPin();
     });
-
-    //on hover over a marker, something happens
 
 
     //makes the markers' visibility a parameter contingent on code below,
@@ -261,7 +257,9 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     this.isVisible(true);
 
 }
-
+function notes() {
+	console.log('hey');
+}
 
 var map;
 
@@ -569,7 +567,6 @@ function searched() {
 
 };
 
-
 var viewModel = {
     self: this,
     socrataData: socrataData(),
@@ -577,8 +574,11 @@ var viewModel = {
     initMap: initMap,
     place: ko.observable(places()),
     searched: searched(),
-    query: ko.observable('')
+    query: ko.observable(''),
+
 };
+ 
+
 
 //binds my HTML to knockoutjs info in the viewModel
 ko.applyBindings(viewModel);
