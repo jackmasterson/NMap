@@ -201,23 +201,14 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     //icon changes, infoWindow activation, etc
     function clickPin() {
     	var mark = places()[0].marker;
-    	//console.log(mark);
-    	console.log(mark.length);
+
     	var len = mark.length - 1;
-    	console.log(len);
+
         for (i=0; i<len; i++) {
-        	console.log(mark[i]);
+
             mark[i].setIcon(null);
             mark[i].infoWindow.close(map, markers);
         }
-    		//console.log(places()[i].marker[0]);
-    	//	console.log(mark);
-          //  mark.setIcon(null);
-          //  mark.infoWindow.close(map, markers);
-        
-        
-      //  console.log(places());
-        //console.log(places()[0].marker);
 
         if (markers.icon == null)
 
@@ -237,7 +228,7 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
             markers.setAnimation(null);
         }
     }
-    //console.log(markers);
+
     //makes it so that the above function will activate when a marker
     //is clicked
     markers.addListener('click', function() {
@@ -349,7 +340,7 @@ function initMap() {
 		    	.concat(places()[1].tag)
 		    	.concat(places()[2].tag)
 		    	.concat(places()[3].tag)
-		    	.concat(places[4].tag);
+		    	.concat(places()[4].tag);
 
 
         return ko.utils.arrayFilter(self.takers(), function(spot) {
