@@ -153,7 +153,7 @@ var List = function List(data, name, tag) {
     this.title = data.title;
     this.id = data.id;
     this.name = ko.observable(name);
-    this.tag = data.tag;
+    this.tag = ko.observableArray(data.tag);
 
     //this.num makes it so that the list items, when clicked, activate
     //the corresponding marker/infowindow
@@ -292,7 +292,7 @@ function initMap() {
         self.takers.push(new List(listClick, listTitle, listTag));
 
     });
-  
+
 
     //search function for the pins using knockout's computed functions,
     //arrayFilters, and the isVisible 'subscribe' parameter I created
@@ -315,30 +315,50 @@ function initMap() {
         var search = viewModel.query().toLowerCase();
         console.log(search);
 
-        return ko.utils.arrayFilter(self.takers(), function(spots) {
-        	//console.log(spots.tag);
-        	//console.log(self.takers());
-            var doesMatch = spots.title.toLowerCase().indexOf(search) >= 0;
+        return ko.utils.arrayFilter(self.takers(), function(spot) {
+        	console.log(spot.tag());
+         //   var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
             
-            var elemID = document.getElementById(spots.id);
-            console.log(elemID);
+            var elemID = document.getElementById(spot.id);
+		    var x = spot.tag();
 
-            if (doesMatch === true) {
+			Array.prototype.contains = function ( searched ) {
+			   for (i in this) {
+			       if (this[i] == searched) return true;
+			   	}
+			   	return false;
+			}
+			var x = spot.tag();
+			if (x.contains(search)) {
+					console.log('search!');
+					elemID.style.display = 'block';
+			} else {
+					elemID.style.display = 'none';
+			}
+
+          /*  if (doesMatch === true) {
                 elemID.style.display = 'block';
             } else {
                 elemID.style.display = 'none';
-            }
+            }*/
+      //      var alsoMatch = spot.tag.toLowerCase().indexOf(search) >=0;
+            
 
-      	//	console.log(spot.tag);
-      	
+           
+/*
+places().forEach(function(placeItem) {
+	self.pins.push(new Pin(map, placeItem.position,
+	placeItem.title, placeItem.address, placeItem.src, placeItem.tag));
 
-      			/*var alsoMatch = spotZ.tag.toLowerCase().indexOf(search) >=0;
-	      		if (alsoMatch === true) {
-	                elemID.style.display = 'block';
-	            } else {
-	                elemID.style.display = 'none';
-	            }*/
-      		    
+})*/
+            //	var alsoMatch = tagArr[t].toLowerCase().indexOf(search) >=0;
+            //	console.log(alsoMatch, tagArr);
+          /*  if (alsoMatch === true) {
+                elemID.style.display = 'block';
+            } else {
+                elemID.style.display = 'none';
+            }*/
+        
 
         });
     });
