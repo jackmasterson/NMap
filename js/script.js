@@ -407,7 +407,7 @@ var places = ko.observableArray([{
         lng: -74.012914
     },
     title: 'Johnny Mac House of Spirits',
-    tag: ['visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
+    tag: ['', 'visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
     address: '208 Main St, Asbury Park, NJ 07712',
     src: 'img/macs.jpg',
     mkImg: 'img/beer.png',
@@ -431,7 +431,7 @@ var places = ko.observableArray([{
         lng: -74.000947
     },
     title: 'The Stone Pony',
-    tag: ['visit', 'music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
+    tag: ['', 'visit', 'music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
     address: '913 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/pony.jpg',
     mkImg: 'img/music.png',
@@ -454,7 +454,7 @@ var places = ko.observableArray([{
         lng: -74.002344
     },
     title: 'Porta Pizza/Wine Bar',
-    tag: ['visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
+    tag: ['', 'visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
     address: '911 Kingsley St, Asbury Park, NJ 07712',
     src: 'img/porta.jpg',
     mkImg: 'img/beer.png',
@@ -477,7 +477,7 @@ var places = ko.observableArray([{
         lng: -73.999884
     },
     title: 'Silverball Museum',
-    tag: ['visit', 'vacation', 'pinball', 'silverball', 'museum', 'silver'],
+    tag: ['', 'visit', 'vacation', 'pinball', 'silverball', 'museum', 'silver'],
     address: '1000 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/silverball.jpg',
     mkImg: 'img/pinball.png',
@@ -500,7 +500,7 @@ var places = ko.observableArray([{
         lng: -73.998585
     },
     title: 'Convention Hall',
-    tag: ['visit', 'shopping', 'tourist', 'pictures', 'convention', 'hall'],
+    tag: ['', 'visit', 'shopping', 'tourist', 'pictures', 'convention', 'hall'],
     address: '1300 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/hall.jpg',
     mkImg: 'img/shopping.png',
