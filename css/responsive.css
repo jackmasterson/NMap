@@ -43,7 +43,7 @@
 	  line-height: 20px;
 	  font-size: 15px;
 	}
-	#listBut{
+	#listButton{
 	  position: absolute;
 	  z-index: 5;
 	  margin-top: 25%;
@@ -71,7 +71,7 @@
 	  margin-top: 55%;
 	  font-size: 20px;
 	}
-	#listBut{
+	#listButton{
 	  position: absolute;
 	  z-index: 5;
 	  margin-top: 25%;

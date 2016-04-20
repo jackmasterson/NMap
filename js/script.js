@@ -201,17 +201,13 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     //icon changes, infoWindow activation, etc
     function clickPin() {
     	var mark = places()[0].marker;
-
     	var len = mark.length - 1;
-
         for (i=0; i<len; i++) {
 
             mark[i].setIcon(null);
             mark[i].infoWindow.close(map, markers);
         }
-
         if (markers.icon == null)
-
         {
             markers.setIcon(image);
             markers.infoWindow.open(map, markers);
@@ -221,20 +217,32 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
             function stopBouncing() {
                 markers.setAnimation(null);
             };
-
         } else {
             markers.setIcon(null);
             markers.infoWindow.close(map, markers);
             markers.setAnimation(null);
         }
     }
+    function beenThere() {
+    	var beenThere = document.getElementById('been');
+	    markers.addListener('mouseover', function(){
+	    	beenThere.style.display='block'
+	    });
+	    markers.addListener('mouseout', function(){
+	    	beenThere.style.display='none'
+	    })
+	};
+	beenThere();
+
 
     //makes it so that the above function will activate when a marker
     //is clicked
     markers.addListener('click', function() {
-
         clickPin();
     });
+
+    //on hover over a marker, something happens
+
 
     //makes the markers' visibility a parameter contingent on code below,
     //where I use knockout to create a computed function and an 
