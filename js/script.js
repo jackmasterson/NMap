@@ -165,7 +165,7 @@ var List = function List(data, name, tag) {
 };
 
 //creates the individual markers but doesn't initiate them yet
-var Pin = function Pin(map, position, name, address, src, tag) {
+var Pin = function Pin(map, position, name, address, src, tag, href) {
     var markers;
     var infowindow;
     var image = 'img/marker-blue.png';
@@ -174,12 +174,14 @@ var Pin = function Pin(map, position, name, address, src, tag) {
     this.position = ko.observable(position);
     this.address = ko.observable(address);
     this.tag = ko.observable(tag);
+    this.href = ko.observable(href);
+
 
 
     //content for the infoWindow
     var contentString =
         '<div id="content">' +
-        '<h4>' + name + '</h4>' +
+        '<h4><a target="_blank" href="' + href + '">' + name + '</a></h4>' +
         '<h5>' + address + '</h5>' +
         '<img class="markerImg" src=' + src + '>' +
         '</div>';
@@ -294,7 +296,8 @@ function initMap() {
     self.pins = ko.observableArray([]);
     places().forEach(function(placeItem) {
         self.pins.push(new Pin(map, placeItem.position,
-            placeItem.title, placeItem.address, placeItem.src, placeItem.tag));
+            placeItem.title, placeItem.address, placeItem.src, placeItem.tag,
+            placeItem.href));
 
     })
 
@@ -347,6 +350,7 @@ function initMap() {
 		    var x = spot.tag();
 
 			Array.prototype.contains = function ( searched ) {
+
 			   for (r in this) {
 			       if (this[r] == searched) return true;
 			   	}
@@ -385,7 +389,7 @@ var places = ko.observableArray([{
         lng: -74.012914
     },
     title: 'Johnny Mac House of Spirits',
-    tag: ['bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny mac'],
+    tag: ['bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
     address: '208 Main St, Asbury Park, NJ 07712',
     src: 'img/macs.jpg',
     nums: '(0)',
@@ -408,7 +412,7 @@ var places = ko.observableArray([{
         lng: -74.000947
     },
     title: 'The Stone Pony',
-    tag: ['music', 'concerts', 'live', 'stone pony'],
+    tag: ['music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
     address: '913 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/pony.jpg',
     nums: '(1)',
@@ -430,7 +434,7 @@ var places = ko.observableArray([{
         lng: -74.002344
     },
     title: 'Porta Pizza/Wine Bar',
-    tag: ['bar', 'restaurant', 'pizza', 'nightclub', 'porta'],
+    tag: ['bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
     address: '911 Kingsley St, Asbury Park, NJ 07712',
     src: 'img/porta.jpg',
     nums: '(2)',
@@ -452,7 +456,7 @@ var places = ko.observableArray([{
         lng: -73.999884
     },
     title: 'Silverball Museum',
-    tag: ['vacation', 'pinball', 'silverball', 'museum'],
+    tag: ['vacation', 'pinball', 'silverball', 'museum', 'silver'],
     address: '1000 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/silverball.jpg',
     nums: '(3)',
@@ -474,7 +478,7 @@ var places = ko.observableArray([{
         lng: -73.998585
     },
     title: 'Convention Hall',
-    tag: ['shopping', 'tourist', 'pictures', 'convention hall'],
+    tag: ['shopping', 'tourist', 'pictures', 'convention', 'hall'],
     address: '1300 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/hall.jpg',
     nums: '(4)',
