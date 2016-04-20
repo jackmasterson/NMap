@@ -199,10 +199,9 @@ var Pin = function Pin(map, position, name, address, src, tag) {
     //icon changes, infoWindow activation, etc
     function clickPin() {
         var mark = places()[0].marker;
-        for (i in places()) {
-            mark[i].setIcon(null);
-            mark[i].infoWindow.close(map, markers);
-        }
+
+        markers.setIcon(null);
+        markers.infoWindow.close(map, markers);
         if (markers.icon == null)
 
         {
@@ -301,10 +300,20 @@ function initMap() {
         var search = viewModel.query().toLowerCase();
 
         return ko.utils.arrayFilter(self.pins(), function(pin) {
-            var doesMatch = pin.name().toLowerCase().indexOf(search) >= 0;
-    //        var alsoMatch = pin.tag().toLowerCase().indexOf(search) >=0;
-            pin.isVisible(doesMatch);
-      //      pin.isVisible(alsoMatch);
+
+      		Array.prototype.contains = function ( searched ) {
+			   for (r in this) {
+			       if (this[r] == searched) return true;
+			   	}
+			   	return false;
+			}
+			var x = pin.tag();
+			if (x.contains(search)) {
+				pin.isVisible(true);
+			} 
+			else {
+				pin.isVisible(false);
+			}
 
         });
 
@@ -317,49 +326,23 @@ function initMap() {
 
         return ko.utils.arrayFilter(self.takers(), function(spot) {
         	console.log(spot.tag());
-         //   var doesMatch = spot.title.toLowerCase().indexOf(search) >= 0;
             
             var elemID = document.getElementById(spot.id);
 		    var x = spot.tag();
 
 			Array.prototype.contains = function ( searched ) {
-			   for (i in this) {
-			       if (this[i] == searched) return true;
+			   for (r in this) {
+			       if (this[r] == searched) return true;
 			   	}
 			   	return false;
 			}
 			var x = spot.tag();
 			if (x.contains(search)) {
-					console.log('search!');
 					elemID.style.display = 'block';
 			} else {
 					elemID.style.display = 'none';
 			}
-
-          /*  if (doesMatch === true) {
-                elemID.style.display = 'block';
-            } else {
-                elemID.style.display = 'none';
-            }*/
-      //      var alsoMatch = spot.tag.toLowerCase().indexOf(search) >=0;
-            
-
-           
-/*
-places().forEach(function(placeItem) {
-	self.pins.push(new Pin(map, placeItem.position,
-	placeItem.title, placeItem.address, placeItem.src, placeItem.tag));
-
-})*/
-            //	var alsoMatch = tagArr[t].toLowerCase().indexOf(search) >=0;
-            //	console.log(alsoMatch, tagArr);
-          /*  if (alsoMatch === true) {
-                elemID.style.display = 'block';
-            } else {
-                elemID.style.display = 'none';
-            }*/
         
-
         });
     });
 
@@ -386,7 +369,7 @@ var places = ko.observableArray([{
         lng: -74.012914
     },
     title: 'Johnny Mac House of Spirits',
-    tag: ['bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza'],
+    tag: ['bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny mac'],
     address: '208 Main St, Asbury Park, NJ 07712',
     src: 'img/macs.jpg',
     nums: '(0)',
@@ -409,7 +392,7 @@ var places = ko.observableArray([{
         lng: -74.000947
     },
     title: 'The Stone Pony',
-    tag: ['music', 'concerts', 'live'],
+    tag: ['music', 'concerts', 'live', 'stone pony'],
     address: '913 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/pony.jpg',
     nums: '(1)',
@@ -431,7 +414,7 @@ var places = ko.observableArray([{
         lng: -74.002344
     },
     title: 'Porta Pizza/Wine Bar',
-    tag: ['bar', 'restaurant', 'pizza', 'nightclub'],
+    tag: ['bar', 'restaurant', 'pizza', 'nightclub', 'porta'],
     address: '911 Kingsley St, Asbury Park, NJ 07712',
     src: 'img/porta.jpg',
     nums: '(2)',
@@ -453,7 +436,7 @@ var places = ko.observableArray([{
         lng: -73.999884
     },
     title: 'Silverball Museum',
-    tag: ['vacation', 'pinball'],
+    tag: ['vacation', 'pinball', 'silverball', 'museum'],
     address: '1000 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/silverball.jpg',
     nums: '(3)',
@@ -475,7 +458,7 @@ var places = ko.observableArray([{
         lng: -73.998585
     },
     title: 'Convention Hall',
-    tag: ['shopping', 'tourist', 'pictures'],
+    tag: ['shopping', 'tourist', 'pictures', 'convention hall'],
     address: '1300 Ocean Ave, Asbury Park, NJ 07712',
     src: 'img/hall.jpg',
     nums: '(4)',
