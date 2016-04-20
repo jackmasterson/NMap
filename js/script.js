@@ -178,7 +178,7 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     this.address = ko.observable(address);
     this.tag = ko.observable(tag);
     this.href = ko.observable(href);
-    var notes = '<input id="been" type="checkbox">'
+
 
     //content for the infoWindow
     var contentString =
@@ -189,14 +189,16 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
 	        '<h5>' + address + '</h5>' +
 	        '<img class="markerImg" src=' + src + '>' +
         '</div>' +
-        '<label>Been There</label><input type="checkbox" onClick="notes()"/>';
+        '<div id="beenThur">' +
+        	'<label>Been There</label><input type="checkbox" onClick="notes()"/>' +
+        '</div>' +
+        '<input type="text" class="been" value="How was it? Hit enter to save">';
 
     //pushes the markers, when created, into an accessible array
     places()[0].marker.push(
         markers = new google.maps.Marker({
             position: position,
             animation: google.maps.Animation.DROP,
-            notes: notes,
             infoWindow: new google.maps.InfoWindow({
                 content: contentString
             })
@@ -257,8 +259,11 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     this.isVisible(true);
 
 }
+
+
 function notes() {
 	console.log('hey');
+    $(".been").toggle("fast", function() {});
 }
 
 var map;

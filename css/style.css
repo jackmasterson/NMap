@@ -25,7 +25,11 @@ a:visited {
 }
 #been {
   font-size: 20px;
-
+}
+.been {
+  color: gray;
+  display: none;
+  width: 100%;
 }
 
 #search {
