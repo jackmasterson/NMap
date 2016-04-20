@@ -168,10 +168,7 @@ var List = function List(data, name, tag) {
 var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     var markers;
     var infowindow;
-   // console.log(img);
-    console.log(mkImg);
-   // console.log(image);
-   var image = mkImg;
+   	var image = mkImg;
 
     this.name = ko.observable(name);
     this.position = ko.observable(position);
@@ -346,11 +343,38 @@ function initMap() {
         var search = viewModel.query().toLowerCase();
         console.log(search);
 
+		   //adds all the tags together to make them searchable 
+		   //for autocomplete
+		    var allTags = places()[0].tag
+		    	.concat(places()[1].tag)
+		    	.concat(places()[2].tag)
+		    	.concat(places()[3].tag)
+		    	.concat(places[4].tag);
+
+
         return ko.utils.arrayFilter(self.takers(), function(spot) {
-        	//console.log(spot.tag());
+        	
+        	//creates an array of unique tags in which to push the
+        	//allTags variable 
+		    var uniqueTags = [];
+
             
             var elemID = document.getElementById(spot.id);
 		    var x = spot.tag();
+
+		    //filters through allTags and only pushes the unique 
+		    //tags into the uniqueTags array
+		   	$.each(allTags, function(i, el){
+			    if($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
+			});
+		
+			//initiates the autocomplete search function, using the
+			//uniqueTags array 
+	        $( "#searchBar" ).autocomplete({
+		      source: uniqueTags
+		    });
+		    
+
 
 			Array.prototype.contains = function ( searched ) {
 
@@ -365,8 +389,8 @@ function initMap() {
 			} else {
 					elemID.style.display = 'none';
 			}
-        
         });
+
     });
 
     ///media queries
@@ -505,6 +529,7 @@ var places = ko.observableArray([{
 }]);
 
 
+
 //function to activate the markers when the list items are clicked
 function myClick(id) {
     var tried = places()[0].marker;
@@ -544,7 +569,6 @@ function searched() {
     });
 
 };
-
 
 
 var viewModel = {
