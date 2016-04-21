@@ -22,6 +22,7 @@
       <img id="header" src="img/apnj.jpg">
     </div>
     <div id="listButton">
+
         <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View">
         <a href="#" class="slideout-menu-toggle">
           <img class="toggle" src="img/mic.png" alt text="Toggle Live Shows">
@@ -30,6 +31,16 @@
           <img class="toggle" src="img/census.png" alt="Toggle Census Info">
         </a>
 
+
+        <input data-bind="value: takeNotes, valueUpdate: 'keyup' "type="text" id="been" placeholder="Been There? How was it? Hit enter to save"></input>
+
+
+
+
+    </div>
+
+    <div class="display" id="displayed">
+      <h5 id="displayedHead" data-bind="text: checkIt"></h5>
     </div>
 
 

@@ -23,12 +23,8 @@ a:visited {
   height: 100%;
   width: 100%;
 }
+
 #been {
-  font-size: 20px;
-}
-.been {
-  color: gray;
-  display: none;
   width: 100%;
 }
 
@@ -94,11 +90,19 @@ a:visited {
   border: 5px solid black;
 }
 
-#display{
+.display{
   background-color: #CCC;
   font-style: italic;
   color: rgba(0,0,0,0.5);
 }
+#displayed{
+  position: absolute;
+  z-index: 5;
+  height: auto;
+  width: 25%;
+  margin: 45% auto auto 3%;
+}
+
 #searched{
   padding-top: 15px;
 }

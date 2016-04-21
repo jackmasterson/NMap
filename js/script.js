@@ -188,11 +188,7 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
 	        '</h4>' +
 	        '<h5>' + address + '</h5>' +
 	        '<img class="markerImg" src=' + src + '>' +
-        '</div>' +
-        '<div id="beenThur">' +
-        	'<label>Been There</label><input type="checkbox" onClick="notes()"/>' +
-        '</div>' +
-        '<input type="text" class="been" value="How was it? Hit enter to save">';
+        '</div>';
 
     //pushes the markers, when created, into an accessible array
     places()[0].marker.push(
@@ -211,7 +207,7 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
     //icon changes, infoWindow activation, etc
     function clickPin() {
     	var mark = places()[0].marker;
-    	var len = mark.length - 1;
+    	var len = mark.length;
         for (i=0; i<len; i++) {
 
             mark[i].setIcon(null);
@@ -260,11 +256,6 @@ var Pin = function Pin(map, position, name, address, src, tag, href, mkImg) {
 
 }
 
-
-function notes() {
-	console.log('hey');
-    $(".been").toggle("fast", function() {});
-}
 
 var map;
 
@@ -538,50 +529,47 @@ function myClick(id) {
     google.maps.event.trigger(tried[id], 'click');
 };
 
-//function that makes it so when enter or search are clicked,
-//it adds the input value to a list of searched items
-function searched() {
 
-    $(document).ready(function() {
-        $('#spot').keypress(function(e) {
-            if (e.keyCode == 13)
-                $('#button').click();
-        });
-    });
 
-    var places = [];
-    var placeInput = document.getElementById("spot");
-    var messageBox = document.getElementById("display");
-    var br = '</br>'
+function checkIt() {
+	//console.log(item);
+	
 
-    function insert() {
-        places.push(placeInput.value);
-        clearAndShow();
 
-    }
-
-    function clearAndShow() {
-        placeInput.value = "";
-        messageBox.innerHTML = "";
-        messageBox.innerHTML = places.join(br);
-    }
-
-    $('#button').click(function() {
-        insert();
-    });
-
+	
+	$('#been').keyup(function(e){
+  		if(e.keyCode == 13){						  						
+		var search = viewModel.takeNotes().toLowerCase();
+		var displayIt = ko.observable(search);
+		console.log(displayIt());
+		$('#displayedHead').append(displayIt() + '</br>');
+			/*displayIt.removeAll();
+			displayIt.push(search);
+			console.log(displayIt());
+			return displayIt();	*/
+		}
+	});
 };
+
+
+
+
+
+
 
 var viewModel = {
     self: this,
     socrataData: socrataData(),
     jamBase: jamBase(),
     initMap: initMap,
+    checkIt: checkIt(),
+    takeNotes: ko.observable(''),
     place: ko.observable(places()),
-    searched: searched(),
-    query: ko.observable(''),
-
+    query: ko.observable('')
 };
+
+
+
  
 
 
