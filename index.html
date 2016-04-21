@@ -10,6 +10,28 @@
   </head>
   <body>
 
+    <ul id="mark-list"></ul>
+    <div id="mark">
+        <h2 id="mark-name"><span data-bind="text: personName"></span></h2>
+        <div id="admin">
+            <button id="adminButton">Admin</button>
+            <div id="hiddenAdmin">
+                <button id="saveButton">Save</button>
+                <div id="inputDiv">
+                    <input id="input"></input>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
     <div id="list">
 
      <ul id="listUL">
@@ -30,19 +52,14 @@
         <a href="#" id="socrata-data">
           <img class="toggle" src="img/census.png" alt="Toggle Census Info">
         </a>
-
-
-        <input data-bind="value: takeNotes, valueUpdate: 'keyup' "type="text" id="been" placeholder="Been There? How was it? Hit enter to save"></input>
-        <div class="display" data-bind="text: takeNotes"></div>
-
-
-
+        <input data-bind="value: takeNotes, valueUpdate: 'keyup' "type="text"   id="been" placeholder="Been There? How was it? Hit enter to save">
+        </input>
+        <ul class="display" id="displayed">
+          <span id="displayedHead" data-bind="text: checkIt"></span>
+        </ul>
 
     </div>
 
-    <ul class="display" id="displayed">
-      <span id="displayedHead" data-bind="text: checkIt"></span>
-    </ul>
 
 
   <div id="map"></div>

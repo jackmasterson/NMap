@@ -25,7 +25,7 @@ a:visited {
 }
 
 #been {
-  width: 100%;
+
 }
 
 #search {
@@ -90,18 +90,20 @@ a:visited {
   border: 5px solid black;
 }
 
+.topRight{
+  position: absolute;
+  z-index: 5;
+  margin: 5% auto 60% auto;
+}
 .display{
-  background-color: #CCC;
   font-style: italic;
   color: rgba(0,0,0,0.5);
 }
-#displayed{
-  position: absolute;
-  z-index: 5;
-  height: auto;
-  width: 25%;
-  margin: 45% auto auto 3%;
+#displayed {
+  float: right;
+  margin: 15px;
 }
+
 
 #searched{
   padding-top: 15px;
