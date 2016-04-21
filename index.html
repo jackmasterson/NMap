@@ -33,15 +33,16 @@
 
 
         <input data-bind="value: takeNotes, valueUpdate: 'keyup' "type="text" id="been" placeholder="Been There? How was it? Hit enter to save"></input>
+        <div class="display" data-bind="text: takeNotes"></div>
 
 
 
 
     </div>
 
-    <div class="display" id="displayed">
-      <h5 id="displayedHead" data-bind="text: checkIt"></h5>
-    </div>
+    <ul class="display" id="displayed">
+      <span id="displayedHead" data-bind="text: checkIt"></span>
+    </ul>
 
 
   <div id="map"></div>

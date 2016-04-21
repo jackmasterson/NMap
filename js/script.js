@@ -539,14 +539,11 @@ function checkIt() {
 	
 	$('#been').keyup(function(e){
   		if(e.keyCode == 13){						  						
-		var search = viewModel.takeNotes().toLowerCase();
+		var search = '<li>' + viewModel.takeNotes().toLowerCase() + '</li>';
 		var displayIt = ko.observable(search);
 		console.log(displayIt());
 		$('#displayedHead').append(displayIt() + '</br>');
-			/*displayIt.removeAll();
-			displayIt.push(search);
-			console.log(displayIt());
-			return displayIt();	*/
+
 		}
 	});
 };
