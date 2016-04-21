@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Asbury Park - Stuff to See!</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    <title>Asbury Park - Stuff to See!</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <script src="js/lib/jquery.js"></script>
+    <meta name="viewport" content="width=device-width">
+    <script src="js/lib/knockout-3.2.0.js"></script>
   </head>
+ 
   <body>
 
     <ul id="mark-list"></ul>
     <div id="mark">
         <h2 id="mark-name"><span data-bind="text: personName"></span></h2>
+        <div id="mark-count"></div>
+        <img id="mark-img" src="" alt="try">
         <div id="admin">
             <button id="adminButton">Admin</button>
             <div id="hiddenAdmin">
@@ -23,71 +26,15 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-    <div id="list">
-
-     <ul id="listUL">
-        <input id="searchBar"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Enter to Search" autofocus></input>
-
-        <div id="display"></div>
-      </ul>     
-    </div>
-    <div>
-      <img id="header" src="img/apnj.jpg">
-    </div>
-    <div id="listButton">
-
-        <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View">
-        <a href="#" class="slideout-menu-toggle">
-          <img class="toggle" src="img/mic.png" alt text="Toggle Live Shows">
-        </a>
-        <a href="#" id="socrata-data">
-          <img class="toggle" src="img/census.png" alt="Toggle Census Info">
-        </a>
-        <input data-bind="value: takeNotes, valueUpdate: 'keyup' "type="text"   id="been" placeholder="Been There? How was it? Hit enter to save">
-        </input>
-        <ul class="display" id="displayed">
-          <span id="displayedHead" data-bind="text: checkIt"></span>
-        </ul>
-
-    </div>
-
-
-
-  <div id="map"></div>
-
-
-
-  <div id="socrata-header"></div>
-  <div id="jamBase-header"></div>
-  <div id="brew-header"></div>
-
-
-
-
-
-
-  <script src="js/lib/jquery.js"></script>
-  <script src="js/lib/jquery-ui.min.js"></script>
-    <script src="js/lib/knockout-3.2.0.js"></script>
+ 
     <script src="js/script.js"></script>
-
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
-    &callback=viewModel.initMap" async defer></script>
-
-
-
-
-
 
   </body>
 
+    <script>
+    ko.applyBindings(myViewModel);
+    </script>
+
+
 </html>
+
