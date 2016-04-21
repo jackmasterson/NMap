@@ -286,6 +286,9 @@ function initMap() {
 
     //where the markers are initiated, pushed into the observable
     //array, self.pins()
+
+
+    //IGNORING THIS FOR NOW *****----------->>>>>>>>>>>>>>>>>
     self.pins = ko.observableArray([]);
     places().forEach(function(placeItem) {
         self.pins.push(new Pin(map, placeItem.position,
@@ -386,6 +389,8 @@ function initMap() {
 
     });
 
+
+
     ///media queries
 
 
@@ -398,7 +403,7 @@ function initMap() {
 
 };
 
-
+//TIL HERE *************-------------->>>>>>>>>>>>>>>>>>>>>
 
 //creates the 'places' observable Array, which contains all the needed
 //information I'll be using to create the markers, infowindows, list items,
