@@ -303,9 +303,10 @@ var markView = {
     init: function() {
         this.markElem = document.getElementById('mark');
         this.markNameElem = document.getElementById('mark-name');
+        this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
         this.markNotes = document.getElementById('notes');
-        console.log(this.markNotes);
+       // console.log(this.markNotes);
         this.countElem = document.getElementById('mark-count');
 
 
@@ -316,10 +317,18 @@ var markView = {
         var currentMark = viewModel.getCurrentMark();
         this.countElem.textContent = currentMark.clickCount;
         this.markNameElem.textContent = currentMark.title;
+        this.markAddElem.textContent = currentMark.address;
         this.markImageElem.src = currentMark.src;
         this.markNotes = currentMark.notes;
     }
 };
+function toggleList(){
+	$('#toggleListButton').click(function(){
+	    $('#mark').slideToggle();
+	    $('#listed').slideToggle();
+	});
+};
+toggleList();
 
 var listView = {
 
@@ -352,7 +361,7 @@ var listView = {
 				    	
 				    	for(t=0;t<model.places.length;t++){
 					    	var bore = model.places[t].marker[0];
-					    	console.log(bore);
+					//    	console.log(bore);
 					    	bore.setIcon(null);
 					    	bore.setAnimation(null);
 					    }

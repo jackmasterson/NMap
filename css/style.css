@@ -8,6 +8,7 @@ html, body {
 a:visited {
   color: gray;
 }
+
 #header {
   position: absolute;
   margin-left: 62%;
@@ -28,14 +29,21 @@ a:visited {
   width: 100%;
 }
 #mark {
-  position: absolute;
+  margin-left: 62%;
+  margin-top: 43%;
   height: 150px;
-  width: 150px;
-  z-index: 5;
+  width: 250px;
+  display: none;
 }
 #mark-img {
   height: 75px;
   width: 75px;
+}
+#mark-name {
+  font-size: 15px;
+}
+#mark-address {
+  font-size: 10px;
 }
 
 #search {
@@ -59,10 +67,8 @@ a:visited {
   width: 75px;
   padding: 15px;
 }
-#list {
+.list {
   position: absolute;
-  width: 20%;
-  margin: 15% 30% auto 2%;
   z-index: 5;
   background: white;
   text-align: center;
@@ -70,6 +76,11 @@ a:visited {
   border-radius: 15px;
   font-family: 'Roboto','sans-serif';
   padding: auto 40% auto auto;
+}
+#listed {  
+  width: 20%;
+  margin: 15% 30% auto 2%;
+  display: none;
 }
 #listUL{
   text-align: center;

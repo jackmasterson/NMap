@@ -9,7 +9,7 @@
   </head>
   <body>
 
-    <div id="list">
+    <div class="list" id="listed">
 
      <ul id="listUL">
       <ul id="mark-list"></ul>
@@ -34,14 +34,15 @@
 
         <input data-bind="value: takeNotes, valueUpdate: 'keyup' "type="text" id="been" placeholder="Been There? How was it? Hit enter to save"></input>
         <div class="display" data-bind="text: takeNotes"></div>
-              <div id="mark">
-        <h2 id="mark-name"></h2>
-        <div id="mark-count"></div>
-        <img id="mark-img" src="" alt="try">
-      </div>
+
     </div>
 
-
+        <div class="list" id="mark">
+          <h2 id="mark-name"></h2>
+          <h3 id="mark-address"></h3>
+          <div id="mark-count"></div>
+          <img id="mark-img" src="" alt="try">
+        </div>
 
 
 
