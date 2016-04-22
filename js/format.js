@@ -356,6 +356,8 @@ var searchedView = {
 	},
 
 	render: function() {
+		console.log(this.messageBox.innerHTML);
+
 
 
 		var self = this;
@@ -379,16 +381,17 @@ var searchedView = {
 		if(this.currentMark.notes[0] == ''){
 			this.currentMark.notes.shift();
 		}
-		console.log(this.currentMark.notes);
-		console.log(self.messageBox.innerHTML);
+
+
 		
 
-			$('#clear').click(function() {
-				console.log('cleared');
-				self.currentMark.notes = [];
-				self.messageBox.innerHTML = self.currentMark.notes;
-				$('#noted').hide();
-			})
+		$('#clear').click(function() {
+			console.log('cleared');
+			self.currentMark.notes = [];
+			self.messageBox.innerHTML = self.currentMark.notes;
+			$('#noted').hide();
+		})
+		
 
 
 	},

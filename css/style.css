@@ -48,12 +48,11 @@ a:visited {
   display: none;
   position: absolute;
   z-index: 5;
-  background: white;
+  background: #CCC;
   text-align: center;
-  border: 2px solid black;
-  border-radius: 15px;
-  font-family: 'Roboto','sans-serif';
-  padding: auto 40% auto auto;
+  border-radius: 5px;
+  font-style: italic;
+  border: none;
 }
 #clear {
   margin: 38% auto auto 44%;
