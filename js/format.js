@@ -146,7 +146,7 @@ var socrataView = {
 		var self = this;
 		this.socrataElem = document.getElementById('socrata-header');
 
-		console.log(this.socrataElem);
+
 		this.socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
         'id=1600000US3401960';
 
@@ -262,16 +262,16 @@ var jamBaseView = {
 			$('.slideout-menu-toggle').on('click', function(event) {
 				event.preventDefault();
 
-				var jamBaseElemWidth = this.jamBaseElem.width();
+				var jamBaseElemWidth = $('#jamBase-header').width();
 
-				this.jamBaseElem.toggleClass('open');
+				$('#jamBase-header').toggleClass('open');
 
-				if(this.jamBaseElem.hasClass('open')) {
-					this.jamBaseElem.animate({
+				if($('#jamBase-header').hasClass('open')) {
+					$('#jamBase-header').animate({
 						right: '0px'
 					});
 				} else {
-					this.jamBaseElem.animate({
+					$('#jamBase-header').animate({
 						right: -jamBaseElemWidth
 					}, 250);
 				}
@@ -318,22 +318,24 @@ var listView = {
 var pinView = {
 	
 	init: function(map, position, name, address, src, tag, href, mkImg) {
+		var self = this;
 		var markers, i, t, infoWindow, data;
 		var len = model.places.length;
-		var image = mkImg;
 		var mark = model.places[0].marker;
 		var len = mark.length;
 		
 		for(t=0;t<len;t++) {
 			data = model.places[t];
-
+			console.log(data);
+			this.image = data.mkImg;
+			console.log(data.mkImg);
 			this.name = ko.observable(data.name);
-			console.log(this.name());
+			
 
-			this.position = ko.observable(position);
-			this.address = ko.observable(address);
-			this.tag = ko.observable(tag);
-			this.href = ko.observable(href);
+			this.position = ko.observable(data.position);
+			this.address = ko.observable(data.address);
+			this.tag = ko.observable(data.tag);
+			this.href = ko.observable(data.href);
 		}
 
 
@@ -345,12 +347,14 @@ var pinView = {
 
 	render: function() {
 		var contentString = 'hey';
-		var i, data;
+		var i, t, data;
 		var len = model.places.length;
+		var mark = model.places[0].marker;
+    	var markLen = mark.length;
 
-		for(i=0;i<len;i++){
-			data = model.places[i];
-			console.log(data.position)
+		for(t=0;t<len;t++){
+			data = model.places[t];
+
 		
 	    
 		    model.places[0].marker.push(
@@ -367,34 +371,35 @@ var pinView = {
 	    markers.addListener('click', function() {
 			clickPin();
 		});
+	    function clickPin(){
+		    for(i=0; i<markLen; i++) {
+		    	mark[i].setIcon(null);
+		    	mark[i].infoWindow.close(map, markers);
+		    }
 
-	   /* for(i=0; i<len; i++) {
-	    	mark[i].setIcon(null);
-	    	mark[i].infoWindow.close(map, markers);
-	    }
+		    if(markers.icon == null) {
+		    	markers.setIcon(self.image);
+		    	markers.infoWindow.open(map, markers);
+		    	markers.setAnimation(google.maps.Animation.BOUNCE);
+		    	timeoutID = window.setTimeout(stopBouncing, 2200);
 
-	    if(markers.icon == null) {
-	    	markers.setIcon(image);
-	    	markers.infoWindow.open(map, markers);
-	    	markers.setAnimation(google.maps.Animation.BOUNCE);
-	    	timeoutID = window.setTimeout(stopBouncing, 2200);
+		    	function stopBouncing() {
+		    		markers.setAnimation(null);
+		    	};
+		    } else {
+		    	markers.setIcon(null);
+		    	markers.infoWindow.close(map, markers);
+		    	markers.setAnimation(null);
+		    }
 
-	    	function stopBouncing() {
-	    		markers.setAnimation(null);
-	    	};
-	    } else {
-	    	markers.setIcon(null);
-	    	markers.infoWindow.close(map, markers);
-	    	markers.setAnimation(null);
-	    }
-
-	    this.isVisible.subscribe(function(currentState) {
-	    	if(currentState) {
-	    		markers.setMap(map);
-	    	} else {
-	    		markers.setMap(null);
-	    	}
-	    });*/
+		    /*this.isVisible.subscribe(function(currentState) {
+		    	if(currentState) {
+		    		markers.setMap(map);
+		    	} else {
+		    		markers.setMap(null);
+		    	}
+		    });*/
+		};
 
 	   // this.isVisible(true);
 	}
