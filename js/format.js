@@ -364,11 +364,10 @@ var searchedView = {
 
 			self.placeInput.value = '';
 			self.messageBox.innerHTML = '';
+			self.messageBox.innerHTML = currentMark.notes.join(self.br);
 
-			if(currentMark.notes == ''){
-				self.messageBox.innerHTML = currentMark.notes
-			} else {
-				self.messageBox.innerHTML = currentMark.notes.join(self.br)
+			if(currentMark.notes[0] == ''){
+				currentMark.notes.shift();
 			}
 		
 
