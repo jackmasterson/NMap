@@ -13,7 +13,7 @@
 
      <ul id="listUL">
       <ul id="mark-list"></ul>
-        <input id="searchBar"  data-bind="value: filter, valueUpdate: 'keyup'" autocomplete="off"placeholder="Enter to Search" autofocus></input>
+        <input id="searchBar"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Enter to Search" autofocus></input>
 
         <div id="display"></div>
       </ul>     
@@ -35,8 +35,8 @@
     </div>
         <input class="list" id="mark-search" placeholder="Been There? What'd You Think? Enter to Save"/>
 
-        <h3 id="noted"></h3>
-        <button value="Clear Notes" id="clear">Clear Notes</button>
+        <h3 class="list" id="noted"></h3>
+        <button value="Clear Notes" class="list" id="clear">Clear Notes</button>
         <div class="list" id="mark">
           <h2 id="mark-name"></h2>
           <h3 id="mark-address"></h3>
@@ -49,9 +49,12 @@
 
   <div id="map"></div>
 
+  <div id="socrata-header">
+    <ul class="socrata-info">Asbury Park, NJ Census Facts |
+      <li id="socrata-item"></li>
+    </ul>
+  </div>
 
-
-  <div id="socrata-header"></div>
   <div id="jamBase-header"></div>
   <div id="brew-header"></div>
 

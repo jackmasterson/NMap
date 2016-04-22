@@ -1,3 +1,5 @@
+
+
 var map;
 var filter = ko.observable('');
 
@@ -135,7 +137,7 @@ var model = {
             id: 'hall',
             visible: true
         }
-    ]
+    ],
 };
 
 var viewModel = {
@@ -167,20 +169,19 @@ var viewModel = {
 var socrataView = {
 	
 	init: function() {
-		var text;
-		var self = this;
+		var text, dataLabel, i;
+
 		this.socrataElem = document.getElementById('socrata-header');
-
-
 		this.socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
         'id=1600000US3401960';
-
-
-
+        this.socrataUL = document.getElementById('socrata-info');
+        this.socrataLI = document.getElementById('socrata-item');
         this.render();
     },
 
     render: function() {
+    	var self=this;
+
 		text = 'You were supposed to see some awesome census data ' +
 	            'about Asbury Park, NJ, but the request failed. And its all. my.' +
 	            ' fault. Im sorry to let you down.';
@@ -188,9 +189,9 @@ var socrataView = {
     	this.socrataTimeout = setTimeout(function() {
         	$('#socrata-header').append(text);
         }, 3000);
-
+    	
         $.ajax({
-        	url: self.socrataURL,
+        	url: this.socrataURL,
         	dataType: 'json',
         	success: function(response) {
 
@@ -198,17 +199,7 @@ var socrataView = {
         		for(var i=0; i<infos.length; i++){
         			var info = infos[i];
 
-        			self.socrataElem.prepend('<ul class="info">Asbury Park, NJ Census Facts | ' +
-                    '<li id="infoHead"> Year: ' + info.year + ' | </li> ' +
-                    '<li id="infoHead"> Population: ' + info.population + ' | </li> ' +
-                    '<li id="infoHead"> High School Graduation Rate: ' +
-                    info.percent_high_school_graduate + '% | </li> ' +
-                    '<li id="infoHead"> Bachelors Degree: ' +
-                    info.percent_bachelors_degree + '% | </li> ' +
-                    '<li id="infoHead"> Associates Degree: ' +
-                    info.percent_associates_degree + '% | </li> ' +
-                    '<li id="infoHead"> Information Courtesy Socrata Open Data Network | </li> ' +
-                    '</ul>')
+        			
 		        }
 		        clearTimeout(self.socrataTimeout);
         	}
@@ -312,9 +303,11 @@ var markView = {
         this.markNameElem = document.getElementById('mark-name');
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
-        
-
         this.countElem = document.getElementById('mark-count');
+
+
+
+
 
         this.render();
     },
@@ -404,6 +397,7 @@ var listView = {
 		this.markListElem = document.getElementById('mark-list');
 
 		this.render();
+
 	},
 
     render: function() {
@@ -466,6 +460,7 @@ var pinView = {
 		var len = model.places.length;
 		var marked = model.places[0].marker;
 		var len = marked.length;
+
 		
 		for(t=0;t<len;t++) {
 			data = model.places[t];
@@ -479,16 +474,14 @@ var pinView = {
 			this.address = ko.observable(data.address);
 			this.tag = ko.observable(data.tag);
 			this.href = ko.observable(data.href);
+			console.log(this.tag);
 		}
-
-
-
-		this.isVisible = ko.observable(false);
 
 		this.render();
 	},
 
 	render: function() {
+	//	console.log(self.tag);
 		
 		var i, t, data, contentString;
 		var len = model.places.length;
@@ -505,12 +498,30 @@ var pinView = {
 		            animation: google.maps.Animation.DROP
 		        })
 		    );
-
+			var pinList = ko.observableArray([]);
 			var markers = data.marker[0];
+				pinList.push(markers);
 			//console.log(markers);
+			this.tag = ko.observableArray(data.tag);
+		    
+
+
 		    markers.addListener('click', function() {
 				//clickPin();
 			});
+			markers.isVisible = ko.observable(false);
+
+		    markers.isVisible.subscribe(function(currentState) {
+		        if (currentState) {
+		            markers.setMap(map);
+
+		        } else {
+		            markers.setMap(null);
+		        }
+		    });
+
+    		markers.isVisible(true);
+
 		    function clickPin(){
 			    for(i=0; i<markLen; i++) {
 			    	markers.setIcon(null);
@@ -531,9 +542,46 @@ var pinView = {
 			    	markers.setAnimation(null);
 			    }
 
-
 			};
+
+			//console.log(data.marker);
+		//	console.log(data.tag);
+			//console.log(pinList());
+
+			filterPins = ko.computed(function() {
+
+			//	console.log(data.tag);
+				var search = viewModel.query().toLowerCase();
+				console.log(search);
+				//console.log(data.marker);
+
+				return ko.utils.arrayFilter(pinList(), function(pin) {
+				//	console.log(data.tag);
+				//	console.log(pin);
+								console.log(pinView.tag);
+				console.log(pinView.tag());
+					Array.prototype.contains = function ( searched ) {
+						for(r in this) {
+							if(this[r] == searched) return true;
+						}
+						return false;
+					}
+	
+			
+					var x = pinView.tag();
+				
+
+				//	console.log(x());
+					if(x.contains(search)) {
+						pin.isVisible(true);
+					}
+					else {
+						pin.isVisible(false);
+					}
+				})
+			})
 		};
+
 
 	}
 }
