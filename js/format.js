@@ -16,7 +16,7 @@ var model = {
             src: 'img/macs.jpg',
             mkImg: 'img/beer.png',
             nums: '(0)',
-            icon: null,
+          //  icon: null,
             marker: marker = [],
             markOpts: {
                 position: {
@@ -42,7 +42,7 @@ var model = {
             src: 'img/pony.jpg',
             mkImg: 'img/music.png',
             nums: '(1)',
-            icon: null,
+           // icon: null,
             marker: marker = [],
             markOpts: {
                 position: {
@@ -65,7 +65,7 @@ var model = {
             src: 'img/porta.jpg',
             mkImg: 'img/beer.png',
             nums: '(2)',
-            icon: null,
+          //  icon: null,
             marker: marker = [],
             markOpts: {
                 position: {
@@ -89,7 +89,7 @@ var model = {
             src: 'img/silverball.jpg',
             mkImg: 'img/pinball.png',
             nums: '(3)',
-            icon: null,
+         //   icon: null,
             marker: marker = [],
             markOpts: {
                 position: {
@@ -113,7 +113,7 @@ var model = {
             src: 'img/hall.jpg',
             mkImg: 'img/shopping.png',
             nums: '(4)',
-            icon: null,
+        //    icon: null,
             marker: marker = [],
             markOpts: {
                 position: {
@@ -345,21 +345,30 @@ var pinView = {
 
 	render: function() {
 		var contentString = 'hey';
+		var i, data;
+		var len = model.places.length;
+
+		for(i=0;i<len;i++){
+			data = model.places[i];
+			console.log(data.position)
+		
 	    
-	    model.places[0].marker.push(
-	        markers = new google.maps.Marker({
-	            position: self.place.position,
-	            animation: google.maps.Animation.DROP,
-	            infoWindow: new google.maps.InfoWindow({
-	                content: contentString
-	            })
-	        })
-	    );
+		    model.places[0].marker.push(
+		        markers = new google.maps.Marker({
+		            position: data.position,
+		            map: map,
+		            animation: google.maps.Animation.DROP,
+		            infoWindow: new google.maps.InfoWindow({
+		                content: contentString
+		            })
+		        })
+		    );
+		};
 	    markers.addListener('click', function() {
 			clickPin();
 		});
 
-	    for(i=0; i<len; i++) {
+	   /* for(i=0; i<len; i++) {
 	    	mark[i].setIcon(null);
 	    	mark[i].infoWindow.close(map, markers);
 	    }
@@ -385,9 +394,9 @@ var pinView = {
 	    	} else {
 	    		markers.setMap(null);
 	    	}
-	    });
+	    });*/
 
-	    this.isVisible(true);
+	   // this.isVisible(true);
 	}
 }
 
