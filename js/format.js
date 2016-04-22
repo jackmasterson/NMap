@@ -385,8 +385,9 @@ var searchedView = {
 
 			$('#clear').click(function() {
 				console.log('cleared');
-				self.currentMark.notes = [''];
+				self.currentMark.notes = [];
 				self.messageBox.innerHTML = self.currentMark.notes;
+				$('#noted').hide();
 			})
 
 
