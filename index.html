@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/jquery-ui.min.css">
   </head>
   <body>
@@ -13,6 +12,7 @@
     <div id="list">
 
      <ul id="listUL">
+      <ul id="mark-list"></ul>
         <input id="searchBar"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Enter to Search" autofocus></input>
 
         <div id="display"></div>
@@ -34,15 +34,16 @@
 
         <input data-bind="value: takeNotes, valueUpdate: 'keyup' "type="text" id="been" placeholder="Been There? How was it? Hit enter to save"></input>
         <div class="display" data-bind="text: takeNotes"></div>
-
-
-
-
+              <div id="mark">
+        <h2 id="mark-name"></h2>
+        <div id="mark-count"></div>
+        <img id="mark-img" src="" alt="try">
+      </div>
     </div>
 
-    <ul class="display" id="displayed">
-      <span id="displayedHead" data-bind="text: checkIt"></span>
-    </ul>
+
+
+
 
 
   <div id="map"></div>

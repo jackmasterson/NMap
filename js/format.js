@@ -18,6 +18,7 @@ var model = {
             nums: '(0)',
           //  icon: null,
             marker: marker = [],
+            infoWindow: infoWindow = [],
             markOpts: {
                 position: {
                     lat: 40.216147,
@@ -44,6 +45,7 @@ var model = {
             nums: '(1)',
            // icon: null,
             marker: marker = [],
+            infoWindow: infoWindow = [],          
             markOpts: {
                 position: {
                     lat: 40.220001,
@@ -67,6 +69,7 @@ var model = {
             nums: '(2)',
           //  icon: null,
             marker: marker = [],
+            infoWindow: infoWindow = [],
             markOpts: {
                 position: {
                     lat: 40.220239,
@@ -91,6 +94,7 @@ var model = {
             nums: '(3)',
          //   icon: null,
             marker: marker = [],
+            infoWindow: infoWindow = [],
             markOpts: {
                 position: {
                     lat: 40.2207,
@@ -115,6 +119,7 @@ var model = {
             nums: '(4)',
         //    icon: null,
             marker: marker = [],
+            infoWindow: infoWindow = [],
             markOpts: {
                 position: {
                     lat: 40.223796,
@@ -133,9 +138,22 @@ var viewModel = {
 
 	init: function() {
 		model.currentMark = model.places[0];
-		socrataView.init();
-		jamBaseView.init();
+		//socrataView.init();
+		//jamBaseView.init();
 		listView.init();
+		markView.init();
+	},
+
+	getCurrentMark: function() {
+		return model.currentMark;
+	},
+
+	getMarks: function() {
+		return model.places;
+	},
+
+	setCurrentMark: function(mark) {
+		model.currentMark = mark;
 	}
 }
 
@@ -280,37 +298,61 @@ var jamBaseView = {
 	}
 };
 
+var markView = {
+
+    init: function() {
+        this.markElem = document.getElementById('mark');
+        this.markNameElem = document.getElementById('mark-name');
+        this.markImageElem = document.getElementById('mark-img');
+        this.markNotes = document.getElementById('notes');
+        console.log(this.markNotes);
+        this.countElem = document.getElementById('mark-count');
+
+
+        this.render();
+    },
+
+    render: function() {
+        var currentMark = viewModel.getCurrentMark();
+        this.countElem.textContent = currentMark.clickCount;
+        this.markNameElem.textContent = currentMark.title;
+        this.markImageElem.src = currentMark.src;
+        this.markNotes = currentMark.notes;
+    }
+};
+
 var listView = {
 
-	init: function (data, name, tag) {
-		var i;
-		var self = this;
-		var len = model.places.length;
-
-		for(i=0;i<len;i++){
-
-			data = model.places[i];
-			
-			this.num = data.nums;
-			this.href = data.href;
-			this.title = data.title;
-			this.id = data.id;
-			this.name = ko.observable(name);
-			this.tag = ko.observableArray(data.tag);
-
-		};
+	init: function() {
+		this.markListElem = document.getElementById('mark-list');
 
 		this.render();
 	},
 
-	render: function() {
-		self.listText = '<a onClick="myClick' + this.num + '">' +
-    					'<li class="noBullet" id="' +
-        				this.id + '">' + this.title + '</li>' +
-        			'</a>'
+    render: function() {
+        var mark, elem, i;
+        var marks = viewModel.getMarks();
 
-    	$('#listUL').append(listText);
-	}
+        this.markListElem.innerHTML = '';
+
+        for(i=0; i<marks.length; i++){
+            mark = marks[i];
+
+            elem = document.createElement('li');
+            elem.textContent = mark.title;
+
+            elem.addEventListener('click', (function(markCopy) {
+       //         console.log(markCopy);
+                return function() {
+                    viewModel.setCurrentMark(markCopy);
+                    markView.render();
+
+                };
+            })(mark));
+
+            this.markListElem.appendChild(elem);
+        }
+    }
 };
 
 
@@ -321,8 +363,8 @@ var pinView = {
 		var self = this;
 		var markers, i, t, infoWindow, data;
 		var len = model.places.length;
-		var mark = model.places[0].marker;
-		var len = mark.length;
+		var marked = model.places[0].marker;
+		var len = marked.length;
 		
 		for(t=0;t<len;t++) {
 			data = model.places[t];
@@ -349,8 +391,8 @@ var pinView = {
 		
 		var i, t, data, contentString;
 		var len = model.places.length;
-		var mark = model.places[0].marker;
-    	var markLen = mark.length;
+		var marked = model.places[0].marker;
+    	var markLen = marked.length;
 
 		for(t=0;t<len;t++){
 			data = model.places[t];
@@ -360,17 +402,22 @@ var pinView = {
 				'<img class="markerImg" src="' + data.src + '">';
 			console.log(model.places);
 
-	    
+	    	model.places[t].marker.push(
+		    	windows = new google.maps.InfoWindow({
+		    		content: contentString
+		    	})
+		    );
+		
+		  //  var content = data.infoWindow[0].content;
+
 		    model.places[t].marker.push(
 		        markers = new google.maps.Marker({
 		            position: data.position,
 		            map: map,
-		            animation: google.maps.Animation.DROP,
-		            infoWindow: new google.maps.InfoWindow({
-		                content: contentString
-		            })
+		            animation: google.maps.Animation.DROP
 		        })
 		    );
+
 		};
 	    markers.addListener('click', function() {
 			clickPin();
@@ -383,7 +430,7 @@ var pinView = {
 
 		    if(markers.icon == null) {
 		    	markers.setIcon(self.image);
-		    	markers.infoWindow.open(map, markers);
+		    //	markers.infoWindow.open(map, markers);
 		    	markers.setAnimation(google.maps.Animation.BOUNCE);
 		    	timeoutID = window.setTimeout(stopBouncing, 2200);
 
@@ -392,7 +439,7 @@ var pinView = {
 		    	};
 		    } else {
 		    	markers.setIcon(null);
-		    	markers.infoWindow.close(map, markers);
+		   // 	markers.infoWindow.close(map, markers);
 		    	markers.setAnimation(null);
 		    }
 
