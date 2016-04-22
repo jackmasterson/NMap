@@ -136,37 +136,44 @@ var viewModel = {
 		socrataView.init();
 		jamBaseView.init();
 		listView.init();
-		pinView.init();
-		initMap.init();
 	}
 }
 
 var socrataView = {
 	
 	init: function() {
-		this.socrataElem = $('#socrata-header');
+		var text;
+		var self = this;
+		this.socrataElem = document.getElementById('socrata-header');
+
+		console.log(this.socrataElem);
 		this.socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
         'id=1600000US3401960';
 
-        this.socrataTimeout = setTimeout(function() {
-        	this.socrataElem.text('You were supposed to see some awesome census data ' +
-	            'about Asbury Park, NJ, but the request failed. And its all. my.' +
-	            ' fault. Im sorry to let you down.');
-	    	}, 1000);
+
 
         this.render();
     },
 
     render: function() {
-        $ajax({
-        	url: socrataURL,
+		text = 'You were supposed to see some awesome census data ' +
+	            'about Asbury Park, NJ, but the request failed. And its all. my.' +
+	            ' fault. Im sorry to let you down.';
+
+    	this.socrataTimeout = setTimeout(function() {
+        	$('#socrata-header').append(text);
+        }, 3000);
+
+        $.ajax({
+        	url: self.socrataURL,
         	dataType: 'json',
         	success: function(response) {
+
         		var infos = response;
         		for(var i=0; i<infos.length; i++){
         			var info = infos[i];
 
-        			this.socrataElem.prepend('<ul class="info">Asbury Park, NJ Census Facts | ' +
+        			self.socrataElem.prepend('<ul class="info">Asbury Park, NJ Census Facts | ' +
                     '<li id="infoHead"> Year: ' + info.year + ' | </li> ' +
                     '<li id="infoHead"> Population: ' + info.population + ' | </li> ' +
                     '<li id="infoHead"> High School Graduation Rate: ' +
@@ -178,7 +185,7 @@ var socrataView = {
                     '<li id="infoHead"> Information Courtesy Socrata Open Data Network | </li> ' +
                     '</ul>')
 		        }
-		        clearTimeout(socrataTimeout);
+		        clearTimeout(self.socrataTimeout);
         	}
         });
 	}
@@ -187,6 +194,7 @@ var socrataView = {
 var jamBaseView = {
 
 	init: function() {
+		var self = this;
 		this.jamBaseElem = $('#jamBase-header');
 		this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
         '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
@@ -195,21 +203,21 @@ var jamBaseView = {
 
         this.jamBaseTimeout = setTimeout(function() {
     	
-	        this.jamBaseElem.text('This was supposed to show a bunch of information ' +
+	        self.jamBaseElem.text('This was supposed to show a bunch of information ' +
 	            'about concerts in the area, and the request failed. Im so, so sorry. ' +
 	            'So instead, here is a picture of a microphone, which should make up for' +
 	            ' it. Right?');
 	        var mic = '</br><img src="img/microphone.jpg" id="mic">';
-	        this.jamBaseElem.append(mic);
+	        self.jamBaseElem.append(mic);
 
-	    }, 5000);
+	    }, 3000);
 
 	    this.render();
 	},
 
 	render: function() {
 		$.ajax({
-	    	url: jamBaseURL,
+	    	url: self.jamBaseURL,
 	    	dataType: "json",
 	    	success: function(response) {
 
@@ -219,13 +227,13 @@ var jamBaseView = {
 	    			'target="_blank" title="JamBase Concert Search" id="tixImg">' +
 	    			'<img src= "http://images.jambase.com/logos/jambase140x70.gif"' +
 	    			'alt="Search JamBase Concerts" border="0" /></a>'
-	    		this.jamBaseElem.text('Live Music in Asbury Park');
-	    		this.jamBaseElem.append(logoAttr);
+	    		self.jamBaseElem.text('Live Music in Asbury Park');
+	    		self.jamBaseElem.append(logoAttr);
 	    		var infos = response.Events;
 	    		var top = '</br><h3 id="jamHead">*Note: If tickets are not available online, you' +
 	    			'will be directed back to this website</h7>';
-	    		this.jamBaseElem.append(top);
-	    		this.jamBaseElem.prepend(close);
+	    		self.jamBaseElem.append(top);
+	    		self.jamBaseElem.prepend(close);
 
 	    		//iterates through the info in the JSON so that it can be
 	    		//formatted with the below code
@@ -251,7 +259,7 @@ var jamBaseView = {
 	    	}
 	    });
 		$(document).ready(function() {
-			this.jamBaseElem.on('click', function(event) {
+			$('.slideout-menu-toggle').on('click', function(event) {
 				event.preventDefault();
 
 				var jamBaseElemWidth = this.jamBaseElem.width();
@@ -273,19 +281,30 @@ var jamBaseView = {
 };
 
 var listView = {
+
 	init: function (data, name, tag) {
-		this.num = data.nums;
-		this.href = data.href;
-		this.title = data.title;
-		this.id = data.id;
-		this.name = ko.observable(name);
-		this.tag = ko.observableArray(data.tag);
+		var i;
+		var self = this;
+		var len = model.places.length;
+
+		for(i=0;i<len;i++){
+
+			data = model.places[i];
+			
+			this.num = data.nums;
+			this.href = data.href;
+			this.title = data.title;
+			this.id = data.id;
+			this.name = ko.observable(name);
+			this.tag = ko.observableArray(data.tag);
+
+		};
 
 		this.render();
 	},
 
 	render: function() {
-		this.listText = '<a onClick="myClick' + this.num + '">' +
+		self.listText = '<a onClick="myClick' + this.num + '">' +
     					'<li class="noBullet" id="' +
         				this.id + '">' + this.title + '</li>' +
         			'</a>'
@@ -294,23 +313,30 @@ var listView = {
 	}
 };
 
+
+
 var pinView = {
 	
 	init: function(map, position, name, address, src, tag, href, mkImg) {
-		var markers, i, infoWindow;
+		var markers, i, t, infoWindow, data;
+		var len = model.places.length;
 		var image = mkImg;
-		var mark = places()[0].marker;
+		var mark = model.places[0].marker;
 		var len = mark.length;
+		
+		for(t=0;t<len;t++) {
+			data = model.places[t];
 
-		this.name = ko.observable(name);
-		this.position = ko.obesrvable(position);
-		this.address = ko.observable(address);
-		this.tag = ko.observable(tag);
-		this.href = ko.observable(href);
+			this.name = ko.observable(data.name);
+			console.log(this.name());
 
-		markers.addListener('click', function() {
-			clickPin();
-		});
+			this.position = ko.observable(position);
+			this.address = ko.observable(address);
+			this.tag = ko.observable(tag);
+			this.href = ko.observable(href);
+		}
+
+
 
 		this.isVisible = ko.observable(false);
 
@@ -318,24 +344,20 @@ var pinView = {
 	},
 
 	render: function() {
-		var contentString =
-	        '<div id="content">' +
-		        '<h4>' +
-		        	'<a target="_blank" href="' + href + '">' + name + '</a>' +
-		        '</h4>' +
-		        '<h5>' + address + '</h5>' +
-		        '<img class="markerImg" src=' + src + '>' +
-	        '</div>';
+		var contentString = 'hey';
 	    
-	    places()[0].marker.push(
+	    model.places[0].marker.push(
 	        markers = new google.maps.Marker({
-	            position: position,
+	            position: self.place.position,
 	            animation: google.maps.Animation.DROP,
 	            infoWindow: new google.maps.InfoWindow({
 	                content: contentString
 	            })
 	        })
 	    );
+	    markers.addListener('click', function() {
+			clickPin();
+		});
 
 	    for(i=0; i<len; i++) {
 	    	mark[i].setIcon(null);
@@ -372,26 +394,23 @@ var pinView = {
 var initMap = {
 	
 	init: function() {
+		var self = this;
 		this.icon = 'img/marker-blue.png';
-		this.LatLng = {
-			lat: 40.220391,
-        	lng: -74.012082
-		};
+
 		this.mapDiv = document.getElementById('map');
 
 		this.mapOptions = {
-			center: this.myLatLng,
+			center: {lat: 40.220391, lng: -74.012082},
 	        scrollwheel: false,
 	        zoom: 14
 		};
 
-		this.render();
-
-		
+		this.render();	
 	},
 
 	render: function() {
 		map = new google.maps.Map(this.mapDiv, this.mapOptions);
+		pinView.init();
 	}
 };
 
