@@ -19,7 +19,7 @@ var model = {
             nums: '(0)',
           //  icon: null,
             marker: marker = [],
-            notes: [''],
+            notes: [],
             markOpts: {
                 position: {
                     lat: 40.216147,
@@ -46,7 +46,7 @@ var model = {
             nums: '(1)',
            // icon: null,
             marker: marker = [],
-            notes: ['whattup'],          
+            notes: [],          
             markOpts: {
                 position: {
                     lat: 40.220001,
@@ -340,7 +340,7 @@ var searchedView = {
 	//	console.log(currentMark);
 		this.placeInput = document.getElementById('mark-search');
 		this.messageBox = document.getElementById('noted');
-		var br = '<br>';
+		this.br = '<br>';
 
 		$(document).ready(function() {
 			$('#mark-search').keypress(function(e) {
@@ -355,8 +355,8 @@ var searchedView = {
 	render: function() {
 		var self = this;
         var currentMark = viewModel.getCurrentMark();
-        console.log(currentMark);
-        console.log(self.placeInput);
+   //     console.log(currentMark);
+   //     console.log(self.placeInput);
 
 		
 			currentMark.notes.push(self.placeInput.value);
@@ -364,7 +364,12 @@ var searchedView = {
 
 			self.placeInput.value = '';
 			self.messageBox.innerHTML = '';
-			self.messageBox.innerHTML = currentMark.notes.join(self.br);
+
+			if(currentMark.notes == ''){
+				self.messageBox.innerHTML = currentMark.notes
+			} else {
+				self.messageBox.innerHTML = currentMark.notes.join(self.br)
+			}
 		
 
 
