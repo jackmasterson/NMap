@@ -347,16 +347,9 @@ var listView = {
                 	var t;
                 	var animate = markCopy.marker[0];
                 	var image = markCopy.mkImg;
-                	animate.setAnimation(google.maps.Animation.BOUNCE);
-                   	timeoutID = window.setTimeout(stopBouncing, 2200);
 
-      
-			    	function stopBouncing() {
-			    		animate.setAnimation(null);
-			    	};
 			    	if(animate.icon == null) {
 				    	
-				    //	console.log(animate.icon);
 				    	for(t=0;t<model.places.length;t++){
 					    	var bore = model.places[t].marker[0];
 					    	console.log(bore);
@@ -364,10 +357,13 @@ var listView = {
 					    	bore.setAnimation(null);
 					    }
 					    animate.setIcon(image);
-				    } else {
-				    	//console.log(model.places);
+					    animate.setAnimation(google.maps.Animation.BOUNCE);
+                   		timeoutID = window.setTimeout(stopBouncing, 2200);
 
-				    }
+				    	function stopBouncing() {
+				    		animate.setAnimation(null);
+				    	};
+				    } 
                     viewModel.setCurrentMark(markCopy);
                     markView.render();
 
