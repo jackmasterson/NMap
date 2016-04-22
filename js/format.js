@@ -344,6 +344,8 @@ var listView = {
             elem.addEventListener('click', (function(markCopy) {
        //         console.log(markCopy);
                 return function() {
+                	var animate = markCopy.marker[0];
+                	animate.setAnimation(google.maps.Animation.BOUNCE);
                     viewModel.setCurrentMark(markCopy);
                     markView.render();
 
@@ -396,19 +398,6 @@ var pinView = {
 
 		for(t=0;t<len;t++){
 			data = model.places[t];
-			contentString = '<a target="_blank" href="' + data.href + '">' +
-				data.title + '</a></br>' + 
-				data.address + '</br>' + 
-				'<img class="markerImg" src="' + data.src + '">';
-			console.log(model.places);
-
-	    	model.places[t].marker.push(
-		    	windows = new google.maps.InfoWindow({
-		    		content: contentString
-		    	})
-		    );
-		
-		  //  var content = data.infoWindow[0].content;
 
 		    model.places[t].marker.push(
 		        markers = new google.maps.Marker({
