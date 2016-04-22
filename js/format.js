@@ -18,7 +18,7 @@ var model = {
             nums: '(0)',
           //  icon: null,
             marker: marker = [],
-            infoWindow: infoWindow = [],
+            notes: 'hey',
             markOpts: {
                 position: {
                     lat: 40.216147,
@@ -45,7 +45,7 @@ var model = {
             nums: '(1)',
            // icon: null,
             marker: marker = [],
-            infoWindow: infoWindow = [],          
+            notes: ['whattup'],          
             markOpts: {
                 position: {
                     lat: 40.220001,
@@ -305,8 +305,8 @@ var markView = {
         this.markNameElem = document.getElementById('mark-name');
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
-        this.markNotes = document.getElementById('notes');
-       // console.log(this.markNotes);
+        this.markNotesElem = document.getElementById('notes');
+
         this.countElem = document.getElementById('mark-count');
 
 
@@ -315,11 +315,13 @@ var markView = {
 
     render: function() {
         var currentMark = viewModel.getCurrentMark();
+        console.log(currentMark.notes);
         this.countElem.textContent = currentMark.clickCount;
         this.markNameElem.textContent = currentMark.title;
         this.markAddElem.textContent = currentMark.address;
         this.markImageElem.src = currentMark.src;
-        this.markNotes = currentMark.notes;
+        this.markNotesElem.textContent = currentMark.notes;
+        //console.log(this.markSearchElem;
     }
 };
 
@@ -338,7 +340,8 @@ var listView = {
     	$('#toggleListButton').click(function(){
 		    $('#mark').slideToggle();
 		    $('#listed').slideToggle();
-		    $('#search').slideToggle();
+		    $('#mark-search').slideToggle();
+		    $('#notes').slideToggle();
 		});
 
         this.markListElem.innerHTML = '';
