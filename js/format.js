@@ -1,4 +1,5 @@
 var map;
+var filter = ko.observable('');
 
 var model = {
 	currentMark: null,
@@ -145,6 +146,7 @@ var viewModel = {
 		//jamBaseView.init();
 		listView.init();
 		markView.init();
+		searchedView.init();
 	},
 
 	getCurrentMark: function() {
@@ -310,31 +312,65 @@ var markView = {
         this.markNameElem = document.getElementById('mark-name');
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
-        this.markNotedElem = document.getElementById('noted');
+        
 
         this.countElem = document.getElementById('mark-count');
-
 
         this.render();
     },
 
     render: function() {
         var currentMark = viewModel.getCurrentMark();
-        console.log(currentMark.notes);
-        $('#mark-search').keyup(function(e){
-  			if(e.keyCode == 13){
-  				currentMark.notes.push(viewModel.query());
-  				console.log(currentMark.notes);
-  			}
-  		});
+
         this.countElem.textContent = currentMark.clickCount;
         this.markNameElem.textContent = currentMark.title;
         this.markAddElem.textContent = currentMark.address;
         this.markImageElem.src = currentMark.src;
-        this.markNotedElem.textContent = currentMark.notes;
+    //    this.markNotedElem.textContent = currentMark.notes;
+
         //console.log(this.markSearchElem;
     }
 };
+
+var searchedView = {
+
+	init: function() {
+		var that = this;
+		
+	//	console.log(currentMark);
+		this.placeInput = document.getElementById('mark-search');
+		this.messageBox = document.getElementById('noted');
+		var br = '<br>';
+
+		$(document).ready(function() {
+			$('#mark-search').keypress(function(e) {
+				if(e.keyCode == 13) {
+					that.render();
+				}
+			})
+		})
+
+	},
+
+	render: function() {
+		var self = this;
+        var currentMark = viewModel.getCurrentMark();
+        console.log(currentMark);
+        console.log(self.placeInput);
+
+		
+			currentMark.notes.push(self.placeInput.value);
+			console.log(currentMark);
+
+			self.placeInput.value = '';
+			self.messageBox.innerHTML = '';
+			self.messageBox.innerHTML = currentMark.notes.join(self.br);
+		
+
+
+
+	}
+}
 
 
 var listView = {
@@ -385,6 +421,7 @@ var listView = {
 				    } 
                     viewModel.setCurrentMark(markCopy);
                     markView.render();
+                    searchedView.render();
 
                 };
             })(mark));
