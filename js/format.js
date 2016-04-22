@@ -18,7 +18,7 @@ var model = {
             nums: '(0)',
           //  icon: null,
             marker: marker = [],
-            notes: 'hey',
+            notes: [''],
             markOpts: {
                 position: {
                     lat: 40.216147,
@@ -69,6 +69,7 @@ var model = {
             nums: '(2)',
           //  icon: null,
             marker: marker = [],
+            notes: [], 
             infoWindow: infoWindow = [],
             markOpts: {
                 position: {
@@ -94,6 +95,7 @@ var model = {
             nums: '(3)',
          //   icon: null,
             marker: marker = [],
+            notes: [], 
             infoWindow: infoWindow = [],
             markOpts: {
                 position: {
@@ -119,6 +121,7 @@ var model = {
             nums: '(4)',
         //    icon: null,
             marker: marker = [],
+            notes: [], 
             infoWindow: infoWindow = [],
             markOpts: {
                 position: {
@@ -154,7 +157,9 @@ var viewModel = {
 
 	setCurrentMark: function(mark) {
 		model.currentMark = mark;
-	}
+	},
+
+	query: ko.observable('')
 }
 
 var socrataView = {
@@ -305,7 +310,7 @@ var markView = {
         this.markNameElem = document.getElementById('mark-name');
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
-        this.markNotesElem = document.getElementById('notes');
+        this.markNotedElem = document.getElementById('noted');
 
         this.countElem = document.getElementById('mark-count');
 
@@ -316,11 +321,17 @@ var markView = {
     render: function() {
         var currentMark = viewModel.getCurrentMark();
         console.log(currentMark.notes);
+        $('#mark-search').keyup(function(e){
+  			if(e.keyCode == 13){
+  				currentMark.notes.push(viewModel.query());
+  				console.log(currentMark.notes);
+  			}
+  		});
         this.countElem.textContent = currentMark.clickCount;
         this.markNameElem.textContent = currentMark.title;
         this.markAddElem.textContent = currentMark.address;
         this.markImageElem.src = currentMark.src;
-        this.markNotesElem.textContent = currentMark.notes;
+        this.markNotedElem.textContent = currentMark.notes;
         //console.log(this.markSearchElem;
     }
 };
@@ -338,10 +349,7 @@ var listView = {
         var mark, elem, i;
         var marks = viewModel.getMarks();
     	$('#toggleListButton').click(function(){
-		    $('#mark').slideToggle();
-		    $('#listed').slideToggle();
-		    $('#mark-search').slideToggle();
-		    $('#notes').slideToggle();
+		    $('.list').slideToggle();
 		});
 
         this.markListElem.innerHTML = '';
@@ -494,7 +502,7 @@ var initMap = {
 viewModel.init();
 
 
-
+ko.applyBindings(viewModel);
 
 
 

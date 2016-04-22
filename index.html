@@ -30,11 +30,11 @@
         <a href="#" id="socrata-data">
           <img class="toggle" src="img/census.png" alt="Toggle Census Info">
         </a>
-        <div class="display" data-bind="text: takeNotes"></div>
+        <div class="display"></div>
 
     </div>
-        <input class="list" id="mark-search" placeholder="Been There? What'd You Think? Enter to Save"/>
-        <h3 class="list" id="notes"></h3>
+        <input data-bind="value: query, valueUpdate: 'keyup'" class="list" id="mark-search" placeholder="Been There? What'd You Think? Enter to Save"/>
+        <h3 class="list" id="noted" data-bind="text: notes"></h3>
         <div class="list" id="mark">
           <h2 id="mark-name"></h2>
           <h3 id="mark-address"></h3>
