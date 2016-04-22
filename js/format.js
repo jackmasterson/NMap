@@ -357,17 +357,20 @@ var searchedView = {
         var currentMark = viewModel.getCurrentMark();
 
 		$('#noted').show();
-		
-		currentMark.notes.push(self.placeInput.value);
-		console.log(currentMark);
+		if(self.placeInput.value !== ''){
+			currentMark.notes.push(self.placeInput.value);
+		}
+//		console.log(currentMark);
 
 		self.placeInput.value = '';
 		self.messageBox.innerHTML = '';
+
 		self.messageBox.innerHTML = currentMark.notes.join(self.br);
 
 		if(currentMark.notes[0] == ''){
 			currentMark.notes.shift();
 		}
+		console.log(currentMark.notes);
 	}
 };
 
