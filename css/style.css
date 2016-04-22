@@ -55,6 +55,12 @@ a:visited {
   font-family: 'Roboto','sans-serif';
   padding: auto 40% auto auto;
 }
+#clear {
+  margin: 38% auto auto 44%;
+  display: none;
+  position: absolute;
+  z-index: 5;
+}
 #mark-img {
   height: 75px;
   width: 75px;

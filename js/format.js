@@ -340,7 +340,10 @@ var searchedView = {
 	//	console.log(currentMark);
 		this.placeInput = document.getElementById('mark-search');
 		this.messageBox = document.getElementById('noted');
-		this.br = '<br>';
+		this.br = '</br>';
+
+
+		//this.ex = '<a href="#">&times;</a>';
 
 		$(document).ready(function() {
 			$('#mark-search').keypress(function(e) {
@@ -353,25 +356,41 @@ var searchedView = {
 	},
 
 	render: function() {
+
+
 		var self = this;
-        var currentMark = viewModel.getCurrentMark();
+        this.currentMark = viewModel.getCurrentMark();
 
 		$('#noted').show();
+		$('#clear').show();
+
 		if(self.placeInput.value !== ''){
-			currentMark.notes.push(self.placeInput.value);
+			this.currentMark.notes.push(self.placeInput.value);
 		}
+
 //		console.log(currentMark);
 
 		self.placeInput.value = '';
 		self.messageBox.innerHTML = '';
 
-		self.messageBox.innerHTML = currentMark.notes.join(self.br);
+		self.messageBox.innerHTML = this.currentMark.notes
+			.join(self.br);
 
-		if(currentMark.notes[0] == ''){
-			currentMark.notes.shift();
+		if(this.currentMark.notes[0] == ''){
+			this.currentMark.notes.shift();
 		}
-		console.log(currentMark.notes);
-	}
+		console.log(this.currentMark.notes);
+		console.log(self.messageBox.innerHTML);
+		
+
+			$('#clear').click(function() {
+				console.log('cleared');
+				self.currentMark.notes = [''];
+				self.messageBox.innerHTML = self.currentMark.notes;
+			})
+
+
+	},
 };
 
 
