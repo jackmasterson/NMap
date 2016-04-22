@@ -305,10 +305,6 @@ var markView = {
         this.markImageElem = document.getElementById('mark-img');
         this.countElem = document.getElementById('mark-count');
 
-
-
-
-
         this.render();
     },
 
@@ -375,17 +371,12 @@ var searchedView = {
 			this.currentMark.notes.shift();
 		}
 
-
-		
-
 		$('#clear').click(function() {
 			console.log('cleared');
 			self.currentMark.notes = [];
 			self.messageBox.innerHTML = self.currentMark.notes;
 			$('#noted').hide();
 		})
-		
-
 
 	},
 };
@@ -416,6 +407,57 @@ var listView = {
             elem.textContent = mark.title;
 
             elem.addEventListener('click', (function(markCopy) {
+            	console.log(markCopy.tag);
+            	var filter, copyArr;
+
+            	copyArr = ko.observableArray(markCopy.tag);
+        
+            //	console.log(copyArr());
+
+            	filter = ko.computed(function() {
+            		var search = viewModel.query().toLowerCase();
+            		console.log(search);
+            		var places = model.places;
+				    var allTags = places[0].tag
+				    	.concat(places[1].tag)
+				    	.concat(places[2].tag)
+				    	.concat(places[3].tag)
+				    	.concat(places[4].tag);
+            		return ko.utils.arrayFilter(copyArr(), function(spot) {
+            //			console.log(spot);
+            //			console.log(markCopy);
+            			//var spotted = ko.observableArray(markCopy.tag());
+            //			console.log(copyArr());
+
+            			var uniqueTags = [];
+            			var elemID = document.getElementById(markCopy.id);
+            			var x = copyArr();
+            		
+
+				   	$.each(allTags, function(i, el){
+					    if($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
+					});	
+				//	console.log(uniqueTags);
+					//initiates the autocomplete search function, using the
+					//uniqueTags array 
+			        $( "#searchBar" ).autocomplete({
+				      source: uniqueTags
+				    });
+            	})
+            		})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 return function() {
                 	var t;
@@ -443,6 +485,7 @@ var listView = {
                     searchedView.render();
 
                 };
+
             })(mark));
 
             this.markListElem.appendChild(elem);
@@ -509,18 +552,7 @@ var pinView = {
 		    markers.addListener('click', function() {
 				//clickPin();
 			});
-			markers.isVisible = ko.observable(false);
 
-		    markers.isVisible.subscribe(function(currentState) {
-		        if (currentState) {
-		            markers.setMap(map);
-
-		        } else {
-		            markers.setMap(null);
-		        }
-		    });
-
-    		markers.isVisible(true);
 
 		    function clickPin(){
 			    for(i=0; i<markLen; i++) {
@@ -544,42 +576,6 @@ var pinView = {
 
 			};
 
-			//console.log(data.marker);
-		//	console.log(data.tag);
-			//console.log(pinList());
-
-			filterPins = ko.computed(function() {
-
-			//	console.log(data.tag);
-				var search = viewModel.query().toLowerCase();
-				console.log(search);
-				//console.log(data.marker);
-
-				return ko.utils.arrayFilter(pinList(), function(pin) {
-				//	console.log(data.tag);
-				//	console.log(pin);
-								console.log(pinView.tag);
-				console.log(pinView.tag());
-					Array.prototype.contains = function ( searched ) {
-						for(r in this) {
-							if(this[r] == searched) return true;
-						}
-						return false;
-					}
-	
-			
-					var x = pinView.tag();
-				
-
-				//	console.log(x());
-					if(x.contains(search)) {
-						pin.isVisible(true);
-					}
-					else {
-						pin.isVisible(false);
-					}
-				})
-			})
 		};
 
 
