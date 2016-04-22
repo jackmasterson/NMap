@@ -355,26 +355,21 @@ var searchedView = {
 	render: function() {
 		var self = this;
         var currentMark = viewModel.getCurrentMark();
-   //     console.log(currentMark);
-   //     console.log(self.placeInput);
 
+		$('#noted').show();
 		
-			currentMark.notes.push(self.placeInput.value);
-			console.log(currentMark);
+		currentMark.notes.push(self.placeInput.value);
+		console.log(currentMark);
 
-			self.placeInput.value = '';
-			self.messageBox.innerHTML = '';
-			self.messageBox.innerHTML = currentMark.notes.join(self.br);
+		self.placeInput.value = '';
+		self.messageBox.innerHTML = '';
+		self.messageBox.innerHTML = currentMark.notes.join(self.br);
 
-			if(currentMark.notes[0] == ''){
-				currentMark.notes.shift();
-			}
-		
-
-
-
+		if(currentMark.notes[0] == ''){
+			currentMark.notes.shift();
+		}
 	}
-}
+};
 
 
 var listView = {
