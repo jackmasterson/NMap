@@ -346,18 +346,22 @@ var pinView = {
 	},
 
 	render: function() {
-		var contentString = 'hey';
-		var i, t, data;
+		
+		var i, t, data, contentString;
 		var len = model.places.length;
 		var mark = model.places[0].marker;
     	var markLen = mark.length;
 
 		for(t=0;t<len;t++){
 			data = model.places[t];
+			contentString = '<a target="_blank" href="' + data.href + '">' +
+				data.title + '</a></br>' + 
+				data.address + '</br>' + 
+				'<img class="markerImg" src="' + data.src + '">';
+			console.log(model.places);
 
-		
 	    
-		    model.places[0].marker.push(
+		    model.places[t].marker.push(
 		        markers = new google.maps.Marker({
 		            position: data.position,
 		            map: map,
