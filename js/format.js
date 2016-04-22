@@ -345,7 +345,15 @@ var listView = {
        //         console.log(markCopy);
                 return function() {
                 	var animate = markCopy.marker[0];
+                	var image = markCopy.mkImg;
                 	animate.setAnimation(google.maps.Animation.BOUNCE);
+                   	timeoutID = window.setTimeout(stopBouncing, 2200);
+
+                   	animate.setIcon(image);
+			    	function stopBouncing() {
+			    		animate.setAnimation(null);
+			    	};
+
                     viewModel.setCurrentMark(markCopy);
                     markView.render();
 
