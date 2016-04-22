@@ -322,13 +322,7 @@ var markView = {
         this.markNotes = currentMark.notes;
     }
 };
-function toggleList(){
-	$('#toggleListButton').click(function(){
-	    $('#mark').slideToggle();
-	    $('#listed').slideToggle();
-	});
-};
-toggleList();
+
 
 var listView = {
 
@@ -341,6 +335,11 @@ var listView = {
     render: function() {
         var mark, elem, i;
         var marks = viewModel.getMarks();
+    	$('#toggleListButton').click(function(){
+		    $('#mark').slideToggle();
+		    $('#listed').slideToggle();
+		    $('#search').slideToggle();
+		});
 
         this.markListElem.innerHTML = '';
 
@@ -351,7 +350,7 @@ var listView = {
             elem.textContent = mark.title;
 
             elem.addEventListener('click', (function(markCopy) {
-       //         console.log(markCopy);
+
                 return function() {
                 	var t;
                 	var animate = markCopy.marker[0];
@@ -426,7 +425,7 @@ var pinView = {
 		for(t=0;t<len;t++){
 			data = model.places[t];
 
-		    model.places[t].marker.push(
+		    data.marker.push(
 		        markers = new google.maps.Marker({
 		            position: data.position,
 		            map: map,
@@ -434,41 +433,35 @@ var pinView = {
 		        })
 		    );
 
-		};
-	    markers.addListener('click', function() {
-			clickPin();
-		});
-	    function clickPin(){
-		    for(i=0; i<markLen; i++) {
-		    	mark[i].setIcon(null);
-		    	mark[i].infoWindow.close(map, markers);
-		    }
+			var markers = data.marker[0];
+			//console.log(markers);
+		    markers.addListener('click', function() {
+				//clickPin();
+			});
+		    function clickPin(){
+			    for(i=0; i<markLen; i++) {
+			    	markers.setIcon(null);
+			    	
+			    }
 
-		    if(markers.icon == null) {
-		    	markers.setIcon(self.image);
-		    //	markers.infoWindow.open(map, markers);
-		    	markers.setAnimation(google.maps.Animation.BOUNCE);
-		    	timeoutID = window.setTimeout(stopBouncing, 2200);
+			    if(markers.icon == null) {
+			    	markers.setIcon(self.image);
+			  
+			    	markers.setAnimation(google.maps.Animation.BOUNCE);
+			    	timeoutID = window.setTimeout(stopBouncing, 2200);
 
-		    	function stopBouncing() {
-		    		markers.setAnimation(null);
-		    	};
-		    } else {
-		    	markers.setIcon(null);
-		   // 	markers.infoWindow.close(map, markers);
-		    	markers.setAnimation(null);
-		    }
+			    	function stopBouncing() {
+			    		markers.setAnimation(null);
+			    	};
+			    } else {
+			  
+			    	markers.setAnimation(null);
+			    }
 
-		    /*this.isVisible.subscribe(function(currentState) {
-		    	if(currentState) {
-		    		markers.setMap(map);
-		    	} else {
-		    		markers.setMap(null);
-		    	}
-		    });*/
+
+			};
 		};
 
-	   // this.isVisible(true);
 	}
 }
 
