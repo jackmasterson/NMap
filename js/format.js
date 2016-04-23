@@ -156,8 +156,16 @@ var viewModel = {
 		return model.currentMark;
 	},
 
-	getMarks: function() {
+	getPlaces: function() {
 		return model.places;
+	},
+
+	getMarkers: function() {
+		var i;
+		var place = model.places;
+
+		var len = place.length;
+		
 	},
 
 	setCurrentMark: function(mark) {
@@ -166,6 +174,7 @@ var viewModel = {
 
 	query: ko.observable('')
 }
+viewModel.getMarkers();
 
 var socrataView = {
 	
@@ -203,7 +212,7 @@ var socrataView = {
         			var info = infos[0];
         		//	console.log(info);
 
-        			console.log(self.socrataLI);
+        	//		console.log(self.socrataLI);
         		
 
 
@@ -214,7 +223,7 @@ var socrataView = {
         				 'HSGrad': info.percent_high_school_graduate
         				 }
         			);
-        			console.log(self.socrataInfo[0]);
+        	//		console.log(self.socrataInfo[0]);
         	var census = self.socrataInfo[0];
 
         	var elem;
@@ -354,7 +363,6 @@ var markView = {
         this.markImageElem.src = currentMark.src;
     //    this.markNotedElem.textContent = currentMark.notes;
 
-        //console.log(this.markSearchElem;
     }
 };
 
@@ -387,9 +395,6 @@ var searchedView = {
 	},
 
 	render: function() {
-	//	console.log(this.messageBox.innerHTML);
-
-
 
 		var self = this;
         this.currentMark = viewModel.getCurrentMark();
@@ -484,30 +489,27 @@ var listView = {
 
     render: function() {
         var mark, elem, i;
-        var marks = viewModel.getMarks();
+        var places = viewModel.getPlaces();
+        
+      
     	$('#toggleListButton').click(function(){
 		    $('.list').slideToggle();
 		});
 
         this.markListElem.innerHTML = '';
 
-        for(i=0; i<marks.length; i++){
-            mark = marks[i];
+        for(i=0; i<places.length; i++){
+            mark = places[i];
 
             elem = document.createElement('li');
             elem.textContent = mark.title;
 			elem.setAttribute('id', mark.id);
 
-
             elem.addEventListener('click', (function(markCopy) {
-            	
-            	//console.log(elem);
             
             	var filter, copyArr;
 
             	copyArr = ko.observableArray(markCopy.tag);
-        
-            //	console.log(copyArr());
 
             	var autofill = ko.computed(function(){
             		var search = viewModel.query().toLowerCase();
@@ -538,13 +540,14 @@ var listView = {
                 return function() {
                 	var t;
                 	var animate = markCopy.marker[0];
+                	console.log(animate);
+               // 	animate.addListener('click', clickPin());
                 	var image = markCopy.mkImg;
 
 			    	if(animate.icon == null) {
 				    	
 				    	for(t=0;t<model.places.length;t++){
 					    	var bore = model.places[t].marker[0];
-					//    	console.log(bore);
 					    	bore.setIcon(null);
 					    	bore.setAnimation(null);
 					    }
@@ -612,51 +615,50 @@ var pinView = {
 		for(t=0;t<len;t++){
 			data = model.places[t];
 
+
 		    data.marker.push(
 		        markers = new google.maps.Marker({
 		            position: data.position,
 		            map: map,
-		            animation: google.maps.Animation.DROP
+		            animation: google.maps.Animation.DROP,
+		            icon: null
 		        })
 		    );
 			var pinList = ko.observableArray([]);
-			var markers = data.marker[0];
-				pinList.push(markers);
+			var markered = data.marker[0];
+				pinList.push(markered);
 			//console.log(markers);
 			this.tag = ko.observableArray(data.tag);
 		    
 	//		console.log(pinList()[0].position.lat());
 			var pinned = pinList()[0];
+			
+		//	console.log(pinList());
+console.log(data.marker[0]);
+
+			var shit = data.marker[0]
+			////////closure problem right here
+			shit.addListener('click', function(pinCopy) {
+				console.log(shit.position.lat());
+				var image = 'img/pinball.png';
+				
+				console.log(data.marker[0]);
+
+			    
+			
+
+			})
 
 
 
-		    function clickPin(){
-			    for(i=0; i<markLen; i++) {
-			    	markers.setIcon(null);
-			    	
-			    }
 
-			    if(markers.icon == null) {
-			    	markers.setIcon(self.image);
-			  
-			    	markers.setAnimation(google.maps.Animation.BOUNCE);
-			    	timeoutID = window.setTimeout(stopBouncing, 2200);
 
-			    	function stopBouncing() {
-			    		markers.setAnimation(null);
-			    	};
-			    } else {
-			  
-			    	markers.setAnimation(null);
-			    }
-
-			};
 		//	console.log(data.marker[0].position.lat());
 
-		    pinned.addListener('click', function() {
-		    	console.log(data.marker[0].position.lat());
-				clickPin();
-			});
+		//    Marked.addListener('click', function() {
+		  //  	console.log(data.marker[0].position.lat());
+			//	clickPin();
+			//});
 
 		};
 

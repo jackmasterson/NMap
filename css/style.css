@@ -107,6 +107,7 @@ a:visited {
 }
 #searchBar{
   margin: 15px;
+  text-align: center;
 }
 
 #content {
