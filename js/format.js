@@ -5,6 +5,7 @@ var filter = ko.observable('');
 var model = {
 	currentMark: null,
 	socrataInfo: [],
+	kram: [],
     places: [
         {
 
@@ -612,42 +613,60 @@ var pinView = {
 		var marked = model.places[0].marker;
     	var markLen = marked.length;
 
+
+
+
+
+
 		for(t=0;t<len;t++){
 			data = model.places[t];
 
 
-		    data.marker.push(
+/*		    data.marker.push(
 		        markers = new google.maps.Marker({
 		            position: data.position,
 		            map: map,
 		            animation: google.maps.Animation.DROP,
 		            icon: null
 		        })
+		    );*/
+		    model.kram.push(
+		    	new google.maps.Marker({
+			    	position: data.position,
+			    	map: map,
+			    	animation: google.maps.Animation.DROP,
+			    	icon: null
+			    })
 		    );
-			var pinList = ko.observableArray([]);
-			var markered = data.marker[0];
-				pinList.push(markered);
-			//console.log(markers);
-			this.tag = ko.observableArray(data.tag);
 		    
-	//		console.log(pinList()[0].position.lat());
-			var pinned = pinList()[0];
-			
-		//	console.log(pinList());
-console.log(data.marker[0]);
 
-			var shit = data.marker[0]
+
+		    var shit = model.kram;
+		    console.log(model.kram);
+
+			var image = 'img/pinball.png';
+		
 			////////closure problem right here
-			shit.addListener('click', function(pinCopy) {
-				console.log(shit.position.lat());
-				var image = 'img/pinball.png';
-				
-				console.log(data.marker[0]);
-
-			    
 			
+				for(w=0;w<model.kram.length;w++){
+					shit[w].addListener('click', function(pinCopy) {
 
-			})
+						for(n=0;n<model.kram.length;n++){
+							console.log(shit[n].icon);
+							var icon = shit[n].icon;
+							if(icon === null){
+								this.setIcon(image);
+							}
+							else {
+								this.setIcon(null);
+							}
+						}
+						//	if(icon == null){
+
+						//	}			   
+					})
+				}
+			
 
 
 
