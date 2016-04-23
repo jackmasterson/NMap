@@ -205,19 +205,28 @@ var socrataView = {
         		//	console.log(info);
 
         			console.log(self.socrataLI);
-        			console.log(info.year, 'Year');
-        			console.log(info.percent_associates_degree, 'Associates');
-        			console.log(info.percent_bachelors_degree, 'Bachelors');
-        			console.log(info.percent_high_school_graduate, 'High School Grad');
+        		
+
 
         			self.socrataInfo.push(
         				{'Year': info.year, 
         				 'Associates': info.percent_associates_degree,
         				 'Bachelors': info.percent_bachelors_degree, 
-        				 'High School Grad': info.percent_high_school_graduate
+        				 'HSGrad': info.percent_high_school_graduate
         				 }
         			);
         			console.log(self.socrataInfo[0]);
+        	var census = self.socrataInfo[0];
+
+        	var elem;
+        	elem = document.createElement('li');
+        	elem.className = 'info';
+            elem.textContent = 'Year: ' + census.Year + ' || ' +
+            				   'Bachelors Degree: ' + census.Bachelors + '% || ' +
+            				   'Associates Degree: ' + census.Associates + '% || ' +
+            				   'High School Grad: ' + census.HSGrad + '%';
+            console.log(census.Year);
+            self.socrataElem.appendChild(elem);
 		        
 		        clearTimeout(self.socrataTimeout);
         	}
