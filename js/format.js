@@ -5,6 +5,7 @@ var filter = ko.observable('');
 
 var model = {
 	currentMark: null,
+	socrataInfo: [],
     places: [
         {
 
@@ -144,7 +145,7 @@ var viewModel = {
 
 	init: function() {
 		model.currentMark = model.places[0];
-		//socrataView.init();
+		socrataView.init();
 		//jamBaseView.init();
 		listView.init();
 		markView.init();
@@ -177,6 +178,8 @@ var socrataView = {
         'id=1600000US3401960';
         this.socrataUL = document.getElementById('socrata-info');
         this.socrataLI = document.getElementById('socrata-item');
+        this.socrataInfo = model.socrataInfo;
+
         this.render();
     },
 
@@ -195,13 +198,27 @@ var socrataView = {
         	url: this.socrataURL,
         	dataType: 'json',
         	success: function(response) {
-
+      //  		console.log(response);
         		var infos = response;
-        		for(var i=0; i<infos.length; i++){
-        			var info = infos[i];
+  
+        			var info = infos[0];
+        		//	console.log(info);
 
-        			
-		        }
+        			console.log(self.socrataLI);
+        			console.log(info.year, 'Year');
+        			console.log(info.percent_associates_degree, 'Associates');
+        			console.log(info.percent_bachelors_degree, 'Bachelors');
+        			console.log(info.percent_high_school_graduate, 'High School Grad');
+
+        			self.socrataInfo.push(
+        				{'Year': info.year, 
+        				 'Associates': info.percent_associates_degree,
+        				 'Bachelors': info.percent_bachelors_degree, 
+        				 'High School Grad': info.percent_high_school_graduate
+        				 }
+        			);
+        			console.log(self.socrataInfo[0]);
+		        
 		        clearTimeout(self.socrataTimeout);
         	}
         });
@@ -407,7 +424,7 @@ var filterList = {
 		       // console.log(search);
 
 		        return ko.utils.arrayFilter(places(), function(placed) {
-		        	console.log(placed.marker);
+		//        	console.log(placed.marker);
 
 
 		        	Array.prototype.contains = function ( searched ) {
@@ -423,11 +440,11 @@ var filterList = {
 		        	//console.log(elemID);
 		        	if (x.contains(search)) {
 		        	//	console.log(placed.title, 'contained!');
-		        		elemID.style.display = 'block';
+		        		elemID.style.visibility = 'visible';
 		        	}
 		        	else {
 		        	//	console.log(placed.title, 'NOPE');
-		        		elemID.style.display = 'none';
+		        		elemID.style.visibility = 'hidden';
 		        	}
 		        });
 		    });
@@ -542,7 +559,7 @@ var pinView = {
 		var marked = model.places[0].marker;
 		var len = marked.length;
 		var pinned;
-		console.log(marked);
+		//console.log(marked);
 
 		
 		for(t=0;t<len;t++) {
@@ -587,7 +604,7 @@ var pinView = {
 			//console.log(markers);
 			this.tag = ko.observableArray(data.tag);
 		    
-			console.log(pinList()[0].position.lat());
+	//		console.log(pinList()[0].position.lat());
 			var pinned = pinList()[0];
 
 
@@ -613,7 +630,7 @@ var pinView = {
 			    }
 
 			};
-			console.log(data.marker[0].position.lat());
+		//	console.log(data.marker[0].position.lat());
 
 		    pinned.addListener('click', function() {
 		    	console.log(data.marker[0].position.lat());
