@@ -221,16 +221,20 @@ var socrataView = {
         	var elem;
         	elem = document.createElement('li');
         	elem.className = 'info';
-            elem.textContent = 'Year: ' + census.Year + ' || ' +
+            elem.textContent = 'Asbury Park, NJ Census Facts Courtesy Socrata Open Data || ' +
+            				   'Year: ' + census.Year + ' || ' +
             				   'Bachelors Degree: ' + census.Bachelors + '% || ' +
             				   'Associates Degree: ' + census.Associates + '% || ' +
             				   'High School Grad: ' + census.HSGrad + '%';
-            console.log(census.Year);
+
             self.socrataElem.appendChild(elem);
 		        
 		        clearTimeout(self.socrataTimeout);
         	}
         });
+    $("#socrata-data").click(function() {
+        $(".info").toggle("slow", function() {});
+    });
 	}
 };
 
