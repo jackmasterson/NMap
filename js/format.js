@@ -1,5 +1,4 @@
 
-
 var map;
 var filter = ko.observable('');
 
@@ -146,7 +145,7 @@ var viewModel = {
 	init: function() {
 		model.currentMark = model.places[0];
 		socrataView.init();
-		jamBaseView.init();
+	//	jamBaseView.init();
 		listView.init();
 		markView.init();
 		searchedView.init();
@@ -379,8 +378,10 @@ var searchedView = {
 						that.render();
 					}
 				})
+
 			}
 			clicked();
+
 		})
 
 	},
@@ -460,11 +461,11 @@ var filterList = {
 		        	//console.log(elemID);
 		        	if (x.contains(search)) {
 		        	//	console.log(placed.title, 'contained!');
-		        		elemID.style.visibility = 'visible';
+		        		elemID.style.display = 'block';
 		        	}
 		        	else {
 		        	//	console.log(placed.title, 'NOPE');
-		        		elemID.style.visibility = 'hidden';
+		        		elemID.style.display = 'none';
 		        	}
 		        });
 		    });
