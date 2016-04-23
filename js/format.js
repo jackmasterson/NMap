@@ -151,6 +151,7 @@ var viewModel = {
 		markView.init();
 		searchedView.init();
 		filterList.init();
+		animateView.init();
 	},
 
 	getCurrentMark: function() {
@@ -539,8 +540,10 @@ var listView = {
             	});
             	
                 return function() {
-                	var t;
-                	var animate = markCopy.marker[0];
+                	
+                	/*var t;
+                	var animate = model.kram;
+  					console.log(model.kram);
                 	console.log(animate);
                // 	animate.addListener('click', clickPin());
                 	var image = markCopy.mkImg;
@@ -548,7 +551,7 @@ var listView = {
 			    	if(animate.icon == null) {
 				    	
 				    	for(t=0;t<model.places.length;t++){
-					    	var bore = model.places[t].marker[0];
+					    	var bore = model.kram;
 					    	bore.setIcon(null);
 					    	bore.setAnimation(null);
 					    }
@@ -559,10 +562,11 @@ var listView = {
 				    	function stopBouncing() {
 				    		animate.setAnimation(null);
 				    	};
-				    } 
+				    } */
                     viewModel.setCurrentMark(markCopy);
                     markView.render();
                     searchedView.render();
+                    animateView.init();
 
                 };
 
@@ -638,9 +642,13 @@ var pinView = {
 			    	icon: null
 			    })
 		    );
-		    
+		};
 
+	}
+}
 
+var animateView = {
+		init: function() {
 		    var shit = model.kram;
 		    console.log(model.kram);
 
@@ -658,7 +666,7 @@ var pinView = {
 							if(icon === null){
 								this.setIcon(image);
 								this.setAnimation(google.maps.Animation.BOUNCE);
-					            timeoutID = window.setTimeout(stopBouncing, 2200);
+					            timeoutID = window.setTimeout(stopBouncing, 2300);
 
 					            function stopBouncing() {
 					                self.setAnimation(null);
@@ -673,23 +681,8 @@ var pinView = {
 						//	}			   
 					})
 				}
+			}
 			
-
-
-
-
-
-		//	console.log(data.marker[0].position.lat());
-
-		//    Marked.addListener('click', function() {
-		  //  	console.log(data.marker[0].position.lat());
-			//	clickPin();
-			//});
-
-		};
-
-
-	}
 }
 
 var initMap = {
