@@ -652,10 +652,17 @@ var pinView = {
 					shit[w].addListener('click', function(pinCopy) {
 
 						for(n=0;n<model.kram.length;n++){
+							var self = this;
 							console.log(shit[n].icon);
 							var icon = shit[n].icon;
 							if(icon === null){
 								this.setIcon(image);
+								this.setAnimation(google.maps.Animation.BOUNCE);
+					            timeoutID = window.setTimeout(stopBouncing, 2200);
+
+					            function stopBouncing() {
+					                self.setAnimation(null);
+					            };
 							}
 							else {
 								this.setIcon(null);
