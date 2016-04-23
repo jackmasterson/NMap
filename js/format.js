@@ -336,11 +336,14 @@ var searchedView = {
 		//this.ex = '<a href="#">&times;</a>';
 
 		$(document).ready(function() {
-			$('#mark-search').keypress(function(e) {
-				if(e.keyCode == 13) {
-					that.render();
-				}
-			})
+			function clicked() {
+				$('#mark-search').keypress(function(e) {
+					if(e.keyCode == 13) {
+						that.render();
+					}
+				})
+			}
+			clicked();
 		})
 
 	},
@@ -389,21 +392,23 @@ var filterList = {
 			var place = model.places;
 			var places = ko.observableArray(place);
 
-			console.log(places());
+		//	console.log(places());
 
 			this.tagged = ko.observableArray([]);
 			places().forEach(function(placeItem){
 				self.tagged.push(placeItem.tag);
 				//console.log(self.tagged());
 			})
-			console.log(self.tagged());
+		//	console.log(self.tagged());
 
-			filterList:ko.computed(function() {
+
+		filterList:ko.computed(function() {
 		        var search = viewModel.query().toLowerCase();
-		        console.log(search);
+		       // console.log(search);
 
 		        return ko.utils.arrayFilter(places(), function(placed) {
-		        	console.log(placed);
+		        	console.log(placed.marker);
+
 
 		        	Array.prototype.contains = function ( searched ) {
 		        		for(r in this) {
@@ -413,41 +418,20 @@ var filterList = {
 		        	}
 
 		        	var x = placed.tag;
-		        	console.log(x);
+		        	//console.log(x);
 		        	var elemID = document.getElementById(placed.id);
-		        	console.log(elemID);
+		        	//console.log(elemID);
 		        	if (x.contains(search)) {
-		        		console.log(placed.title, 'contained!');
+		        	//	console.log(placed.title, 'contained!');
 		        		elemID.style.display = 'block';
 		        	}
 		        	else {
-		        		console.log(placed.title, 'NOPE');
+		        	//	console.log(placed.title, 'NOPE');
 		        		elemID.style.display = 'none';
 		        	}
 		        });
 		    });
 
-	   /*     	return ko.utils.arrayFilter(, function(spot) {
-	        		console.log(spot);
-		  
-
-
-					Array.prototype.contains = function ( searched ) {
-
-					   for (r in this) {
-					       if (this[r] == searched) return true;
-					   	}
-					   	return false;
-						}
-
-						if (x.contains(search)) {
-								elemID.style.display = 'block';
-						} else {
-								elemID.style.display = 'none';
-						}
-	       		 });*/
-
-		
 		}
 }
 
@@ -496,8 +480,8 @@ var listView = {
 				    	.concat(places[2].tag)
 				    	.concat(places[3].tag)
 				    	.concat(places[4].tag);
+            		
             		return ko.utils.arrayFilter(copyArr(), function(spot) {
-
 	            			var uniqueTags = [];
 	            			var x = copyArr();
 	            			var elemID = markCopy.id;
@@ -555,8 +539,10 @@ var pinView = {
 		var self = this;
 		var markers, i, t, infoWindow, data;
 		var len = model.places.length;
-		var marked = model.places[0].marker;
-		var len = marked.length;
+		this.marked = model.places[0].marker;
+		var len = this.marked.length;
+		var pinned;
+		console.log(this.marked);
 
 		
 		for(t=0;t<len;t++) {
@@ -579,7 +565,7 @@ var pinView = {
 
 	render: function() {
 	//	console.log(self.tag);
-		
+		var self = this;
 		var i, t, data, contentString;
 		var len = model.places.length;
 		var marked = model.places[0].marker;
@@ -588,7 +574,7 @@ var pinView = {
 		for(t=0;t<len;t++){
 			data = model.places[t];
 
-		    data.marker.push(
+		    model.places[0].marker.push(
 		        markers = new google.maps.Marker({
 		            position: data.position,
 		            map: map,
@@ -596,16 +582,15 @@ var pinView = {
 		        })
 		    );
 			var pinList = ko.observableArray([]);
-			var markers = data.marker[0];
+			
+			
 				pinList.push(markers);
 			//console.log(markers);
 			this.tag = ko.observableArray(data.tag);
 		    
+		//	console.log(pinList()[0].position.lat());
+		//	var pinned = pinList()[0];
 
-
-		    markers.addListener('click', function() {
-				//clickPin();
-			});
 
 
 		    function clickPin(){
@@ -629,8 +614,21 @@ var pinView = {
 			    }
 
 			};
+			console.log(model.places[0].marker)
+			console.log(this.marked[0].position.lat());
 
+			console.log(markers.position.lat());;
 		};
+		var markers = model.places[0].marker[1];
+
+		//console.log(markArr().position.lat());
+
+	    markers.addListener('click', function() {
+	    	//console.log(.position.lat());
+			clickPin();
+		});
+
+	
 
 
 	}
