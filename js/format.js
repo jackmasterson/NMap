@@ -146,7 +146,7 @@ var viewModel = {
 	init: function() {
 		model.currentMark = model.places[0];
 		socrataView.init();
-		//jamBaseView.init();
+		jamBaseView.init();
 		listView.init();
 		markView.init();
 		searchedView.init();
@@ -232,41 +232,43 @@ var socrataView = {
 		        clearTimeout(self.socrataTimeout);
         	}
         });
-    $("#socrata-data").click(function() {
-        $(".info").toggle("slow", function() {});
-    });
+		$("#socrata-data").click(function() {
+		    $(".info").toggle("slow", function() {});
+		});
 	}
 };
 
 var jamBaseView = {
 
 	init: function() {
-		var self = this;
+		var text;
 		this.jamBaseElem = $('#jamBase-header');
 		this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
         '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
-
   		this.slideOut = $('.slideout-menu-toggle')
-
-        this.jamBaseTimeout = setTimeout(function() {
-    	
-	        self.jamBaseElem.text('This was supposed to show a bunch of information ' +
-	            'about concerts in the area, and the request failed. Im so, so sorry. ' +
-	            'So instead, here is a picture of a microphone, which should make up for' +
-	            ' it. Right?');
-	        var mic = '</br><img src="img/microphone.jpg" id="mic">';
-	        self.jamBaseElem.append(mic);
-
-	    }, 3000);
 
 	    this.render();
 	},
 
 	render: function() {
+		var self = this;
+
+		text = 'This was supposed to show a bunch of information ' +
+	            'about concerts in the area, and the request failed. Im so, so sorry. ' +
+	            'So instead, here is a picture of a microphone, which should make up for' +
+	            ' it. Right?';
+
+        this.jamBaseTimeout = setTimeout(function() {
+        	var mic = '</br><img src="img/microphone.jpg" id="mic">';
+    		$('#jamBase-header').append(text).append(mic);
+
+	    }, 3000);
+
 		$.ajax({
 	    	url: self.jamBaseURL,
 	    	dataType: "json",
 	    	success: function(response) {
+	    		
 
 	    		//jamBase requires this logo be present on sites where
 	    		//their info is used
@@ -284,9 +286,12 @@ var jamBaseView = {
 
 	    		//iterates through the info in the JSON so that it can be
 	    		//formatted with the below code
+
+	    		///////////////PROBLEM INFOS DOESNT GET DEFINED///////
 	    		for(i=0;i<infos.length;i++){
 	    			
 	    			var info = response.Events[i];
+	    			console.log(info);
 	    			var artists = info.Artists
 	    			var date = info.Date;
 	    			
