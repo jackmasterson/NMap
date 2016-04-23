@@ -539,10 +539,10 @@ var pinView = {
 		var self = this;
 		var markers, i, t, infoWindow, data;
 		var len = model.places.length;
-		this.marked = model.places[0].marker;
-		var len = this.marked.length;
+		var marked = model.places[0].marker;
+		var len = marked.length;
 		var pinned;
-		console.log(this.marked);
+		console.log(marked);
 
 		
 		for(t=0;t<len;t++) {
@@ -565,7 +565,7 @@ var pinView = {
 
 	render: function() {
 	//	console.log(self.tag);
-		var self = this;
+		
 		var i, t, data, contentString;
 		var len = model.places.length;
 		var marked = model.places[0].marker;
@@ -574,7 +574,7 @@ var pinView = {
 		for(t=0;t<len;t++){
 			data = model.places[t];
 
-		    model.places[0].marker.push(
+		    data.marker.push(
 		        markers = new google.maps.Marker({
 		            position: data.position,
 		            map: map,
@@ -582,14 +582,13 @@ var pinView = {
 		        })
 		    );
 			var pinList = ko.observableArray([]);
-			
-			
+			var markers = data.marker[0];
 				pinList.push(markers);
 			//console.log(markers);
 			this.tag = ko.observableArray(data.tag);
 		    
-		//	console.log(pinList()[0].position.lat());
-		//	var pinned = pinList()[0];
+			console.log(pinList()[0].position.lat());
+			var pinned = pinList()[0];
 
 
 
@@ -614,21 +613,14 @@ var pinView = {
 			    }
 
 			};
-			console.log(model.places[0].marker)
-			console.log(this.marked[0].position.lat());
+			console.log(data.marker[0].position.lat());
 
-			console.log(markers.position.lat());;
+		    pinned.addListener('click', function() {
+		    	console.log(data.marker[0].position.lat());
+				clickPin();
+			});
+
 		};
-		var markers = model.places[0].marker[1];
-
-		//console.log(markArr().position.lat());
-
-	    markers.addListener('click', function() {
-	    	//console.log(.position.lat());
-			clickPin();
-		});
-
-	
 
 
 	}
