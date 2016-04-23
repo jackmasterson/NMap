@@ -1,3 +1,40 @@
+       
+
+
+        for(i=0; i<marks.length; i++){
+            mark = marks[i];
+
+            elem = document.createElement('li');
+            elem.textContent = mark.title;
+
+            elem.addEventListener('click', (function(markCopy) {
+
+                return function() {
+                    var t;
+                    var animate = markCopy.marker[0];
+                    var image = markCopy.mkImg;
+
+                    if(animate.icon == null) {
+                        
+                        for(t=0;t<model.places.length;t++){
+                            var bore = model.places[t].marker[0];
+                    //      console.log(bore);
+                            bore.setIcon(null);
+                            bore.setAnimation(null);
+                        }
+                        animate.setIcon(image);
+                        animate.setAnimation(google.maps.Animation.BOUNCE);
+                        timeoutID = window.setTimeout(stopBouncing, 2200);
+
+                        function stopBouncing() {
+                            animate.setAnimation(null);
+                        };
+                    } 
+                    viewModel.setCurrentMark(markCopy);
+
+
+
+
 function toggleList(){
 	$('#toggleListButton').click(function(){
 	    $('#list').slideToggle();
@@ -349,7 +386,7 @@ function initMap() {
 
 
         return ko.utils.arrayFilter(self.takers(), function(spot) {
-        	
+        	console.log(spot);
         	//creates an array of unique tags in which to push the
         	//allTags variable 
 		    var uniqueTags = [];

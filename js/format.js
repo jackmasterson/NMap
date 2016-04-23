@@ -149,6 +149,7 @@ var viewModel = {
 		listView.init();
 		markView.init();
 		searchedView.init();
+		filterList.init();
 	},
 
 	getCurrentMark: function() {
@@ -345,7 +346,7 @@ var searchedView = {
 	},
 
 	render: function() {
-		console.log(this.messageBox.innerHTML);
+	//	console.log(this.messageBox.innerHTML);
 
 
 
@@ -372,7 +373,7 @@ var searchedView = {
 		}
 
 		$('#clear').click(function() {
-			console.log('cleared');
+	//		console.log('cleared');
 			self.currentMark.notes = [];
 			self.messageBox.innerHTML = self.currentMark.notes;
 			$('#noted').hide();
@@ -381,6 +382,74 @@ var searchedView = {
 	},
 };
 
+var filterList = {
+		
+		init: function() {
+			var self = this;
+			var place = model.places;
+			var places = ko.observableArray(place);
+
+			console.log(places());
+
+			this.tagged = ko.observableArray([]);
+			places().forEach(function(placeItem){
+				self.tagged.push(placeItem.tag);
+				//console.log(self.tagged());
+			})
+			console.log(self.tagged());
+
+			filterList:ko.computed(function() {
+		        var search = viewModel.query().toLowerCase();
+		        console.log(search);
+
+		        return ko.utils.arrayFilter(places(), function(placed) {
+		        	console.log(placed);
+
+		        	Array.prototype.contains = function ( searched ) {
+		        		for(r in this) {
+		        			if(this[r] == searched) return true;
+		        		}
+		        		return false;
+		        	}
+
+		        	var x = placed.tag;
+		        	console.log(x);
+		        	var elemID = document.getElementById(placed.id);
+		        	console.log(elemID);
+		        	if (x.contains(search)) {
+		        		console.log(placed.title, 'contained!');
+		        		elemID.style.display = 'block';
+		        	}
+		        	else {
+		        		console.log(placed.title, 'NOPE');
+		        		elemID.style.display = 'none';
+		        	}
+		        });
+		    });
+
+	   /*     	return ko.utils.arrayFilter(, function(spot) {
+	        		console.log(spot);
+		  
+
+
+					Array.prototype.contains = function ( searched ) {
+
+					   for (r in this) {
+					       if (this[r] == searched) return true;
+					   	}
+					   	return false;
+						}
+
+						if (x.contains(search)) {
+								elemID.style.display = 'block';
+						} else {
+								elemID.style.display = 'none';
+						}
+	       		 });*/
+
+		
+		}
+}
 
 var listView = {
 
@@ -405,18 +474,22 @@ var listView = {
 
             elem = document.createElement('li');
             elem.textContent = mark.title;
+			elem.setAttribute('id', mark.id);
+
 
             elem.addEventListener('click', (function(markCopy) {
-            	console.log(markCopy.tag);
+            	
+            	//console.log(elem);
+            
             	var filter, copyArr;
 
             	copyArr = ko.observableArray(markCopy.tag);
         
             //	console.log(copyArr());
 
-            	filter = ko.computed(function() {
+            	var autofill = ko.computed(function(){
             		var search = viewModel.query().toLowerCase();
-            		console.log(search);
+            		//console.log(search);
             		var places = model.places;
 				    var allTags = places[0].tag
 				    	.concat(places[1].tag)
@@ -424,41 +497,22 @@ var listView = {
 				    	.concat(places[3].tag)
 				    	.concat(places[4].tag);
             		return ko.utils.arrayFilter(copyArr(), function(spot) {
-            //			console.log(spot);
-            //			console.log(markCopy);
-            			//var spotted = ko.observableArray(markCopy.tag());
-            //			console.log(copyArr());
 
-            			var uniqueTags = [];
-            			var elemID = document.getElementById(markCopy.id);
-            			var x = copyArr();
-            		
+	            			var uniqueTags = [];
+	            			var x = copyArr();
+	            			var elemID = markCopy.id;
 
-				   	$.each(allTags, function(i, el){
-					    if($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
-					});	
-				//	console.log(uniqueTags);
-					//initiates the autocomplete search function, using the
-					//uniqueTags array 
-			        $( "#searchBar" ).autocomplete({
-				      source: uniqueTags
-				    });
-            	})
-            		})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+					   	$.each(allTags, function(i, el){
+						    if($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
+						});	
+						//initiates the autocomplete search function, using the
+						//uniqueTags array 
+				        $( "#searchBar" ).autocomplete({
+					      source: uniqueTags
+					    });
+	            	})
+            	});
+            	
                 return function() {
                 	var t;
                 	var animate = markCopy.marker[0];
@@ -507,9 +561,9 @@ var pinView = {
 		
 		for(t=0;t<len;t++) {
 			data = model.places[t];
-			console.log(data);
+	//		console.log(data);
 			this.image = data.mkImg;
-			console.log(data.mkImg);
+	//		console.log(data.mkImg);
 			this.name = ko.observable(data.name);
 			
 
@@ -517,7 +571,7 @@ var pinView = {
 			this.address = ko.observable(data.address);
 			this.tag = ko.observable(data.tag);
 			this.href = ko.observable(data.href);
-			console.log(this.tag);
+	//		console.log(this.tag);
 		}
 
 		this.render();
