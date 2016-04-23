@@ -268,7 +268,9 @@ var jamBaseView = {
 	    	url: self.jamBaseURL,
 	    	dataType: "json",
 	    	success: function(response) {
-	    		
+	    		var infos = response;
+	    		//var info = infos[0]
+	    		console.log(infos.Events.length);
 
 	    		//jamBase requires this logo be present on sites where
 	    		//their info is used
@@ -278,19 +280,19 @@ var jamBaseView = {
 	    			'alt="Search JamBase Concerts" border="0" /></a>'
 	    		self.jamBaseElem.text('Live Music in Asbury Park');
 	    		self.jamBaseElem.append(logoAttr);
-	    		var infos = response.Events;
+	    		//var infos = response.Events;
 	    		var top = '</br><h3 id="jamHead">*Note: If tickets are not available online, you' +
 	    			'will be directed back to this website</h7>';
 	    		self.jamBaseElem.append(top);
-	    		self.jamBaseElem.prepend(close);
+	    		//self.jamBaseElem.prepend(close);
 
 	    		//iterates through the info in the JSON so that it can be
 	    		//formatted with the below code
-
+	    		console.log('hey');
 	    		///////////////PROBLEM INFOS DOESNT GET DEFINED///////
-	    		for(i=0;i<infos.length;i++){
+	    		for(i=0;i<infos.Events.length;i++){
 	    			
-	    			var info = response.Events[i];
+	    			var info = infos.Events[i];
 	    			console.log(info);
 	    			var artists = info.Artists
 	    			var date = info.Date;
@@ -304,7 +306,7 @@ var jamBaseView = {
 	    					'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
 	    						'">Tickets</a></li>' +
 	    					'</ul>';
-	    					$jamBaseElem.append(jamBaseStuff);
+	    					self.jamBaseElem.append(jamBaseStuff);
 	    				}
 	    		};
 	    		clearTimeout(jamBaseTimeout);
