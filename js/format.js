@@ -153,6 +153,7 @@ var viewModel = {
 		markView.init();
 		searchedView.init();
 		filterList.init();
+		
 
 	},
 
@@ -573,22 +574,29 @@ var rekramView = {
 
 	render: function() {
 //		console.log(this.places);
-		var pinned, elem, i;
+		var self = this;
+		var pinned, elem, i, alright;
 		var rekram = viewModel.getMarkers();
+		var okay = viewModel.getPlaces();
+
 
 		for(i=0;i<rekram.length; i++){
-			this.markElem = document.getElementById(this.places[i].id)
-	//		console.log(this.markElem);
+			elem = document.createElement('li');
+			elem.setAttribute('id', mark.id);
+		//	this.ID = document.getElementById(this.places[i].id)
+		//	console.log(this.ID);
+			alright = okay[i];
 			pinned = rekram[i];
+			console.log(alright);
+			console.log(pinned);
+			elem.addEventListener('click', (function(placeCopy) {
 
-			this.markElem.addEventListener('click', (function(placeCopy) {
-				console.log(placeCopy);
-				placeCopy.setMap(null);
-				placeCopy.setMap(map);
-			})(pinned))
+				//placeCopy.setMap(null);
+
+			})(pinned));
 		}
 	}
-}
+};
 
 
 var pinView = {
@@ -624,7 +632,7 @@ var pinView = {
 	render: function() {
 	//	console.log(self.tag);
 		
-		var i, t, data, contentString;
+		var i, t, data, contentString, elem;
 		var len = model.places.length;
 		var marked = model.places[0].marker;
     	var markLen = marked.length;
@@ -657,11 +665,12 @@ var pinView = {
 		    );
 		};
 		animateView.init();
-		rekramView.init();
+	//	rekramView.init();
+	
 		var Markers = viewModel.getMarkers();
 		var Places = viewModel.getPlaces();
-        console.log(Markers);
-        console.log(Places);
+       // console.log(Markers);
+        //console.log(Places);
 
 	}
 }
@@ -671,21 +680,31 @@ var animateView = {
 		init: function() {
 			this.markListElem = document.getElementById('mark-list');
 		    var shit = model.kram;
-		    
+		    var okay = model.places;
+		    for(k=0;k<okay.length;k++){
 
-		
-			////////closure problem right here
+				var alright = document.getElementById(okay[k].id);
+				console.log(alright);
+				$(alright).click(function(){
+				//	for(p=0;p<okay.length;p++){
+						console.log(this, 'clicked!');
+				//	}
+				})
+			};
 			
 				for(w=0;w<model.kram.length;w++){
+				//	console.log(shit[w]);
+				//	console.log(okay[w]);
 					shit[w].addListener('click', function(pinCopy) {
-
+						console.log(shit);
+console.log(okay);
 						for(n=0;n<model.kram.length;n++){
 							var self = this;
-							console.log(shit[n].icon);
+					//		console.log(shit[n].icon);
 							var icon = shit[n].icon;
 							if(icon === null){
 							//	console.log(shit[n]);
-								console.log(model.places[n]);
+						//		console.log(model.places[n]);
 						
 								this.setAnimation(google.maps.Animation.BOUNCE);
 					            timeoutID = window.setTimeout(stopBouncing, 2300);
@@ -700,8 +719,7 @@ var animateView = {
 
 						//	}			   
 					})
-				}
-		
+				}		
 			}
 			
 }
