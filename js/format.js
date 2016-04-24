@@ -691,13 +691,14 @@ var animateView = {
 			console.log(eachPlace);
 			
 			markAnimate[w].addListener('click', function(pinCopy) {
-				
+
 				for(n=0;n<model.kram.length;n++){
 					var that = this;
 			//	
 					var icon = markAnimate[n].icon;
 					if(icon === null){
-				
+						console.log(this.image);
+						this.setIcon(this.image);
 						this.setAnimation(google.maps.Animation.BOUNCE);
 			            timeoutID = window.setTimeout(stopBouncing, 2300);
 
@@ -715,12 +716,10 @@ var animateView = {
 				
 				for(var g=0;g<model.kram.length;g++){
 
-					console.log(markAnimate[g].id);
-					console.log(curr);
 					var skram = markAnimate[g].id;
 					var ecalp = curr.id;
 					var pic = curr.mkImg;
-					console.log(curr.id);
+
 					if(ecalp === skram){
 						var that = markAnimate[g];
 						
