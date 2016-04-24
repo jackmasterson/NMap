@@ -692,11 +692,14 @@ var animateView = {
 			
 			markAnimate[w].addListener('click', function(pinCopy) {
 
-				for(n=0;n<model.kram.length;n++){
+				for(n=0;n<markAnimate.length;n++){
 					var that = this;
 			//	
 					var icon = markAnimate[n].icon;
+					markAnimate[n].setIcon(null);
+					console.log(markAnimate[n]);
 					if(icon === null){
+						console.log(this);
 						console.log(this.image);
 						this.setIcon(this.image);
 						this.setAnimation(google.maps.Animation.BOUNCE);
@@ -705,8 +708,7 @@ var animateView = {
 			            function stopBouncing() {
 			                that.setAnimation(null);
 			            };
-					}
-					
+					} 
 				}
 			})
 
