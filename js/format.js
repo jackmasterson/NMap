@@ -151,7 +151,7 @@ var viewModel = {
 		markView.init();
 		searchedView.init();
 		filterList.init();
-		animateView.init();
+
 	},
 
 	getCurrentMark: function() {
@@ -566,7 +566,8 @@ var listView = {
                     viewModel.setCurrentMark(markCopy);
                     markView.render();
                     searchedView.render();
-                    animateView.init();
+
+
 
                 };
 
@@ -643,13 +644,17 @@ var pinView = {
 			    })
 		    );
 		};
+		animateView.init();
 
 	}
 }
 
 var animateView = {
+
 		init: function() {
+			this.markListElem = document.getElementById('mark-list');
 		    var shit = model.kram;
+		    
 		    console.log(model.kram);
 
 			var image = 'img/pinball.png';
@@ -672,18 +677,18 @@ var animateView = {
 					                self.setAnimation(null);
 					            };
 							}
-							else {
-								this.setIcon(null);
-							}
+							
 						}
 						//	if(icon == null){
 
 						//	}			   
 					})
 				}
+		
 			}
 			
 }
+animateView.init();
 
 var initMap = {
 	
