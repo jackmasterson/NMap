@@ -20,7 +20,7 @@ var model = {
             address: '208 Main St, Asbury Park, NJ 07712',
             src: 'img/macs.jpg',
             mkImg: 'img/beer.png',
-            nums: '(0)',
+            nums: '0',
           //  icon: null,
             marker: marker = [],
             notes: [],
@@ -47,7 +47,7 @@ var model = {
             address: '913 Ocean Ave, Asbury Park, NJ 07712',
             src: 'img/pony.jpg',
             mkImg: 'img/music.png',
-            nums: '(1)',
+            nums: '1',
            // icon: null,
             marker: marker = [],
             notes: [],          
@@ -71,7 +71,7 @@ var model = {
             address: '911 Kingsley St, Asbury Park, NJ 07712',
             src: 'img/porta.jpg',
             mkImg: 'img/beer.png',
-            nums: '(2)',
+            nums: '2',
           //  icon: null,
             marker: marker = [],
             notes: [], 
@@ -97,7 +97,7 @@ var model = {
             address: '1000 Ocean Ave, Asbury Park, NJ 07712',
             src: 'img/silverball.jpg',
             mkImg: 'img/pinball.png',
-            nums: '(3)',
+            nums: '3',
          //   icon: null,
             marker: marker = [],
             notes: [], 
@@ -123,7 +123,7 @@ var model = {
             address: '1300 Ocean Ave, Asbury Park, NJ 07712',
             src: 'img/hall.jpg',
             mkImg: 'img/shopping.png',
-            nums: '(4)',
+            nums: '4',
         //    icon: null,
             marker: marker = [],
             notes: [], 
@@ -681,45 +681,64 @@ var animateView = {
 
 		init: function() {
 			this.markListElem = document.getElementById('mark-list');
+
 		    var shit = model.kram;
 		    var okay = model.places;
 
 	
 				for(w=0;w<model.kram.length;w++){
+					var self = this;
+					
 					var alright = document.getElementById(okay[w].id);
 					console.log(alright);
 					
 					shit[w].addListener('click', function(pinCopy) {
 						
 						for(n=0;n<model.kram.length;n++){
-							
+							var that = this;
 					//		console.log(shit[n].icon);
 							var icon = shit[n].icon;
 							if(icon === null){
-							//	console.log(shit[n]);
-						//		console.log(model.places[n]);
 						
 								this.setAnimation(google.maps.Animation.BOUNCE);
 					            timeoutID = window.setTimeout(stopBouncing, 2300);
 
 					            function stopBouncing() {
-					                self.setAnimation(null);
+					                that.setAnimation(null);
 					            };
 							}
 							
 						}
-			   
 					})
+					console.log(okay, 'space', shit);
 
-					$('#mac').click(function(){
-						shit[0].setAnimation(google.maps.Animation.BOUNCE)
-					})
-					$('#pony').click(function(){
-						shit[1].setAnimation(google.maps.Animation.BOUNCE)
-					})
-					$('#hall').click(function(){
-						shit[4].setAnimation(google.maps.Animation.BOUNCE)
-					})
+				//	console.log(shit[w]);
+			var that = shit[w]
+			$(alright).click(function(){
+			//	console.log(this);
+			//	console.log()
+				for(n=0;n<model.kram.length;n++){
+					
+			//		console.log(shit[n].icon);
+					var icon = shit[n].icon;
+					if(icon === null){
+				
+						that.setAnimation(google.maps.Animation.BOUNCE);
+			            timeoutID = window.setTimeout(stopBouncing, 2300);
+
+			            function stopBouncing() {
+			                that.setAnimation(null);
+			            };
+					}
+					
+				}
+			})
+					
+			//		console.log(this.click);
+			//		console.log(self.click);
+			//		var sure = self.click;
+
+
 
 					
 
