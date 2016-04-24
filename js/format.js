@@ -662,7 +662,7 @@ var pinView = {
 			    	image: data.mkImg,
 			    	animation: google.maps.Animation.DROP,
 			    	icon: null,
-			    	id: data.id + 'M'
+			    	id: data.id
 			    })
 		    );
 		};
@@ -684,6 +684,8 @@ var animateView = {
 
 		    var shit = model.kram;
 		    var okay = model.places;
+		    
+
 
 	
 				for(w=0;w<model.kram.length;w++){
@@ -710,20 +712,37 @@ var animateView = {
 							
 						}
 					})
-					console.log(okay, 'space', shit);
+
+
+				//	console.log(okay, 'space', shit);
 
 				//	console.log(shit[w]);
-			var that = shit[w]
+		//	var that = shit[w];
+		//	console.log(shit[w].id);
+		//	console.log(okay[w].id);
 			$(alright).click(function(){
 			//	console.log(this);
 			//	console.log()
-				for(n=0;n<model.kram.length;n++){
+			var curr = viewModel.getCurrentPlace();
+				
+				for(var g=0;g<model.kram.length;g++){
+					console.log(shit[g].id);
+					var skram = shit[g].id;
+					var ecalp = curr.id;
+					console.log(curr.id);
+					if(ecalp === skram){
+						console.log(shit[g]);
+						shit[g].setAnimation(google.maps.Animation.BOUNCE);
+					}
+				}
+			/*	for(n=0;n<model.kram.length;n++){
+
 					
 			//		console.log(shit[n].icon);
 					var icon = shit[n].icon;
 					if(icon === null){
 				
-						that.setAnimation(google.maps.Animation.BOUNCE);
+						this.setAnimation(google.maps.Animation.BOUNCE);
 			            timeoutID = window.setTimeout(stopBouncing, 2300);
 
 			            function stopBouncing() {
@@ -731,7 +750,7 @@ var animateView = {
 			            };
 					}
 					
-				}
+				}*/
 			})
 					
 			//		console.log(this.click);
