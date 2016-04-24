@@ -716,15 +716,21 @@ var animateView = {
 				for(var g=0;g<model.kram.length;g++){
 
 					console.log(markAnimate[g].id);
+					console.log(curr);
 					var skram = markAnimate[g].id;
 					var ecalp = curr.id;
+					var pic = curr.mkImg;
 					console.log(curr.id);
 					if(ecalp === skram){
-						markAnimate[g].setAnimation(google.maps.Animation.BOUNCE);
 						var that = markAnimate[g];
+						
+						that.setAnimation(google.maps.Animation.BOUNCE);		
 						timeoutID = window.setTimeout(function(){
 							that.setAnimation(null);
 						}, 2300);
+
+						that.setIcon(pic);
+
 					}
 				}
 			})
