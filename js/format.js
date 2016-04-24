@@ -580,6 +580,7 @@ var rekramView = {
 		var okay = viewModel.getPlaces();
 
 
+
 		for(i=0;i<rekram.length; i++){
 			elem = document.createElement('li');
 			elem.setAttribute('id', mark.id);
@@ -660,7 +661,8 @@ var pinView = {
 			    	map: map,
 			    	image: data.mkImg,
 			    	animation: google.maps.Animation.DROP,
-			    	icon: null
+			    	icon: null,
+			    	id: data.id + 'M'
 			    })
 		    );
 		};
@@ -681,25 +683,16 @@ var animateView = {
 			this.markListElem = document.getElementById('mark-list');
 		    var shit = model.kram;
 		    var okay = model.places;
-		    for(k=0;k<okay.length;k++){
 
-				var alright = document.getElementById(okay[k].id);
-				console.log(alright);
-				$(alright).click(function(){
-				//	for(p=0;p<okay.length;p++){
-						console.log(this, 'clicked!');
-				//	}
-				})
-			};
-			
+	
 				for(w=0;w<model.kram.length;w++){
-				//	console.log(shit[w]);
-				//	console.log(okay[w]);
+					var alright = document.getElementById(okay[w].id);
+					console.log(alright);
+					
 					shit[w].addListener('click', function(pinCopy) {
-						console.log(shit);
-console.log(okay);
+						
 						for(n=0;n<model.kram.length;n++){
-							var self = this;
+							
 					//		console.log(shit[n].icon);
 							var icon = shit[n].icon;
 							if(icon === null){
@@ -715,11 +708,23 @@ console.log(okay);
 							}
 							
 						}
-						//	if(icon == null){
-
-						//	}			   
+			   
 					})
-				}		
+
+					$('#mac').click(function(){
+						shit[0].setAnimation(google.maps.Animation.BOUNCE)
+					})
+					$('#pony').click(function(){
+						shit[1].setAnimation(google.maps.Animation.BOUNCE)
+					})
+					$('#hall').click(function(){
+						shit[4].setAnimation(google.maps.Animation.BOUNCE)
+					})
+
+					
+
+				
+				};		
 			}
 			
 }
