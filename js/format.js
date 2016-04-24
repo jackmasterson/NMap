@@ -3,7 +3,8 @@ var map;
 var filter = ko.observable('');
 
 var model = {
-	currentMark: null,
+	currentPlace: null,
+	currentMarker: null,
 	socrataInfo: [],
 	kram: [],
     places: [
@@ -144,7 +145,8 @@ var model = {
 var viewModel = {
 
 	init: function() {
-		model.currentMark = model.places[0];
+		model.currentPlace = model.places[0];
+		model.currentMarker = model.kram[0];
 		socrataView.init();
 	//	jamBaseView.init();
 		listView.init();
@@ -154,8 +156,13 @@ var viewModel = {
 
 	},
 
-	getCurrentMark: function() {
-		return model.currentMark;
+	getCurrentPlace: function() {
+		return model.currentPlace;
+		
+	},
+
+	getCurrentMarker: function() {
+		return model.currentMarker;
 	},
 
 	getPlaces: function() {
@@ -163,20 +170,21 @@ var viewModel = {
 	},
 
 	getMarkers: function() {
-		var i;
-		var place = model.places;
+		return model.kram;	
+	},
 
-		var len = place.length;
+	setCurrentPlace: function(mark) {
+		model.currentPlace = mark;
 		
 	},
 
-	setCurrentMark: function(mark) {
-		model.currentMark = mark;
+	setCurrentMarker: function(pinned) {
+		model.currentMarker = pinned;
 	},
 
 	query: ko.observable('')
 }
-viewModel.getMarkers();
+
 
 var socrataView = {
 	
@@ -357,12 +365,13 @@ var markView = {
     },
 
     render: function() {
-        var currentMark = viewModel.getCurrentMark();
+        var currentPlace = viewModel.getCurrentPlace();
+        var currentMarker = viewModel.getCurrentMarker();
 
-        this.countElem.textContent = currentMark.clickCount;
-        this.markNameElem.textContent = currentMark.title;
-        this.markAddElem.textContent = currentMark.address;
-        this.markImageElem.src = currentMark.src;
+
+        this.markNameElem.textContent = currentPlace.title;
+        this.markAddElem.textContent = currentPlace.address;
+        this.markImageElem.src = currentPlace.src;
     //    this.markNotedElem.textContent = currentMark.notes;
 
     }
@@ -399,13 +408,15 @@ var searchedView = {
 	render: function() {
 
 		var self = this;
-        this.currentMark = viewModel.getCurrentMark();
+        this.currentPlace = viewModel.getCurrentPlace();
+        this.currentMarker = viewModel.getCurrentMarker();
+
 
 		$('#noted').show();
 		$('#clear').show();
 
 		if(self.placeInput.value !== ''){
-			this.currentMark.notes.push(self.placeInput.value);
+			this.currentPlace.notes.push(self.placeInput.value);
 		}
 
 //		console.log(currentMark);
@@ -413,17 +424,17 @@ var searchedView = {
 		self.placeInput.value = '';
 		self.messageBox.innerHTML = '';
 
-		self.messageBox.innerHTML = this.currentMark.notes
+		self.messageBox.innerHTML = this.currentPlace.notes
 			.join(self.br);
 
-		if(this.currentMark.notes[0] == ''){
-			this.currentMark.notes.shift();
+		if(this.currentPlace.notes[0] == ''){
+			this.currentPlace.notes.shift();
 		}
 
 		$('#clear').click(function() {
 	//		console.log('cleared');
-			self.currentMark.notes = [];
-			self.messageBox.innerHTML = self.currentMark.notes;
+			self.currentPlace.notes = [];
+			self.messageBox.innerHTML = self.currentPlace.notes;
 			$('#noted').hide();
 		})
 
@@ -492,8 +503,7 @@ var listView = {
     render: function() {
         var mark, elem, i;
         var places = viewModel.getPlaces();
-        
-      
+
     	$('#toggleListButton').click(function(){
 		    $('.list').slideToggle();
 		});
@@ -508,7 +518,7 @@ var listView = {
 			elem.setAttribute('id', mark.id);
 
             elem.addEventListener('click', (function(markCopy) {
-            
+ //           	console.log(markCopy);
             	var filter, copyArr;
 
             	copyArr = ko.observableArray(markCopy.tag);
@@ -541,34 +551,9 @@ var listView = {
             	
                 return function() {
                 	
-                	/*var t;
-                	var animate = model.kram;
-  					console.log(model.kram);
-                	console.log(animate);
-               // 	animate.addListener('click', clickPin());
-                	var image = markCopy.mkImg;
-
-			    	if(animate.icon == null) {
-				    	
-				    	for(t=0;t<model.places.length;t++){
-					    	var bore = model.kram;
-					    	bore.setIcon(null);
-					    	bore.setAnimation(null);
-					    }
-					    animate.setIcon(image);
-					    animate.setAnimation(google.maps.Animation.BOUNCE);
-                   		timeoutID = window.setTimeout(stopBouncing, 2200);
-
-				    	function stopBouncing() {
-				    		animate.setAnimation(null);
-				    	};
-				    } */
-                    viewModel.setCurrentMark(markCopy);
+                    viewModel.setCurrentPlace(markCopy);
                     markView.render();
                     searchedView.render();
-
-
-
                 };
 
             })(mark));
@@ -578,6 +563,32 @@ var listView = {
     }
 };
 
+var rekramView = {
+	init: function() {
+		this.places = viewModel.getPlaces();
+//		console.log(this.places);
+	//	
+		this.render()
+	},
+
+	render: function() {
+//		console.log(this.places);
+		var pinned, elem, i;
+		var rekram = viewModel.getMarkers();
+
+		for(i=0;i<rekram.length; i++){
+			this.markElem = document.getElementById(this.places[i].id)
+	//		console.log(this.markElem);
+			pinned = rekram[i];
+
+			this.markElem.addEventListener('click', (function(placeCopy) {
+				console.log(placeCopy);
+				placeCopy.setMap(null);
+				placeCopy.setMap(map);
+			})(pinned))
+		}
+	}
+}
 
 
 var pinView = {
@@ -639,12 +650,18 @@ var pinView = {
 		    	new google.maps.Marker({
 			    	position: data.position,
 			    	map: map,
+			    	image: data.mkImg,
 			    	animation: google.maps.Animation.DROP,
 			    	icon: null
 			    })
 		    );
 		};
 		animateView.init();
+		rekramView.init();
+		var Markers = viewModel.getMarkers();
+		var Places = viewModel.getPlaces();
+        console.log(Markers);
+        console.log(Places);
 
 	}
 }
@@ -655,9 +672,7 @@ var animateView = {
 			this.markListElem = document.getElementById('mark-list');
 		    var shit = model.kram;
 		    
-		    console.log(model.kram);
 
-			var image = 'img/pinball.png';
 		
 			////////closure problem right here
 			
@@ -669,7 +684,9 @@ var animateView = {
 							console.log(shit[n].icon);
 							var icon = shit[n].icon;
 							if(icon === null){
-								this.setIcon(image);
+							//	console.log(shit[n]);
+								console.log(model.places[n]);
+						
 								this.setAnimation(google.maps.Animation.BOUNCE);
 					            timeoutID = window.setTimeout(stopBouncing, 2300);
 
