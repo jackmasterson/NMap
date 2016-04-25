@@ -155,8 +155,6 @@ var viewModel = {
 		searchedView.init();
 		filterList.init();
 
-		
-
 	},
 
 	getCurrentPlace: function() {
@@ -408,23 +406,16 @@ var filterList = {
 			var place = model.places;
 			var places = ko.observableArray(place);
 
-		//	console.log(places());
 
 			this.tagged = ko.observableArray([]);
 			places().forEach(function(placeItem){
 				self.tagged.push(placeItem.tag);
-				//console.log(self.tagged());
 			})
-		//	console.log(self.tagged());
-
 
 		filterList:ko.computed(function() {
 		        var search = viewModel.query().toLowerCase();
-		       // console.log(search);
 
 		        return ko.utils.arrayFilter(places(), function(placed) {
-		//        	console.log(placed.marker);
-
 
 		        	Array.prototype.contains = function ( searched ) {
 		        		for(r in this) {
@@ -446,6 +437,7 @@ var filterList = {
 		        		elemID.style.display = 'none';
 		        	}
 		        });
+
 		    });
 
 		}
@@ -455,9 +447,7 @@ var listView = {
 
 	init: function() {
 		this.markListElem = document.getElementById('mark-list');
-
 		this.render();
-
 	},
 
     render: function() {
@@ -605,29 +595,50 @@ var animateView = {
 	    var modelPlace = model.places;
 		var currentMark;
 		var currentPlace;
+		var placeID;
+		console.log(modelPlace);
 
 		for(w=0;w<model.kram.length;w++){
-			console.log(this.currentPlace);
+			console.log(modelPlace[w].id);
+			placeID = document.getElementById(modelPlace[w].id);
+			
+				$("#searchBar").keypress(function(e) {
+					if(e.keyCode == 13) {
+						console.log(placeID);
+						if(placeID.style.display === 'block'){
+							console.log(placeID, 'block')
+						} else {
+							console.log('none')
+						}
+					}
+				})
+
+		//	animateView.init();
+					        		
+			//		    elemID.style.display = 'block';
+		        
+		      //  		elemID.style.display = 'none';
 
 			var eachPlace = document.getElementById(modelPlace[w].id);
 
 			markAnimate[w].addListener('click', function(pinCopy) {
 
 				currentPlace = viewModel.getCurrentPlace();
-				console.log(currentPlace);
+		//		console.log(currentPlace);
 				currentMark = this;
-				console.log(currentMark.title);
-				console.log(currentMark.notes);
+		//		console.log(currentMark.title);
+		//		console.log(currentMark.notes);
 			if(currentPlace.title !== currentMark.title){
-				console.log('NOT EQUAL');
+		//		console.log('NOT EQUAL');
 				currentPlace === currentMark;
 				viewModel.setCurrentPlace(currentMark);
 				searchedView.render();
 			}
 
+
 				for(n=0;n<markAnimate.length;n++){
 									
-					console.log(markAnimate[n]);
+		//			console.log(markAnimate[n]);
 					var that = this;
 			//	
 					var icon = markAnimate[n].icon;
