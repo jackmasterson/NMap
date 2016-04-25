@@ -6,6 +6,7 @@ var model = {
 	currentPlace: null,
 	currentMarker: null,
 	socrataInfo: [],
+	jamBaseInfo: ko.observableArray([]),
 	kram: [],
     places: [
         {
@@ -148,11 +149,13 @@ var viewModel = {
 		model.currentPlace = model.places[0];
 		model.currentMarker = model.kram[0];
 		socrataView.init();
-	//	jamBaseView.init();
+		jamBaseView.init();
+		//animateView.init();
 		listView.init();
 		markView.init();
 		searchedView.init();
 		filterList.init();
+
 		
 
 	},
@@ -279,7 +282,7 @@ var jamBaseView = {
 
         this.jamBaseTimeout = setTimeout(function() {
         	var mic = '</br><img src="img/microphone.jpg" id="mic">';
-    		$('#jamBase-header').append(text).append(mic);
+    		$('#jamBase-header').prepend(text).prepend(mic);
 
 	    }, 3000);
 
@@ -289,46 +292,23 @@ var jamBaseView = {
 	    	success: function(response) {
 	    		var infos = response;
 	    		//var info = infos[0]
-	    		console.log(infos.Events.length);
 
-	    		//jamBase requires this logo be present on sites where
-	    		//their info is used
-	    		var logoAttr = '<a href="http://www.JamBase.com"' +
-	    			'target="_blank" title="JamBase Concert Search" id="tixImg">' +
-	    			'<img src= "http://images.jambase.com/logos/jambase140x70.gif"' +
-	    			'alt="Search JamBase Concerts" border="0" /></a>'
-	    		self.jamBaseElem.text('Live Music in Asbury Park');
-	    		self.jamBaseElem.append(logoAttr);
-	    		//var infos = response.Events;
-	    		var top = '</br><h3 id="jamHead">*Note: If tickets are not available online, you' +
-	    			'will be directed back to this website</h7>';
-	    		self.jamBaseElem.append(top);
 	    		//self.jamBaseElem.prepend(close);
 
 	    		//iterates through the info in the JSON so that it can be
 	    		//formatted with the below code
-	    		console.log('hey');
-	    		///////////////PROBLEM INFOS DOESNT GET DEFINED///////
-	    		for(i=0;i<infos.Events.length;i++){
-	    			
-	    			var info = infos.Events[i];
-	    			console.log(info);
-	    			var artists = info.Artists
-	    			var date = info.Date;
-	    			
-	    			for(t=0;t<artists.length;t++){
-	    				var artist = info.Artists[t];				
-	    				var jamBaseStuff = '<ul class="concerts">' +
-	    					'<li id="concertsHead">Artist: ' + artist.Name + '</li>' +
-	    					'<li id="concertsHead">Venue: ' + info.Venue.Name + '</li>' +
-	    					'<li id="concertsHead">Date: ' + date + '</li>' +
-	    					'<li id="concertsHead"><a target="_blank" href="' + info.TicketUrl +
-	    						'">Tickets</a></li>' +
-	    					'</ul>';
-	    					self.jamBaseElem.append(jamBaseStuff);
-	    				}
-	    		};
-	    		clearTimeout(jamBaseTimeout);
+	    		infos.Events.forEach(function(jamStuff) {
+	    				
+	    			model.jamBaseInfo.push(
+	    				jamStuff);
+
+	    		});
+	    	
+
+
+
+	    		
+	    	
 	    	}
 	    });
 		$(document).ready(function() {
@@ -504,6 +484,8 @@ var listView = {
     render: function() {
         var mark, elem, i;
         var places = viewModel.getPlaces();
+        var krams = viewModel.getMarkers();
+     //   console.log(krams);
 
     	$('#toggleListButton').click(function(){
 		    $('.list').slideToggle();
@@ -612,6 +594,7 @@ var pinView = {
 		    		src: data.src,
 		    		address: data.address,
 			    	position: data.position,
+			    	notes: data.notes,
 			    	map: map,
 			    	image: data.mkImg,
 			    	animation: google.maps.Animation.DROP,
@@ -632,6 +615,9 @@ var animateView = {
 		this.markNameElem = document.getElementById('mark-name');
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
+        this.placeInput = document.getElementById('mark-search');
+        this.messageBox = document.getElementById('noted');
+        this.br = '</br>';
       //  console.log(this.markElem);
 
 
@@ -654,11 +640,10 @@ var animateView = {
 					markAnimate[n].setIcon(null);
 		//			console.log(this);
 					
-						self.markNameElem.textContent = this.title;
-				        self.markAddElem.textContent = this.address;
-				        self.markImageElem.src = this.src;
+					self.markNameElem.textContent = this.title;
+			        self.markAddElem.textContent = this.address;
+			        self.markImageElem.src = this.src;
 
-			//		console.log(markAnimate[n]);
 					if(icon === null){
 
 						this.setIcon(this.image);
@@ -671,12 +656,14 @@ var animateView = {
 					}
 
 				}
+
 				$('.list').show('slow', function(){});
 
 			})
-							$('#hide').click(function(){
-					$('.list').hide('slow', function(){});
-				})
+
+			$('#hide').click(function(){
+				$('.list').hide('slow', function(){});
+			})
 
 			$(eachPlace).click(function(){
 
@@ -741,6 +728,7 @@ viewModel.init();
 
 
 ko.applyBindings(viewModel);
+
 
 
 

@@ -13,7 +13,7 @@
 
      <ul id="listUL">
              <button id="hide">Click to Hide</button>
-             <input id="searchBar"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Type to Search" autofocus></input>
+             <input id="searchBar"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Start Typing, Hit Enter" autofocus></input>
       <ul id="mark-list"></ul>
  
 
@@ -57,7 +57,25 @@
     </ul>
   </div>
 
-  <div id="jamBase-header"></div>
+  <div id="jamBase-header">
+    <h2>Live Music in Asbury Park</h2>
+    <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" id="tixImg">
+        <img src= "http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
+    </a>
+    </br>
+    <h7 id="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
+    <ul class="concerts" data-bind="foreach:  model.jamBaseInfo">
+        <li data-bind="text: Artists[0].Name"></li>
+        <li data-bind="text: Venue.Name"></li>
+        <li>City:
+          <span data-bind="text: Venue.City"></span>
+          <span data-bind="text: Venue.ZipCode"></span>
+        </li>
+        <a data-bind="attr: { href: TicketUrl }">Tickets</a>
+        </br>
+    </ul>
+
+  </div>
 
 
 
