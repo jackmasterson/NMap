@@ -672,9 +672,11 @@ var animateView = {
 
 				}
 				$('.list').show('slow', function(){});
+
 			})
-
-
+							$('#hide').click(function(){
+					$('.list').hide('slow', function(){});
+				})
 
 			$(eachPlace).click(function(){
 
