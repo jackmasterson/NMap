@@ -376,39 +376,11 @@ function initMap() {
         var search = viewModel.query().toLowerCase();
         console.log(search);
 
-		   //adds all the tags together to make them searchable 
-		   //for autocomplete
-		    var allTags = places()[0].tag
-		    	.concat(places()[1].tag)
-		    	.concat(places()[2].tag)
-		    	.concat(places()[3].tag)
-		    	.concat(places()[4].tag);
 
 
         return ko.utils.arrayFilter(self.takers(), function(spot) {
-        	console.log(spot);
-        	//creates an array of unique tags in which to push the
-        	//allTags variable 
-		    var uniqueTags = [];
 
-            
-            var elemID = document.getElementById(spot.id);
-		    var x = spot.tag();
-
-		    //filters through allTags and only pushes the unique 
-		    //tags into the uniqueTags array
-		   	$.each(allTags, function(i, el){
-			    if($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
-			});
-		
-			//initiates the autocomplete search function, using the
-			//uniqueTags array 
-	        $( "#searchBar" ).autocomplete({
-		      source: uniqueTags
-		    });
-		    
-
-
+		  
 			Array.prototype.contains = function ( searched ) {
 
 			   for (r in this) {
@@ -434,9 +406,7 @@ function initMap() {
 
     //toggles the info when the link in the list view is clicked
     //so that it's not too info-oversaturated
-    $("#socrata-data").click(function() {
-        $(".info").toggle("slow", function() {});
-    });
+
 
 };
 

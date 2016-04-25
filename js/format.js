@@ -509,6 +509,7 @@ var listView = {
 		    $('.list').slideToggle();
 		});
 
+
         this.markListElem.innerHTML = '';
 
         for(i=0; i<places.length; i++){
@@ -683,15 +684,16 @@ var animateView = {
 
 	    var markAnimate = model.kram;
 	    var modelPlace = model.places;
-	    
+
 		for(w=0;w<model.kram.length;w++){
 			var self = this;
-			
-			var eachPlace = document.getElementById(modelPlace[w].id);
-			console.log(eachPlace);
-			
-			markAnimate[w].addListener('click', function(pinCopy) {
 
+			var eachPlace = document.getElementById(modelPlace[w].id);
+
+			markAnimate[w].addListener('click', function(pinCopy) {
+				$('.list').show('slow', function(){});
+				
+				
 				for(n=0;n<markAnimate.length;n++){
 					var that = this;
 			//	
@@ -710,7 +712,10 @@ var animateView = {
 			            };
 					} 
 				}
+
 			})
+
+
 
 			$(eachPlace).click(function(){
 
@@ -735,6 +740,8 @@ var animateView = {
 					}
 				}
 			})
+
+
 
 		};		
 	}
