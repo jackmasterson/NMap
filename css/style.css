@@ -187,6 +187,11 @@ a:visited {
 #tixImg{
   margin-top: 25px;
 }
+#jamHREF {
+  color: white;
+  font-color: white;
+
+}
 #jamBase-header {
     position: fixed;
     top: 0;

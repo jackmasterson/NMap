@@ -303,7 +303,7 @@ var jamBaseView = {
 	    				jamStuff);
 
 	    		});
-	    	
+	    	clearTimeout(self.jamBaseTimeout);
 
 
 
