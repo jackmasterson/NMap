@@ -4,7 +4,6 @@ var filter = ko.observable('');
 
 var model = {
 	currentPlace: null,
-	currentMarker: null,
 	socrataInfo: [],
 	jamBaseInfo: ko.observableArray([]),
 	kram: [],
@@ -147,7 +146,7 @@ var viewModel = {
 
 	init: function() {
 		model.currentPlace = model.places[0];
-		model.currentMarker = model.kram[0];
+	//	model.currentMarker = model.kram[0];
 		socrataView.init();
 		jamBaseView.init();
 		//animateView.init();
@@ -161,20 +160,11 @@ var viewModel = {
 	},
 
 	getCurrentPlace: function() {
-		return model.currentPlace;
-		
-	},
-
-	getCurrentMarker: function() {
-		return model.currentMarker;
+		return model.currentPlace;	
 	},
 
 	getPlaces: function() {
 		return model.places;
-	},
-
-	getMarkers: function() {
-		return model.kram;	
 	},
 
 	setCurrentPlace: function(mark) {
@@ -182,9 +172,6 @@ var viewModel = {
 		
 	},
 
-	setCurrentMarker: function(pinned) {
-		model.currentMarker = pinned;
-	},
 
 	query: ko.observable('')
 }
@@ -282,35 +269,26 @@ var jamBaseView = {
 
         this.jamBaseTimeout = setTimeout(function() {
         	var mic = '</br><img src="img/microphone.jpg" id="mic">';
-    		$('#jamBase-header').prepend(text).prepend(mic);
+    		$('#jamBase-header').append(text).append(mic);
 
 	    }, 3000);
 
-		$.ajax({
+		/*$.ajax({
 	    	url: self.jamBaseURL,
 	    	dataType: "json",
 	    	success: function(response) {
 	    		var infos = response;
-	    		//var info = infos[0]
 
-	    		//self.jamBaseElem.prepend(close);
-
-	    		//iterates through the info in the JSON so that it can be
-	    		//formatted with the below code
 	    		infos.Events.forEach(function(jamStuff) {
 	    				
 	    			model.jamBaseInfo.push(
 	    				jamStuff);
 
 	    		});
-	    	clearTimeout(self.jamBaseTimeout);
-
-
-
-	    		
-	    	
+	    		clearTimeout(self.jamBaseTimeout);
+	
 	    	}
-	    });
+	    });*/
 		$(document).ready(function() {
 			$('.slideout-menu-toggle').on('click', function(event) {
 				event.preventDefault();
@@ -347,7 +325,7 @@ var markView = {
 
     render: function() {
         var currentPlace = viewModel.getCurrentPlace();
-        var currentMarker = viewModel.getCurrentMarker();
+    //    var currentMarker = viewModel.getCurrentMarker();
 
         this.markNameElem.textContent = currentPlace.title;
         this.markAddElem.textContent = currentPlace.address;
@@ -390,7 +368,7 @@ var searchedView = {
 
 		var self = this;
         this.currentPlace = viewModel.getCurrentPlace();
-        this.currentMarker = viewModel.getCurrentMarker();
+ //       this.currentMarker = viewModel.getCurrentMarker();
 
 
 		$('#noted').show();
@@ -418,6 +396,7 @@ var searchedView = {
 			self.messageBox.innerHTML = self.currentPlace.notes;
 			$('#noted').hide();
 		})
+
 
 	},
 };
@@ -484,7 +463,7 @@ var listView = {
     render: function() {
         var mark, elem, i;
         var places = viewModel.getPlaces();
-        var krams = viewModel.getMarkers();
+     //   var krams = viewModel.getMarkers();
      //   console.log(krams);
 
     	$('#toggleListButton').click(function(){
@@ -592,6 +571,7 @@ var pinView = {
 		    	new google.maps.Marker({
 		    		title: data.title,
 		    		src: data.src,
+		    		notes: ko.observableArray([]),
 		    		address: data.address,
 			    	position: data.position,
 			    	notes: data.notes,
@@ -624,16 +604,27 @@ var animateView = {
 	    var markAnimate = model.kram;
 	    var modelPlace = model.places;
 
+
+
+		var currentMark;
+
+
 		for(w=0;w<model.kram.length;w++){
 			
+
+
 
 			var eachPlace = document.getElementById(modelPlace[w].id);
 
 			markAnimate[w].addListener('click', function(pinCopy) {
 				
+			
+				currentMark = this;
+				console.log(currentMark.notes);
+
 
 				for(n=0;n<markAnimate.length;n++){
-
+					console.log(markAnimate[n]);
 					var that = this;
 			//	
 					var icon = markAnimate[n].icon;
