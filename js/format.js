@@ -597,33 +597,35 @@ var animateView = {
         this.markImageElem = document.getElementById('mark-img');
         this.placeInput = document.getElementById('mark-search');
         this.messageBox = document.getElementById('noted');
-        this.br = '</br>';
-      //  console.log(this.markElem);
+        
 
+        this.br = '</br>';
 
 	    var markAnimate = model.kram;
 	    var modelPlace = model.places;
-
-
-
 		var currentMark;
-
+		var currentPlace;
 
 		for(w=0;w<model.kram.length;w++){
-			
-
-
+			console.log(this.currentPlace);
 
 			var eachPlace = document.getElementById(modelPlace[w].id);
 
 			markAnimate[w].addListener('click', function(pinCopy) {
-				
-			
-				currentMark = this;
-				console.log(currentMark.notes);
 
+				currentPlace = viewModel.getCurrentPlace();
+				console.log(currentPlace);
+				currentMark = this;
+				console.log(currentMark.title);
+				console.log(currentMark.notes);
+			if(currentPlace.title !== currentMark.title){
+				console.log('NOT EQUAL');
+				currentPlace === currentMark;
+				viewModel.setCurrentPlace(currentMark);
+			}
 
 				for(n=0;n<markAnimate.length;n++){
+									
 					console.log(markAnimate[n]);
 					var that = this;
 			//	
