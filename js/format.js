@@ -671,7 +671,7 @@ var animateView = {
 					}
 
 				}
-$('.list').show('slow', function(){});
+				$('.list').show('slow', function(){});
 			})
 
 
@@ -683,18 +683,21 @@ $('.list').show('slow', function(){});
 				for(var g=0;g<model.kram.length;g++){
 
 					var skram = markAnimate[g].id;
+					var icon = markAnimate[g].icon;
 					var ecalp = curr.id;
 					var pic = curr.mkImg;
-
+					markAnimate[g].setIcon(null);
 					if(ecalp === skram){
-						var that = markAnimate[g];
-						
-						that.setAnimation(google.maps.Animation.BOUNCE);		
-						timeoutID = window.setTimeout(function(){
-							that.setAnimation(null);
-						}, 2300);
 
-						that.setIcon(pic);
+						var that = markAnimate[g];
+						if(icon === null){
+							that.setAnimation(google.maps.Animation.BOUNCE);		
+							timeoutID = window.setTimeout(function(){
+								that.setAnimation(null);
+							}, 2300);
+
+							that.setIcon(pic);
+						}
 
 					}
 				}
