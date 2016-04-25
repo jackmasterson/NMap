@@ -42,6 +42,9 @@ a:visited {
   width: 250px;
   display: none;
 }
+#mark-list {
+  padding: 15px;
+}
 #noted {
   margin: 44% auto auto 36%;
   width: 250px;

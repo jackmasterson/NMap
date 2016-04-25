@@ -632,7 +632,7 @@ var animateView = {
 		this.markNameElem = document.getElementById('mark-name');
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
-        console.log(this.markElem);
+      //  console.log(this.markElem);
 
 
 	    var markAnimate = model.kram;
@@ -652,7 +652,7 @@ var animateView = {
 			//	
 					var icon = markAnimate[n].icon;
 					markAnimate[n].setIcon(null);
-					console.log(this);
+		//			console.log(this);
 					
 						self.markNameElem.textContent = this.title;
 				        self.markAddElem.textContent = this.address;
