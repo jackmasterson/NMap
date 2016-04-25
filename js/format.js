@@ -369,7 +369,6 @@ var markView = {
         var currentPlace = viewModel.getCurrentPlace();
         var currentMarker = viewModel.getCurrentMarker();
 
-
         this.markNameElem.textContent = currentPlace.title;
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
@@ -377,6 +376,7 @@ var markView = {
 
     }
 };
+
 
 var searchedView = {
 
@@ -565,41 +565,6 @@ var listView = {
     }
 };
 
-var rekramView = {
-	init: function() {
-		this.places = viewModel.getPlaces();
-//		console.log(this.places);
-	//	
-		this.render()
-	},
-
-	render: function() {
-//		console.log(this.places);
-		var self = this;
-		var pinned, elem, i, eachPlace;
-		var rekram = viewModel.getMarkers();
-		var getPlaces = viewModel.getPlaces();
-
-
-
-		for(i=0;i<rekram.length; i++){
-			elem = document.createElement('li');
-			elem.setAttribute('id', mark.id);
-		//	this.ID = document.getElementById(this.places[i].id)
-		//	console.log(this.ID);
-			eachPlace = getPlaces[i];
-			pinned = rekram[i];
-
-			elem.addEventListener('click', (function(placeCopy) {
-
-				//placeCopy.setMap(null);
-
-			})(pinned));
-		}
-	}
-};
-
-
 var pinView = {
 	
 	init: function(map, position, name, address, src, tag, href, mkImg) {
@@ -638,25 +603,14 @@ var pinView = {
 		var marked = model.places[0].marker;
     	var markLen = marked.length;
 
-
-
-
-
-
 		for(t=0;t<len;t++){
 			data = model.places[t];
 
-
-/*		    data.marker.push(
-		        markers = new google.maps.Marker({
-		            position: data.position,
-		            map: map,
-		            animation: google.maps.Animation.DROP,
-		            icon: null
-		        })
-		    );*/
 		    model.kram.push(
 		    	new google.maps.Marker({
+		    		title: data.title,
+		    		src: data.src,
+		    		address: data.address,
 			    	position: data.position,
 			    	map: map,
 			    	image: data.mkImg,
@@ -667,42 +621,46 @@ var pinView = {
 		    );
 		};
 		animateView.init();
-	//	rekramView.init();
-	
-		var Markers = viewModel.getMarkers();
-		var Places = viewModel.getPlaces();
-       // console.log(Markers);
-        //console.log(Places);
-
 	}
 }
 
 var animateView = {
 
 	init: function() {
-		this.markListElem = document.getElementById('mark-list');
+		var self = this;
+		this.markElem = document.getElementById('mark');
+		this.markNameElem = document.getElementById('mark-name');
+        this.markAddElem = document.getElementById('mark-address');
+        this.markImageElem = document.getElementById('mark-img');
+        console.log(this.markElem);
+
 
 	    var markAnimate = model.kram;
 	    var modelPlace = model.places;
 
 		for(w=0;w<model.kram.length;w++){
-			var self = this;
+			
 
 			var eachPlace = document.getElementById(modelPlace[w].id);
 
 			markAnimate[w].addListener('click', function(pinCopy) {
-				$('.list').show('slow', function(){});
 				
-				
+
 				for(n=0;n<markAnimate.length;n++){
+
 					var that = this;
 			//	
 					var icon = markAnimate[n].icon;
 					markAnimate[n].setIcon(null);
-					console.log(markAnimate[n]);
+					console.log(this);
+					
+						self.markNameElem.textContent = this.title;
+				        self.markAddElem.textContent = this.address;
+				        self.markImageElem.src = this.src;
+
+			//		console.log(markAnimate[n]);
 					if(icon === null){
-						console.log(this);
-						console.log(this.image);
+
 						this.setIcon(this.image);
 						this.setAnimation(google.maps.Animation.BOUNCE);
 			            timeoutID = window.setTimeout(stopBouncing, 2300);
@@ -710,9 +668,10 @@ var animateView = {
 			            function stopBouncing() {
 			                that.setAnimation(null);
 			            };
-					} 
-				}
+					}
 
+				}
+$('.list').show('slow', function(){});
 			})
 
 
@@ -740,6 +699,7 @@ var animateView = {
 					}
 				}
 			})
+
 
 
 
