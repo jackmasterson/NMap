@@ -622,6 +622,7 @@ var animateView = {
 				console.log('NOT EQUAL');
 				currentPlace === currentMark;
 				viewModel.setCurrentPlace(currentMark);
+				searchedView.render();
 			}
 
 				for(n=0;n<markAnimate.length;n++){
