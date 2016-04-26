@@ -630,15 +630,32 @@ var animateView = {
 			markAnimate[w].addListener('click', function(pinCopy) {
 
 				currentPlace = viewModel.getCurrentPlace();
+					
+					$('#clear').click(function() {
+					//	console.log(currentPlace.notes.length);
+					//	console.log(currentMark.notes.length);
+						var less = currentPlace.notes.length < 1;
+						if(less){
+							currentMark.notes === [];
+						}
+						$('#noted').hide();
+					})
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
+
+				//console.log(currentMark);
 				//if the current place does not equal the current marker,
 				//then the current place is set to the current marker
 				//using the setCurrentPlace function found in the viewModel
 				if(currentPlace.title !== currentMark.title){
+
+				
 					currentPlace === currentMark;
+					
 					viewModel.setCurrentPlace(currentMark);
+
 					notesView.render();
+					
 				}
 
 				//handles the different animations for the markers
