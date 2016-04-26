@@ -24,20 +24,9 @@ var model = {
             src: 'img/macs.jpg',
             mkImg: 'img/beer.png',
             nums: '0',
-          //  icon: null,
-            marker: marker = [],
             notes: [],
-            markOpts: {
-                position: {
-                    lat: 40.216147,
-                    lng: -74.012914
-                },
-                icon: null
-
-            },
             href: 'http://www.johnnymacbar.com/',
             id: 'mac',
-            visible: true,
         }, {
 
             position: {
@@ -50,19 +39,9 @@ var model = {
             src: 'img/pony.jpg',
             mkImg: 'img/music.png',
             nums: '1',
-           // icon: null,
-            marker: marker = [],
-            notes: [],          
-            markOpts: {
-                position: {
-                    lat: 40.220001,
-                    lng: -74.000947
-                },
-                icon: null
-            },
+            notes: [],
             href: 'http://stoneponyonline.com/',
             id: 'pony',
-            visible: true
         }, {
             position: {
                 lat: 40.220239,
@@ -74,20 +53,9 @@ var model = {
             src: 'img/porta.jpg',
             mkImg: 'img/beer.png',
             nums: '2',
-          //  icon: null,
-            marker: marker = [],
-            notes: [], 
-            infoWindow: infoWindow = [],
-            markOpts: {
-                position: {
-                    lat: 40.220239,
-                    lng: -74.002344
-                },
-                icon: null
-            },
+            notes: [],
             href: 'http://pizzaporta.com/ASBURY-PARK',
             id: 'porta',
-            visible: true
         }, {
 
             position: {
@@ -100,22 +68,10 @@ var model = {
             src: 'img/silverball.jpg',
             mkImg: 'img/pinball.png',
             nums: '3',
-         //   icon: null,
-            marker: marker = [],
-            notes: [], 
-            infoWindow: infoWindow = [],
-            markOpts: {
-                position: {
-                    lat: 40.2207,
-                    lng: -73.999884
-                },
-                icon: null
-            },
+            notes: [],
             href: 'http://silverballmuseum.com/',
             id: 'silver',
-            visible: true
         }, {
-
             position: {
                 lat: 40.223796,
                 lng: -73.998585
@@ -126,17 +82,7 @@ var model = {
             src: 'img/hall.jpg',
             mkImg: 'img/shopping.png',
             nums: '4',
-        //    icon: null,
-            marker: marker = [],
-            notes: [], 
-            infoWindow: infoWindow = [],
-            markOpts: {
-                position: {
-                    lat: 40.223796,
-                    lng: -73.998585
-                },
-                icon: null
-            },
+            notes: [],
             href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
             id: 'hall',
             visible: true
@@ -436,6 +382,12 @@ var filterList = {
 				self.tagged.push(placeItem.tag);
 			})
 
+			this.render();
+		},
+
+		render: function() {
+			var place = model.places;
+			var places = ko.observableArray(place);
 			//creates a computed function for the given array
 			filterList:ko.computed(function() {
 
@@ -570,8 +522,6 @@ var pinView = {
 		var self = this;
 		var t, data;
 		var len = model.places.length;
-		var marked = model.places[0].marker;
-		var len = marked.length;
 		var pinned;
 
 		for(t=0;t<len;t++) {
@@ -657,12 +607,11 @@ var animateView = {
 							for(g=0;g<model.kram.length;g++){
 								placeID = document.getElementById(modelPlace[g].id);
 								var disp = placeID.style.display === 'block';
-								console.log(placeID, disp);
-								
+				
 								if(disp){
 									markAnimate[g].setMap(map);
 								} else{
-									console.log(placeID, disp);
+
 									markAnimate[g].setMap(null);
 								}
 							}
@@ -768,7 +717,7 @@ var animateView = {
 	}
 			
 }
-
+animateView.init();
 
 
 //initiates the map
@@ -795,7 +744,7 @@ var initMap = {
 		//not defined
 		map = new google.maps.Map(this.mapDiv, this.mapOptions);
 		pinView.init();
-		animateView.init();
+
 	}
 };
 
