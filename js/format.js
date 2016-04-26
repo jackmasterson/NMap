@@ -599,20 +599,26 @@ var animateView = {
 		console.log(modelPlace);
 
 		for(w=0;w<model.kram.length;w++){
+
+
 			console.log(modelPlace[w].id);
-			placeID = document.getElementById(modelPlace[w].id);
+			
 			
 				$("#searchBar").keypress(function(e) {
 					if(e.keyCode == 13) {
-						var disp = placeID.style.display == 'block';
-						console.log(placeID, disp);
-						
-						
-						if(disp){
-							console.log(placeID, disp)
-				//			console.log(modelPlace[w].id);
-						} else{
-							console.log(placeID, disp)
+						for(g=0;g<model.kram.length;g++){
+							placeID = document.getElementById(modelPlace[g].id);
+							var disp = placeID.style.display == 'block';
+							console.log(placeID, disp);
+							
+							markAnimate[g].setMap(map);
+							if(disp){
+								markAnimate[g].setMap(map);
+					//			console.log(modelPlace[w].id);
+							} else{
+								console.log(placeID, disp);
+								markAnimate[g].setMap(null);
+							}
 						}
 					}
 				})
@@ -632,12 +638,12 @@ var animateView = {
 				currentMark = this;
 		//		console.log(currentMark.title);
 		//		console.log(currentMark.notes);
-			if(currentPlace.title !== currentMark.title){
-		//		console.log('NOT EQUAL');
-				currentPlace === currentMark;
-				viewModel.setCurrentPlace(currentMark);
-				searchedView.render();
-			}
+				if(currentPlace.title !== currentMark.title){
+			//		console.log('NOT EQUAL');
+					currentPlace === currentMark;
+					viewModel.setCurrentPlace(currentMark);
+					searchedView.render();
+				}
 
 
 				for(n=0;n<markAnimate.length;n++){
@@ -669,6 +675,7 @@ var animateView = {
 				$('.list').show('slow', function(){});
 
 			})
+
 
 			$('#hide').click(function(){
 				$('.list').hide('slow', function(){});
