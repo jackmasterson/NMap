@@ -1,20 +1,23 @@
 
 var map;
-var filter = ko.observable('');
 
+//stores all the info I'll use to build the site
 var model = {
 	currentPlace: null,
+	//socrataInfo has all the info for the census open data network info
 	socrataInfo: [],
+	//jamBaseInfo is where I store the info for the live music API
 	jamBaseInfo: ko.observableArray([]),
+	//individual marker data gets pushed here (kram is mark backwards and I
+		//though I'd be cute)
 	kram: [],
+	//info for the list view and info div
     places: [
         {
-
             position: {
                 lat: 40.216147,
                 lng: -74.012914
             },
-            query: ko.observable(''),
             title: 'Johnny Mac House of Spirits',
             tag: ['', 'visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
             address: '208 Main St, Asbury Park, NJ 07712',
@@ -41,7 +44,6 @@ var model = {
                 lat: 40.220001,
                 lng: -74.000947
             },
-            query: ko.observable(''),
             title: 'The Stone Pony',
             tag: ['', 'visit', 'music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
             address: '913 Ocean Ave, Asbury Park, NJ 07712',
@@ -145,22 +147,23 @@ var model = {
 var viewModel = {
 
 	init: function() {
+		//sets the clicked place to the first one in the array
 		model.currentPlace = model.places[0];
-	//	model.currentMarker = model.kram[0];
 		socrataView.init();
 		jamBaseView.init();
-		//animateView.init();
 		listView.init();
 		markView.init();
-		searchedView.init();
+		notesView.init();
 		filterList.init();
 
 	},
-
+	//returns whichever place is currently active, whichever one
+	//has been clicked in the list div (default is the first
+		//one, Johnny Mac)
 	getCurrentPlace: function() {
 		return model.currentPlace;	
 	},
-
+	//returns the whole array of info for the places 
 	getPlaces: function() {
 		return model.places;
 	},
@@ -170,11 +173,11 @@ var viewModel = {
 		
 	},
 
-
 	query: ko.observable('')
 }
 
-
+//census Open Data Network API courtesy Socrata
+//includes a failure timeout for the ajax request
 var socrataView = {
 	
 	init: function() {
@@ -205,16 +208,13 @@ var socrataView = {
         	url: this.socrataURL,
         	dataType: 'json',
         	success: function(response) {
-      //  		console.log(response);
         		var infos = response;
-  
-        			var info = infos[0];
-        		//	console.log(info);
+        		//I only wanted the most recent information on the site
+        		//so I created the 'info' variable
+  				var info = infos[0];
 
-        	//		console.log(self.socrataLI);
-        		
-
-
+  					//sends the data to the socrataInfo array in the
+  					//model, making it accessible outside of this variable
         			self.socrataInfo.push(
         				{'Year': info.year, 
         				 'Associates': info.percent_associates_degree,
@@ -222,12 +222,15 @@ var socrataView = {
         				 'HSGrad': info.percent_high_school_graduate
         				 }
         			);
-        	//		console.log(self.socrataInfo[0]);
+        	
+        	//accesses the socrataInfo array 
         	var census = self.socrataInfo[0];
 
         	var elem;
         	elem = document.createElement('li');
         	elem.className = 'info';
+
+        	//actually creates the text that will go into the Socrata info div
             elem.textContent = 'Asbury Park, NJ Census Facts Courtesy Socrata Open Data || ' +
             				   'Year: ' + census.Year + ' || ' +
             				   'Bachelors Degree: ' + census.Bachelors + '% || ' +
@@ -235,16 +238,23 @@ var socrataView = {
             				   'High School Grad: ' + census.HSGrad + '%';
 
             self.socrataElem.appendChild(elem);
-		        
-		        clearTimeout(self.socrataTimeout);
+		    //if the request fails or takes too long, it times out
+		    clearTimeout(self.socrataTimeout);
+
         	}
         });
+
+		//makes the div visible when the bar graph up top is clicked
 		$("#socrata-data").click(function() {
 		    $(".info").toggle("slow", function() {});
 		});
 	}
 };
 
+
+//live music API --- shows the venue, band, location of upcoming
+//shows in the area, and you can click through to the band or 
+//ticket websites
 var jamBaseView = {
 
 	init: function() {
@@ -265,28 +275,35 @@ var jamBaseView = {
 	            'So instead, here is a picture of a microphone, which should make up for' +
 	            ' it. Right?';
 
+	    //establishes the timeout if the ajax request fails/takes too long
         this.jamBaseTimeout = setTimeout(function() {
         	var mic = '</br><img src="img/microphone.jpg" id="mic">';
     		$('#jamBase-header').append(text).append(mic);
-
 	    }, 3000);
 
-		/*$.ajax({
+		$.ajax({
 	    	url: self.jamBaseURL,
 	    	dataType: "json",
 	    	success: function(response) {
 	    		var infos = response;
 
-	    		infos.Events.forEach(function(jamStuff) {
-	    				
+	    		//pushes the needed jamBase information to the
+	    		//jamBaseInfo array in the model to make it more easily
+	    		//accessible
+	    		infos.Events.forEach(function(jamStuff) {				
 	    			model.jamBaseInfo.push(
 	    				jamStuff);
-
 	    		});
+	    		//initiates the timeout request
 	    		clearTimeout(self.jamBaseTimeout);
 	
 	    	}
-	    });*/
+	    });
+
+	    //puts the jamBase info into a slideout menu that comes in
+	    //from the right side of teh screen when the microphone PNG
+	    //up top is clicked
+	    /*slideout menu courtesy of alijafarian.com/jquery-horizontal-slideout-menu*/
 		$(document).ready(function() {
 			$('.slideout-menu-toggle').on('click', function(event) {
 				event.preventDefault();
@@ -309,6 +326,9 @@ var jamBaseView = {
 	}
 };
 
+//sets up the info div for places that will appear as markers 
+//that will appear in the bottom right when the search 
+//icon up top or a marker is clicked
 var markView = {
 
     init: function() {
@@ -322,31 +342,29 @@ var markView = {
     },
 
     render: function() {
+    	//uses the currentPlace function defined in the viewModel
+    	//to set the info div up
         var currentPlace = viewModel.getCurrentPlace();
-    //    var currentMarker = viewModel.getCurrentMarker();
 
         this.markNameElem.textContent = currentPlace.title;
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
-    //    this.markNotedElem.textContent = currentMark.notes;
 
     }
 };
 
-
-var searchedView = {
+//sets up the div that saves the notes taken to each individual 
+//place
+var notesView = {
 
 	init: function() {
 		var that = this;
 		
-	//	console.log(currentMark);
 		this.placeInput = document.getElementById('mark-search');
 		this.messageBox = document.getElementById('noted');
 		this.br = '</br>';
 
-
-		//this.ex = '<a href="#">&times;</a>';
-
+		//code is only initiated when enter is pressed
 		$(document).ready(function() {
 			function clicked() {
 				$('#mark-search').keypress(function(e) {
@@ -358,46 +376,52 @@ var searchedView = {
 			clicked();
 
 		})
-
 	},
 
 	render: function() {
 
 		var self = this;
         this.currentPlace = viewModel.getCurrentPlace();
- //       this.currentMarker = viewModel.getCurrentMarker();
 
-
+        //shows and hides the info when the proper button is
+        //clicked
 		$('#noted').show();
 		$('#clear').show();
 
+		//if the input field is not empty when the user presses
+		//enter, then the value is pushed to the array of notes 
+		//for the selected place, saving it so that when you click
+		//on a different place, that place's notes come up 
 		if(self.placeInput.value !== ''){
 			this.currentPlace.notes.push(self.placeInput.value);
 		}
 
-//		console.log(currentMark);
-
+		//resets the search bar's value to empty
 		self.placeInput.value = '';
 		self.messageBox.innerHTML = '';
-
+		//adds a break in between individual notes
 		self.messageBox.innerHTML = this.currentPlace.notes
 			.join(self.br);
 
+		//removes blank searches from the notes
 		if(this.currentPlace.notes[0] == ''){
 			this.currentPlace.notes.shift();
 		}
 
+		//when the clear notes button is pressed, then the notes 
+		//for that chosen place are deleted and the notes section
+		//is hidden until a new note is added
 		$('#clear').click(function() {
-	//		console.log('cleared');
 			self.currentPlace.notes = [];
 			self.messageBox.innerHTML = self.currentPlace.notes;
 			$('#noted').hide();
 		})
-
-
 	},
 };
 
+//establishes a filter for the list of places so that when 
+//you search and then hit enter, only the places on the list
+//with the searched keyword will remain
 var filterList = {
 		
 		init: function() {
@@ -405,17 +429,26 @@ var filterList = {
 			var place = model.places;
 			var places = ko.observableArray(place);
 
-
+			//creates the array and then pushes the tags created to 
+			//each place's 'tag' array
 			this.tagged = ko.observableArray([]);
 			places().forEach(function(placeItem){
 				self.tagged.push(placeItem.tag);
 			})
 
-		filterList:ko.computed(function() {
+			//creates a computed function for the given array
+			filterList:ko.computed(function() {
+
+				//uses knockout to check the value of the search bar
+				//in the list view; this variable is logged as whatever
+				//was in that search bar, all lower case
 		        var search = viewModel.query().toLowerCase();
 
+		        //filters the given array
 		        return ko.utils.arrayFilter(places(), function(placed) {
 
+		        	//if the array contains the searched word, it will
+		        	//return true
 		        	Array.prototype.contains = function ( searched ) {
 		        		for(r in this) {
 		        			if(this[r] == searched) return true;
@@ -423,18 +456,20 @@ var filterList = {
 		        		return false;
 		        	}
 
+		        	//declares a variable 'x' for whichever place's
+		        	//tags are being searched
 		        	var x = placed.tag;
-		        	//console.log(x);
 		        	var elemID = document.getElementById(placed.id);
-		        	//console.log(elemID);
+		        	//if the tag exists within that array, then the
+		        	//element will remain displayed with 'block' style,
+		        	//otherwise, it will be 'hidden'
 		        	if (x.contains(search)) {
-		        	//	console.log(placed.title, 'contained!');
 		        		elemID.style.display = 'block';
 		        	}
 		        	else {
-		        	//	console.log(placed.title, 'NOPE');
 		        		elemID.style.display = 'none';
 		        	}
+
 		        });
 
 		    });
@@ -442,19 +477,23 @@ var filterList = {
 		}
 }
 
+//creates the div with the list of places in it
 var listView = {
 
 	init: function() {
 		this.markListElem = document.getElementById('mark-list');
+		
 		this.render();
 	},
 
     render: function() {
         var mark, elem, i;
         var places = viewModel.getPlaces();
-     //   var krams = viewModel.getMarkers();
-     //   console.log(krams);
 
+        //anytime the magnifying glass up top is clicked,
+        //anything with the class 'list' is going to toggle,
+        //including the list view, the note section,
+        //and the info div
     	$('#toggleListButton').click(function(){
 		    $('.list').slideToggle();
 		});
@@ -469,16 +508,22 @@ var listView = {
             elem.textContent = mark.title;
 			elem.setAttribute('id', mark.id);
 
+			//when a specific list item/place is clicked, the 
+			//action within this function occurs
             elem.addEventListener('click', (function(markCopy) {
- //           	console.log(markCopy);
-            	var filter, copyArr;
 
+            	var filter, copyArr;
             	copyArr = ko.observableArray(markCopy.tag);
 
+            	//creates a function to automatically suggest 
+            	//what the user is typing in the list search
             	var autofill = ko.computed(function(){
+            		//search function relies on knockout, as above
             		var search = viewModel.query().toLowerCase();
-            		//console.log(search);
             		var places = model.places;
+            		//adds all the individual place's tags together
+            		//so that the function can search through them all
+            		//at once
 				    var allTags = places[0].tag
 				    	.concat(places[1].tag)
 				    	.concat(places[2].tag)
@@ -490,9 +535,12 @@ var listView = {
 	            			var x = copyArr();
 	            			var elemID = markCopy.id;
 
+	            		//checks the places[i] arrays for duplicates
+	            		//so as not to search them/autofill them twice
 					   	$.each(allTags, function(i, el){
 						    if($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
 						});	
+
 						//initiates the autocomplete search function, using the
 						//uniqueTags array 
 				        $( "#searchBar" ).autocomplete({
@@ -505,7 +553,7 @@ var listView = {
                 	
                     viewModel.setCurrentPlace(markCopy);
                     markView.render();
-                    searchedView.render();
+                    notesView.render();
                 };
 
             })(mark));
@@ -515,44 +563,40 @@ var listView = {
     }
 };
 
+//establishes the markers, or pins, that will appear on the map
 var pinView = {
 	
-	init: function(map, position, name, address, src, tag, href, mkImg) {
+	init: function() {
 		var self = this;
-		var markers, i, t, infoWindow, data;
+		var t, data;
 		var len = model.places.length;
 		var marked = model.places[0].marker;
 		var len = marked.length;
 		var pinned;
-		//console.log(marked);
 
-		
 		for(t=0;t<len;t++) {
 			data = model.places[t];
-	//		console.log(data);
 			this.image = data.mkImg;
-	//		console.log(data.mkImg);
 			this.name = ko.observable(data.name);
-			
-
 			this.position = ko.observable(data.position);
 			this.address = ko.observable(data.address);
 			this.tag = ko.observable(data.tag);
 			this.href = ko.observable(data.href);
-	//		console.log(this.tag);
 		}
 
 		this.render();
 	},
 
 	render: function() {
-	//	console.log(self.tag);
-		
-		var i, t, data, contentString, elem;
-		var len = model.places.length;
-		var marked = model.places[0].marker;
-    	var markLen = marked.length;
 
+		var t, data;
+		var len = model.places.length;
+
+		//iterates through the places in the model
+		//creates a new google map marker for it 
+		//containing the information from the model
+		//as well as the animation to make the markers drop instead
+		//of appearing stagnantly on the map
 		for(t=0;t<len;t++){
 			data = model.places[t];
 
@@ -576,6 +620,9 @@ var pinView = {
 	}
 }
 
+//a lot of the map/marker/list functionality comes from here;
+//when you click a marker, it changes to represent the place it
+//stands for (johnny mac is a bar, the pin changes to an image of beer, etc)
 var animateView = {
 
 	init: function() {
@@ -586,8 +633,6 @@ var animateView = {
         this.markImageElem = document.getElementById('mark-img');
         this.placeInput = document.getElementById('mark-search');
         this.messageBox = document.getElementById('noted');
-        
-
         this.br = '</br>';
 
 	    var markAnimate = model.kram;
@@ -595,74 +640,73 @@ var animateView = {
 		var currentMark;
 		var currentPlace;
 		var placeID;
-		console.log(modelPlace);
 
 		for(w=0;w<model.kram.length;w++){
-
-
-			console.log(modelPlace[w].id);
 			
 			var timeOutId;
-
+				//when you hit enter on the search bar, it searches
+				//the list view for what has been filtered;
+				//if the name of the place is visible, then the marker
+				//stays visible and the others are setMap'd to null;
+				//there's a timeout on it so that it delays a beat,
+				//otherwise it would be searching while the list view is
+				//still empty
 				$("#searchBar").keypress(function(e) {
 					if(e.keyCode == 13) {
 						function timed(){
-						for(g=0;g<model.kram.length;g++){
-							placeID = document.getElementById(modelPlace[g].id);
-							var disp = placeID.style.display === 'block';
-							console.log(placeID, disp);
-							
-
-							if(disp){
-								markAnimate[g].setMap(map);
-					//			console.log(modelPlace[w].id);
-							} else{
+							for(g=0;g<model.kram.length;g++){
+								placeID = document.getElementById(modelPlace[g].id);
+								var disp = placeID.style.display === 'block';
 								console.log(placeID, disp);
-								markAnimate[g].setMap(null);
+								
+								if(disp){
+									markAnimate[g].setMap(map);
+								} else{
+									console.log(placeID, disp);
+									markAnimate[g].setMap(null);
+								}
 							}
-						}
 					}
-					timeoutId = window.setTimeout(timed, 200)
+
+					timeoutId = window.setTimeout(timed, 200);
+
 					}
 	
-				})
+				});
 
-		//	animateView.init();
-					        		
-			//		    elemID.style.display = 'block';
-		        
-		      //  		elemID.style.display = 'none';
-
+			//gets each place by its ID
 			var eachPlace = document.getElementById(modelPlace[w].id);
 
+			//if you click a marker, the below function will activate
 			markAnimate[w].addListener('click', function(pinCopy) {
 
 				currentPlace = viewModel.getCurrentPlace();
-		//		console.log(currentPlace);
+				//sets the current marker to whichever has been clicked
 				currentMark = this;
-		//		console.log(currentMark.title);
-		//		console.log(currentMark.notes);
+				//if the current place does not equal the current marker,
+				//then the current place is set to the current marker
+				//using the setCurrentPlace function found in the viewModel
 				if(currentPlace.title !== currentMark.title){
-			//		console.log('NOT EQUAL');
 					currentPlace === currentMark;
 					viewModel.setCurrentPlace(currentMark);
-					searchedView.render();
+					notesView.render();
 				}
 
-
+				//handles the different animations for the markers
 				for(n=0;n<markAnimate.length;n++){
 									
-		//			console.log(markAnimate[n]);
-					var that = this;
-			//	
+					var that = this;	
 					var icon = markAnimate[n].icon;
 					markAnimate[n].setIcon(null);
-		//			console.log(this);
-					
 					self.markNameElem.textContent = this.title;
 			        self.markAddElem.textContent = this.address;
 			        self.markImageElem.src = this.src;
 
+			        //if the marker icon is nothing, then it sets
+			        //the image to the assigned picture
+			        //it also makes it bounce, and stop bouncing after
+			        //a short time
+			        //that way the user sees which has been selected
 					if(icon === null){
 
 						this.setIcon(this.image);
@@ -676,29 +720,38 @@ var animateView = {
 
 				}
 
+				//when a marker is clicked, the list view is displayed
 				$('.list').show('slow', function(){});
-
 			})
 
-
+			//when the 'hide list' button is clicked, the listview is hidden
 			$('#hide').click(function(){
 				$('.list').hide('slow', function(){});
 			})
 
+			//links the list view to the marker; if one is clicked, 
+			//both activate
 			$(eachPlace).click(function(){
 
+				//variable for the current place
 				var curr = viewModel.getCurrentPlace();
 				
-				for(var g=0;g<model.kram.length;g++){
 
+				for(var g=0;g<model.kram.length;g++){
 					var skram = markAnimate[g].id;
 					var icon = markAnimate[g].icon;
 					var ecalp = curr.id;
 					var pic = curr.mkImg;
 					markAnimate[g].setIcon(null);
-					if(ecalp === skram){
 
+					//if the current place ID matches the current
+					//marker ID, then we establish the variable 'that'
+					if(ecalp === skram){
 						var that = markAnimate[g];
+
+						//if the icon is null, then the below occurs;
+						//the marker bounces and stops and the marker
+						//icon is set to the proper image
 						if(icon === null){
 							that.setAnimation(google.maps.Animation.BOUNCE);		
 							timeoutID = window.setTimeout(function(){
@@ -711,16 +764,14 @@ var animateView = {
 					}
 				}
 			})
-
-
-
-
 		};		
 	}
 			
 }
 animateView.init();
 
+
+//initiates the map
 var initMap = {
 	
 	init: function() {
@@ -728,7 +779,7 @@ var initMap = {
 		this.icon = 'img/marker-blue.png';
 
 		this.mapDiv = document.getElementById('map');
-
+		//establishes the map properties
 		this.mapOptions = {
 			center: {lat: 40.220391, lng: -74.012082},
 	        scrollwheel: false,
@@ -739,14 +790,18 @@ var initMap = {
 	},
 
 	render: function() {
+		//actually renders the map, and the pinView, which, if put
+		//in the viewModel, would throw the error that "google" is
+		//not defined
 		map = new google.maps.Map(this.mapDiv, this.mapOptions);
 		pinView.init();
 	}
 };
 
+//runs the viewModel code, and everything that is within it
 viewModel.init();
 
-
+//applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
 
 
