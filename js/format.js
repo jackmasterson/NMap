@@ -604,11 +604,15 @@ var animateView = {
 			
 				$("#searchBar").keypress(function(e) {
 					if(e.keyCode == 13) {
-						console.log(placeID);
-						if(placeID.style.display === 'block'){
-							console.log(placeID, 'block')
-						} else {
-							console.log('none')
+						var disp = placeID.style.display == 'block';
+						console.log(placeID, disp);
+						
+						
+						if(disp){
+							console.log(placeID, disp)
+				//			console.log(modelPlace[w].id);
+						} else{
+							console.log(placeID, disp)
 						}
 					}
 				})
