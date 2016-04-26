@@ -354,7 +354,6 @@ var searchedView = {
 						that.render();
 					}
 				})
-
 			}
 			clicked();
 
@@ -603,15 +602,17 @@ var animateView = {
 
 			console.log(modelPlace[w].id);
 			
-			
+			var timeOutId;
+
 				$("#searchBar").keypress(function(e) {
 					if(e.keyCode == 13) {
+						function timed(){
 						for(g=0;g<model.kram.length;g++){
 							placeID = document.getElementById(modelPlace[g].id);
-							var disp = placeID.style.display == 'block';
+							var disp = placeID.style.display === 'block';
 							console.log(placeID, disp);
 							
-							markAnimate[g].setMap(map);
+
 							if(disp){
 								markAnimate[g].setMap(map);
 					//			console.log(modelPlace[w].id);
@@ -621,6 +622,9 @@ var animateView = {
 							}
 						}
 					}
+					timeoutId = window.setTimeout(timed, 200)
+					}
+	
 				})
 
 		//	animateView.init();
