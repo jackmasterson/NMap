@@ -768,7 +768,7 @@ var animateView = {
 	}
 			
 }
-animateView.init();
+
 
 
 //initiates the map
@@ -795,6 +795,7 @@ var initMap = {
 		//not defined
 		map = new google.maps.Map(this.mapDiv, this.mapOptions);
 		pinView.init();
+		animateView.init();
 	}
 };
 
