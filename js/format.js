@@ -10,6 +10,7 @@ var model = {
 	jamBaseInfo: ko.observableArray([]),
 	//individual marker data gets pushed here (kram is mark backwards and I
 		//though I'd be cute)
+	surfInfo: [],
 	kram: [],
 	//info for the list view and info div
     places: [
@@ -97,6 +98,7 @@ var viewModel = {
 		model.currentPlace = model.places[0];
 		socrataView.init();
 		jamBaseView.init();
+		surfView.init();
 		listView.init();
 		markView.init();
 		notesView.init();
@@ -270,6 +272,114 @@ var jamBaseView = {
 			});
 		})
 	}
+};
+
+var surfView = {
+    
+    init: function() {
+        var text, dataLabel, i;
+        this.surfElem = document.getElementById('surf-header');
+        this.surfURL = 'http://magicseaweed.com/api/00e1e43e51248a4cb3431f4b73aeb4b3/forecast/?spot_id=857';
+        this.surfInfo = model.surfInfo;
+
+        this.render();
+    },
+
+    render: function() {
+        var self = this;
+        var t;
+
+        text = 'Interested in surfing when you come to Asbury Park? ' +
+                'This section was supposed to show you everything you needed to' +
+                ' know, but for some reason something went wrong. Wurkin on it.';
+
+        this.surfTimeout = setTimeout(function() {
+            $('#surf-header').append(text);
+        }, 3000);
+        
+        $.ajax({
+            url: this.surfURL,
+            dataType: 'jsonp',
+            success: function(response) {
+                var infos = response;
+                	console.log(infos);
+                //I only wanted the most recent information on the site
+                //so I created the 'info' variable
+                var sixAM = infos[10];
+                var noon = infos[20];
+                var sixPM = infos[30];
+                var threeTimes = [];
+                threeTimes.push(sixAM, noon, sixPM);
+         //       console.log(threeTimes);
+                for(t=0;t<threeTimes.length;t++){
+                	var info = infos[t];
+                	console.log(info);
+                
+                //var info = infos[10]; //6am, infos[20] == noon, infos[30] === 
+                	//6pm
+                //console.log(info);
+                var time = info.localTimestamp;
+               // console.log(time, 'time');
+                var swellChart = info.charts.swell;
+             //   console.log(swellChart, 'swell');
+                var swell = info.swell;
+                var maxBreak = swell.maxBreakingHeight;
+                var minBreak = swell.minBreakingHeight;
+           //     console.log(maxBreak, minBreak);
+                var temp = info.condition.temperature;
+         //       console.log(temp, 'temp');
+                var waveHeight = info.swell.components.combined.height;
+       //         console.log(waveHeight, 'height');
+                var wind = info.wind;
+                var windChill = wind.chill;
+     //           console.log(windChill, 'windChill');
+                var windDirection = wind.compassDirection;
+   //             console.log(windDirection, 'direction');
+                var windGusts = wind.gusts;
+ //               console.log(windGusts, 'windGusts');
+                var windSpeed = wind.speed;
+               // console.log(windSpeed, 'speed');
+                var windUnit = wind.unit; //(mph)
+             //   console.log(windUnit, 'mph');
+                    //sends the data to the socrataInfo array in the
+                    //model, making it accessible outside of this variable
+                    self.surfInfo.push(
+                    	{
+               				'Time': time, 
+               				'SwellChart': swellChart, 
+               				'MaxBreak': maxBreak, 
+               				'MinBreak': minBreak,
+               				'Temp': temp, 
+               				'WaveHeight': waveHeight, 
+               				'WindChill': windChill, 
+               				'WindDirection': windDirection, 
+               				'WindGusts': windGusts,
+            				'WindSpeed': windSpeed, 
+            				'WindUnit': windUnit
+            			});
+                }
+           
+            //accesses the socrataInfo array 
+            var surf = self.surfInfo;
+            console.log(surf);
+
+            var elem;
+            elem = document.createElement('li');
+            elem.className = 'surfInfo';
+            $('#surf-header').append();
+
+            self.surfElem.appendChild(elem);
+            //if the request fails or takes too long, it times out
+            clearTimeout(self.surfTimeout);
+
+            }
+        });
+
+        //makes the div visible when the bar graph up top is clicked
+        $("#surf-data").click(function() {
+            $(".surfInfo").toggle("slow", function() {});
+        });
+    }
 };
 
 //sets up the info div for places that will appear as markers 
@@ -630,33 +740,36 @@ var animateView = {
 			markAnimate[w].addListener('click', function(pinCopy) {
 
 				currentPlace = viewModel.getCurrentPlace();
-					
-					$('#clear').click(function() {
-					//	console.log(currentPlace.notes.length);
-					//	console.log(currentMark.notes.length);
-						var less = currentPlace.notes.length < 1;
-						if(less){
-							currentMark.notes === [];
-						}
-						$('#noted').hide();
-					})
+
+
+			//close but not working**********		
+
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
-
+				viewModel.setCurrentPlace(currentMark);
 				//console.log(currentMark);
 				//if the current place does not equal the current marker,
 				//then the current place is set to the current marker
 				//using the setCurrentPlace function found in the viewModel
 				if(currentPlace.title !== currentMark.title){
-
-				
-					currentPlace === currentMark;
 					
-					viewModel.setCurrentPlace(currentMark);
+					
 
-					notesView.render();
 					
 				}
+				console.log(currentPlace.notes);
+					$('#clear').click(function() {
+						
+							currentPlace.notes = [];
+							currentMark.notes = [];
+							console.log(currentMark.notes);
+							console.log(currentPlace.notes);
+
+					
+					//	$('#noted').hide();
+	
+					})
+					notesView.render();
 
 				//handles the different animations for the markers
 				for(n=0;n<markAnimate.length;n++){
