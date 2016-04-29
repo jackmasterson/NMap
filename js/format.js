@@ -304,50 +304,50 @@ var surfView = {
                 	console.log(infos);
                 //I only wanted the most recent information on the site
                 //so I created the 'info' variable
-                var sixAM = infos[10];
-                var noon = infos[20];
-                var sixPM = infos[30];
+                var sixAM = infos[3];
+                var noon = infos[5];
+                var sixPM = infos[7];
                 var threeTimes = [];
                 threeTimes.push(sixAM, noon, sixPM);
          //       console.log(threeTimes);
                 for(t=0;t<threeTimes.length;t++){
                 	var info = threeTimes[t];
-                	console.log(info);
-                
-                //var info = infos[10]; //6am, infos[20] == noon, infos[30] === 
-                	//6pm
-                //console.log(info);
-                var time = info.localTimestamp;
-               // console.log(time, 'time');
-                var swellChart = info.charts.swell;
-             //   console.log(swellChart, 'swell');
-                var swell = info.swell;
-                var maxBreak = swell.maxBreakingHeight;
-                var minBreak = swell.minBreakingHeight;
-           //     console.log(maxBreak, minBreak);
-                var temp = info.condition.temperature;
-         //       console.log(temp, 'temp');
-                var waveHeight = info.swell.components.combined.height;
-       //         console.log(waveHeight, 'height');
-                var wind = info.wind;
-                var windChill = wind.chill;
-     //           console.log(windChill, 'windChill');
-                var windDirection = wind.compassDirection;
-   //             console.log(windDirection, 'direction');
-                var windGusts = wind.gusts;
- //               console.log(windGusts, 'windGusts');
-                var windSpeed = wind.speed;
-               // console.log(windSpeed, 'speed');
-                var windUnit = wind.unit; //(mph)
-             //   console.log(windUnit, 'mph');
-                    //sends the data to the socrataInfo array in the
+                    //sends the data to the surfInfo array in the
                     //model, making it accessible outside of this variable
-                    model.surfInfo.push(info);
+                    
+                    //accesses the surfInfo array 
+
+		            var date = new Date(info.localTimestamp*1000);
+		            console.log(date);
+		            var hours = date.getHours();
+		            var hoursDST;
+		            if(hours>12){
+		            	hoursDST = date.getHours() - 11 + ':00pm';
+		            } else {
+		            	if(hours === 11){
+		            		hoursDST = date.getHours() + 1 + ':00pm'
+		            	}
+		            	else{
+		            	hoursDST = date.getHours() + 1 +':00am';
+		            	}
+		            }
+		            console.log(hoursDST);
+		            var day = date.getDate();
+		            console.log(day);
+		            var month = date.getMonth();
+		            console.log(month);
+
+		            var dateForm = month+'/'+day+'/'+' at '+ hoursDST+'</br>';
+		            $('#surf-header').prepend(dateForm);
+		            console.log(dateForm);
+		        //   info.push(dateForm);
+		            model.surfInfo.push(info);
+		          	var surf = model.surfInfo();
+		            console.log(surf[0]);
                 }
            
-            //accesses the socrataInfo array 
-            var surf = model.surfInfo();
-            console.log(surf);
+
+
 
             //if the request fails or takes too long, it times out
             clearTimeout(self.surfTimeout);
