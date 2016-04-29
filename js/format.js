@@ -771,7 +771,7 @@ var animateView = {
 			        //it also makes it bounce, and stop bouncing after
 			        //a short time
 			        //that way the user sees which has been selected
-					if(icon === null){
+					
 
 						this.setIcon(this.image);
 						this.setAnimation(google.maps.Animation.BOUNCE);
@@ -780,7 +780,7 @@ var animateView = {
 			            function stopBouncing() {
 			                that.setAnimation(null);
 			            };
-					}
+
 
 				}
 
@@ -847,7 +847,7 @@ var initMap = {
 		this.mapOptions = {
 			center: {lat: 40.220391, lng: -74.012082},
 	        scrollwheel: false,
-	        zoom: 14
+	        zoom: 15
 		};
 
 		this.render();	
