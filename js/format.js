@@ -311,7 +311,7 @@ var surfView = {
                 threeTimes.push(sixAM, noon, sixPM);
          //       console.log(threeTimes);
                 for(t=0;t<threeTimes.length;t++){
-                	var info = infos[t];
+                	var info = threeTimes[t];
                 	console.log(info);
                 
                 //var info = infos[10]; //6am, infos[20] == noon, infos[30] === 
