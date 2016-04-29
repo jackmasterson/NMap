@@ -10,7 +10,7 @@ var model = {
 	jamBaseInfo: ko.observableArray([]),
 	//individual marker data gets pushed here (kram is mark backwards and I
 		//though I'd be cute)
-	surfInfo: [],
+	surfInfo: ko.observableArray([]),
 	kram: [],
 	//info for the list view and info div
     places: [
@@ -206,7 +206,7 @@ var socrataView = {
 var jamBaseView = {
 
 	init: function() {
-		var text;
+		
 		this.jamBaseElem = $('#jamBase-header');
 		this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
         '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
@@ -218,7 +218,7 @@ var jamBaseView = {
 	render: function() {
 		var self = this;
 
-		text = 'This was supposed to show a bunch of information ' +
+		var text = 'This was supposed to show a bunch of information ' +
 	            'about concerts in the area, and the request failed. Im so, so sorry. ' +
 	            'So instead, here is a picture of a microphone, which should make up for' +
 	            ' it. Right?';
@@ -277,7 +277,7 @@ var jamBaseView = {
 var surfView = {
     
     init: function() {
-        var text, dataLabel, i;
+        var dataLabel, i;
         this.surfElem = document.getElementById('surf-header');
         this.surfURL = 'http://magicseaweed.com/api/00e1e43e51248a4cb3431f4b73aeb4b3/forecast/?spot_id=857';
         this.surfInfo = model.surfInfo;
@@ -289,7 +289,7 @@ var surfView = {
         var self = this;
         var t;
 
-        text = 'Interested in surfing when you come to Asbury Park? ' +
+        var text = 'Interested in surfing when you come to Asbury Park? ' +
                 'This section was supposed to show you everything you needed to' +
                 ' know, but for some reason something went wrong. Wurkin on it.';
 
@@ -343,32 +343,13 @@ var surfView = {
              //   console.log(windUnit, 'mph');
                     //sends the data to the socrataInfo array in the
                     //model, making it accessible outside of this variable
-                    self.surfInfo.push(
-                    	{
-               				'Time': time, 
-               				'SwellChart': swellChart, 
-               				'MaxBreak': maxBreak, 
-               				'MinBreak': minBreak,
-               				'Temp': temp, 
-               				'WaveHeight': waveHeight, 
-               				'WindChill': windChill, 
-               				'WindDirection': windDirection, 
-               				'WindGusts': windGusts,
-            				'WindSpeed': windSpeed, 
-            				'WindUnit': windUnit
-            			});
+                    model.surfInfo.push(info);
                 }
            
             //accesses the socrataInfo array 
-            var surf = self.surfInfo;
+            var surf = model.surfInfo();
             console.log(surf);
 
-            var elem;
-            elem = document.createElement('li');
-            elem.className = 'surfInfo';
-            $('#surf-header').append();
-
-            self.surfElem.appendChild(elem);
             //if the request fails or takes too long, it times out
             clearTimeout(self.surfTimeout);
 
