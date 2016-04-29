@@ -31,7 +31,9 @@
         </a>
         <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info">
 
-        <img class="toggle" src="img/surf.png" alt="Toggle Surfing Info">
+        
+          <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info">
+    
         <div class="display"></div>
 
     </div>
@@ -46,7 +48,48 @@
           <img id="mark-img" src="" alt="try">
         </div>
 
-
+<div id="surf-header">
+    <div>
+      <h4>Surfing Info for Asbury Park
+        </br>
+        Information Provided by 
+        <a href="http://magicseaweed.com">Magic Seaweed</a>
+      </h4>
+ 
+    </div>
+    </br>
+    <div data-bind="foreach: model.surfInfo">
+    </br>
+      <ul class="surf" id="waves">
+        <li>Date: <span data-bind="text: localTimestamp"></span></li>
+        <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&degF</li>
+        <li>Max Break: 
+          <span data-bind="text: swell.maxBreakingHeight"></span>ft
+        </li>
+        <li>Min Break: 
+          <span data-bind="text: swell.minBreakingHeight"></span>ft
+        </li>
+        <h5 id="wind-head">Wind</h5>
+        <li>Chill: 
+          <span data-bind="text: wind.chill"></span>&degF
+        </li>
+        <li>Direction: 
+          <span data-bind="text: wind.compassDirection"></span>
+        </li>
+        <li>Gusts: 
+          <span data-bind="text: wind.gusts"></span>mph
+        </li>
+        <li>Speed: 
+          <span data-bind="text: wind.speed"></span>mph
+        </li>
+        <li id="windImg">
+          <h5>Wind/Swell</h5>
+            <img class="chart" data-bind="attr: { src: charts.wind }">
+            <img class="chart" data-bind="attr: { src: charts.swell }">
+        </li>
+      </ul>
+    </div>
+ </div>
 
 
   <div id="map"></div>
@@ -57,28 +100,7 @@
     </ul>
   </div>
 
- <div id="surf-header">
-  <div>
-    <h2>Surfing Info for Asbury Park</h2>
-    <h7>Information Provided by 
-      <a href="http://magicseaweed.com">Magic Seaweed</a>
-    </h7>
-  </div>
-  <div data-bind="foreach: model.surfInfo">
-      <li>Time: <span data-bind="text: localTimestamp"></span></li>
-      <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&degF</li>
-      <li>Max Break: <span data-bind="text: swell.maxBreakingHeight"></span>ft</li>
-      <li>Min Break: <span data-bind="text: swell.minBreakingHeight"></span>ft</li>
-      <li>Swell Chart: <img data-bind="attr: { src: charts.swell }"></li>
-      <ul id="wind">
-        <h2>Wind</h2>
-        <li>Chill: <span data-bind="text: wind.chill"></span>&degF</li>
-        <li>Direction: <span data-bind="text: wind.compassDirection"></span></li>
-        <li>Gusts: <span data-bind="text: wind.gusts"></span>mph</li>
-        <li>Speed: <span data-bind="text: wind.speed"></span>mph</li>
-        <li>Wind Chart: <img data-bind="attr: { src: charts.wind }"></li>
-      </ul>
- </div>
+ 
 
  
 

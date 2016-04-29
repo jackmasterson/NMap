@@ -103,7 +103,6 @@ var viewModel = {
 		markView.init();
 		notesView.init();
 		filterList.init();
-
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -358,10 +357,15 @@ var surfView = {
 
         //makes the div visible when the bar graph up top is clicked
         $("#surf-data").click(function() {
-            $(".surfInfo").toggle("slow", function() {});
-        });
+            $("#surf-header").toggle("slow", function() {});
+		});
+        
     }
+
 };
+
+
+
 
 //sets up the info div for places that will appear as markers 
 //that will appear in the bottom right when the search 
