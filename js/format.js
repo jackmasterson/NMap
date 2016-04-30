@@ -102,7 +102,7 @@ var viewModel = {
 		markView.init();
 		notesView.init();
 		filterList.init();
-		store.init();
+		storage.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -416,7 +416,6 @@ var notesView = {
 				$('#mark-search').keypress(function(e) {
 					if(e.keyCode == 13) {
 						that.render();
-
 					}
 				})
 			}
@@ -434,7 +433,16 @@ var notesView = {
         //clicked
 		$('#noted').show();
 		$('#clear').show();
+		console.log(localStorage);
 
+	//	localStorage.setItem('notes', 'hey');
+		localStorage.setItem('noted', this.currentPlace.notes);
+		sessionStorage.setItem('noter', this.currentPlace.notes);
+
+		var storedNotes = localStorage.getItem('noted');
+//		var storaged = localStorage.getItem('notes');
+//		console.log(storaged);
+		console.log(storedNotes);
 		//if the input field is not empty when the user presses
 		//enter, then the value is pushed to the array of notes 
 		//for the selected place, saving it so that when you click
@@ -456,31 +464,6 @@ var notesView = {
 		}
 
 
-		
-
-	//	var attendance = JSON.parse(localStorage.attendance);
-		var newAttendance = {};
-		var name = this.currentPlace.title;
-		newAttendance[name] = [];
-
-
-		if(this.currentPlace.notes.length > 0){
-			console.log('hello world!');
-			newAttendance[name].push(this.currentPlace.notes[0]);
-		}
-
-		localStorage.attendance = JSON.stringify(newAttendance);
-		console.log(localStorage);
-
-		localStorage.setItem('notes', 'hey');
-		localStorage.setItem('noted', this.currentPlace.notes);
-		sessionStorage.setItem('noted', this.currentPlace.notes);
-
-
-
-
-
-
 		//when the clear notes button is pressed, then the notes 
 		//for that chosen place are deleted and the notes section
 		//is hidden until a new note is added
@@ -491,6 +474,29 @@ var notesView = {
 		})
 	},
 };
+
+var storage = {
+	
+	init: function() {
+
+		var self = this;
+        this.currentPlace = viewModel.getCurrentPlace();
+		console.log(localStorage);
+
+	//	localStorage.setItem('notes', 'hey');
+		console.log(this.currentPlace)
+//		localStorage.setItem('noted', this.currentPlace.notes);
+	//	sessionStorage.setItem('noter', this.currentPlace.notes);
+
+		var storedNotes = localStorage.getItem('noted');
+		//var storaged = localStorage.getItem('notes');
+		//console.log(storaged);
+		console.log(storedNotes);
+		var notes = this.currentPlace.notes;
+		notes.push(storedNotes);
+		
+	}
+}
 
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
