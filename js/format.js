@@ -102,6 +102,7 @@ var viewModel = {
 		markView.init();
 		notesView.init();
 		filterList.init();
+		storage.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -519,7 +520,19 @@ var storage = {
         this.currentPlace = viewModel.getCurrentPlace();
 		console.log(localStorage);
 		var parsed = JSON.parse(localStorage.notes);
+		console.log(parsed);
         console.log(parsed.mac[0]);
+        var mac = document.getElementById('mac');
+        console.log(this.currentPlace);
+        if(this.currentPlace.id === 'mac'){
+        	console.log('mac!');
+        	console.log(this.currentPlace);
+        	this.currentPlace.notes.push(parsed.mac[0][0]);
+			//this.currentPlace.notes.push(parsed.mac[0]);
+			
+		}else {
+			console.log('else!');
+		}
 		//var storaged = localStorage.getItem('notes');
 		//console.log(storaged);
 	//	console.log(storedNotes);
@@ -528,7 +541,7 @@ var storage = {
 
 	}
 }
-storage.init();
+
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
 //with the searched keyword will remain
