@@ -27,7 +27,7 @@ var model = {
             nums: '0',
             notes: [],
             href: 'http://www.johnnymacbar.com/',
-            id: 'mac',
+            id: 'mac'
         }, {
 
             position: {
@@ -42,7 +42,7 @@ var model = {
             nums: '1',
             notes: [],
             href: 'http://stoneponyonline.com/',
-            id: 'pony',
+            id: 'pony'
         }, {
             position: {
                 lat: 40.220239,
@@ -56,7 +56,7 @@ var model = {
             nums: '2',
             notes: [],
             href: 'http://pizzaporta.com/ASBURY-PARK',
-            id: 'porta',
+            id: 'porta'
         }, {
 
             position: {
@@ -71,7 +71,7 @@ var model = {
             nums: '3',
             notes: [],
             href: 'http://silverballmuseum.com/',
-            id: 'silver',
+            id: 'silver'
         }, {
             position: {
                 lat: 40.223796,
@@ -85,8 +85,7 @@ var model = {
             nums: '4',
             notes: [],
             href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
-            id: 'hall',
-            visible: true
+            id: 'hall'
         }
     ],
 };
@@ -103,6 +102,7 @@ var viewModel = {
 		markView.init();
 		notesView.init();
 		filterList.init();
+		store.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -122,6 +122,7 @@ var viewModel = {
 
 	query: ko.observable('')
 }
+
 
 //census Open Data Network API courtesy Socrata
 //includes a failure timeout for the ajax request
@@ -301,7 +302,7 @@ var surfView = {
             dataType: 'jsonp',
             success: function(response) {
                 var infos = response;
-                	console.log(infos);
+   //             	console.log(infos);
                 //I only wanted the most recent information on the site
                 //so I created the 'info' variable
                 var sixAM = infos[3];
@@ -318,7 +319,7 @@ var surfView = {
                     //accesses the surfInfo array 
 
 		            var date = new Date(info.localTimestamp*1000);
-		            console.log(date);
+	//	            console.log(date);
 		            var hours = date.getHours();
 		            var hoursDST;
 		            if(hours>12){
@@ -331,19 +332,21 @@ var surfView = {
 		            	hoursDST = date.getHours() + 1 +':00am';
 		            	}
 		            }
-		            console.log(hoursDST);
+	//	            console.log(hoursDST);
 		            var day = date.getDate();
-		            console.log(day);
+	//	            console.log(day);
 		            var month = date.getMonth();
-		            console.log(month);
+	//	            console.log(month);
 
 		            var dateForm = month+'/'+day+'/'+' at '+ hoursDST+'</br>';
 		            $('#surf-header').prepend(dateForm);
-		            console.log(dateForm);
+	//	            console.log(dateForm);
+		            
 		        //   info.push(dateForm);
 		            model.surfInfo.push(info);
+
 		          	var surf = model.surfInfo();
-		            console.log(surf[0]);
+	//	            console.log(surf[0]);
                 }
            
 
@@ -378,6 +381,7 @@ var markView = {
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
         this.countElem = document.getElementById('mark-count');
+        
 
         this.render();
     },
@@ -390,6 +394,7 @@ var markView = {
         this.markNameElem.textContent = currentPlace.title;
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
+
 
     }
 };
@@ -411,6 +416,7 @@ var notesView = {
 				$('#mark-search').keypress(function(e) {
 					if(e.keyCode == 13) {
 						that.render();
+
 					}
 				})
 			}
@@ -448,6 +454,32 @@ var notesView = {
 		if(this.currentPlace.notes[0] == ''){
 			this.currentPlace.notes.shift();
 		}
+
+
+		
+
+	//	var attendance = JSON.parse(localStorage.attendance);
+		var newAttendance = {};
+		var name = this.currentPlace.title;
+		newAttendance[name] = [];
+
+
+		if(this.currentPlace.notes.length > 0){
+			console.log('hello world!');
+			newAttendance[name].push(this.currentPlace.notes[0]);
+		}
+
+		localStorage.attendance = JSON.stringify(newAttendance);
+		console.log(localStorage);
+
+		localStorage.setItem('notes', 'hey');
+		localStorage.setItem('noted', this.currentPlace.notes);
+		sessionStorage.setItem('noted', this.currentPlace.notes);
+
+
+
+
+
 
 		//when the clear notes button is pressed, then the notes 
 		//for that chosen place are deleted and the notes section
@@ -833,6 +865,13 @@ var animateView = {
 			
 }
 animateView.init();
+
+
+var store = {
+	init: function() {
+
+	}
+};
 
 
 //initiates the map
