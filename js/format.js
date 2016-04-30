@@ -102,7 +102,6 @@ var viewModel = {
 		markView.init();
 		notesView.init();
 		filterList.init();
-		storage.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -433,16 +432,53 @@ var notesView = {
         //clicked
 		$('#noted').show();
 		$('#clear').show();
-		console.log(localStorage);
+	//	console.log(localStorage);
+		var title = this.currentPlace.title;
+		console.log(title);
+		var notes = this.currentPlace.notes;
+		console.log(notes);
 
+		var storeObj = {};
+
+
+
+
+		var places = viewModel.getPlaces();
+		console.log(places);
+		places.forEach(function(stored) {
+			console.log(stored);
+			var title = stored.title;
+			var id = stored.id;
+			var notes = stored.notes;
+			storeObj[id] = [];
+			storeObj[id].push(notes);
+		})
+		console.log(storeObj);
+	//	console.log(storeObj.hall)
+		localStorage.notes = JSON.stringify(storeObj);
+	//	localStorage.setItem('notes', storeObj);
+		console.log(localStorage.notes);
+	//	console.log(storeObj[notes]);
+	//	localStorage.setItem('notes', storeArr);
+	//	console.log(localStorage);
+	//	storeForm[title].push(this.currentPlace.notes);
 	//	localStorage.setItem('notes', 'hey');
-		localStorage.setItem('noted', this.currentPlace.notes);
-		sessionStorage.setItem('noter', this.currentPlace.notes);
-
-		var storedNotes = localStorage.getItem('noted');
+	//	localStorage.setItem('noted', this.currentPlace.notes);
+	//	sessionStorage.setItem('noter', this.currentPlace.notes);
+		//localStorage.noted = JSON.stringify(storeForm);
+	//	console.log(storeForm);
+		//localStorage.noted = JSON.stringify(storeForm);
+	//	localStorage.setItem('noted', storeForm);
+		//console.log(localStorage);
+	//	console.log(storeForm[title]);
+	//	var storedNotes = localStorage.getItem('noted');
 //		var storaged = localStorage.getItem('notes');
 //		console.log(storaged);
-		console.log(storedNotes);
+	//	console.log(storedNotes);
+
+
+
+
 		//if the input field is not empty when the user presses
 		//enter, then the value is pushed to the array of notes 
 		//for the selected place, saving it so that when you click
@@ -482,22 +518,17 @@ var storage = {
 		var self = this;
         this.currentPlace = viewModel.getCurrentPlace();
 		console.log(localStorage);
-
-	//	localStorage.setItem('notes', 'hey');
-		console.log(this.currentPlace)
-//		localStorage.setItem('noted', this.currentPlace.notes);
-	//	sessionStorage.setItem('noter', this.currentPlace.notes);
-
-		var storedNotes = localStorage.getItem('noted');
+		var parsed = JSON.parse(localStorage.notes);
+        console.log(parsed.mac[0]);
 		//var storaged = localStorage.getItem('notes');
 		//console.log(storaged);
-		console.log(storedNotes);
-		var notes = this.currentPlace.notes;
-		notes.push(storedNotes);
-		
+	//	console.log(storedNotes);
+	//	var notes = this.currentPlace.notes;
+	//	notes.push(storedNotes);
+
 	}
 }
-
+storage.init();
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
 //with the searched keyword will remain
