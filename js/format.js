@@ -127,7 +127,24 @@ var viewModel = {
 	},
 
 	query: ko.observable('')
-}
+};
+
+function stuff() {
+	var currentPlace = viewModel.getCurrentPlace();
+	  this.searchElem = document.getElementById('mark-search');
+        var prev = document.getElementById('previous');
+        var clear = document.getElementById('clear');
+        if(currentPlace.been()){
+        	prev.style.visibility='visible';
+        	clear.style.visibility='visible';
+        	this.searchElem.style.visibility='visible';
+        }
+        else {
+        	prev.style.visibility='hidden';
+        	clear.style.visibility='hidden';
+        	this.searchElem.style.visibility='hidden';
+        }
+    };
 
 
 //census Open Data Network API courtesy Socrata
@@ -390,7 +407,7 @@ var markView = {
         this.markImageElem = document.getElementById('mark-img');
         this.countElem = document.getElementById('mark-count');
         this.checkElem = document.getElementById('mark-been');
-        this.searchElem = document.getElementById('mark-search');
+
         
 
         this.render();
@@ -401,9 +418,8 @@ var markView = {
     	//to set the info div up
         var currentPlace = viewModel.getCurrentPlace();
         var places = viewModel.getPlaces();
-        var notez = document.getElementsByClassName('note');
-        var prev = document.getElementById('previous');
-        var clear = document.getElementById('clear');
+
+        stuff();
 
 
         this.markNameElem.textContent = currentPlace.title;
@@ -414,17 +430,7 @@ var markView = {
         console.log(this.checkElem.checked);
         console.log(currentPlace.been());
 
-        if(currentPlace.been()){
 
-        	prev.style.visibility='visible';
-        	clear.style.visibility='visible';
-        	this.searchElem.style.visibility='visible';
-        }
-        else {
-        	prev.style.visibility='hidden';
-        	clear.style.visibility='hidden';
-        	this.searchElem.style.visibility='hidden';
-        }
 
 
     }
@@ -819,7 +825,19 @@ var animateView = {
 				currentPlace = viewModel.getCurrentPlace();
             	//console.log(markCopy.been());
 
-	
+					  this.searchElem = document.getElementById('mark-search');
+        var prev = document.getElementById('previous');
+        var clear = document.getElementById('clear');
+        if(this.been()){
+        	prev.style.visibility='visible';
+        	clear.style.visibility='visible';
+        	this.searchElem.style.visibility='visible';
+        }
+        else {
+        	prev.style.visibility='hidden';
+        	clear.style.visibility='hidden';
+        	this.searchElem.style.visibility='hidden';
+        }
 
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
