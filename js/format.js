@@ -435,9 +435,9 @@ var notesView = {
 		$('#clear').show();
 	//	console.log(localStorage);
 		var title = this.currentPlace.title;
-		console.log(title);
+//		console.log(title);
 		var notes = this.currentPlace.notes;
-		console.log(notes);
+//		console.log(notes);
 
 		var storeObj = {};
 
@@ -445,20 +445,20 @@ var notesView = {
 
 
 		var places = viewModel.getPlaces();
-		console.log(places);
+//		console.log(places);
 		places.forEach(function(stored) {
-			console.log(stored);
+//			console.log(stored);
 			var title = stored.title;
 			var id = stored.id;
 			var notes = stored.notes;
 			storeObj[id] = [];
 			storeObj[id].push(notes);
 		})
-		console.log(storeObj);
+//		console.log(storeObj);
 	//	console.log(storeObj.hall)
 		localStorage.notes = JSON.stringify(storeObj);
 	//	localStorage.setItem('notes', storeObj);
-		console.log(localStorage.notes);
+	//	console.log(localStorage.notes);
 	//	console.log(storeObj[notes]);
 	//	localStorage.setItem('notes', storeArr);
 	//	console.log(localStorage);
@@ -515,24 +515,41 @@ var notesView = {
 var storage = {
 	
 	init: function() {
-
-		var self = this;
+		var i;
+		
         this.currentPlace = viewModel.getCurrentPlace();
-		console.log(localStorage);
+        var self = this;
+//		console.log(localStorage);
 		var parsed = JSON.parse(localStorage.notes);
 		console.log(parsed);
         console.log(parsed.mac[0]);
         var mac = document.getElementById('mac');
+        var pony = document.getElementById('pony');
+        var porta = document.getElementById('porta');
+        var silver = document.getElementById('silver');
+        var hall = document.getElementById('hall');
         console.log(this.currentPlace);
-        if(this.currentPlace.id === 'mac'){
-        	console.log('mac!');
-        	console.log(this.currentPlace);
-        	this.currentPlace.notes.push(parsed.mac[0][0]);
-			//this.currentPlace.notes.push(parsed.mac[0]);
-			
-		}else {
-			console.log('else!');
-		}
+        console.log(model.places);
+ 
+
+        	model.places[0].notes.push(parsed.mac[0]);
+        	model.places[1].notes.push(parsed.pony[0]);
+        	model.places[2].notes.push(parsed.porta[0]);
+        	model.places[3].notes.push(parsed.silver[0]);
+        	model.places[4].notes.push(parsed.hall[0]);
+        
+
+  	
+
+  		//	console.log(model.places[i].id);
+  		//	console.log(this.currentPlace.id);
+  		//	id = model.places[i].id;
+  		//	console.log(id);
+  		var list = document.getElementById('listed');
+  		console.log(this.currentPlace.id);
+
+
+
 		//var storaged = localStorage.getItem('notes');
 		//console.log(storaged);
 	//	console.log(storedNotes);
@@ -540,7 +557,7 @@ var storage = {
 	//	notes.push(storedNotes);
 
 	}
-}
+};
 
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
@@ -824,7 +841,7 @@ var animateView = {
 
 					
 				}
-				console.log(currentPlace.notes);
+			//	console.log(currentPlace.notes);
 					$('#clear').click(function() {
 						
 							currentPlace.notes = [];
