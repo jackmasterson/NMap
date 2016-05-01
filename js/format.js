@@ -109,6 +109,7 @@ var viewModel = {
 		notesView.init();
 		filterList.init();
 		storage.init();
+		updateCheckView.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -148,37 +149,39 @@ var checkNotes = {
     }
 };
 
-model.places.forEach(function(checkBox){
-	var self = this;
-	
-	console.log(checkBox.been());
-	var checked = checkBox.been();
-	var checkedElem = document.getElementById('mark-been');
+var updateCheckView = {
+	init: function() {
+		model.places.forEach(function(checkBox){
+			var self = this;
+			
+			console.log(checkBox.been());
+			var checked = checkBox.been();
+			var checkedElem = document.getElementById('mark-been');
 
-		this.searchElem = document.getElementById('mark-search');
-        var prev = document.getElementById('previous');
-        var clear = document.getElementById('clear');
+			this.searchElem = document.getElementById('mark-search');
+		    var prev = document.getElementById('previous');
+		    var clear = document.getElementById('clear');
 
-	checkedElem.addEventListener('click', function() {
-		var currentPlace = viewModel.getCurrentPlace();
-		
-	//	console.log(checkBox.title,'clicked!');
-	//	console.log(this);
-		if($(this).prop('checked')){
-	//		console.log('checkedIt!');
-			console.log(currentPlace.been());
-			currentPlace.been(true);
-        	prev.style.visibility='visible';
-        	clear.style.visibility='visible';
-        	self.searchElem.style.visibility='visible';
-		} else {
-			currentPlace.been(false);
-			prev.style.visibility='hidden';
-        	clear.style.visibility='hidden';
-        	self.searchElem.style.visibility='hidden';
-		}
-	})
-})
+			checkedElem.addEventListener('click', function() {
+				var currentPlace = viewModel.getCurrentPlace();
+				
+				if($(this).prop('checked')){
+					console.log(currentPlace.been());
+					currentPlace.been(true);
+		        	prev.style.visibility='visible';
+		        	clear.style.visibility='visible';
+		        	self.searchElem.style.visibility='visible';
+				} else {
+					currentPlace.been(false);
+					prev.style.visibility='hidden';
+		        	clear.style.visibility='hidden';
+		        	self.searchElem.style.visibility='hidden';
+				}
+			})
+		})
+
+	}
+};
 
 //census Open Data Network API courtesy Socrata
 //includes a failure timeout for the ajax request
