@@ -250,10 +250,12 @@ ul {
   display: none;
   background-image: url(..//img/wave.jpg);
   background-size: 100% 100%;
-  
   color: white;
   border-radius: 15px;
 
+}
+#seaweed-link {
+  color: white;
 }
 .surf {
   list-style-type: none;

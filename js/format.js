@@ -11,6 +11,7 @@ var model = {
 	//individual marker data gets pushed here (kram is mark backwards and I
 		//though I'd be cute)
 	surfInfo: ko.observableArray([]),
+	dates: ko.observableArray([]),
 	kram: [],
 	//info for the list view and info div
     places: [
@@ -295,13 +296,14 @@ var surfView = {
 
         this.surfTimeout = setTimeout(function() {
             $('#surf-header').append(text);
-        }, 3000);
+        }, 1000);
         
         $.ajax({
             url: this.surfURL,
             dataType: 'jsonp',
             success: function(response) {
                 var infos = response;
+           //     console.log(infos);
    //             	console.log(infos);
                 //I only wanted the most recent information on the site
                 //so I created the 'info' variable
@@ -313,13 +315,12 @@ var surfView = {
          //       console.log(threeTimes);
                 for(t=0;t<threeTimes.length;t++){
                 	var info = threeTimes[t];
-                    //sends the data to the surfInfo array in the
-                    //model, making it accessible outside of this variable
-                    
+
+
                     //accesses the surfInfo array 
 
 		            var date = new Date(info.localTimestamp*1000);
-	//	            console.log(date);
+		     //       console.log(date);
 		            var hours = date.getHours();
 		            var hoursDST;
 		            if(hours>12){
@@ -332,21 +333,19 @@ var surfView = {
 		            	hoursDST = date.getHours() + 1 +':00am';
 		            	}
 		            }
-	//	            console.log(hoursDST);
+		       //     console.log(hoursDST);
 		            var day = date.getDate();
-	//	            console.log(day);
+		         //   console.log(day);
 		            var month = date.getMonth();
-	//	            console.log(month);
+		           // console.log(month);
 
 		            var dateForm = month+'/'+day+'/'+' at '+ hoursDST+'</br>';
 		            $('#surf-header').prepend(dateForm);
-	//	            console.log(dateForm);
-		            
+		        //    console.log(dateForm);
 		        //   info.push(dateForm);
 		            model.surfInfo.push(info);
-
 		          	var surf = model.surfInfo();
-	//	            console.log(surf[0]);
+		        //    console.log(surf[0]);
                 }
            
 
@@ -435,50 +434,23 @@ var notesView = {
 		$('#clear').show();
 	//	console.log(localStorage);
 		var title = this.currentPlace.title;
-//		console.log(title);
+
 		var notes = this.currentPlace.notes;
-//		console.log(notes);
+
 
 		var storeObj = {};
-
-
-
-
 		var places = viewModel.getPlaces();
-//		console.log(places);
+
 		places.forEach(function(stored) {
-//			console.log(stored);
+
 			var title = stored.title;
 			var id = stored.id;
 			var notes = stored.notes;
 			storeObj[id] = [];
 			storeObj[id].push(notes);
 		})
-//		console.log(storeObj);
-	//	console.log(storeObj.hall)
+
 		localStorage.notes = JSON.stringify(storeObj);
-	//	localStorage.setItem('notes', storeObj);
-	//	console.log(localStorage.notes);
-	//	console.log(storeObj[notes]);
-	//	localStorage.setItem('notes', storeArr);
-	//	console.log(localStorage);
-	//	storeForm[title].push(this.currentPlace.notes);
-	//	localStorage.setItem('notes', 'hey');
-	//	localStorage.setItem('noted', this.currentPlace.notes);
-	//	sessionStorage.setItem('noter', this.currentPlace.notes);
-		//localStorage.noted = JSON.stringify(storeForm);
-	//	console.log(storeForm);
-		//localStorage.noted = JSON.stringify(storeForm);
-	//	localStorage.setItem('noted', storeForm);
-		//console.log(localStorage);
-	//	console.log(storeForm[title]);
-	//	var storedNotes = localStorage.getItem('noted');
-//		var storaged = localStorage.getItem('notes');
-//		console.log(storaged);
-	//	console.log(storedNotes);
-
-
-
 
 		//if the input field is not empty when the user presses
 		//enter, then the value is pushed to the array of notes 
@@ -528,34 +500,18 @@ var storage = {
         var porta = document.getElementById('porta');
         var silver = document.getElementById('silver');
         var hall = document.getElementById('hall');
-        console.log(this.currentPlace);
-        console.log(model.places);
- 
+
 
         	model.places[0].notes.push(parsed.mac[0]);
         	model.places[1].notes.push(parsed.pony[0]);
         	model.places[2].notes.push(parsed.porta[0]);
         	model.places[3].notes.push(parsed.silver[0]);
         	model.places[4].notes.push(parsed.hall[0]);
-        
 
-  	
-
-  		//	console.log(model.places[i].id);
-  		//	console.log(this.currentPlace.id);
-  		//	id = model.places[i].id;
-  		//	console.log(id);
-  		var list = document.getElementById('listed');
-  		console.log(this.currentPlace.id);
-
-
-
-		//var storaged = localStorage.getItem('notes');
-		//console.log(storaged);
-	//	console.log(storedNotes);
-	//	var notes = this.currentPlace.notes;
-	//	notes.push(storedNotes);
-
+		$('#clear').click(function() {
+			localStorage.clear();
+			sessionStorage.clear();
+		});
 	}
 };
 
