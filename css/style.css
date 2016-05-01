@@ -262,6 +262,10 @@ ul {
   margin: 0px;
   padding: 0px;
 }
+#divBreak {
+  text-align: center;
+  width: 100%;
+}
 
 .chart {
   height: 250px;

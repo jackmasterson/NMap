@@ -303,9 +303,7 @@ var surfView = {
             dataType: 'jsonp',
             success: function(response) {
                 var infos = response;
-           //     console.log(infos);
-   //             	console.log(infos);
-                //I only wanted the most recent information on the site
+           		//I only wanted the most recent information on the site
                 //so I created the 'info' variable
                 var sixAM = infos[3];
                 var noon = infos[5];
@@ -335,12 +333,18 @@ var surfView = {
 		            }
 		       //     console.log(hoursDST);
 		            var day = date.getDate();
-		         //   console.log(day);
+		            console.log(day);
 		            var month = date.getMonth();
-		           // console.log(month);
+		            console.log(month);
+		            console.log(hoursDST);
 
-		            var dateForm = month+'/'+day+'/'+' at '+ hoursDST+'</br>';
-		            $('#surf-header').prepend(dateForm);
+		            var dateForm = {
+		            	"month": month,
+		            	"day": day,
+		            	"clock": hoursDST
+		            };
+		            model.dates.push(dateForm);
+		            console.log(model.dates());
 		        //    console.log(dateForm);
 		        //   info.push(dateForm);
 		            model.surfInfo.push(info);

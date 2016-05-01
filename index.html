@@ -56,11 +56,12 @@
         Provided by 
         <a id="seaweed-link" target="_blank" href="http://magicseaweed.com">Magic Seaweed</a>
       </h4>
+      <h5>Information is for today at 6am, 12pm, and 6pm</h5>
  
     </div>
-    </br>
     <div data-bind="foreach: model.surfInfo">
     </br>
+
       <ul class="surf" id="waves">
         <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&degF</li>
         <li>Max Break: 
@@ -88,7 +89,10 @@
             <img class="chart" data-bind="attr: { src: charts.swell }">
         </li>
       </ul>
+      </br>
+      <h3 id="divBreak"> ---------------------------------------------- </h3>
     </div>
+
  </div>
 
 
