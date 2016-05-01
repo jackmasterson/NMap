@@ -729,7 +729,8 @@ var pinView = {
 			    	image: data.mkImg,
 			    	animation: google.maps.Animation.DROP,
 			    	icon: null,
-			    	id: data.id
+			    	id: data.id,
+			    	been: data.been
 			    })
 		    );
 		};
@@ -798,13 +799,15 @@ var animateView = {
 
 				currentPlace = viewModel.getCurrentPlace();
             	//console.log(markCopy.been());
-            	
 
-			//close but not working**********		
+	
 
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
 				viewModel.setCurrentPlace(currentMark);
+				            	console.log(currentMark.been());
+this.checkElem = document.getElementById('mark-been');
+this.checkElem.checked = currentMark.been();
 				//console.log(currentMark);
 				//if the current place does not equal the current marker,
 				//then the current place is set to the current marker
