@@ -333,10 +333,10 @@ var surfView = {
 		            }
 		       //     console.log(hoursDST);
 		            var day = date.getDate();
-		            console.log(day);
+		    ///        console.log(day);
 		            var month = date.getMonth();
-		            console.log(month);
-		            console.log(hoursDST);
+		       //     console.log(month);
+		         //   console.log(hoursDST);
 
 		            var dateForm = {
 		            	"month": month,
@@ -344,7 +344,7 @@ var surfView = {
 		            	"clock": hoursDST
 		            };
 		            model.dates.push(dateForm);
-		            console.log(model.dates());
+		           // console.log(model.dates());
 		        //    console.log(dateForm);
 		        //   info.push(dateForm);
 		            model.surfInfo.push(info);
@@ -497,8 +497,8 @@ var storage = {
         var self = this;
 //		console.log(localStorage);
 		var parsed = JSON.parse(localStorage.notes);
-		console.log(parsed);
-        console.log(parsed.mac[0]);
+	//	console.log(parsed);
+      //  console.log(parsed.mac[0]);
         var mac = document.getElementById('mac');
         var pony = document.getElementById('pony');
         var porta = document.getElementById('porta');
