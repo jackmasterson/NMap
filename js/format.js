@@ -28,7 +28,8 @@ var model = {
             nums: '0',
             notes: [],
             href: 'http://www.johnnymacbar.com/',
-            id: 'mac'
+            id: 'mac',
+            been: ko.observable(true)
         }, {
 
             position: {
@@ -43,7 +44,8 @@ var model = {
             nums: '1',
             notes: [],
             href: 'http://stoneponyonline.com/',
-            id: 'pony'
+            id: 'pony',
+            been: ko.observable(false)
         }, {
             position: {
                 lat: 40.220239,
@@ -57,7 +59,8 @@ var model = {
             nums: '2',
             notes: [],
             href: 'http://pizzaporta.com/ASBURY-PARK',
-            id: 'porta'
+            id: 'porta',
+            been: ko.observable(true)
         }, {
 
             position: {
@@ -72,7 +75,8 @@ var model = {
             nums: '3',
             notes: [],
             href: 'http://silverballmuseum.com/',
-            id: 'silver'
+            id: 'silver',
+            been: ko.observable(true)
         }, {
             position: {
                 lat: 40.223796,
@@ -86,7 +90,8 @@ var model = {
             nums: '4',
             notes: [],
             href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
-            id: 'hall'
+            id: 'hall',
+            been: ko.observable(false)
         }
     ],
 };
@@ -384,6 +389,7 @@ var markView = {
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
         this.countElem = document.getElementById('mark-count');
+        this.checkElem = document.getElementById('mark-been');
         
 
         this.render();
@@ -393,10 +399,16 @@ var markView = {
     	//uses the currentPlace function defined in the viewModel
     	//to set the info div up
         var currentPlace = viewModel.getCurrentPlace();
+        var places = viewModel.getPlaces();
+        console.log(places);
 
         this.markNameElem.textContent = currentPlace.title;
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
+        this.checkElem.checked = currentPlace.been();
+        console.log(this.checkElem);
+        console.log(this.checkElem.checked);
+        console.log(currentPlace.been());
 
 
     }
@@ -613,10 +625,11 @@ var listView = {
             elem = document.createElement('li');
             elem.textContent = mark.title;
 			elem.setAttribute('id', mark.id);
-
+		//	$(elem).append(elemCheck);
 			//when a specific list item/place is clicked, the 
 			//action within this function occurs
             elem.addEventListener('click', (function(markCopy) {
+
 
             	var filter, copyArr;
             	copyArr = ko.observableArray(markCopy.tag);
@@ -784,7 +797,8 @@ var animateView = {
 			markAnimate[w].addListener('click', function(pinCopy) {
 
 				currentPlace = viewModel.getCurrentPlace();
-
+            	//console.log(markCopy.been());
+            	
 
 			//close but not working**********		
 
@@ -803,15 +817,9 @@ var animateView = {
 				}
 			//	console.log(currentPlace.notes);
 					$('#clear').click(function() {
-						
-							currentPlace.notes = [];
-							currentMark.notes = [];
-							console.log(currentMark.notes);
-							console.log(currentPlace.notes);
 
-					
-					//	$('#noted').hide();
-	
+						currentPlace.notes = [];
+						currentMark.notes = [];
 					})
 					notesView.render();
 
