@@ -390,6 +390,7 @@ var markView = {
         this.markImageElem = document.getElementById('mark-img');
         this.countElem = document.getElementById('mark-count');
         this.checkElem = document.getElementById('mark-been');
+        this.searchElem = document.getElementById('mark-search');
         
 
         this.render();
@@ -400,7 +401,10 @@ var markView = {
     	//to set the info div up
         var currentPlace = viewModel.getCurrentPlace();
         var places = viewModel.getPlaces();
-        console.log(places);
+        var notez = document.getElementsByClassName('note');
+        var prev = document.getElementById('previous');
+        var clear = document.getElementById('clear');
+
 
         this.markNameElem.textContent = currentPlace.title;
         this.markAddElem.textContent = currentPlace.address;
@@ -409,6 +413,18 @@ var markView = {
         console.log(this.checkElem);
         console.log(this.checkElem.checked);
         console.log(currentPlace.been());
+
+        if(currentPlace.been()){
+
+        	prev.style.visibility='visible';
+        	clear.style.visibility='visible';
+        	this.searchElem.style.visibility='visible';
+        }
+        else {
+        	prev.style.visibility='hidden';
+        	clear.style.visibility='hidden';
+        	this.searchElem.style.visibility='hidden';
+        }
 
 
     }
@@ -600,6 +616,8 @@ var listView = {
 
 	init: function() {
 		this.markListElem = document.getElementById('mark-list');
+		this.elemCheck = document.getElementById('mark-been');
+
 		
 		this.render();
 	},
@@ -614,6 +632,7 @@ var listView = {
         //and the info div
     	$('#toggleListButton').click(function(){
 		    $('.list').slideToggle();
+		    $('.note').slideToggle();
 		});
 
 
@@ -805,20 +824,18 @@ var animateView = {
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
 				viewModel.setCurrentPlace(currentMark);
-				            	console.log(currentMark.been());
-this.checkElem = document.getElementById('mark-been');
-this.checkElem.checked = currentMark.been();
+		//		    console.log(currentMark.been());
+					this.checkElem = document.getElementById('mark-been');
+					this.checkElem.checked = currentMark.been();
 				//console.log(currentMark);
 				//if the current place does not equal the current marker,
 				//then the current place is set to the current marker
 				//using the setCurrentPlace function found in the viewModel
-				if(currentPlace.title !== currentMark.title){
-					
-					
 
-					
+				if(currentPlace.title !== currentMark.title){
+	
 				}
-			//	console.log(currentPlace.notes);
+
 					$('#clear').click(function() {
 
 						currentPlace.notes = [];
@@ -856,11 +873,13 @@ this.checkElem.checked = currentMark.been();
 
 				//when a marker is clicked, the list view is displayed
 				$('.list').show('slow', function(){});
+				$('.note').show('slow', function(){});
 			})
 
 			//when the 'hide list' button is clicked, the listview is hidden
 			$('#hide').click(function(){
 				$('.list').hide('slow', function(){});
+				$('.note').hide('slow', function(){});
 			})
 
 			//links the list view to the marker; if one is clicked, 
@@ -905,11 +924,6 @@ this.checkElem.checked = currentMark.been();
 animateView.init();
 
 
-var store = {
-	init: function() {
-
-	}
-};
 
 
 //initiates the map

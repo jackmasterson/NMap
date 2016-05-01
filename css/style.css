@@ -96,7 +96,7 @@ ul {
   width: 75px;
   padding: 15px;
 }
-.list {
+.list, .note {
   position: absolute;
   z-index: 5;
   background: white;
