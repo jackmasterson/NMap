@@ -20,7 +20,7 @@ var model = {
                 lat: 40.216147,
                 lng: -74.012914
             },
-            title: 'Johnny Mac House of Spirits',
+            title: ko.observable('Johnny Mac House of Spirits'),
             tag: ['', 'visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
             address: '208 Main St, Asbury Park, NJ 07712',
             src: 'img/macs.jpg',
@@ -29,14 +29,14 @@ var model = {
             notes: [],
             href: 'http://www.johnnymacbar.com/',
             id: 'mac',
-            been: ko.observable(true)
+            been: ko.observableArray([true])
         }, {
 
             position: {
                 lat: 40.220001,
                 lng: -74.000947
             },
-            title: 'The Stone Pony',
+            title: ko.observable('The Stone Pony'),
             tag: ['', 'visit', 'music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
             address: '913 Ocean Ave, Asbury Park, NJ 07712',
             src: 'img/pony.jpg',
@@ -45,13 +45,13 @@ var model = {
             notes: [],
             href: 'http://stoneponyonline.com/',
             id: 'pony',
-            been: ko.observable(false)
+            been: ko.observableArray([false])
         }, {
             position: {
                 lat: 40.220239,
                 lng: -74.002344
             },
-            title: 'Porta Pizza/Wine Bar',
+            title: ko.observable('Porta Pizza/Wine Bar'),
             tag: ['', 'visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
             address: '911 Kingsley St, Asbury Park, NJ 07712',
             src: 'img/porta.jpg',
@@ -60,14 +60,14 @@ var model = {
             notes: [],
             href: 'http://pizzaporta.com/ASBURY-PARK',
             id: 'porta',
-            been: ko.observable(true)
+            been: ko.observableArray([true])
         }, {
 
             position: {
                 lat: 40.2207,
                 lng: -73.999884
             },
-            title: 'Silverball Museum',
+            title: ko.observable('Silverball Museum'),
             tag: ['', 'visit', 'vacation', 'pinball', 'silverball', 'museum', 'silver'],
             address: '1000 Ocean Ave, Asbury Park, NJ 07712',
             src: 'img/silverball.jpg',
@@ -76,13 +76,13 @@ var model = {
             notes: [],
             href: 'http://silverballmuseum.com/',
             id: 'silver',
-            been: ko.observable(true)
+            been: ko.observableArray([false])
         }, {
             position: {
                 lat: 40.223796,
                 lng: -73.998585
             },
-            title: 'Convention Hall',
+            title: ko.observable('Convention Hall'),
             tag: ['', 'visit', 'shopping', 'tourist', 'pictures', 'convention', 'hall'],
             address: '1300 Ocean Ave, Asbury Park, NJ 07712',
             src: 'img/hall.jpg',
@@ -91,7 +91,7 @@ var model = {
             notes: [],
             href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
             id: 'hall',
-            been: ko.observable(false)
+            been: ko.observableArray([true])
         }
     ],
 };
@@ -151,20 +151,76 @@ var checkNotes = {
 
 var updateCheckView = {
 	init: function() {
+		var that = this;
+		    var checkArr = [];
+		
 		model.places.forEach(function(checkBox){
 			var self = this;
+		//	console.log(checkBox);
 			
-			console.log(checkBox.been());
-			var checked = checkBox.been();
-			var checkedElem = document.getElementById('mark-been');
+		//	console.log(checkBox.been());
+			var checkedIt = checkBox.been();
+			
 
 			this.searchElem = document.getElementById('mark-search');
 		    var prev = document.getElementById('previous');
 		    var clear = document.getElementById('clear');
-
+		})
+var checkedElem = document.getElementById('mark-been');
 			checkedElem.addEventListener('click', function() {
-				var currentPlace = viewModel.getCurrentPlace();
+
+				var currentPlace = viewModel.getCurrentPlace();		
+					//checkBox.been.shift();
+					currentPlace.been.shift();
+					currentPlace.been.push($(this).prop('checked'));
+			//		console.log(checkBox.been());
+				//	if(checkArr //   does not contain  // currentPlace.title){
+					//     checkArr.push(currentPlace.title);
+				//	}
+				console.log(currentPlace.title);
+				var title = currentPlace.title;
+				console.log(title);
+		//		console.log(currentPlace.been());
+				var been = currentPlace.been();
+				console.log(been);
+				checkArr.push({title: been});
+				console.log(checkArr);
+			//	checkArr.push({title: been});
+				//	console.log(checkedIt);
+				//checkArr.shift(checkBox.title, checkBox.been());
+				//checkArr.push(checkBox.title, checkBox.been());
+			//	console.log(checkArr);
 				
+		//		console.log(currentPlace);
+			//	var newChecks = {};
+
+				//console.log(that.currentMark);
+
+			//	var val = currentPlace.title;
+			//	console.log(model.places);
+				
+
+
+				//checkeedIt.checked;
+
+				
+				//checkedIt.checked;
+
+			//	newChecks[val] = [];
+			//	console.log(newChecks);
+			//	console.log(val);
+
+				
+				//	newChecks[val].push(this.prop('checked'));
+				
+
+
+
+				//localStorage.check = JSON.stringify(checkBox.been());
+			//	console.log(newChecks[val]);
+//				console.log(localStorage);
+//
+		/*		
 				if($(this).prop('checked')){
 					console.log(currentPlace.been());
 					currentPlace.been(true);
@@ -176,9 +232,9 @@ var updateCheckView = {
 					prev.style.visibility='hidden';
 		        	clear.style.visibility='hidden';
 		        	self.searchElem.style.visibility='hidden';
-				}
+				}*/
 			})
-		})
+		
 
 	}
 };
@@ -458,7 +514,7 @@ var markView = {
         checkNotes.init();
 
 
-        this.markNameElem.textContent = currentPlace.title;
+        this.markNameElem.textContent = currentPlace.title();
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
         this.checkElem.checked = currentPlace.been();
@@ -517,7 +573,7 @@ var notesView = {
 
 		places.forEach(function(stored) {
 
-			var title = stored.title;
+			var title = stored.title();
 			var id = stored.id;
 			var notes = stored.notes;
 			storeObj[id] = [];
@@ -684,7 +740,7 @@ var listView = {
             mark = places[i];
 
             elem = document.createElement('li');
-            elem.textContent = mark.title;
+            elem.textContent = mark.title();
 			elem.setAttribute('id', mark.id);
 		//	$(elem).append(elemCheck);
 			//when a specific list item/place is clicked, the 
@@ -780,7 +836,7 @@ var pinView = {
 
 		    model.kram.push(
 		    	new google.maps.Marker({
-		    		title: data.title,
+		    		title: data.title(),
 		    		src: data.src,
 		    		notes: ko.observableArray([]),
 		    		address: data.address,
