@@ -106,10 +106,10 @@ var viewModel = {
 		surfView.init();
 		listView.init();
 		markView.init();
-		notesView.init();
+	//	notesView.init();
 		filterList.init();
 		storage.init();
-		updateCheckView.init();
+		checkIt.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -128,115 +128,6 @@ var viewModel = {
 	},
 
 	query: ko.observable('')
-};
-
-var checkNotes = {
-	init: function() {
-		var currentPlace = viewModel.getCurrentPlace();
-	  	this.searchElem = document.getElementById('mark-search');
-        var prev = document.getElementById('previous');
-        var clear = document.getElementById('clear');
-        if(currentPlace.been()){
-        	prev.style.visibility='visible';
-        	clear.style.visibility='visible';
-        	this.searchElem.style.visibility='visible';
-        }
-        else {
-        	prev.style.visibility='hidden';
-        	clear.style.visibility='hidden';
-        	this.searchElem.style.visibility='hidden';
-        }
-    }
-};
-
-var updateCheckView = {
-	init: function() {
-		var that = this;
-		    var checkArr = [];
-		
-		model.places.forEach(function(checkBox){
-			var self = this;
-		//	console.log(checkBox);
-			
-		//	console.log(checkBox.been());
-			var checkedIt = checkBox.been();
-			
-
-			this.searchElem = document.getElementById('mark-search');
-		    var prev = document.getElementById('previous');
-		    var clear = document.getElementById('clear');
-		})
-var checkedElem = document.getElementById('mark-been');
-			checkedElem.addEventListener('click', function() {
-
-				var currentPlace = viewModel.getCurrentPlace();		
-					//checkBox.been.shift();
-					currentPlace.been.shift();
-					currentPlace.been.push($(this).prop('checked'));
-			//		console.log(checkBox.been());
-				//	if(checkArr //   does not contain  // currentPlace.title){
-					//     checkArr.push(currentPlace.title);
-				//	}
-				console.log(currentPlace.title);
-				var title = currentPlace.title;
-				console.log(title);
-		//		console.log(currentPlace.been());
-				var been = currentPlace.been();
-				console.log(been);
-				checkArr.push({title: been});
-				console.log(checkArr);
-			//	checkArr.push({title: been});
-				//	console.log(checkedIt);
-				//checkArr.shift(checkBox.title, checkBox.been());
-				//checkArr.push(checkBox.title, checkBox.been());
-			//	console.log(checkArr);
-				
-		//		console.log(currentPlace);
-			//	var newChecks = {};
-
-				//console.log(that.currentMark);
-
-			//	var val = currentPlace.title;
-			//	console.log(model.places);
-				
-
-
-				//checkeedIt.checked;
-
-				
-				//checkedIt.checked;
-
-			//	newChecks[val] = [];
-			//	console.log(newChecks);
-			//	console.log(val);
-
-				
-				//	newChecks[val].push(this.prop('checked'));
-				
-
-
-
-				//localStorage.check = JSON.stringify(checkBox.been());
-			//	console.log(newChecks[val]);
-//				console.log(localStorage);
-//
-		/*		
-				if($(this).prop('checked')){
-					console.log(currentPlace.been());
-					currentPlace.been(true);
-		        	prev.style.visibility='visible';
-		        	clear.style.visibility='visible';
-		        	self.searchElem.style.visibility='visible';
-				} else {
-					currentPlace.been(false);
-					prev.style.visibility='hidden';
-		        	clear.style.visibility='hidden';
-		        	self.searchElem.style.visibility='hidden';
-				}*/
-			})
-		
-
-	}
 };
 
 //census Open Data Network API courtesy Socrata
@@ -498,7 +389,6 @@ var markView = {
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
         this.countElem = document.getElementById('mark-count');
-        this.checkElem = document.getElementById('mark-been');
 
         
 
@@ -511,16 +401,12 @@ var markView = {
         var currentPlace = viewModel.getCurrentPlace();
         var places = viewModel.getPlaces();
 
-        checkNotes.init();
+   
 
 
         this.markNameElem.textContent = currentPlace.title();
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
-        this.checkElem.checked = currentPlace.been();
-        console.log(this.checkElem);
-        console.log(this.checkElem.checked);
-        console.log(currentPlace.been());
 
 
 
@@ -587,7 +473,7 @@ var notesView = {
 		//for the selected place, saving it so that when you click
 		//on a different place, that place's notes come up 
 		if(self.placeInput.value !== ''){
-			this.currentPlace.notes.push(self.placeInput.value);
+		//	this.currentPlace.notes.push(self.placeInput.value);
 		}
 
 		//resets the search bar's value to empty
@@ -714,7 +600,6 @@ var listView = {
 
 	init: function() {
 		this.markListElem = document.getElementById('mark-list');
-		this.elemCheck = document.getElementById('mark-been');
 
 		
 		this.render();
@@ -789,7 +674,7 @@ var listView = {
                 	
                     viewModel.setCurrentPlace(markCopy);
                     markView.render();
-                    notesView.render();
+              //      notesView.render();
                 };
 
             })(mark));
@@ -838,16 +723,16 @@ var pinView = {
 		    	new google.maps.Marker({
 		    		title: data.title(),
 		    		src: data.src,
-		    		notes: ko.observableArray([]),
+		    //		notes: ko.observableArray([]),
 		    		address: data.address,
 			    	position: data.position,
-			    	notes: data.notes,
+			 //   	notes: data.notes,
 			    	map: map,
 			    	image: data.mkImg,
 			    	animation: google.maps.Animation.DROP,
 			    	icon: null,
 			    	id: data.id,
-			    	been: data.been
+			  //  	been: data.been
 			    })
 		    );
 		};
@@ -918,25 +803,12 @@ var animateView = {
             	//console.log(markCopy.been());
 
 					  this.searchElem = document.getElementById('mark-search');
-        var prev = document.getElementById('previous');
-        var clear = document.getElementById('clear');
-        if(this.been()){
-        	prev.style.visibility='visible';
-        	clear.style.visibility='visible';
-        	this.searchElem.style.visibility='visible';
-        }
-        else {
-        	prev.style.visibility='hidden';
-        	clear.style.visibility='hidden';
-        	this.searchElem.style.visibility='hidden';
-        }
+        var log = document.getElementById('log');
+
 
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
 				viewModel.setCurrentPlace(currentMark);
-		//		    console.log(currentMark.been());
-					this.checkElem = document.getElementById('mark-been');
-					this.checkElem.checked = currentMark.been();
 				//console.log(currentMark);
 				//if the current place does not equal the current marker,
 				//then the current place is set to the current marker
@@ -946,12 +818,12 @@ var animateView = {
 	
 				}
 
-					$('#clear').click(function() {
-
-						currentPlace.notes = [];
-						currentMark.notes = [];
-					})
-					notesView.render();
+			//		$('#clear').click(function() {
+//
+//						currentPlace.notes = [];
+//						currentMark.notes = [];
+//					})
+//					notesView.render();
 
 				//handles the different animations for the markers
 				for(n=0;n<markAnimate.length;n++){
@@ -983,13 +855,13 @@ var animateView = {
 
 				//when a marker is clicked, the list view is displayed
 				$('.list').show('slow', function(){});
-				$('.note').show('slow', function(){});
+	//			$('.note').show('slow', function(){});
 			})
 
 			//when the 'hide list' button is clicked, the listview is hidden
 			$('#hide').click(function(){
 				$('.list').hide('slow', function(){});
-				$('.note').hide('slow', function(){});
+		//		$('.note').hide('slow', function(){});
 			})
 
 			//links the list view to the marker; if one is clicked, 
@@ -1033,7 +905,14 @@ var animateView = {
 }
 animateView.init();
 
-
+var checkIt = {
+	init: function() {
+		model.places.forEach(function(checked){
+			console.log(checked.been());
+			return checked.been();
+		})
+	}
+}
 
 
 //initiates the map

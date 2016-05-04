@@ -1,5 +1,5 @@
 * {box-sizing:border-box;}
-html, body {
+html, body { 
     height: 100%;
     margin: 0;
     padding: 0;
@@ -15,7 +15,7 @@ ul {
 #header {
   position: absolute;
   margin-left: 62%;
-  margin-top: 43%;
+  margin-top: 41%;
   z-index: 5;
   border: 2px solid black;
   border-radius: 15px;
@@ -33,7 +33,7 @@ ul {
 }
 #mark {
   margin-left: 62%;
-  margin-top: 43%;
+  margin-top: 41%;
   height: 150px;
   width: 250px;
   display: none;
@@ -58,12 +58,13 @@ ul {
   font-style: italic;
   border: none;
 }
-#previous {
-  margin: 44% auto auto 20%;
+#checks {
+  margin: 56% auto auto 73%;
   width: 150px;
+  list-style-type: none;
   display: none;
   background: #CCC;
-  text-align: center;
+  text-align: left;
   border-radius: 5px;
   font-style: italic;
   border: none;
@@ -106,6 +107,7 @@ ul {
   font-family: 'Roboto','sans-serif';
   padding: auto 40% auto auto;
 }
+
 #listed {  
   width: 20%;
   margin: 15% 30% auto 2%;

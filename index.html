@@ -37,17 +37,18 @@
         <div class="display"></div>
 
     </div>
-        <input class="list" id="mark-search" placeholder="Take Notes! Hit Enter Twice to Save it For Next Time"/>
-
-        <h3 class="note" id="previous">Previous Notes:</h3><h3 class="note" id="noted"></h3>
-        <button value="Clear Notes" class="note" id="clear">Clear Notes</button>
+      <div class="list" id="checks">
+        <li><input id="log" type="checkbox">Great Time</input></li>
+        <li><input id="log" type="checkbox">Sorta Cool</input></li>
+        <li><input id="log" type="checkbox">Never Going Back</input></li>
+      </div>
         <div class="list" id="mark">
           <h2 id="mark-name"></h2>
           <h3 id="mark-address"></h3>
           <div id="mark-count"></div>
           <img id="mark-img" src="" alt="try">
             
-              <input id="mark-been" type="checkbox">Been There?</input>
+              <input id="mark-been" type="checkbox" data-bind="checked: checkIt"s>Been There?</input>
             
         </div>
 
