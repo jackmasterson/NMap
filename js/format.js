@@ -29,7 +29,7 @@ var model = {
             notes: [],
             href: 'http://www.johnnymacbar.com/',
             id: 'mac',
-            been: ko.observableArray([true])
+            been: ko.observable(true)
         }, {
 
             position: {
@@ -45,7 +45,7 @@ var model = {
             notes: [],
             href: 'http://stoneponyonline.com/',
             id: 'pony',
-            been: ko.observableArray([false])
+            been: ko.observable(false)
         }, {
             position: {
                 lat: 40.220239,
@@ -60,7 +60,7 @@ var model = {
             notes: [],
             href: 'http://pizzaporta.com/ASBURY-PARK',
             id: 'porta',
-            been: ko.observableArray([true])
+            been: ko.observable(false)
         }, {
 
             position: {
@@ -76,7 +76,7 @@ var model = {
             notes: [],
             href: 'http://silverballmuseum.com/',
             id: 'silver',
-            been: ko.observableArray([false])
+            been: ko.observable(true)
         }, {
             position: {
                 lat: 40.223796,
@@ -91,7 +91,7 @@ var model = {
             notes: [],
             href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
             id: 'hall',
-            been: ko.observableArray([true])
+            been: ko.observable(false)
         }
     ],
 };
@@ -109,7 +109,6 @@ var viewModel = {
 	//	notesView.init();
 		filterList.init();
 		storage.init();
-		checkIt.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -732,7 +731,7 @@ var pinView = {
 			    	animation: google.maps.Animation.DROP,
 			    	icon: null,
 			    	id: data.id,
-			  //  	been: data.been
+			    	been: data.been
 			    })
 		    );
 		};
@@ -802,13 +801,28 @@ var animateView = {
 				currentPlace = viewModel.getCurrentPlace();
             	//console.log(markCopy.been());
 
+
 					  this.searchElem = document.getElementById('mark-search');
-        var log = document.getElementById('log');
+        				var log = document.getElementById('log');
 
 
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
+				console.log(currentMark.been());
 				viewModel.setCurrentPlace(currentMark);
+
+
+
+
+				var places = viewModel.getPlaces();
+				places.forEach(function(beenThere){
+					console.log(beenThere);
+					var check = document.getElementById('mark-been');
+
+						check.checked = currentMark.been();
+				})
+
+
 				//console.log(currentMark);
 				//if the current place does not equal the current marker,
 				//then the current place is set to the current marker
@@ -905,14 +919,6 @@ var animateView = {
 }
 animateView.init();
 
-var checkIt = {
-	init: function() {
-		model.places.forEach(function(checked){
-			console.log(checked.been());
-			return checked.been();
-		})
-	}
-}
 
 
 //initiates the map
