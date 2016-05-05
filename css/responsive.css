@@ -7,17 +7,33 @@
 		background: #CCC;
 	}
 
-	#map {
-	  height: 100%;
-	  width: 100%;
+	#header, #mark {
+		margin: 125% auto 0% auto;
 	}
 
+	#listed {
+	    width: 60%;
+	    margin: 5% 2% auto 42%;
+	}
 
-	#header {
+	#listButton{
+	  position: absolute;
+	  z-index: 5;
+	  margin-top: 25%;
 	  margin-left: 5%;
-	  margin-top: 107%;
-	  height: 180px;
-	  width: 280px;
+	  height: 250px;
+	  width: 100px;
+	}
+
+	#surf-header {
+		height: 50%;
+		width: 60%;
+		margin-top: 25px;
+	}
+
+	.chart {
+		height: 150px;
+		width: 150px;
 	}
 
 }

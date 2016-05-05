@@ -97,6 +97,7 @@ var viewModel = {
 		listView.init();
 		markView.init();
 		filterList.init();
+		initMap.fail();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -287,7 +288,7 @@ var surfView = {
                 ' know, but for some reason something went wrong. Wurkin on it.';
 
         this.surfTimeout = setTimeout(function() {
-            $('#surf-header').append(text);
+            $('#white-back').append(text);
         }, 1000);
         
         $.ajax({
@@ -755,6 +756,20 @@ animateView.init();
 
 //initiates the map
 var initMap = {
+
+	fail: function() {
+
+    	var text = 'Shoot. An interactive map of a beach town was supposed to' +
+			' show up but something went wrong, so all you get is a boring' +
+			' picture. Try re-loading the page, and if that does nothing' +
+			' rest assured if the problem is on our end, we will have' +
+			' it figured out as soon as possible.';
+		var staticMap = '</br><img id="static" src="img/static.jpg">';
+		this.initMapTimeout = setTimeout(function() {
+            $('#failure').append(text).append(staticMap);
+        }, 2000);	
+
+	},
 	
 	init: function() {
 		var self = this;
@@ -767,7 +782,7 @@ var initMap = {
 	        scrollwheel: false,
 	        zoom: 15
 		};
-
+		clearTimeout(self.initMap);
 		this.render();	
 	},
 
@@ -777,6 +792,7 @@ var initMap = {
 		//not defined
 		map = new google.maps.Map(this.mapDiv, this.mapOptions);
 		pinView.init();
+		
 
 	}
 };

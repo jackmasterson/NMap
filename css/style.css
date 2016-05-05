@@ -16,7 +16,7 @@ ul {
   position: absolute;
   margin-left: 62%;
   margin-top: 41%;
-  z-index: 5;
+  z-index: 7;
   border: 2px solid black;
   border-radius: 15px;
   height: 150px;
@@ -34,6 +34,14 @@ ul {
   height: 150px;
   width: 250px;
   display: none;
+}
+#failure {
+  z-index: 6;
+  margin: 20px;
+}
+#static {
+  height: 500px;
+  width: 500px;
 }
 #mark-search {
   margin-left: 36%;
