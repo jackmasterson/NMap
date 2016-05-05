@@ -734,6 +734,19 @@ var updateListCheck = {
 			});
 		});
 
+		console.log(self.check);
+		self.check.addEventListener('click', function() {
+			currentPlace = viewModel.getCurrentPlace();			
+				been = self.check.checked;
+		
+				if(been === true){
+					self.inputs.style.visibility = "visible"
+				} 
+				else {
+					self.inputs.style.visibility = "hidden"
+				}
+		})
+
 	}
 };
 
@@ -869,9 +882,8 @@ var animateView = {
 				console.log(currentMark.been());
 				viewModel.setCurrentPlace(currentMark);
 
-
-
 				checkLoad();
+					
 
 
 
