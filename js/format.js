@@ -29,7 +29,7 @@ var model = {
             notes: [],
             href: 'http://www.johnnymacbar.com/',
             id: 'mac',
-            been: ko.observable(true)
+            been: ko.observableArray([true])
         }, {
 
             position: {
@@ -45,7 +45,7 @@ var model = {
             notes: [],
             href: 'http://stoneponyonline.com/',
             id: 'pony',
-            been: ko.observable(false)
+            been: ko.observableArray([false])
         }, {
             position: {
                 lat: 40.220239,
@@ -60,7 +60,7 @@ var model = {
             notes: [],
             href: 'http://pizzaporta.com/ASBURY-PARK',
             id: 'porta',
-            been: ko.observable(false)
+            been: ko.observableArray([false])
         }, {
 
             position: {
@@ -76,7 +76,7 @@ var model = {
             notes: [],
             href: 'http://silverballmuseum.com/',
             id: 'silver',
-            been: ko.observable(true)
+            been: ko.observableArray([true])
         }, {
             position: {
                 lat: 40.223796,
@@ -91,7 +91,7 @@ var model = {
             notes: [],
             href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
             id: 'hall',
-            been: ko.observable(false)
+            been: ko.observableArray([false])
         }
     ],
 };
@@ -720,10 +720,15 @@ var updateListCheck = {
 
 		model.places.forEach(function(listCheck){
 			self.elem.addEventListener('click', function(){
-				currentPlace = viewModel.getCurrentPlace();			
+				currentPlace = viewModel.getCurrentPlace();	
+
 				been = currentPlace.been();
-				self.check.checked = been;
-				console.log(self.inputs);
+				console.log(JSON.parse(been));
+				console.log(been);
+
+				self.check.checked = JSON.parse(been); ///make it equal local or 
+				//session storage right here
+				//console.log(sessionStorage.check);
 				if(been === true){
 					self.inputs.style.visibility = "visible"
 				} 
@@ -738,7 +743,17 @@ var updateListCheck = {
 		self.check.addEventListener('click', function() {
 			currentPlace = viewModel.getCurrentPlace();			
 				been = self.check.checked;
-		
+				localStorage.setItem('check', been);
+				var beenStore = localStorage.getItem('check');
+				
+				console.log(beenStore);
+				console.log(currentPlace.been());
+				currentPlace.been.pop();
+				currentPlace.been.push(beenStore);
+
+				console.log(beenStore);
+				console.log(localStorage);
+
 				if(been === true){
 					self.inputs.style.visibility = "visible"
 				} 
