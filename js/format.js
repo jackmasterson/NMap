@@ -26,10 +26,8 @@ var model = {
             src: 'img/macs.jpg',
             mkImg: 'img/beer.png',
             nums: '0',
-            notes: [],
             href: 'http://www.johnnymacbar.com/',
             id: 'mac',
-            been: ko.observableArray([true])
         }, {
 
             position: {
@@ -42,10 +40,8 @@ var model = {
             src: 'img/pony.jpg',
             mkImg: 'img/music.png',
             nums: '1',
-            notes: [],
             href: 'http://stoneponyonline.com/',
             id: 'pony',
-            been: ko.observableArray([false])
         }, {
             position: {
                 lat: 40.220239,
@@ -55,12 +51,10 @@ var model = {
             tag: ['', 'visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
             address: '911 Kingsley St, Asbury Park, NJ 07712',
             src: 'img/porta.jpg',
-            mkImg: 'img/beer.png',
+            mkImg: 'img/pizza.png',
             nums: '2',
-            notes: [],
             href: 'http://pizzaporta.com/ASBURY-PARK',
             id: 'porta',
-            been: ko.observableArray([false])
         }, {
 
             position: {
@@ -73,10 +67,8 @@ var model = {
             src: 'img/silverball.jpg',
             mkImg: 'img/pinball.png',
             nums: '3',
-            notes: [],
             href: 'http://silverballmuseum.com/',
             id: 'silver',
-            been: ko.observableArray([true])
         }, {
             position: {
                 lat: 40.223796,
@@ -88,10 +80,8 @@ var model = {
             src: 'img/hall.jpg',
             mkImg: 'img/shopping.png',
             nums: '4',
-            notes: [],
             href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
             id: 'hall',
-            been: ko.observableArray([false])
         }
     ],
 };
@@ -106,10 +96,7 @@ var viewModel = {
 		surfView.init();
 		listView.init();
 		markView.init();
-	//	notesView.init();
 		filterList.init();
-		storage.init();
-		updateListCheck.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -375,24 +362,6 @@ var surfView = {
 
 };
 
-function checkLoad() {
-				var places = viewModel.getPlaces();
-				var currentMark = viewModel.getCurrentPlace();
-				var self = this;
-				this.self.inputs = document.getElementById('checks');
-				places.forEach(function(beenThere){
-					var check = document.getElementById('mark-been');
-						check.checked = currentMark.been();
-					var been = currentMark.been();
-				
-				if(been === true){
-					self.inputs.style.visibility = "visible"
-				} 
-				else {
-					self.inputs.style.visibility = "hidden"
-				}
-			});
-};
 
 
 //sets up the info div for places that will appear as markers 
@@ -418,136 +387,15 @@ var markView = {
         var currentPlace = viewModel.getCurrentPlace();
         var places = viewModel.getPlaces();
 
-   
-
-
+  
         this.markNameElem.textContent = currentPlace.title();
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
 
-
-
-
     }
 };
 
-//sets up the div that saves the notes taken to each individual 
-//place
-var notesView = {
 
-	init: function() {
-		var that = this;
-		
-		this.placeInput = document.getElementById('mark-search');
-		this.messageBox = document.getElementById('noted');
-		this.br = '</br>';
-
-		//code is only initiated when enter is pressed
-		$(document).ready(function() {
-			function clicked() {
-				$('#mark-search').keypress(function(e) {
-					if(e.keyCode == 13) {
-						that.render();
-					}
-				})
-			}
-			clicked();
-
-		})
-	},
-
-	render: function() {
-
-		var self = this;
-        this.currentPlace = viewModel.getCurrentPlace();
-
-        //shows and hides the info when the proper button is
-        //clicked
-		$('#noted').show();
-		$('#clear').show();
-
-	//	console.log(localStorage);
-		var title = this.currentPlace.title;
-
-		var notes = this.currentPlace.notes;
-
-
-		var storeObj = {};
-		var places = viewModel.getPlaces();
-
-		places.forEach(function(stored) {
-
-			var title = stored.title();
-			var id = stored.id;
-			var notes = stored.notes;
-			storeObj[id] = [];
-			storeObj[id].push(notes);
-		})
-
-		localStorage.notes = JSON.stringify(storeObj);
-
-		//if the input field is not empty when the user presses
-		//enter, then the value is pushed to the array of notes 
-		//for the selected place, saving it so that when you click
-		//on a different place, that place's notes come up 
-		if(self.placeInput.value !== ''){
-		//	this.currentPlace.notes.push(self.placeInput.value);
-		}
-
-		//resets the search bar's value to empty
-		self.placeInput.value = '';
-		self.messageBox.innerHTML = '';
-		//adds a break in between individual notes
-		self.messageBox.innerHTML = this.currentPlace.notes
-			.join(self.br);
-
-		//removes blank searches from the notes
-		if(this.currentPlace.notes[0] == ''){
-			this.currentPlace.notes.shift();
-		}
-
-
-		//when the clear notes button is pressed, then the notes 
-		//for that chosen place are deleted and the notes section
-		//is hidden until a new note is added
-		$('#clear').click(function() {
-			self.currentPlace.notes = [];
-			self.messageBox.innerHTML = self.currentPlace.notes;
-			$('#noted').hide();
-		})
-	},
-};
-
-var storage = {
-	
-	init: function() {
-		var i;
-		
-        this.currentPlace = viewModel.getCurrentPlace();
-        var self = this;
-//		console.log(localStorage);
-		var parsed = JSON.parse(localStorage.notes);
-	//	console.log(parsed);
-      //  console.log(parsed.mac[0]);
-        var mac = document.getElementById('mac');
-        var pony = document.getElementById('pony');
-        var porta = document.getElementById('porta');
-        var silver = document.getElementById('silver');
-        var hall = document.getElementById('hall');
-
-
-        	model.places[0].notes.push(parsed.mac[0]);
-        	model.places[1].notes.push(parsed.pony[0]);
-        	model.places[2].notes.push(parsed.porta[0]);
-        	model.places[3].notes.push(parsed.silver[0]);
-        	model.places[4].notes.push(parsed.hall[0]);
-
-		$('#clear').click(function() {
-			localStorage.clear();
-			sessionStorage.clear();
-		});
-	}
-};
 
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
@@ -629,11 +477,10 @@ var listView = {
 
         //anytime the magnifying glass up top is clicked,
         //anything with the class 'list' is going to toggle,
-        //including the list view, the note section,
+        //including the list view, 
         //and the info div
     	$('#toggleListButton').click(function(){
 		    $('.list').slideToggle();
-		    $('.note').slideToggle();
 		});
 
 
@@ -646,7 +493,6 @@ var listView = {
             elem.textContent = mark.title();
 			elem.setAttribute('id', mark.id);
 			elem.className = 'classed';
-		//	$(elem).append(elemCheck);
 			//when a specific list item/place is clicked, the 
 			//action within this function occurs
             elem.addEventListener('click', (function(markCopy) {
@@ -694,7 +540,6 @@ var listView = {
                 	
                     viewModel.setCurrentPlace(markCopy);
                     markView.render();
-              //      notesView.render();
                 };
 
             })(mark));
@@ -703,69 +548,6 @@ var listView = {
         }
     }
 };
-var updateListCheck = {
-	init: function() {
-		this.elem = document.getElementById('mark-list');
-		this.check = document.getElementById('mark-been');
-		this.inputs = document.getElementById('checks');
-		console.log(this.inputs);
-
-		var currentPlace, been;
-
-		this.render();
-	},
-
-	render: function() {
-		var self = this;
-
-		model.places.forEach(function(listCheck){
-			self.elem.addEventListener('click', function(){
-				currentPlace = viewModel.getCurrentPlace();	
-
-				been = currentPlace.been();
-				console.log(JSON.parse(been));
-				console.log(been);
-
-				self.check.checked = JSON.parse(been); ///make it equal local or 
-				//session storage right here
-				//console.log(sessionStorage.check);
-				if(been === true){
-					self.inputs.style.visibility = "visible"
-				} 
-				else {
-					self.inputs.style.visibility = "hidden"
-				}
-
-			});
-		});
-
-		console.log(self.check);
-		self.check.addEventListener('click', function() {
-			currentPlace = viewModel.getCurrentPlace();			
-				been = self.check.checked;
-				localStorage.setItem('check', been);
-				var beenStore = localStorage.getItem('check');
-				
-				console.log(beenStore);
-				console.log(currentPlace.been());
-				currentPlace.been.pop();
-				currentPlace.been.push(beenStore);
-
-				console.log(beenStore);
-				console.log(localStorage);
-
-				if(been === true){
-					self.inputs.style.visibility = "visible"
-				} 
-				else {
-					self.inputs.style.visibility = "hidden"
-				}
-		})
-
-	}
-};
-
-
 
 
 //establishes the markers, or pins, that will appear on the map
@@ -807,16 +589,13 @@ var pinView = {
 		    	new google.maps.Marker({
 		    		title: data.title(),
 		    		src: data.src,
-		    //		notes: ko.observableArray([]),
 		    		address: data.address,
 			    	position: data.position,
-			 //   	notes: data.notes,
 			    	map: map,
 			    	image: data.mkImg,
 			    	animation: google.maps.Animation.DROP,
 			    	icon: null,
 			    	id: data.id,
-			    	been: data.been
 			    })
 		    );
 		};
@@ -837,7 +616,6 @@ var animateView = {
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
         this.placeInput = document.getElementById('mark-search');
-        this.messageBox = document.getElementById('noted');
         this.br = '</br>';
 
 	    var markAnimate = model.kram;
@@ -885,7 +663,6 @@ var animateView = {
 			markAnimate[w].addListener('click', function(pinCopy) {
 
 				currentPlace = viewModel.getCurrentPlace();
-            	//console.log(markCopy.been());
 
 
 					  this.searchElem = document.getElementById('mark-search');
@@ -894,29 +671,7 @@ var animateView = {
 
 				//sets the current marker to whichever has been clicked
 				currentMark = this;
-				console.log(currentMark.been());
 				viewModel.setCurrentPlace(currentMark);
-
-				checkLoad();
-					
-
-
-
-				//console.log(currentMark);
-				//if the current place does not equal the current marker,
-				//then the current place is set to the current marker
-				//using the setCurrentPlace function found in the viewModel
-
-				if(currentPlace.title !== currentMark.title){
-	
-				}
-
-			//		$('#clear').click(function() {
-//
-//						currentPlace.notes = [];
-//						currentMark.notes = [];
-//					})
-//					notesView.render();
 
 				//handles the different animations for the markers
 				for(n=0;n<markAnimate.length;n++){
@@ -948,13 +703,11 @@ var animateView = {
 
 				//when a marker is clicked, the list view is displayed
 				$('.list').show('slow', function(){});
-	//			$('.note').show('slow', function(){});
 			})
 
 			//when the 'hide list' button is clicked, the listview is hidden
 			$('#hide').click(function(){
 				$('.list').hide('slow', function(){});
-		//		$('.note').hide('slow', function(){});
 			})
 
 			//links the list view to the marker; if one is clicked, 
