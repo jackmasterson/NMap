@@ -376,14 +376,22 @@ var surfView = {
 };
 
 function checkLoad() {
-					var places = viewModel.getPlaces();
-					var currentMark = viewModel.getCurrentPlace();
+				var places = viewModel.getPlaces();
+				var currentMark = viewModel.getCurrentPlace();
+				var self = this;
+				this.self.inputs = document.getElementById('checks');
 				places.forEach(function(beenThere){
-				
 					var check = document.getElementById('mark-been');
-
 						check.checked = currentMark.been();
-				})
+					var been = currentMark.been();
+				
+				if(been === true){
+					self.inputs.style.visibility = "visible"
+				} 
+				else {
+					self.inputs.style.visibility = "hidden"
+				}
+			});
 };
 
 
@@ -717,10 +725,10 @@ var updateListCheck = {
 				self.check.checked = been;
 				console.log(self.inputs);
 				if(been === true){
-					self.inputs.style.display = "block"
+					self.inputs.style.visibility = "visible"
 				} 
 				else {
-					self.inputs.style.display = "none"
+					self.inputs.style.visibility = "hidden"
 				}
 
 			});
