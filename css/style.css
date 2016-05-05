@@ -38,6 +38,17 @@ ul {
   width: 250px;
   display: none;
 }
+#checks {
+  margin: 57% auto auto 63%;
+  width: 150px;
+  list-style-type: none;
+  background: #CCC;
+  text-align: left;
+  border-radius: 5px;
+  font-style: italic;
+  border: none;
+  display: none;
+}
 #mark-search {
   margin-left: 36%;
   margin-top: 40%;
@@ -58,17 +69,7 @@ ul {
   font-style: italic;
   border: none;
 }
-#checks {
-  margin: 56% auto auto 73%;
-  width: 150px;
-  list-style-type: none;
-  display: none;
-  background: #CCC;
-  text-align: left;
-  border-radius: 5px;
-  font-style: italic;
-  border: none;
-}
+
 #clear {
   margin: 38% auto auto 44%;
   display: none;

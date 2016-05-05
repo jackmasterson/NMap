@@ -457,6 +457,7 @@ var notesView = {
         //clicked
 		$('#noted').show();
 		$('#clear').show();
+
 	//	console.log(localStorage);
 		var title = this.currentPlace.title;
 
@@ -696,25 +697,35 @@ var listView = {
 };
 var updateListCheck = {
 	init: function() {
-		/*console.log(markCopy);
-    	var places = viewModel.getPlaces();
-		console.log(markCopy.been());
-		var check = document.getElementById('mark-been');
-		check.checked = markCopy.been();*/
-		
-		model.places.forEach(function(listCheck){
-			console.log(listCheck.been());
-		//	console.log(listCheck.id);
-			var elem = document.getElementById('mark-list');
-			elem.addEventListener('click', function(){
-				var currentPlace = viewModel.getCurrentPlace();
-				var check = document.getElementById('mark-been');
-				var been = currentPlace.been();
-				check.checked = been;
+		this.elem = document.getElementById('mark-list');
+		this.check = document.getElementById('mark-been');
+		this.inputs = document.getElementById('checks');
+		console.log(this.inputs);
 
-			})
-		//	console.log(okay);
+		var currentPlace, been;
+
+		this.render();
+	},
+
+	render: function() {
+		var self = this;
+
+		model.places.forEach(function(listCheck){
+			self.elem.addEventListener('click', function(){
+				currentPlace = viewModel.getCurrentPlace();			
+				been = currentPlace.been();
+				self.check.checked = been;
+				console.log(self.inputs);
+				if(been === true){
+					self.inputs.style.display = "block"
+				} 
+				else {
+					self.inputs.style.display = "none"
+				}
+
 			});
+		});
+
 	}
 };
 
