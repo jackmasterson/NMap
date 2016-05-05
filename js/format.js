@@ -109,6 +109,7 @@ var viewModel = {
 	//	notesView.init();
 		filterList.init();
 		storage.init();
+		updateListCheck.init();
 	},
 	//returns whichever place is currently active, whichever one
 	//has been clicked in the list div (default is the first
@@ -374,7 +375,16 @@ var surfView = {
 
 };
 
+function checkLoad() {
+					var places = viewModel.getPlaces();
+					var currentMark = viewModel.getCurrentPlace();
+				places.forEach(function(beenThere){
+				
+					var check = document.getElementById('mark-been');
 
+						check.checked = currentMark.been();
+				})
+};
 
 
 //sets up the info div for places that will appear as markers 
@@ -626,11 +636,13 @@ var listView = {
             elem = document.createElement('li');
             elem.textContent = mark.title();
 			elem.setAttribute('id', mark.id);
+			elem.className = 'classed';
 		//	$(elem).append(elemCheck);
 			//when a specific list item/place is clicked, the 
 			//action within this function occurs
             elem.addEventListener('click', (function(markCopy) {
 
+				
 
             	var filter, copyArr;
             	copyArr = ko.observableArray(markCopy.tag);
@@ -682,6 +694,32 @@ var listView = {
         }
     }
 };
+var updateListCheck = {
+	init: function() {
+		/*console.log(markCopy);
+    	var places = viewModel.getPlaces();
+		console.log(markCopy.been());
+		var check = document.getElementById('mark-been');
+		check.checked = markCopy.been();*/
+		
+		model.places.forEach(function(listCheck){
+			console.log(listCheck.been());
+		//	console.log(listCheck.id);
+			var elem = document.getElementById('mark-list');
+			elem.addEventListener('click', function(){
+				var currentPlace = viewModel.getCurrentPlace();
+				var check = document.getElementById('mark-been');
+				var been = currentPlace.been();
+				check.checked = been;
+
+			})
+		//	console.log(okay);
+			});
+	}
+};
+
+
+
 
 //establishes the markers, or pins, that will appear on the map
 var pinView = {
@@ -738,6 +776,7 @@ var pinView = {
 		animateView.init();
 	}
 }
+
 
 //a lot of the map/marker/list functionality comes from here;
 //when you click a marker, it changes to represent the place it
@@ -813,14 +852,8 @@ var animateView = {
 
 
 
+				checkLoad();
 
-				var places = viewModel.getPlaces();
-				places.forEach(function(beenThere){
-					console.log(beenThere);
-					var check = document.getElementById('mark-been');
-
-						check.checked = currentMark.been();
-				})
 
 
 				//console.log(currentMark);
