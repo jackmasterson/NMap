@@ -782,7 +782,7 @@ var initMap = {
 	        scrollwheel: false,
 	        zoom: 15
 		};
-		clearTimeout(self.initMap);
+		clearTimeout(self.initMapTimeout);
 		this.render();	
 	},
 

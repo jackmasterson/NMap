@@ -16,7 +16,7 @@ ul {
   position: absolute;
   margin-left: 62%;
   margin-top: 41%;
-  z-index: 7;
+  z-index: 5;
   border: 2px solid black;
   border-radius: 15px;
   height: 150px;
@@ -38,6 +38,7 @@ ul {
 #failure {
   z-index: 6;
   margin: 20px;
+  border: none;
 }
 #static {
   height: 500px;
