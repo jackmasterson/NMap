@@ -1,10 +1,12 @@
 //creates an interactive map of Asbury Park, NJ using the Google Maps API, 
-//as well as other APIs to add to the user experience
+//as well as other APIs to add to the user experience. More information available
+//in the README
 
 //Jack Masterson, May 6th, 2016
 
 //Udacity, FEND Nanodegree, Project 5
 
+//creates the map variable which will be initiated later in the script
 var map;
 
 //stores all the info I'll use to build the site
@@ -102,6 +104,7 @@ var viewModel = {
         listView.init();
         markView.init();
         filterList.init();
+        animateView.init();
         initMap.fail();
     },
     //returns whichever place is currently active, whichever one
@@ -571,19 +574,26 @@ var pinView = {
 var animateView = {
 
     init: function() {
-        var self = this;
+        
         this.markElem = document.getElementById('mark');
         this.markNameElem = document.getElementById('mark-name');
         this.markAddElem = document.getElementById('mark-address');
         this.markImageElem = document.getElementById('mark-img');
         this.placeInput = document.getElementById('mark-search');
+        this.modelPlace = model.places;
+        this.markAnimate = model.kram;
         this.br = '</br>';
 
-        var markAnimate = model.kram;
-        var modelPlace = model.places;
+        
         var currentMark;
         var currentPlace;
         var placeID;
+
+        this.render();
+    },
+
+    render: function() {
+        var self = this;
 
         for (w = 0; w < model.kram.length; w++) {
 
@@ -592,6 +602,7 @@ var animateView = {
             //the list view for what has been filtered;
             //if the name of the place is visible, then the marker
             //stays visible and the others are setMap'd to null;
+            
             //there's a timeout on it so that it delays a beat,
             //otherwise it would be searching while the list view is
             //still empty
@@ -599,14 +610,14 @@ var animateView = {
                 if (e.keyCode == 13) {
                     function timed() {
                         for (g = 0; g < model.kram.length; g++) {
-                            placeID = document.getElementById(modelPlace[g].id);
+                            placeID = document.getElementById(self.modelPlace[g].id);
                             var disp = placeID.style.display === 'block';
 
                             if (disp) {
-                                markAnimate[g].setMap(map);
-                            } else {
-
-                                markAnimate[g].setMap(null);
+                                self.markAnimate[g].setMap(map);
+                            } 
+                            else {
+                                self.markAnimate[g].setMap(null);
                             }
                         }
                     }
@@ -618,10 +629,10 @@ var animateView = {
             });
 
             //gets each place by its ID
-            var eachPlace = document.getElementById(modelPlace[w].id);
+            var eachPlace = document.getElementById(self.modelPlace[w].id);
 
             //if you click a marker, the below function will activate
-            markAnimate[w].addListener('click', function(pinCopy) {
+            self.markAnimate[w].addListener('click', function(pinCopy) {
 
                 currentPlace = viewModel.getCurrentPlace();
 
@@ -634,11 +645,11 @@ var animateView = {
                 viewModel.setCurrentPlace(currentMark);
 
                 //handles the different animations for the markers
-                for (n = 0; n < markAnimate.length; n++) {
+                for (n = 0; n < self.markAnimate.length; n++) {
 
                     var that = this;
-                    var icon = markAnimate[n].icon;
-                    markAnimate[n].setIcon(null);
+                    var icon = self.markAnimate[n].icon;
+                    self.markAnimate[n].setIcon(null);
                     self.markNameElem.textContent = this.title;
                     self.markAddElem.textContent = this.address;
                     self.markImageElem.src = this.src;
@@ -677,16 +688,16 @@ var animateView = {
 
 
                 for (var g = 0; g < model.kram.length; g++) {
-                    var skram = markAnimate[g].id;
-                    var icon = markAnimate[g].icon;
+                    var skram = self.markAnimate[g].id;
+                    var icon = self.markAnimate[g].icon;
                     var ecalp = curr.id;
                     var pic = curr.mkImg;
-                    markAnimate[g].setIcon(null);
+                    self.markAnimate[g].setIcon(null);
 
                     //if the current place ID matches the current
                     //marker ID, then we establish the variable 'that'
                     if (ecalp === skram) {
-                        var that = markAnimate[g];
+                        var that = self.markAnimate[g];
 
                         //if the icon is null, then the below occurs;
                         //the marker bounces and stops and the marker
@@ -707,7 +718,7 @@ var animateView = {
     }
 
 }
-animateView.init();
+
 
 
 
@@ -789,7 +800,7 @@ var initMap = {
     }
 };
 
-//runs the viewModel code, and everything that is within it
+//runs the viewModel code, and everything within it
 viewModel.init();
 
 //applies the knockoutjs bindings to the viewModel info
