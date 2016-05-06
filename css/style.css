@@ -1,196 +1,184 @@
-* {box-sizing:border-box;}
-html, body { 
+* {
+    box-sizing: border-box;
+}
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
     width: 100%;
 }
 a:visited {
-  color: gray;
+    color: gray;
 }
 ul {
-  list-style-type: none;
+    list-style-type: none;
 }
-
 #header {
-  position: absolute;
-  margin-left: 62%;
-  margin-top: 41%;
-  z-index: 5;
-  border: 2px solid black;
-  border-radius: 15px;
-  height: 150px;
-  width: 250px;
-
+    position: absolute;
+    margin-left: 62%;
+    margin-top: 41%;
+    z-index: 5;
+    border: 2px solid black;
+    border-radius: 15px;
+    height: 150px;
+    width: 250px;
 }
 #map {
-  height: 100%;
-  width: 100%;
+    height: 100%;
+    width: 100%;
 }
-
 #mark {
-  margin-left: 62%;
-  margin-top: 41%;
-  height: 150px;
-  width: 250px;
-  display: none;
+    margin-left: 62%;
+    margin-top: 41%;
+    height: 150px;
+    width: 250px;
+    display: none;
 }
 #failure {
-  z-index: 6;
-  margin: 20px;
-  border: none;
+    z-index: 6;
+    margin: 20px;
+    border: none;
 }
 #static {
-  height: 500px;
-  width: 500px;
+    height: 500px;
+    width: 500px;
 }
 #mark-search {
-  margin-left: 36%;
-  margin-top: 40%;
-  height: 40px;
-  width: 275px;
-  display: none;
+    margin-left: 36%;
+    margin-top: 40%;
+    height: 40px;
+    width: 275px;
+    display: none;
 }
 #mark-list {
-  padding: 15px;
+    padding: 15px;
 }
 #mark-img {
-  height: 75px;
-  width: 75px;
+    height: 75px;
+    width: 75px;
 }
 #mark-name {
-  font-size: 15px;
+    font-size: 15px;
 }
 #mark-address {
-  font-size: 10px;
+    font-size: 10px;
 }
-
-
-#listButton{
-  position: absolute;
-  z-index: 5;
-  margin-top: 5px;
-  margin-left: 35%;
+#listButton {
+    position: absolute;
+    z-index: 5;
+    margin-top: 5px;
+    margin-left: 35%;
 }
-.toggle{
-  height: 75px;
-  width: 75px;
-  padding: 15px;
+.toggle {
+    height: 75px;
+    width: 75px;
+    padding: 15px;
 }
 .list {
-  position: absolute;
-  z-index: 5;
-  background: white;
-  text-align: center;
-  border: 2px solid black;
-  border-radius: 15px;
-  font-family: 'Roboto','sans-serif';
-  padding: auto 40% auto auto;
+    position: absolute;
+    z-index: 5;
+    background: white;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 15px;
+    font-family: 'Roboto', 'sans-serif';
+    padding: auto 40% auto auto;
 }
-
-#listed {  
-  width: 20%;
-  margin: 15% 30% auto 2%;
-  display: none;
+#listed {
+    width: 20%;
+    margin: 15% 30% auto 2%;
+    display: none;
 }
-#listUL{
-  text-align: center;
-  margin: 5px;
-  padding: 15px;
+#listUL {
+    text-align: center;
+    margin: 5px;
+    padding: 15px;
 }
-.noBullet{
+.noBullet {
     list-style-type: none;
     display: inline-block;
     margin: 5px;
 }
-#searchBar{
-  margin: 15px;
-  text-align: center;
+#searchBar {
+    margin: 15px;
+    text-align: center;
 }
-
 #content {
-  text-align: center;
+    text-align: center;
 }
-
 .markerImg {
-  height: 120px;
-  width: 140px;
-  margin: auto;
-  margin-left: 15px;
-  padding: auto;
-  border-radius: 15px;
-  border: 5px solid black;
+    height: 120px;
+    width: 140px;
+    margin: auto;
+    margin-left: 15px;
+    padding: auto;
+    border-radius: 15px;
+    border: 5px solid black;
 }
-
-.display{
-  background-color: #CCC;
-  font-style: italic;
-  color: rgba(0,0,0,0.5);
+.display {
+    background-color: #CCC;
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.5);
 }
-#displayed{
-  position: absolute;
-  z-index: 5;
-  height: auto;
-  width: 25%;
-  margin: 45% auto auto 3%;
+#displayed {
+    position: absolute;
+    z-index: 5;
+    height: auto;
+    width: 25%;
+    margin: 45% auto auto 3%;
 }
 #white-back {
-  background-color: rgba(255, 255, 255, 0.7);
-  margin: 25px;
+    background-color: rgba(255, 255, 255, 0.7);
+    margin: 25px;
 }
-
-#searched{
-  padding-top: 15px;
+#searched {
+    padding-top: 15px;
 }
-
-.info, #infoHead {
-  list-style-type: none;
-  display: inline-block;
+.info,
+#infoHead {
+    list-style-type: none;
+    display: inline-block;
 }
 .info {
-  position: absolute;
-  top: 80%;
-  text-align: center;
-  margin-right: 10%;
-  margin-left: 10%;
-  z-index: 5;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: 'Roboto','sans-serif';
-  line-height: 30px;
-  width: 80%;
-  display: none;
-
+    position: absolute;
+    top: 80%;
+    text-align: center;
+    margin-right: 10%;
+    margin-left: 10%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: 'Roboto', 'sans-serif';
+    line-height: 30px;
+    width: 80%;
+    display: none;
 }
-
-
 #mic {
-  height: 5em;
-  width: 9em;
+    height: 5em;
+    width: 9em;
 }
-
 .concerts {
-  list-style-type: none;
-  text-align: center;
-  padding: 15px;
-  overflow-y: scroll;
+    list-style-type: none;
+    text-align: center;
+    padding: 15px;
+    overflow-y: scroll;
 }
-#jamHead{
-  font-size: 10px;
+#jamHead {
+    font-size: 10px;
 }
 #tix {
-  color: white;
-  font-color: white;
+    color: white;
+    font-color: white;
 }
-#tixImg{
-  margin-top: 25px;
+#tixImg {
+    margin-top: 25px;
 }
 #jamHREF {
-  color: white;
-  font-color: white;
-
+    color: white;
+    font-color: white;
 }
 #jamBase-header {
     position: fixed;
@@ -206,10 +194,9 @@ ul {
     overflow-y: scroll;
     text-align: center;
 }
-
 /*slideout menu courtesy of alijafarian.com/jquery-horizontal-slideout-menu*/
 
-  #jamBase-header .slideout-menu-toggle {
+#jamBase-header .slideout-menu-toggle {
     position: absolute;
     top: 12px;
     left: 10px;
@@ -222,43 +209,38 @@ ul {
     color: #999;
     text-decoration: none;
     vertical-align: top;
-  }
-
-#surf-header {
-  text-align: center;
-  margin-top: 12%;
-  margin-left: 20%;
-  position: absolute;
-  z-index: 5;
-  height: 70%;
-  width: 60%;
-  overflow-y: scroll;
-  display: none;
-  background-image: url(..//img/wave.jpg);
-  background-size: 100% 100%;
-  border-radius: 15px;
-
 }
-
+#surf-header {
+    text-align: center;
+    margin-top: 12%;
+    margin-left: 20%;
+    position: absolute;
+    z-index: 5;
+    height: 70%;
+    width: 60%;
+    overflow-y: scroll;
+    display: none;
+    background-image: url(..//img/wave.jpg);
+    background-size: 100% 100%;
+    border-radius: 15px;
+}
 .surf {
-  list-style-type: none;
-  margin: 0px;
-  padding: 0px;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
 }
 #divBreak {
-  text-align: center;
-  width: 100%;
+    text-align: center;
+    width: 100%;
 }
-
 .chart {
-  height: 250px;
-  width: 250px;
+    height: 250px;
+    width: 250px;
 }
-#timeSelect{
-  list-style-type: none;
-  margin: none;
+#timeSelect {
+    list-style-type: none;
+    margin: none;
 }
-
 #wind-head {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }

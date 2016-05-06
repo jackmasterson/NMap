@@ -1,154 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <title>Asbury Park - Stuff to See!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/jquery-ui.min.css">
-  </head>
-  <body>
+</head>
+<body>
     <div class="list" id="failure"></div>
     <div class="list" id="listed">
-
-     <ul id="listUL">
-             <button id="hide">Click to Hide</button>
-             <input id="searchBar"  data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off"placeholder="Start Typing, Hit Enter" autofocus></input>
-      <ul id="mark-list"></ul>
- 
-
-        <div id="display"></div>
-      </ul>     
+        <ul id="listUL">
+            <button id="hide">Click to Hide</button>
+            <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus></input>
+            <ul id="mark-list"></ul>
+            <div id="display"></div>
+        </ul>
     </div>
     <div>
-      <img id="header" src="img/apnj.jpg">
+        <img id="header" src="img/apnj.jpg">
     </div>
     <div id="listButton">
-
         <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View">
         <a href="#" class="slideout-menu-toggle">
-          <img class="toggle" src="img/mic.png" alt text="Toggle Live Shows">
+            <img class="toggle" src="img/mic.png" alt text="Toggle Live Shows">
         </a>
         <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info">
-
-        
-          <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info">
-    
+        <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info">
         <div class="display"></div>
-
     </div>
-        <div class="list" id="mark">
-          <h2 id="mark-name"></h2>
-          <h3 id="mark-address"></h3>
-          <div id="mark-count"></div>
-          <img id="mark-img" src="" alt="try">            
+    <div class="list" id="mark">
+        <h2 id="mark-name"></h2>
+        <h3 id="mark-address"></h3>
+        <div id="mark-count"></div>
+        <img id="mark-img" src="" alt="try">
+    </div>
+    <div id="surf-header">
+        <div id="white-back">
+            <div>
+                <h4>Today's Surfing Info for Asbury Park
+                  </br>
+                  Provided by 
+                  <a target="_blank" href="http://magicseaweed.com">Magic Seaweed</a>
+                </h4>
+                <h5>Information is for today at 6am, 12pm, and 6pm</h5>
+            </div>
+            <div data-bind="foreach: model.surfInfo">
+                </br>
+                <ul class="surf" id="waves">
+                    <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&degF</li>
+                    <li>Max Break:
+                        <span data-bind="text: swell.maxBreakingHeight"></span>ft
+                    </li>
+                    <li>Min Break:
+                        <span data-bind="text: swell.minBreakingHeight"></span>ft
+                    </li>
+                    <h5 id="wind-head">Wind</h5>
+                    <li>Chill:
+                        <span data-bind="text: wind.chill"></span>&degF
+                    </li>
+                    <li>Direction:
+                        <span data-bind="text: wind.compassDirection"></span>
+                    </li>
+                    <li>Gusts:
+                        <span data-bind="text: wind.gusts"></span>mph
+                    </li>
+                    <li>Speed:
+                        <span data-bind="text: wind.speed"></span>mph
+                    </li>
+                    <li id="windImg">
+                        <h5>Wind/Swell</h5>
+                        <img class="chart" data-bind="attr: { src: charts.wind }">
+                        <img class="chart" data-bind="attr: { src: charts.swell }">
+                    </li>
+                </ul>
+                </br>
+                <h3 id="divBreak"> ---------------------------------------------- </h3>
+            </div>
         </div>
-
-<div id="surf-header">
-  <div id="white-back">
-    <div>
-      <h4>Today's Surfing Info for Asbury Park
-        </br>
-        Provided by 
-        <a target="_blank" href="http://magicseaweed.com">Magic Seaweed</a>
-      </h4>
-      <h5>Information is for today at 6am, 12pm, and 6pm</h5>
- 
     </div>
-    <div data-bind="foreach: model.surfInfo">
-    </br>
 
-      <ul class="surf" id="waves">
-        <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&degF</li>
-        <li>Max Break: 
-          <span data-bind="text: swell.maxBreakingHeight"></span>ft
-        </li>
-        <li>Min Break: 
-          <span data-bind="text: swell.minBreakingHeight"></span>ft
-        </li>
-        <h5 id="wind-head">Wind</h5>
-        <li>Chill: 
-          <span data-bind="text: wind.chill"></span>&degF
-        </li>
-        <li>Direction: 
-          <span data-bind="text: wind.compassDirection"></span>
-        </li>
-        <li>Gusts: 
-          <span data-bind="text: wind.gusts"></span>mph
-        </li>
-        <li>Speed: 
-          <span data-bind="text: wind.speed"></span>mph
-        </li>
-        <li id="windImg">
-          <h5>Wind/Swell</h5>
-            <img class="chart" data-bind="attr: { src: charts.wind }">
-            <img class="chart" data-bind="attr: { src: charts.swell }">
-        </li>
-      </ul>
-      </br>
-      <h3 id="divBreak"> ---------------------------------------------- </h3>
+    <div id="map"></div>
+
+    <div id="socrata-header">
+        <ul class="socrata-info">
+            <li id="socrata-item"></li>
+        </ul>
     </div>
-  </div>
- </div>
-
-
-  <div id="map"></div>
-
-  <div id="socrata-header">
-    <ul class="socrata-info">
-      <li id="socrata-item"></li>
-    </ul>
-  </div>
-
- 
-
- 
-
-  <div id="jamBase-header">
-    <div>
-      <h2>Live Music in Asbury Park</h2>
-      <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" id="tixImg">
-        <img src= "http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
-      </a>
-      </br>
-      <h7 id="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
-    </div>
-    <div data-bind="foreach: model.jamBaseInfo">
-      <ul class="concerts">
-          <li>Artist: <span data-bind="text: Artists[0].Name"></span></li>
-          <li>Venue: 
-              <a target="blank" id="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
+    <div id="jamBase-header">
+        <div>
+            <h2>Live Music in Asbury Park</h2>
+            <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" id="tixImg">
+                <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
+            </a>
+            </br>
+            <h7 id="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
+        </div>
+        <div data-bind="foreach: model.jamBaseInfo">
+            <ul class="concerts">
+                <li>Artist: <span data-bind="text: Artists[0].Name"></span>
+                </li>
+                <li>Venue:
+                    <a target="blank" id="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
               </a>
-          </li>
-          <li>City: <span data-bind="text: Venue.City"></span>
-          </li>
-          <a target="blank" id="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
-      </ul>
+                </li>
+                <li>City: <span data-bind="text: Venue.City"></span>
+                </li>
+                <a target="blank" id="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
+            </ul>
+        </div>
     </div>
-
-  </div>
-
-
-
-
-
-
 
     <script src="js/lib/knockout-3.2.0.js"></script>
-  <script src="js/lib/jquery.js"></script>
-  <script src="js/lib/jquery-ui.min.js"></script>
-
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/jquery-ui.min.js"></script>
     <script src="js/format.js"></script>
-
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
     &callback=initMap.init" async defer></script>
 
-
-
-
-
-
-  </body>
-
+</body>
 </html>
