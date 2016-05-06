@@ -13,7 +13,7 @@ var map;
 var model = {
     currentPlace: null,
     //socrataInfo has all the info for the census open data network info
-    socrataInfo: [],
+    socrataInfo: ko.observableArray([]),
     //jamBaseInfo is where I store the info for the live music API
     jamBaseInfo: ko.observableArray([]),
 
@@ -169,22 +169,8 @@ var socrataView = {
                     'Bachelors': info.percent_bachelors_degree,
                     'HSGrad': info.percent_high_school_graduate
                 });
+                console.log(model.socrataInfo);
 
-                //accesses the socrataInfo array 
-                var census = self.socrataInfo[0];
-
-                var elem;
-                elem = document.createElement('li');
-                elem.className = 'info';
-
-                //actually creates the text that will go into the Socrata info div
-                elem.textContent = 'Asbury Park, NJ Census Facts Courtesy Socrata Open Data || ' +
-                    'Year: ' + census.Year + ' || ' +
-                    'Bachelors Degree: ' + census.Bachelors + '% || ' +
-                    'Associates Degree: ' + census.Associates + '% || ' +
-                    'High School Grad: ' + census.HSGrad + '%';
-
-                self.socrataElem.appendChild(elem);
                 //if the request fails or takes too long, it times out
                 clearTimeout(self.socrataTimeout);
 
@@ -192,8 +178,8 @@ var socrataView = {
         });
 
         //makes the div visible when the bar graph up top is clicked
-        $("#socrata-info").click(function() {
-            $(".info").toggle("slow", function() {});
+        $("#socrata-data").click(function() {
+            $("#socrata-header").toggle("slow", function() {});
         });
     }
 };

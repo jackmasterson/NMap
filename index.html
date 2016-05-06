@@ -85,9 +85,22 @@
     <div id="map"></div>
 
     <div id="socrata-header">
-        <ul class="socrata-info">
-            <li id="socrata-item"></li>
+        <h4>Asbury Park Census Info</h4>
+        <ul data-bind="foreach: model.socrataInfo">
+            <li>Year: 
+              <span data-bind="text: Year"></span>
+            </li>
+            <li>Bachelor's Degree (%): 
+              <span data-bind="text: Bachelors"></span>
+            </li>
+            <li>High School Graduates (%): 
+              <span data-bind="text: HSGrad"></span>
+            </li>
+            <li>Associates Degree (%): 
+              <span data-bind="text: Associates"></span>
+            </li>
         </ul>
+        <h4>Information Supplied by Socrata Open Data Network</h4>
     </div>
     <div id="jamBase-header">
         <div>

@@ -162,13 +162,13 @@ ul {
     padding-top: 15px;
 }
 
-.info,
+#socrata-header,
 #infoHead {
     list-style-type: none;
     display: inline-block;
 }
 
-.info {
+#socrata-header {
     position: absolute;
     top: 80%;
     text-align: center;
