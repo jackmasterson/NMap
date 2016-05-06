@@ -8,10 +8,11 @@ var model = {
 	socrataInfo: [],
 	//jamBaseInfo is where I store the info for the live music API
 	jamBaseInfo: ko.observableArray([]),
-	//individual marker data gets pushed here (kram is mark backwards and I
-		//though I'd be cute)
+
 	surfInfo: ko.observableArray([]),
 	dates: ko.observableArray([]),
+	//individual marker data gets pushed here (kram is mark backwards and I
+	//though I'd be cute)
 	kram: [],
 	//info for the list view and info div
     places: [
@@ -268,6 +269,7 @@ var jamBaseView = {
 	}
 };
 
+//gets info on the local surf conditions for three times/day
 var surfView = {
     
     init: function() {
@@ -283,10 +285,12 @@ var surfView = {
         var self = this;
         var t;
 
+        //appears when the request times out
         var text = 'Interested in surfing when you come to Asbury Park? ' +
                 'This section was supposed to show you everything you needed to' +
                 ' know, but for some reason something went wrong. Wurkin on it.';
 
+        //sets the timeout parameters
         this.surfTimeout = setTimeout(function() {
             $('#white-back').append(text);
         }, 1000);
@@ -296,57 +300,21 @@ var surfView = {
             dataType: 'jsonp',
             success: function(response) {
                 var infos = response;
-           		//I only wanted the most recent information on the site
-                //so I created the 'info' variable
+           		//I only wanted the certain information from the JSON
+                //so I created the 'infos' variable and pushed them to
+                //an array called threeTimes
                 var sixAM = infos[3];
                 var noon = infos[5];
                 var sixPM = infos[7];
                 var threeTimes = [];
                 threeTimes.push(sixAM, noon, sixPM);
-         //       console.log(threeTimes);
+
+                //pushes the individual info into the model.surfInfo array
                 for(t=0;t<threeTimes.length;t++){
                 	var info = threeTimes[t];
-
-
-                    //accesses the surfInfo array 
-
-		            var date = new Date(info.localTimestamp*1000);
-		     //       console.log(date);
-		            var hours = date.getHours();
-		            var hoursDST;
-		            if(hours>12){
-		            	hoursDST = date.getHours() - 11 + ':00pm';
-		            } else {
-		            	if(hours === 11){
-		            		hoursDST = date.getHours() + 1 + ':00pm'
-		            	}
-		            	else{
-		            	hoursDST = date.getHours() + 1 +':00am';
-		            	}
-		            }
-		       //     console.log(hoursDST);
-		            var day = date.getDate();
-		    ///        console.log(day);
-		            var month = date.getMonth();
-		       //     console.log(month);
-		         //   console.log(hoursDST);
-
-		            var dateForm = {
-		            	"month": month,
-		            	"day": day,
-		            	"clock": hoursDST
-		            };
-		            model.dates.push(dateForm);
-		           // console.log(model.dates());
-		        //    console.log(dateForm);
-		        //   info.push(dateForm);
 		            model.surfInfo.push(info);
-		          	var surf = model.surfInfo();
-		        //    console.log(surf[0]);
+		          	var surf = model.surfInfo();        
                 }
-           
-
-
 
             //if the request fails or takes too long, it times out
             clearTimeout(self.surfTimeout);
@@ -354,7 +322,7 @@ var surfView = {
             }
         });
 
-        //makes the div visible when the bar graph up top is clicked
+        //makes the div visible when the surf image is clicked
         $("#surf-data").click(function() {
             $("#surf-header").toggle("slow", function() {});
 		});
@@ -362,8 +330,6 @@ var surfView = {
     }
 
 };
-
-
 
 //sets up the info div for places that will appear as markers 
 //that will appear in the bottom right when the search 
@@ -377,8 +343,6 @@ var markView = {
         this.markImageElem = document.getElementById('mark-img');
         this.countElem = document.getElementById('mark-count');
 
-        
-
         this.render();
     },
 
@@ -388,7 +352,6 @@ var markView = {
         var currentPlace = viewModel.getCurrentPlace();
         var places = viewModel.getPlaces();
 
-  
         this.markNameElem.textContent = currentPlace.title();
         this.markAddElem.textContent = currentPlace.address;
         this.markImageElem.src = currentPlace.src;
@@ -396,70 +359,68 @@ var markView = {
     }
 };
 
-
-
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
 //with the searched keyword will remain
 var filterList = {
 		
-		init: function() {
-			var self = this;
-			var place = model.places;
-			var places = ko.observableArray(place);
+	init: function() {
+		var self = this;
+		var place = model.places;
+		var places = ko.observableArray(place);
 
-			//creates the array and then pushes the tags created to 
-			//each place's 'tag' array
-			this.tagged = ko.observableArray([]);
-			places().forEach(function(placeItem){
-				self.tagged.push(placeItem.tag);
-			})
+		//creates the array and then pushes the tags created to 
+		//each place's 'tag' array
+		this.tagged = ko.observableArray([]);
+		places().forEach(function(placeItem){
+			self.tagged.push(placeItem.tag);
+		})
 
-			this.render();
-		},
+		this.render();
+	},
 
-		render: function() {
-			var place = model.places;
-			var places = ko.observableArray(place);
-			//creates a computed function for the given array
-			filterList:ko.computed(function() {
+	render: function() {
+		var place = model.places;
+		var places = ko.observableArray(place);
+		//creates a computed function for the given array
+		filterList:ko.computed(function() {
 
-				//uses knockout to check the value of the search bar
-				//in the list view; this variable is logged as whatever
-				//was in that search bar, all lower case
-		        var search = viewModel.query().toLowerCase();
+			//uses knockout to check the value of the search bar
+			//in the list view; this variable is logged as whatever
+			//was in that search bar, all lower case
+	        var search = viewModel.query().toLowerCase();
 
-		        //filters the given array
-		        return ko.utils.arrayFilter(places(), function(placed) {
+	        //filters the given array
+	        return ko.utils.arrayFilter(places(), function(placed) {
 
-		        	//if the array contains the searched word, it will
-		        	//return true
-		        	Array.prototype.contains = function ( searched ) {
-		        		for(r in this) {
-		        			if(this[r] == searched) return true;
-		        		}
-		        		return false;
-		        	}
+	        	//if the array contains the searched word, it will
+	        	//return true
+	        	Array.prototype.contains = function ( searched ) {
+	        		for(r in this) {
+	        			if(this[r] == searched) return true;
+	        		}
+	        		return false;
+	        	}
 
-		        	//declares a variable 'x' for whichever place's
-		        	//tags are being searched
-		        	var x = placed.tag;
-		        	var elemID = document.getElementById(placed.id);
-		        	//if the tag exists within that array, then the
-		        	//element will remain displayed with 'block' style,
-		        	//otherwise, it will be 'hidden'
-		        	if (x.contains(search)) {
-		        		elemID.style.display = 'block';
-		        	}
-		        	else {
-		        		elemID.style.display = 'none';
-		        	}
+	        	//declares a variable 'x' for whichever place's
+	        	//tags are being searched
+	        	var x = placed.tag;
+	        	var elemID = document.getElementById(placed.id);
+	        	//if the tag exists within that array, then the
+	        	//element will remain displayed with 'block' style,
+	        	//otherwise, it will be 'hidden'
+	        	if (x.contains(search)) {
+	        		elemID.style.display = 'block';
+	        	}
+	        	else {
+	        		elemID.style.display = 'none';
+	        	}
 
-		        });
+	        });
 
-		    });
+	    });
 
-		}
+	}
 }
 
 //creates the div with the list of places in it
@@ -468,7 +429,6 @@ var listView = {
 	init: function() {
 		this.markListElem = document.getElementById('mark-list');
 
-		
 		this.render();
 	},
 
@@ -476,14 +436,13 @@ var listView = {
         var mark, elem, i;
         var places = viewModel.getPlaces();
 
-        //anytime the magnifying glass up top is clicked,
+        //anytime the magnifying glass icon or a marker is clicked,
         //anything with the class 'list' is going to toggle,
-        //including the list view, 
+        //including the list view 
         //and the info div
     	$('#toggleListButton').click(function(){
 		    $('.list').slideToggle();
 		});
-
 
         this.markListElem.innerHTML = '';
 
@@ -494,11 +453,10 @@ var listView = {
             elem.textContent = mark.title();
 			elem.setAttribute('id', mark.id);
 			elem.className = 'classed';
+
 			//when a specific list item/place is clicked, the 
 			//action within this function occurs
             elem.addEventListener('click', (function(markCopy) {
-
-				
 
             	var filter, copyArr;
             	copyArr = ko.observableArray(markCopy.tag);
@@ -649,9 +607,9 @@ var animateView = {
 									markAnimate[g].setMap(null);
 								}
 							}
-					}
+						}
 
-					timeoutId = window.setTimeout(timed, 200);
+						timeoutId = window.setTimeout(timed, 200);
 
 					}
 	
@@ -664,7 +622,6 @@ var animateView = {
 			markAnimate[w].addListener('click', function(pinCopy) {
 
 				currentPlace = viewModel.getCurrentPlace();
-
 
 					  this.searchElem = document.getElementById('mark-search');
         				var log = document.getElementById('log');
@@ -698,8 +655,6 @@ var animateView = {
 			            function stopBouncing() {
 			                that.setAnimation(null);
 			            };
-
-
 				}
 
 				//when a marker is clicked, the list view is displayed
@@ -759,6 +714,7 @@ var initMap = {
 
 	fail: function() {
 
+		//text that appears if the request times out
     	var text = 'Shoot. An interactive map of a beach town was supposed to' +
 			' show up but something went wrong, so all you get is a boring' +
 			' picture. Try re-loading the page, and if that does nothing' +
@@ -782,14 +738,10 @@ var initMap = {
 	        scrollwheel: false,
 	        zoom: 15
 		};
-		this.smMapOptions = {
-			center: {lat: 40.220391, lng: -74.012082},
-			scrollwheel: false,
-			zoom: 10
-		}
+
 		clearTimeout(self.initMapTimeout);
 
-			this.render()
+		this.render()
 
 	},
 
@@ -800,31 +752,30 @@ var initMap = {
 		map = new google.maps.Map(this.mapDiv, this.mapOptions);
 		pinView.init();
 
+		//activates the information for the LatLng and Zoom attributes
+		//depending on screen size
 		this.resize();
 		
-		
-
 	},
 
 	resize: function() {
-		
+		  var that = this;
 		  var latLng;
 		  var zoom;
 		  var smLat = 40.220391;
 		  var smLng = -74.005082;
 		  
-
+		  //realigns the zoom and center if the min-width is 315px
 		  if (window.matchMedia("(min-device-width: 315px)").matches) {
 		    latLng = new google.maps.LatLng(smLat, smLng);
 		    zoom = 14;
-		    console.log('okay!');
-		  } else {
-		    console.log('yup!');
 		  }
-
+		  
+		  //if min-width is 710px, it reverts to the normal parameters
+		  //for the map
 		  if (window.matchMedia("(min-device-width: 710px)").matches) {
-		  	latLng = self.mapOptions.center;
-		  	zoom = self.mapOptions.zoom;
+		  	latLng = that.mapOptions.center;
+		  	zoom = that.mapOptions.zoom;
 		  }
 		  map.setCenter(latLng);
 		  map.setZoom(zoom);
