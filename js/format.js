@@ -1,3 +1,10 @@
+//creates an interactive map of Asbury Park, NJ using the Google Maps API, 
+//as well as other APIs to add to the user experience
+
+//Jack Masterson, May 6th, 2016
+
+//Udacity, FEND Nanodegree, Project 5
+
 var map;
 
 //stores all the info I'll use to build the site
