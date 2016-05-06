@@ -5,7 +5,7 @@
 //Jack Masterson, May 6th, 2016
 
 //Udacity, FEND Nanodegree, Project 5
-
+'use strict';
 //creates the map variable which will be initiated later in the script
 var map;
 
@@ -146,7 +146,7 @@ var socrataView = {
     render: function() {
         var self = this;
 
-        text = 'You were supposed to see some awesome census data ' +
+        var text = 'You were supposed to see some awesome census data ' +
             'about Asbury Park, NJ, but the request failed. And its all. my.' +
             ' fault. Im sorry to let you down.';
 
@@ -402,7 +402,7 @@ var filterList = {
                 //if the array contains the searched word, it will
                 //return true
                 Array.prototype.contains = function(searched) {
-                    for (r in this) {
+                    for (var r in this) {
                         if (this[r] == searched) return true;
                     }
                     return false;
@@ -595,7 +595,7 @@ var animateView = {
     render: function() {
         var self = this;
 
-        for (w = 0; w < model.kram.length; w++) {
+        for (var w = 0; w < model.kram.length; w++) {
 
             var timeOutId;
             //when you hit enter on the search bar, it searches
@@ -609,8 +609,8 @@ var animateView = {
             $("#searchBar").keypress(function(e) {
                 if (e.keyCode == 13) {
                     function timed() {
-                        for (g = 0; g < model.kram.length; g++) {
-                            placeID = document.getElementById(self.modelPlace[g].id);
+                        for (var g = 0; g < model.kram.length; g++) {
+                            var placeID = document.getElementById(self.modelPlace[g].id);
                             var disp = placeID.style.display === 'block';
 
                             if (disp) {
@@ -622,7 +622,7 @@ var animateView = {
                         }
                     }
 
-                    timeoutId = window.setTimeout(timed, 200);
+                    var timeoutId = window.setTimeout(timed, 200);
 
                 }
 
@@ -634,18 +634,18 @@ var animateView = {
             //if you click a marker, the below function will activate
             self.markAnimate[w].addListener('click', function(pinCopy) {
 
-                currentPlace = viewModel.getCurrentPlace();
+                var currentPlace = viewModel.getCurrentPlace();
 
                 this.searchElem = document.getElementById('mark-search');
                 var log = document.getElementById('log');
 
 
                 //sets the current marker to whichever has been clicked
-                currentMark = this;
+                var currentMark = this;
                 viewModel.setCurrentPlace(currentMark);
 
                 //handles the different animations for the markers
-                for (n = 0; n < self.markAnimate.length; n++) {
+                for (var n = 0; n < self.markAnimate.length; n++) {
 
                     var that = this;
                     var icon = self.markAnimate[n].icon;
@@ -663,7 +663,7 @@ var animateView = {
 
                     this.setIcon(this.image);
                     this.setAnimation(google.maps.Animation.BOUNCE);
-                    timeoutID = window.setTimeout(stopBouncing, 2300);
+                    var timeoutID = window.setTimeout(stopBouncing, 2300);
 
                     function stopBouncing() {
                         that.setAnimation(null);
@@ -704,7 +704,7 @@ var animateView = {
                         //icon is set to the proper image
                         if (icon === null) {
                             that.setAnimation(google.maps.Animation.BOUNCE);
-                            timeoutID = window.setTimeout(function() {
+                            var timeoutID = window.setTimeout(function() {
                                 that.setAnimation(null);
                             }, 2300);
 
