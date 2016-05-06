@@ -782,8 +782,15 @@ var initMap = {
 	        scrollwheel: false,
 	        zoom: 15
 		};
+		this.smMapOptions = {
+			center: {lat: 40.220391, lng: -74.012082},
+			scrollwheel: false,
+			zoom: 10
+		}
 		clearTimeout(self.initMapTimeout);
-		this.render();	
+
+			this.render()
+
 	},
 
 	render: function() {
@@ -792,8 +799,37 @@ var initMap = {
 		//not defined
 		map = new google.maps.Map(this.mapDiv, this.mapOptions);
 		pinView.init();
+
+		this.resize();
+		
 		
 
+	},
+
+	resize: function() {
+		
+		  var latLng;
+		  var zoom;
+		  var smLat = 40.220391;
+		  var smLng = -74.005082;
+		  
+
+		  if (window.matchMedia("(min-device-width: 315px)").matches) {
+		    latLng = new google.maps.LatLng(smLat, smLng);
+		    zoom = 14;
+		    console.log('okay!');
+		  } else {
+		    console.log('yup!');
+		  }
+
+		  if (window.matchMedia("(min-device-width: 710px)").matches) {
+		  	latLng = self.mapOptions.center;
+		  	zoom = self.mapOptions.zoom;
+		  }
+		  map.setCenter(latLng);
+		  map.setZoom(zoom);
+
+		
 	}
 };
 
