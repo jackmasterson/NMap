@@ -30,10 +30,5 @@ Clone the repo from GitHub at
 
 	[https://github.com/jackmasterson/NMap]
 
-Source Code
------------
-
-The minified code is available in the repo, or at the link below: 
-	[]
 
 
