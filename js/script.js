@@ -19,9 +19,8 @@ var model = {
 
     surfInfo: ko.observableArray([]),
     dates: ko.observableArray([]),
-    //individual marker data gets pushed here (kram is mark backwards and I
-    //though I'd be cute)
-    kram: [],
+    //individual marker data gets pushed here
+    markArr: [],
     //info for the list view and info div
     places: [{
         position: {
@@ -131,7 +130,6 @@ var viewModel = {
 var socrataView = {
 
     init: function() {
-        var text, dataLabel, i;
 
         this.socrataElem = document.getElementById('socrata-header');
         this.socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
@@ -194,7 +192,7 @@ var socrataView = {
         });
 
         //makes the div visible when the bar graph up top is clicked
-        $("#socrata-data").click(function() {
+        $("#socrata-info").click(function() {
             $(".info").toggle("slow", function() {});
         });
     }
@@ -211,7 +209,7 @@ var jamBaseView = {
         this.jamBaseElem = $('#jamBase-header');
         this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
             '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
-        this.slideOut = $('.slideout-menu-toggle')
+        this.slideOut = $('.slideout-menu-toggle');
 
         this.render();
     },
@@ -279,7 +277,6 @@ var jamBaseView = {
 var surfView = {
 
     init: function() {
-        var dataLabel, i;
         this.surfElem = document.getElementById('surf-header');
         this.surfURL = 'http://magicseaweed.com/api/00e1e43e51248a4cb3431f4b73aeb4b3/forecast/?spot_id=857';
         this.surfInfo = model.surfInfo;
@@ -319,7 +316,6 @@ var surfView = {
                 for (t = 0; t < threeTimes.length; t++) {
                     var info = threeTimes[t];
                     model.surfInfo.push(info);
-                    var surf = model.surfInfo();
                 }
 
                 //if the request fails or takes too long, it times out
@@ -356,7 +352,6 @@ var markView = {
         //uses the currentPlace function defined in the viewModel
         //to set the info div up
         var currentPlace = viewModel.getCurrentPlace();
-        var places = viewModel.getPlaces();
 
         this.markNameElem.textContent = currentPlace.title();
         this.markAddElem.textContent = currentPlace.address;
@@ -380,7 +375,7 @@ var filterList = {
         this.tagged = ko.observableArray([]);
         places().forEach(function(placeItem) {
             self.tagged.push(placeItem.tag);
-        })
+        });
 
         this.render();
     },
@@ -406,7 +401,7 @@ var filterList = {
                         if (this[r] == searched) return true;
                     }
                     return false;
-                }
+                };
 
                 //declares a variable 'x' for whichever place's
                 //tags are being searched
@@ -426,7 +421,7 @@ var filterList = {
         });
 
     }
-}
+};
 
 //creates the div with the list of places in it
 var listView = {
@@ -463,14 +458,11 @@ var listView = {
             //action within this function occurs
             elem.addEventListener('click', (function(markCopy) {
 
-                var filter, copyArr;
-                copyArr = ko.observableArray(markCopy.tag);
+                var copyArr = ko.observableArray(markCopy.tag);
 
                 //creates a function to automatically suggest 
                 //what the user is typing in the list search
                 var autofill = ko.computed(function() {
-                    //search function relies on knockout, as above
-                    var search = viewModel.query().toLowerCase();
                     var places = model.places;
                     //adds all the individual place's tags together
                     //so that the function can search through them all
@@ -483,7 +475,6 @@ var listView = {
 
                     return ko.utils.arrayFilter(copyArr(), function(spot) {
                         var uniqueTags = [];
-                        var x = copyArr();
                         var elemID = markCopy.id;
 
                         //checks the places[i] arrays for duplicates
@@ -497,7 +488,7 @@ var listView = {
                         $("#searchBar").autocomplete({
                             source: uniqueTags
                         });
-                    })
+                    });
                 });
 
                 return function() {
@@ -518,10 +509,8 @@ var listView = {
 var pinView = {
 
     init: function() {
-        var self = this;
         var t, data;
         var len = model.places.length;
-        var pinned;
 
         for (t = 0; t < len; t++) {
             data = model.places[t];
@@ -549,7 +538,7 @@ var pinView = {
         for (t = 0; t < len; t++) {
             data = model.places[t];
 
-            model.kram.push(
+            model.markArr.push(
                 new google.maps.Marker({
                     title: data.title(),
                     src: data.src,
@@ -562,10 +551,10 @@ var pinView = {
                     id: data.id,
                 })
             );
-        };
+        }
         animateView.init();
     }
-}
+};
 
 
 //a lot of the map/marker/list functionality comes from here;
@@ -581,13 +570,8 @@ var animateView = {
         this.markImageElem = document.getElementById('mark-img');
         this.placeInput = document.getElementById('mark-search');
         this.modelPlace = model.places;
-        this.markAnimate = model.kram;
+        this.markAnimate = model.markArr;
         this.br = '</br>';
-
-        
-        var currentMark;
-        var currentPlace;
-        var placeID;
 
         this.render();
     },
@@ -595,7 +579,7 @@ var animateView = {
     render: function() {
         var self = this;
 
-        for (var w = 0; w < model.kram.length; w++) {
+        for (var w = 0; w < model.markArr.length; w++) {
 
             var timeOutId;
             //when you hit enter on the search bar, it searches
@@ -609,7 +593,7 @@ var animateView = {
             $("#searchBar").keypress(function(e) {
                 if (e.keyCode == 13) {
                     function timed() {
-                        for (var g = 0; g < model.kram.length; g++) {
+                        for (var g = 0; g < model.markArr.length; g++) {
                             var placeID = document.getElementById(self.modelPlace[g].id);
                             var disp = placeID.style.display === 'block';
 
@@ -637,8 +621,6 @@ var animateView = {
                 var currentPlace = viewModel.getCurrentPlace();
 
                 this.searchElem = document.getElementById('mark-search');
-                var log = document.getElementById('log');
-
 
                 //sets the current marker to whichever has been clicked
                 var currentMark = this;
@@ -648,7 +630,6 @@ var animateView = {
                 for (var n = 0; n < self.markAnimate.length; n++) {
 
                     var that = this;
-                    var icon = self.markAnimate[n].icon;
                     self.markAnimate[n].setIcon(null);
                     self.markNameElem.textContent = this.title;
                     self.markAddElem.textContent = this.address;
@@ -666,18 +647,18 @@ var animateView = {
                     var timeoutID = window.setTimeout(stopBouncing, 2300);
 
                     function stopBouncing() {
-                        that.setAnimation(null);
+                        that.setAnimation(null)
                     };
                 }
 
                 //when a marker is clicked, the list view is displayed
                 $('.list').show('slow', function() {});
-            })
+            });
 
             //when the 'hide list' button is clicked, the listview is hidden
             $('#hide').click(function() {
                 $('.list').hide('slow', function() {});
-            })
+            });
 
             //links the list view to the marker; if one is clicked, 
             //both activate
@@ -687,16 +668,16 @@ var animateView = {
                 var curr = viewModel.getCurrentPlace();
 
 
-                for (var g = 0; g < model.kram.length; g++) {
-                    var skram = self.markAnimate[g].id;
+                for (var g = 0; g < model.markArr.length; g++) {
+                    var marksID = self.markAnimate[g].id;
                     var icon = self.markAnimate[g].icon;
-                    var ecalp = curr.id;
+                    var placeID = curr.id;
                     var pic = curr.mkImg;
                     self.markAnimate[g].setIcon(null);
 
                     //if the current place ID matches the current
                     //marker ID, then we establish the variable 'that'
-                    if (ecalp === skram) {
+                    if (placeID === marksID) {
                         var that = self.markAnimate[g];
 
                         //if the icon is null, then the below occurs;
@@ -713,11 +694,10 @@ var animateView = {
 
                     }
                 }
-            })
-        };
+            });
+        }
     }
-
-}
+};
 
 
 
@@ -757,7 +737,7 @@ var initMap = {
 
         clearTimeout(self.initMapTimeout);
 
-        this.render()
+        this.render();
 
     },
 

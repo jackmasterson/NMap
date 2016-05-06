@@ -1,6 +1,7 @@
 * {
     box-sizing: border-box;
 }
+
 html,
 body {
     height: 100%;
@@ -8,12 +9,15 @@ body {
     padding: 0;
     width: 100%;
 }
+
 a:visited {
     color: gray;
 }
+
 ul {
     list-style-type: none;
 }
+
 #header {
     position: absolute;
     margin-left: 62%;
@@ -24,10 +28,12 @@ ul {
     height: 150px;
     width: 250px;
 }
+
 #map {
     height: 100%;
     width: 100%;
 }
+
 #mark {
     margin-left: 62%;
     margin-top: 41%;
@@ -35,15 +41,18 @@ ul {
     width: 250px;
     display: none;
 }
+
 #failure {
     z-index: 6;
     margin: 20px;
     border: none;
 }
+
 #static {
     height: 500px;
     width: 500px;
 }
+
 #mark-search {
     margin-left: 36%;
     margin-top: 40%;
@@ -51,30 +60,37 @@ ul {
     width: 275px;
     display: none;
 }
+
 #mark-list {
     padding: 15px;
 }
+
 #mark-img {
     height: 75px;
     width: 75px;
 }
+
 #mark-name {
     font-size: 15px;
 }
+
 #mark-address {
     font-size: 10px;
 }
+
 #listButton {
     position: absolute;
     z-index: 5;
     margin-top: 5px;
     margin-left: 35%;
 }
+
 .toggle {
     height: 75px;
     width: 75px;
     padding: 15px;
 }
+
 .list {
     position: absolute;
     z-index: 5;
@@ -85,28 +101,34 @@ ul {
     font-family: 'Roboto', 'sans-serif';
     padding: auto 40% auto auto;
 }
+
 #listed {
     width: 20%;
     margin: 15% 30% auto 2%;
     display: none;
 }
+
 #listUL {
     text-align: center;
     margin: 5px;
     padding: 15px;
 }
+
 .noBullet {
     list-style-type: none;
     display: inline-block;
     margin: 5px;
 }
+
 #searchBar {
     margin: 15px;
     text-align: center;
 }
+
 #content {
     text-align: center;
 }
+
 .markerImg {
     height: 120px;
     width: 140px;
@@ -116,11 +138,13 @@ ul {
     border-radius: 15px;
     border: 5px solid black;
 }
+
 .display {
     background-color: #CCC;
     font-style: italic;
     color: rgba(0, 0, 0, 0.5);
 }
+
 #displayed {
     position: absolute;
     z-index: 5;
@@ -128,18 +152,22 @@ ul {
     width: 25%;
     margin: 45% auto auto 3%;
 }
+
 #white-back {
     background-color: rgba(255, 255, 255, 0.7);
     margin: 25px;
 }
+
 #searched {
     padding-top: 15px;
 }
+
 .info,
 #infoHead {
     list-style-type: none;
     display: inline-block;
 }
+
 .info {
     position: absolute;
     top: 80%;
@@ -156,30 +184,37 @@ ul {
     width: 80%;
     display: none;
 }
+
 #mic {
     height: 5em;
     width: 9em;
 }
+
 .concerts {
     list-style-type: none;
     text-align: center;
     padding: 15px;
     overflow-y: scroll;
 }
+
 #jamHead {
     font-size: 10px;
 }
+
 #tix {
     color: white;
     font-color: white;
 }
+
 #tixImg {
     margin-top: 25px;
 }
-#jamHREF {
+
+.jamHREF {
     color: white;
     font-color: white;
 }
+
 #jamBase-header {
     position: fixed;
     top: 0;
@@ -210,6 +245,7 @@ ul {
     text-decoration: none;
     vertical-align: top;
 }
+
 #surf-header {
     text-align: center;
     margin-top: 12%;
@@ -224,23 +260,28 @@ ul {
     background-size: 100% 100%;
     border-radius: 15px;
 }
+
 .surf {
     list-style-type: none;
     margin: 0px;
     padding: 0px;
 }
+
 #divBreak {
     text-align: center;
     width: 100%;
 }
+
 .chart {
     height: 250px;
     width: 250px;
 }
+
 #timeSelect {
     list-style-type: none;
     margin: none;
 }
+
 #wind-head {
     margin-bottom: 5px;
 }

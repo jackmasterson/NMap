@@ -13,19 +13,19 @@
     <div class="list" id="failure"></div>
     <div class="list" id="listed">
         <ul id="listUL">
-            <button id="hide">Click to Hide</button>
-            <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus></input>
-            <ul id="mark-list"></ul>
-            <div id="display"></div>
+            <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
         </ul>
+        <button id="hide">Click to Hide</button>
+        <ul id="mark-list"></ul>
+        <div id="display"></div>
     </div>
     <div>
-        <img id="header" src="img/apnj.jpg">
+        <img id="header" src="img/apnj.jpg" alt="Greetings from Asbury Park, NJ">
     </div>
     <div id="listButton">
         <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View">
         <a href="#" class="slideout-menu-toggle">
-            <img class="toggle" src="img/mic.png" alt text="Toggle Live Shows">
+            <img class="toggle" src="img/mic.png" alt="Toggle Live Shows">
         </a>
         <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info">
         <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info">
@@ -35,20 +35,20 @@
         <h2 id="mark-name"></h2>
         <h3 id="mark-address"></h3>
         <div id="mark-count"></div>
-        <img id="mark-img" src="" alt="try">
+        <img id="mark-img" alt="try">
     </div>
     <div id="surf-header">
         <div id="white-back">
             <div>
                 <h4>Today's Surfing Info for Asbury Park
-                  </br>
+                  <br>
                   Provided by 
                   <a target="_blank" href="http://magicseaweed.com">Magic Seaweed</a>
                 </h4>
                 <h5>Information is for today at 6am, 12pm, and 6pm</h5>
             </div>
             <div data-bind="foreach: model.surfInfo">
-                </br>
+                <br>
                 <ul class="surf" id="waves">
                     <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&degF</li>
                     <li>Max Break:
@@ -72,11 +72,11 @@
                     </li>
                     <li id="windImg">
                         <h5>Wind/Swell</h5>
-                        <img class="chart" data-bind="attr: { src: charts.wind }">
-                        <img class="chart" data-bind="attr: { src: charts.swell }">
+                        <img class="chart" alt="Wind Chart" data-bind="attr: { src: charts.wind }">
+                        <img class="chart" alt="Swell Chart" data-bind="attr: { src: charts.swell }">
                     </li>
                 </ul>
-                </br>
+                <br>
                 <h3 id="divBreak"> ---------------------------------------------- </h3>
             </div>
         </div>
@@ -95,7 +95,7 @@
             <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" id="tixImg">
                 <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
             </a>
-            </br>
+            <br>
             <h7 id="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
         </div>
         <div data-bind="foreach: model.jamBaseInfo">
@@ -103,12 +103,12 @@
                 <li>Artist: <span data-bind="text: Artists[0].Name"></span>
                 </li>
                 <li>Venue:
-                    <a target="blank" id="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
+                    <a target="blank" class="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
               </a>
                 </li>
                 <li>City: <span data-bind="text: Venue.City"></span>
                 </li>
-                <a target="blank" id="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
+                <a target="blank" class="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
             </ul>
         </div>
     </div>
