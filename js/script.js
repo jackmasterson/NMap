@@ -602,8 +602,38 @@ var animateView = {
 
     render: function() {
         var self = this;
+        var allMark = model.markArr;
+       // console.log(allMark);
 
-        for (var w = 0; w < model.markArr.length; w++) {
+        allMark.forEach(function(allMarkCopy){
+            console.log(allMarkCopy);
+            var timeOutId;
+
+            allMarkCopy.addListener('click', function(){
+                console.log(allMarkCopy);
+
+                allMark.forEach(function(resetMark){
+                    console.log(resetMark);
+                    resetMark.setIcon(null);
+                    resetMark.setAnimation(null);
+                })
+
+            
+                var currentPin = allMarkCopy;
+                var timeoutID = window.setTimeout(stopBouncing, 2300);
+
+                currentPin.setIcon(currentPin.image);
+                currentPin.setAnimation(google.maps.Animation.BOUNCE);
+                
+                function stopBouncing() {
+                    currentPin.setAnimation(null);
+                }
+
+            
+            })
+        })
+
+       /* for (var w = 0; w < model.markArr.length; w++) {
 
             var timeOutId;
             //when you hit enter on the search bar, it searches
@@ -614,27 +644,7 @@ var animateView = {
             //there's a timeout on it so that it delays a beat,
             //otherwise it would be searching while the list view is
             //still empty
-            $("#searchBar").keypress(function(e) {
-                if (e.keyCode == 13) {
-                    function timed() {
-                        for (var g = 0; g < model.markArr.length; g++) {
-                            var placeID = document.getElementById(self.modelPlace[g].id);
-                            var disp = placeID.style.display === 'block';
 
-                            if (disp) {
-                                self.markAnimate[g].setMap(map);
-                            } 
-                            else {
-                                self.markAnimate[g].setMap(null);
-                            }
-                        }
-                    }
-
-                    var timeoutId = window.setTimeout(timed, 200);
-
-                }
-
-            });
 
             //gets each place by its ID
             var eachPlace = document.getElementById(self.modelPlace[w].id);
@@ -716,11 +726,33 @@ var animateView = {
                     }
                 }
             });
-        }
+        }*/
     }
 };
 
+/////////next step --- figure out how to make markers/search
+            $("#searchBar").keypress(function(e) {
+            
+                if (e.keyCode == 13) {
+                    function timed() {
+                        for (var g = 0; g < model.markArr.length; g++) {
+                            var placeID = document.getElementById(self.modelPlace[g].id);
+                            var disp = placeID.style.display === 'block';
 
+                            if (disp) {
+                                self.markAnimate[g].setMap(map);
+                            } 
+                            else {
+                                self.markAnimate[g].setMap(null);
+                            }
+                        }
+                    }
+
+                    var timeoutId = window.setTimeout(timed, 200);
+
+                }
+
+            });
 
 
 //initiates the map
