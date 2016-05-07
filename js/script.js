@@ -11,7 +11,7 @@ var map;
 
 //stores all the info I'll use to build the site
 var model = {
-    currentPlace: null,
+    currentPlace: ko.observableArray([null]),
     //socrataInfo has all the info for the census open data network info
     socrataInfo: ko.observableArray([]),
     //jamBaseInfo is where I store the info for the live music API
@@ -96,6 +96,7 @@ var viewModel = {
 
     init: function() {
         //sets the clicked place to the first one in the array
+        model.currentPlace.shift();
         model.currentPlace = model.places[0];
         socrataView.init();
         jamBaseView.init();
@@ -322,29 +323,31 @@ var surfView = {
 //sets up the info div for places that will appear as markers 
 //that will appear in the bottom right when the search 
 //icon up top or a marker is clicked
+
+var title = ko.observableArray([]);
 var markView = {
 
     init: function() {
-        this.markElem = document.getElementById('mark');
-        this.markNameElem = document.getElementById('mark-name');
-        this.markAddElem = document.getElementById('mark-address');
-        this.markImageElem = document.getElementById('mark-img');
-        this.countElem = document.getElementById('mark-count');
+        var self=this;
+
+
+        //uses the currentPlace function defined in the viewModel
+        //to set the info div up
+        console.log(model.currentPlace);
 
         this.render();
     },
 
     render: function() {
-        //uses the currentPlace function defined in the viewModel
-        //to set the info div up
-        var currentPlace = viewModel.getCurrentPlace();
-
-        this.markNameElem.textContent = currentPlace.title();
-        this.markAddElem.textContent = currentPlace.address;
-        this.markImageElem.src = currentPlace.src;
-
+        title.shift();
+        title.push(model.currentPlace.title());
+        console.log(title());
+        return title;
     }
+    
 };
+
+
 
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list

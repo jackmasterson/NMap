@@ -31,11 +31,10 @@
         <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info">
         <div class="display"></div>
     </div>
-    <div class="list" id="mark">
-        <h2 id="mark-name"></h2>
-        <h3 id="mark-address"></h3>
-        <div id="mark-count"></div>
-        <img id="mark-img" alt="try">
+    <div class="list" id="mark" data-bind="foreach: title">
+      <h2>Hey</h2>
+        <h2 id="mark-name" data-bind="text: title"></h2>
+
     </div>
     <div id="surf-header">
         <div id="white-back">
@@ -125,6 +124,7 @@
             </ul>
         </div>
     </div>
+
 
     <script src="js/lib/knockout-3.2.0.js"></script>
     <script src="js/lib/jquery.js"></script>
