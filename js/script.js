@@ -357,8 +357,6 @@ var markView = {
         model.currentInfo.push({'currentTitle': title, 'currentAddress': address,
             'currentSRC': src});
 
-        console.log(model.markArr);
-
         model.markArr.forEach(function(markArrCopy){
 
             markArrCopy.setIcon(null);
@@ -606,11 +604,34 @@ var animateView = {
        // console.log(allMark);
 
         allMark.forEach(function(allMarkCopy){
-            console.log(allMarkCopy);
+                
+
             var timeOutId;
 
+
+      /*  var title = this.title();
+        var address = this.address;
+        var src = this.src;
+
+        model.currentInfo.shift();
+        model.currentInfo.push({'currentTitle': title, 'currentAddress': address,
+            'currentSRC': src});*/
+
+
             allMarkCopy.addListener('click', function(){
-                console.log(allMarkCopy);
+                console.log(this);
+                var title = this.title;
+                var address = this.address;
+                var src = this.src;
+                $('.list').show('slow', function() {});
+                model.currentInfo.shift();
+                model.currentInfo.push(
+                    {
+                        'currentTitle': title, 
+                        'currentAddress': address,
+                        'currentSRC': src
+                    }
+                );
 
                 allMark.forEach(function(resetMark){
                     console.log(resetMark);
@@ -618,7 +639,6 @@ var animateView = {
                     resetMark.setAnimation(null);
                 })
 
-            
                 var currentPin = allMarkCopy;
                 var timeoutID = window.setTimeout(stopBouncing, 2300);
 
@@ -629,75 +649,16 @@ var animateView = {
                     currentPin.setAnimation(null);
                 }
 
-            
             })
         })
 
-       /* for (var w = 0; w < model.markArr.length; w++) {
-
-            var timeOutId;
-            //when you hit enter on the search bar, it searches
-            //the list view for what has been filtered;
-            //if the name of the place is visible, then the marker
-            //stays visible and the others are setMap'd to null;
-            
-            //there's a timeout on it so that it delays a beat,
-            //otherwise it would be searching while the list view is
-            //still empty
-
-
-            //gets each place by its ID
-            var eachPlace = document.getElementById(self.modelPlace[w].id);
-
-            //if you click a marker, the below function will activate
-            self.markAnimate[w].addListener('click', function(pinCopy) {
-
-                var currentPlace = viewModel.getCurrentPlace();
-
-                this.searchElem = document.getElementById('mark-search');
-
-                //sets the current marker to whichever has been clicked
-                var currentMark = this;
-                viewModel.setCurrentPlace(currentMark);
-
-                //handles the different animations for the markers
-                for (var n = 0; n < self.markAnimate.length; n++) {
-
-                    var that = this;
-                    self.markAnimate[n].setIcon(null);
-                    self.markNameElem.textContent = this.title;
-                    self.markAddElem.textContent = this.address;
-                    self.markImageElem.src = this.src;
-
-                    //if the marker icon is nothing, then it sets
-                    //the image to the assigned picture
-                    //it also makes it bounce, and stop bouncing after
-                    //a short time
-                    //that way the user sees which has been selected
-
-
-                    this.setIcon(this.image);
-                    this.setAnimation(google.maps.Animation.BOUNCE);
-                    var timeoutID = window.setTimeout(stopBouncing, 2300);
-
-                    function stopBouncing() {
-                        that.setAnimation(null)
-                    };
-                }
-
-                //when a marker is clicked, the list view is displayed
-                $('.list').show('slow', function() {});
-            });
-
-
-
+       /*
             //links the list view to the marker; if one is clicked, 
             //both activate
             $(eachPlace).click(function() {
 
                 //variable for the current place
                 var curr = viewModel.getCurrentPlace();
-
 
                 for (var g = 0; g < model.markArr.length; g++) {
                     var marksID = self.markAnimate[g].id;
