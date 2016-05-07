@@ -15,7 +15,7 @@
         <ul id="listUL">
             <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
         </ul>
-        <button id="hide">Click to Hide</button>
+        <button id="hide" data-bind="click: toggle.hideList">Click to Hide</button>
         <ul id="mark-list" data-bind="foreach: model.places">
           <li data-bind="text: title, click: markView.render"></li>
         </ul>
@@ -25,12 +25,12 @@
         <img id="header" src="img/apnj.jpg" alt="Greetings from Asbury Park, NJ">
     </div>
     <div id="listButton">
-        <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View">
+        <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View" data-bind="click: toggle.list">
         <a href="#" class="slideout-menu-toggle">
             <img class="toggle" src="img/mic.png" alt="Toggle Live Shows">
         </a>
-        <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info">
-        <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info">
+        <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info" data-bind="click: toggle.socrata">
+        <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info" data-bind="click: toggle.surf">
         <div class="display"></div>
     </div>
     <div class="list" id="mark" data-bind="foreach: model.currentInfo">

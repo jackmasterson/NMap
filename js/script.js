@@ -102,7 +102,7 @@ var viewModel = {
         socrataView.init();
         jamBaseView.init();
         surfView.init();
-        toggle.init();
+        //toggle.init();
        // listView.init();
       //  markView.init();
         //filterList.init();
@@ -179,12 +179,9 @@ var socrataView = {
             }
         });
 
-        //makes the div visible when the bar graph up top is clicked
-        $("#socrata-data").click(function() {
-            $("#socrata-header").toggle("slow", function() {});
-        });
     }
 };
+
 
 
 //live music API --- shows the venue, band, location of upcoming
@@ -312,11 +309,6 @@ var surfView = {
             }
         });
 
-        //makes the div visible when the surf image is clicked
-        $("#surf-data").click(function() {
-            $("#surf-header").toggle("slow", function() {});
-        });
-
     }
 
 };
@@ -325,12 +317,26 @@ var surfView = {
 //that will appear in the bottom right when the search 
 //icon up top or a marker is clicked
 var toggle = {
-    init: function() {
-       $('#toggleListButton').click(function() {
-            $('.list').slideToggle();
-        }); 
+    list: function() {
+        $('.list').slideToggle();
+    },
+
+    socrata: function() {
+        $("#socrata-header").toggle("slow", function() {});
+    },
+
+    hideList: function() {
+      //when the 'hide list' button is clicked, the listview is hidden
+        $('.list').hide('slow', function() {});
+    },
+
+    surf: function() {
+        $("#surf-header").toggle("slow", function() {});
     }
 };
+
+
+
 
 
 
@@ -463,9 +469,7 @@ var listView = {
         //anything with the class 'list' is going to toggle,
         //including the list view 
         //and the info div
-        $('#toggleListButton').click(function() {
-            $('.list').slideToggle();
-        });
+
 
         this.markListElem.innerHTML = '';
 
@@ -675,10 +679,7 @@ var animateView = {
                 $('.list').show('slow', function() {});
             });
 
-            //when the 'hide list' button is clicked, the listview is hidden
-            $('#hide').click(function() {
-                $('.list').hide('slow', function() {});
-            });
+
 
             //links the list view to the marker; if one is clicked, 
             //both activate
