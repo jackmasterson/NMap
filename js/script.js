@@ -102,6 +102,7 @@ var viewModel = {
         socrataView.init();
         jamBaseView.init();
         surfView.init();
+        toggle.init();
        // listView.init();
       //  markView.init();
         //filterList.init();
@@ -171,7 +172,6 @@ var socrataView = {
                     'Bachelors': info.percent_bachelors_degree,
                     'HSGrad': info.percent_high_school_graduate
                 });
-                console.log(model.socrataInfo);
 
                 //if the request fails or takes too long, it times out
                 clearTimeout(self.socrataTimeout);
@@ -324,10 +324,14 @@ var surfView = {
 //sets up the info div for places that will appear as markers 
 //that will appear in the bottom right when the search 
 //icon up top or a marker is clicked
+var toggle = {
+    init: function() {
+       $('#toggleListButton').click(function() {
+            $('.list').slideToggle();
+        }); 
+    }
+};
 
-$('#toggleListButton').click(function() {
-    $('.list').slideToggle();
-});
 
 
 var markView = {
@@ -338,7 +342,7 @@ var markView = {
     },
 
     render: function() {
-
+        var self = this;
         var title = this.title();
         var address = this.address;
         var src = this.src;
@@ -346,6 +350,22 @@ var markView = {
         model.currentInfo.shift();
         model.currentInfo.push({'currentTitle': title, 'currentAddress': address,
             'currentSRC': src});
+
+        console.log(model.markArr);
+        model.markArr.forEach(function(markArrCopy){
+            console.log(markArrCopy);
+           // console.log(markArrCopy.title, 'pin');
+            //console.log(self.title(), 'list');
+            if(markArrCopy.title === self.title()){
+                console.log(markArrCopy, 'con-SOLO');
+                var currentPin = markArrCopy;
+                console.log(currentPin.title);
+                currentPin.setIcon(currentPin.image);
+              //  var currentPin = markArrCopy;
+                //viewModel.setCurrentPlace(currentPin);
+            }
+        })
+        animateView.init();
     }
     
 };
