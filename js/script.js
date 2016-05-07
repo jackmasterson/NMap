@@ -324,7 +324,9 @@ var surfView = {
 //that will appear in the bottom right when the search 
 //icon up top or a marker is clicked
 
-var title = ko.observableArray([]);
+var currentTitle = ko.observableArray([]);
+var currentAddress = ko.observableArray([]);
+var currentSRC = ko.observableArray([]); 
 var markView = {
 
     init: function() {
@@ -339,10 +341,15 @@ var markView = {
     },
 
     render: function() {
-        title.shift();
-        title.push(model.currentPlace.title());
-        console.log(title());
-        return title;
+        currentTitle.shift();
+        currentTitle.push(model.currentPlace.title());
+
+        currentAddress.shift();
+        currentAddress.push(model.currentPlace.address);
+
+        currentSRC.shift();
+        currentSRC.push(model.currentPlace.src);
+
     }
     
 };

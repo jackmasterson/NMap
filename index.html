@@ -31,10 +31,10 @@
         <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info">
         <div class="display"></div>
     </div>
-    <div class="list" id="mark" data-bind="foreach: title">
-      <h2>Hey</h2>
-        <h2 id="mark-name" data-bind="text: title"></h2>
-
+    <div class="list" id="mark">
+        <h2 id="mark-name" data-bind="text: currentTitle"></h2>
+        <h2 id="mark-address" data-bind="text: currentAddress"></h2>
+        <img id="mark-img" data-bind="attr: { src: currentSRC }">
     </div>
     <div id="surf-header">
         <div id="white-back">
