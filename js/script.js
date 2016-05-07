@@ -12,6 +12,7 @@ var map;
 //stores all the info I'll use to build the site
 var model = {
     currentPlace: ko.observableArray([null]),
+    currentInfo: ko.observableArray([]),
     //socrataInfo has all the info for the census open data network info
     socrataInfo: ko.observableArray([]),
     //jamBaseInfo is where I store the info for the live music API
@@ -324,14 +325,14 @@ var surfView = {
 //that will appear in the bottom right when the search 
 //icon up top or a marker is clicked
 
-var currentTitle = ko.observableArray([]);
-var currentAddress = ko.observableArray([]);
-var currentSRC = ko.observableArray([]); 
+
 var markView = {
 
     init: function() {
         var self=this;
-
+this.currentTitle = ko.observableArray([]);
+this.currentAddress = ko.observableArray([]);
+this.currentSRC = ko.observableArray([]); 
 
         //uses the currentPlace function defined in the viewModel
         //to set the info div up
@@ -341,14 +342,15 @@ var markView = {
     },
 
     render: function() {
-        currentTitle.shift();
-        currentTitle.push(model.currentPlace.title());
 
-        currentAddress.shift();
-        currentAddress.push(model.currentPlace.address);
+        var title = model.currentPlace.title();
+        var address = model.currentPlace.address;
+        var src = model.currentPlace.src;
 
-        currentSRC.shift();
-        currentSRC.push(model.currentPlace.src);
+        model.currentInfo.shift();
+        model.currentInfo.push({'currentTitle': title, 'currentAddress': address,
+            'currentSRC': src});
+        console.log(model.currentInfo());
 
     }
     
