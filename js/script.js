@@ -352,17 +352,24 @@ var markView = {
             'currentSRC': src});
 
         console.log(model.markArr);
+
         model.markArr.forEach(function(markArrCopy){
-            console.log(markArrCopy);
-           // console.log(markArrCopy.title, 'pin');
-            //console.log(self.title(), 'list');
+
+            markArrCopy.setIcon(null);
+            markArrCopy.setAnimation(null);
+
             if(markArrCopy.title === self.title()){
-                console.log(markArrCopy, 'con-SOLO');
+
                 var currentPin = markArrCopy;
-                console.log(currentPin.title);
+                var timeoutID = window.setTimeout(stopBouncing, 2300);
+
                 currentPin.setIcon(currentPin.image);
-              //  var currentPin = markArrCopy;
-                //viewModel.setCurrentPlace(currentPin);
+                currentPin.setAnimation(google.maps.Animation.BOUNCE);
+                
+                function stopBouncing() {
+                    currentPin.setAnimation(null);
+                }
+
             }
         })
         animateView.init();
