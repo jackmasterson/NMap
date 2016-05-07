@@ -102,9 +102,9 @@ var viewModel = {
         socrataView.init();
         jamBaseView.init();
         surfView.init();
-        listView.init();
-        markView.init();
-        filterList.init();
+       // listView.init();
+      //  markView.init();
+        //filterList.init();
         animateView.init();
         initMap.fail();
     },
@@ -325,38 +325,30 @@ var surfView = {
 //that will appear in the bottom right when the search 
 //icon up top or a marker is clicked
 
+$('#toggleListButton').click(function() {
+    $('.list').slideToggle();
+});
+
 
 var markView = {
 
     init: function() {
-        var self=this;
-this.currentTitle = ko.observableArray([]);
-this.currentAddress = ko.observableArray([]);
-this.currentSRC = ko.observableArray([]); 
-
-        //uses the currentPlace function defined in the viewModel
-        //to set the info div up
-        console.log(model.currentPlace);
 
         this.render();
     },
 
     render: function() {
 
-        var title = model.currentPlace.title();
-        var address = model.currentPlace.address;
-        var src = model.currentPlace.src;
+        var title = this.title();
+        var address = this.address;
+        var src = this.src;
 
         model.currentInfo.shift();
         model.currentInfo.push({'currentTitle': title, 'currentAddress': address,
             'currentSRC': src});
-        console.log(model.currentInfo());
-
     }
     
 };
-
-
 
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
@@ -421,6 +413,12 @@ var filterList = {
     }
 };
 
+
+
+
+
+
+
 //creates the div with the list of places in it
 var listView = {
 
@@ -444,13 +442,10 @@ var listView = {
 
         this.markListElem.innerHTML = '';
 
+
         for (i = 0; i < places.length; i++) {
             mark = places[i];
 
-            elem = document.createElement('li');
-            elem.textContent = mark.title();
-            elem.setAttribute('id', mark.id);
-            elem.className = 'classed';
 
             //when a specific list item/place is clicked, the 
             //action within this function occurs

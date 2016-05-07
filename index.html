@@ -16,7 +16,9 @@
             <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
         </ul>
         <button id="hide">Click to Hide</button>
-        <ul id="mark-list"></ul>
+        <ul id="mark-list" data-bind="foreach: model.places">
+          <li data-bind="text: title, click: markView.render"></li>
+        </ul>
         <div id="display"></div>
     </div>
     <div>
