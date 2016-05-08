@@ -103,9 +103,9 @@ var viewModel = {
         jamBaseView.init();
         surfView.init();
         //toggle.init();
-       // listView.init();
+        listView.init();
       //  markView.init();
-        //filterList.init();
+        filterList.init();
         animateView.init();
         initMap.fail();
     },
@@ -134,11 +134,8 @@ var socrataView = {
 
     init: function() {
 
-        this.socrataElem = document.getElementById('socrata-header');
         this.socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
             'id=1600000US3401960';
-        this.socrataUL = document.getElementById('socrata-info');
-        this.socrataLI = document.getElementById('socrata-item');
         this.socrataInfo = model.socrataInfo;
 
         this.render();
@@ -191,10 +188,8 @@ var jamBaseView = {
 
     init: function() {
 
-        this.jamBaseElem = $('#jamBase-header');
         this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
             '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
-        this.slideOut = $('.slideout-menu-toggle');
 
         this.render();
     },
@@ -262,7 +257,6 @@ var jamBaseView = {
 var surfView = {
 
     init: function() {
-        this.surfElem = document.getElementById('surf-header');
         this.surfURL = 'http://magicseaweed.com/api/00e1e43e51248a4cb3431f4b73aeb4b3/forecast/?spot_id=857';
         this.surfInfo = model.surfInfo;
 
@@ -426,7 +420,7 @@ var filterList = {
 
                 //declares a variable 'x' for whichever place's
                 //tags are being searched
-                var x = placed.tag;
+          /*      var x = placed.tag;
                 var elemID = document.getElementById(placed.id);
                 //if the tag exists within that array, then the
                 //element will remain displayed with 'block' style,
@@ -435,7 +429,7 @@ var filterList = {
                     elemID.style.display = 'block';
                 } else {
                     elemID.style.display = 'none';
-                }
+                }*/
 
             });
 
@@ -454,7 +448,6 @@ var filterList = {
 var listView = {
 
     init: function() {
-        this.markListElem = document.getElementById('mark-list');
 
         this.render();
     },
@@ -463,66 +456,42 @@ var listView = {
         var mark, elem, i;
         var places = viewModel.getPlaces();
 
-        //anytime the magnifying glass icon or a marker is clicked,
-        //anything with the class 'list' is going to toggle,
-        //including the list view 
-        //and the info div
+        places.forEach(function(markCopy){
+            var autofill = ko.computed(function() {
+                var places = model.places;
+                //adds all the individual place's tags together
+                //so that the function can search through them all
+                //at once
+                var allTags = places[0].tag
+                    .concat(places[1].tag)
+                    .concat(places[2].tag)
+                    .concat(places[3].tag)
+                    .concat(places[4].tag);
 
+                return ko.utils.arrayFilter(allTags, function(spot) {
+                    var uniqueTags = [];
+                    var elemID = markCopy.id;
 
-        this.markListElem.innerHTML = '';
+                    //checks the places[i] arrays for duplicates
+                    //so as not to search them/autofill them twice
+                    $.each(allTags, function(i, el) {
+                        if ($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
+                    });
 
-
-        for (i = 0; i < places.length; i++) {
-            mark = places[i];
-
-
-            //when a specific list item/place is clicked, the 
-            //action within this function occurs
-            elem.addEventListener('click', (function(markCopy) {
-
-                var copyArr = ko.observableArray(markCopy.tag);
-
-                //creates a function to automatically suggest 
-                //what the user is typing in the list search
-                var autofill = ko.computed(function() {
-                    var places = model.places;
-                    //adds all the individual place's tags together
-                    //so that the function can search through them all
-                    //at once
-                    var allTags = places[0].tag
-                        .concat(places[1].tag)
-                        .concat(places[2].tag)
-                        .concat(places[3].tag)
-                        .concat(places[4].tag);
-
-                    return ko.utils.arrayFilter(copyArr(), function(spot) {
-                        var uniqueTags = [];
-                        var elemID = markCopy.id;
-
-                        //checks the places[i] arrays for duplicates
-                        //so as not to search them/autofill them twice
-                        $.each(allTags, function(i, el) {
-                            if ($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
-                        });
-
-                        //initiates the autocomplete search function, using the
-                        //uniqueTags array 
-                        $("#searchBar").autocomplete({
-                            source: uniqueTags
-                        });
+                    //initiates the autocomplete search function, using the
+                    //uniqueTags array 
+                    $("#searchBar").autocomplete({
+                        source: uniqueTags
                     });
                 });
+            });
 
-                return function() {
+            return function() {
 
-                    viewModel.setCurrentPlace(markCopy);
-                    markView.render();
-                };
-
-            })(mark));
-
-            this.markListElem.appendChild(elem);
-        }
+                viewModel.setCurrentPlace(markCopy);
+                markView.render();
+            };
+        });
     }
 };
 
@@ -585,15 +554,6 @@ var pinView = {
 var animateView = {
 
     init: function() {
-        
-        this.markElem = document.getElementById('mark');
-        this.markNameElem = document.getElementById('mark-name');
-        this.markAddElem = document.getElementById('mark-address');
-        this.markImageElem = document.getElementById('mark-img');
-        this.placeInput = document.getElementById('mark-search');
-        this.modelPlace = model.places;
-        this.markAnimate = model.markArr;
-        this.br = '</br>';
 
         this.render();
     },
@@ -601,29 +561,19 @@ var animateView = {
     render: function() {
         var self = this;
         var allMark = model.markArr;
-       // console.log(allMark);
 
         allMark.forEach(function(allMarkCopy){
                 
-
             var timeOutId;
-
-
-      /*  var title = this.title();
-        var address = this.address;
-        var src = this.src;
-
-        model.currentInfo.shift();
-        model.currentInfo.push({'currentTitle': title, 'currentAddress': address,
-            'currentSRC': src});*/
-
 
             allMarkCopy.addListener('click', function(){
                 console.log(this);
                 var title = this.title;
                 var address = this.address;
                 var src = this.src;
+
                 $('.list').show('slow', function() {});
+
                 model.currentInfo.shift();
                 model.currentInfo.push(
                     {
@@ -651,43 +601,6 @@ var animateView = {
 
             })
         })
-
-       /*
-            //links the list view to the marker; if one is clicked, 
-            //both activate
-            $(eachPlace).click(function() {
-
-                //variable for the current place
-                var curr = viewModel.getCurrentPlace();
-
-                for (var g = 0; g < model.markArr.length; g++) {
-                    var marksID = self.markAnimate[g].id;
-                    var icon = self.markAnimate[g].icon;
-                    var placeID = curr.id;
-                    var pic = curr.mkImg;
-                    self.markAnimate[g].setIcon(null);
-
-                    //if the current place ID matches the current
-                    //marker ID, then we establish the variable 'that'
-                    if (placeID === marksID) {
-                        var that = self.markAnimate[g];
-
-                        //if the icon is null, then the below occurs;
-                        //the marker bounces and stops and the marker
-                        //icon is set to the proper image
-                        if (icon === null) {
-                            that.setAnimation(google.maps.Animation.BOUNCE);
-                            var timeoutID = window.setTimeout(function() {
-                                that.setAnimation(null);
-                            }, 2300);
-
-                            that.setIcon(pic);
-                        }
-
-                    }
-                }
-            });
-        }*/
     }
 };
 
