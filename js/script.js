@@ -36,6 +36,7 @@ var model = {
         nums: '0',
         href: 'http://www.johnnymacbar.com/',
         id: 'mac',
+        visible: ko.observable(true)
     }, {
 
         position: {
@@ -50,6 +51,7 @@ var model = {
         nums: '1',
         href: 'http://stoneponyonline.com/',
         id: 'pony',
+        visible: ko.observable(true)
     }, {
         position: {
             lat: 40.220239,
@@ -63,6 +65,7 @@ var model = {
         nums: '2',
         href: 'http://pizzaporta.com/ASBURY-PARK',
         id: 'porta',
+        visible: ko.observable(true)
     }, {
 
         position: {
@@ -77,6 +80,7 @@ var model = {
         nums: '3',
         href: 'http://silverballmuseum.com/',
         id: 'silver',
+        visible: ko.observable(true)
     }, {
         position: {
             lat: 40.223796,
@@ -90,6 +94,7 @@ var model = {
         nums: '4',
         href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
         id: 'hall',
+        visible: ko.observable(true)
     }],
 };
 
@@ -352,7 +357,7 @@ var markView = {
             'currentSRC': src});
 
         model.markArr.forEach(function(markArrCopy){
-
+            console.log(markArrCopy.id);
             markArrCopy.setIcon(null);
             markArrCopy.setAnimation(null);
 
@@ -420,16 +425,25 @@ var filterList = {
 
                 //declares a variable 'x' for whichever place's
                 //tags are being searched
-          /*      var x = placed.tag;
+                var x = placed.tag;
                 var elemID = document.getElementById(placed.id);
                 //if the tag exists within that array, then the
                 //element will remain displayed with 'block' style,
                 //otherwise, it will be 'hidden'
-                if (x.contains(search)) {
-                    elemID.style.display = 'block';
-                } else {
-                    elemID.style.display = 'none';
-                }*/
+                $("#searchBar").keypress(function(e) {
+                    if (e.keyCode == 13) {
+                        if (x.contains(search)) {
+                 
+                            placed.visible(true);
+                          //  return true
+                        } else {
+                           // return false
+                            placed.visible(false);
+                        }
+                        console.log(placed);
+                    }
+                    
+                });
 
             });
 
@@ -605,28 +619,43 @@ var animateView = {
 };
 
 /////////next step --- figure out how to make markers/search
-            $("#searchBar").keypress(function(e) {
-            
-                if (e.keyCode == 13) {
-                    function timed() {
-                        for (var g = 0; g < model.markArr.length; g++) {
-                            var placeID = document.getElementById(self.modelPlace[g].id);
-                            var disp = placeID.style.display === 'block';
+  /*  $("#searchBar").keypress(function(e) {
+        model.markArr.forEach(function(markArrCopy){
+            function timed() {
+                var placeID = document.getElementById(markArrCopy.id);
+                console.log(placeID);
+                var disp = placeID.style.display === 'block';
 
-                            if (disp) {
-                                self.markAnimate[g].setMap(map);
-                            } 
-                            else {
-                                self.markAnimate[g].setMap(null);
-                            }
-                        }
-                    }
-
-                    var timeoutId = window.setTimeout(timed, 200);
-
+                if(disp) {
+                    markArrCopy.setMap(map);
                 }
+                else {
+                    self.setMap(null);
+                }
+            };
+            var timeoutId = window.setTimeout(timed, 200);
+            console.log(markArrCopy.id);
+        })
+       /* if (e.keyCode == 13) {
+            function timed() {
+                for (var g = 0; g < model.markArr.length; g++) {
+                    var placeID = document.getElementById(self.modelPlace[g].id);
+                    var disp = placeID.style.display === 'block';
 
-            });
+                    if (disp) {
+                        self.markAnimate[g].setMap(map);
+                    } 
+                    else {
+                        self.markAnimate[g].setMap(null);
+                    }
+                }
+            }
+
+            var timeoutId = window.setTimeout(timed, 200);
+
+        }*/
+
+//    });
 
 
 //initiates the map
@@ -712,3 +741,10 @@ viewModel.init();
 
 //applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
+
+
+$("#searchBar").keypress(function(e) {
+    console.log(filterList.render);
+});
+
+

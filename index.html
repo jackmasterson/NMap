@@ -16,10 +16,12 @@
             <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
         </ul>
         <button id="hide" data-bind="click: toggle.hideList">Click to Hide</button>
+
         <ul id="mark-list" data-bind="foreach: model.places">
-          <span data-bind="if: filterList.render">
+          <span data-bind="if: visible">
             <li data-bind="text: title, click: markView.render"></li>
           </span>
+          
         </ul>
         <div id="display"></div>
     </div>
