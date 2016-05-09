@@ -110,9 +110,7 @@ var viewModel = {
         //toggle.init();
         listView.init();
       //  markView.init();
-        filterList.init();
         animateView.init();
-        
         initMap.fail();
     },
     //returns whichever place is currently active, whichever one
@@ -402,6 +400,7 @@ var filterList = {
     },
 
     render: function() {
+        var that = this;
         var place = model.places;
         var places = ko.observableArray(place);
         //creates a computed function for the given array
@@ -410,7 +409,7 @@ var filterList = {
             //uses knockout to check the value of the search bar
             //in the list view; this variable is logged as whatever
             //was in that search bar, all lower case
-            var search = viewModel.query().toLowerCase();
+            that.search = viewModel.query().toLowerCase();
 
             //filters the given array
             return ko.utils.arrayFilter(places(), function(placed) {
@@ -424,55 +423,47 @@ var filterList = {
                     return false;
                 };
 
-                //declares a variable 'x' for whichever place's
-                //tags are being searched
-                var x = placed.tag;
-                var elemID = document.getElementById(placed.id);
-             //   console.log(elemID);
-                //if the tag exists within that array, then the
-                //element will remain displayed with 'block' style,
-                //otherwise, it will be 'hidden'
-                model.markArr.forEach(function(markArrCopy){
-                    var placeTitle = placed.title();
-                    var markTitle = markArrCopy.title;
-                    var placeVis = placed.visibility;
-
-                    markArrCopy.setMap(map);
-                    $("#searchBar").keypress(function(e) {
-                        if (e.keyCode == 13) {
-
-                            if (x.contains(search)) {
-                           
-                                placed.visibility(true);
-  
-                                if(placeTitle === markTitle){
-                                    console.log(placeTitle, 'match!!');
-                                    markArrCopy.setMap(map);
-                                }
-
-                            } else {
-
-                                placed.visibility(false);
-                                
-                                if(placeTitle === markTitle){
-                                    console.log(placeTitle, 'NULL');
-                                    markArrCopy.setMap(null);
-                                }
-                          
-                            }
-
-                        
-
-                        }
-                        
-                    });
-                })
-                
-
             });
 
         });
+        that.searched();
 
+    },
+
+    searched: function() {
+        var self = this;
+
+        model.places.forEach(function(placed){
+            console.log(placed);
+            var x = placed.tag;
+        
+            model.markArr.forEach(function(markArrCopy){
+                var placeTitle = placed.title();
+                var markTitle = markArrCopy.title;
+                var placeVis = placed.visibility;
+
+                markArrCopy.setMap(map);
+                $("#searchBar").keypress(function(e) {
+                    if (e.keyCode == 13) {
+                        if (x.contains(self.search)) {
+                            placed.visibility(true);
+
+                            if(placeTitle === markTitle){
+                                markArrCopy.setMap(map);
+                            }
+
+                        } else {
+                            placed.visibility(false);
+                            
+                            if(placeTitle === markTitle){
+                                markArrCopy.setMap(null);
+                            }
+                      
+                        }
+                    }
+                });
+            })
+        })
     }
 };
 
@@ -683,56 +674,10 @@ var animateView = {
 
 //    });
 
-var markerFilterView = {
+var keypress = {
 
-    init: function() {
-       // console.log(model.markArr);
-        //console.log(model.places);
-        model.markArr.forEach(function(markArrCopy){
-           // function timed() {
-           // console.log(markArrCopy);
-            model.places.forEach(function(placesCopy){
-                function timed() {
-                    $("#searchBar").keypress(function(e) {
-                        if (e.keyCode == 13) {
-                            console.log(placesCopy.title(), placesCopy.visible());
-                        }
-                    });
-                };
-                var timeoutId = window.setTimeout(timed, 200);
-            })
-              /*  var placeID = document.getElementById(markArrCopy.id);
-                console.log(placeID);
-                var disp = placeID.style.display === 'block';
+}
 
-                if(disp) {
-                    markArrCopy.setMap(map);
-                }
-                else {
-                    self.setMap(null);
-                }
-         //   };*/
-           // var timeoutId = window.setTimeout(timed, 200);
-            console.log(markArrCopy.id);
-        })
-        
-       /*    function timed() {
-                for (var g = 0; g < model.markArr.length; g++) {
-                    var placeID = document.getElementById(self.modelPlace[g].id);
-                    var disp = placeID.style.display === 'block';
-
-                    if (disp) {
-                        self.markAnimate[g].setMap(map);
-                    } 
-                    else {
-                        self.markAnimate[g].setMap(null);
-                    }
-                }
-            }*/
-
-           // var timeoutId = window.setTimeout(timed, 200);
-        }
-    };
 
 //initiates the map
 var initMap = {
@@ -779,7 +724,7 @@ var initMap = {
         //not defined
         map = new google.maps.Map(this.mapDiv, this.mapOptions);
         pinView.init();
-      //  markerFilterView.init();
+        filterList.init();
 
         //activates the information for the LatLng and Zoom attributes
         //depending on screen size
