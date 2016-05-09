@@ -107,9 +107,7 @@ var viewModel = {
         socrataView.init();
         jamBaseView.init();
         surfView.init();
-        //toggle.init();
         listView.init();
-      //  markView.init();
         animateView.init();
         initMap.failInit();
     },
@@ -140,19 +138,21 @@ var socrataView = {
 
         this.socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
             'id=1600000US3401960';
-        this.socrataInfo = model.socrataInfo;
+
+        //the text that will appear if the request times out
         this.text =
             'You were supposed to see some awesome census data ' +
-            'about Asbury Park, NJ, but the request failed. And its all. my.' +
+            'about Asbury Park, NJ, but the request failed. And it is all. my.' +
             ' fault. I am sorry to let you down.';
-        this.textArr = ko.observableArray([]);
-        this.textArr.push(this.text);
+
         this.render();
     },
 
     render: function() {
         var self = this;
 
+        //sets the fail function to true, making the corresponding div in
+        //index.html visible that includes the 'fail' text
         this.socrataTimeout = setTimeout(function() {
             self.fail(true);
             
@@ -167,9 +167,10 @@ var socrataView = {
                 //so I created the 'info' variable
                 var info = infos[0];
 
+
                 //sends the data to the socrataInfo array in the
                 //model, making it accessible outside of this variable
-                self.socrataInfo.push({
+                model.socrataInfo.push({
                     'Year': info.year,
                     'Associates': info.percent_associates_degree,
                     'Bachelors': info.percent_bachelors_degree,
@@ -184,13 +185,10 @@ var socrataView = {
 
     },
 
+    //sets the initial visibility of the div to false
     fail: ko.observable(false)
-        //console.log('fail success!');
-        //text that appears if the request times out
-        //console.log(socrataView.textArr());
 };
 
-//console.log(socrataView.fail().textArr)
 
 //live music API --- shows the venue, band, location of upcoming
 //shows in the area, and you can click through to the band or 
@@ -201,6 +199,8 @@ var jamBaseView = {
         var that = this;
         this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
             '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
+
+            //same functionality as the socrata timeout detailed above
         this.text = 'This was supposed to show a bunch of information ' +
             'about concerts in the area, and the request failed. Im so, so sorry. ' +
             'So instead, here is a picture of a microphone, which should make up for' +
@@ -319,9 +319,8 @@ var surfView = {
 
 };
 
-//sets up the info div for places that will appear as markers 
-//that will appear in the bottom right when the search 
-//icon up top or a marker is clicked
+//allows me to show, hide, or toggle whatever div I want using 
+//knockouts 'click' binding in index.html
 var toggle = {
     list: function() {
         $('.list').slideToggle();
@@ -332,7 +331,6 @@ var toggle = {
     },
 
     hideList: function() {
-      //when the 'hide list' button is clicked, the listview is hidden
         $('.list').hide('slow', function() {});
     },
 
@@ -340,6 +338,8 @@ var toggle = {
         $(".surf-header").toggle("slow", function() {});
     },
 
+    //applies the filter when the 'enter' button is pressed
+    //on the corresponding searchBar in index.html
     filter: function(d,e){
         e.keyCode === 13 && filterList.render();
         return true; 
@@ -347,10 +347,8 @@ var toggle = {
 };
 
 
-
-
-
-
+//creates and renders the pins (google maps markers) and their
+//animations
 var markView = {
 
     init: function() {
@@ -392,12 +390,6 @@ var markView = {
     
 };
 
-var mouse = {
-    init: function() {
-        console.log('moused!');
-        return true;
-    }
-}
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
 //with the searched keyword will remain
@@ -446,16 +438,16 @@ var filterList = {
 
         });
 
-      
         that.searched();
 
     },
 
+    //actually initiates the search functionality for each place
     searched: function() {
         var self = this;
 
+
         model.places.forEach(function(placed){
-          //  console.log(placed);
             var x = placed.tag;
         
             model.markArr.forEach(function(markArrCopy){
@@ -463,10 +455,18 @@ var filterList = {
                 var markTitle = markArrCopy.title;
                 var placeVis = placed.visibility;
 
-            //    markArrCopy.setMap(map);
+                //if the place's tag is contained in the 
+                //search when enter is hit, then the list
+                //view item will
+                //remain visible according to knockout's
+                //visible binding
                 if (x.contains(self.search)) {
                     placed.visibility(true);
-                 //   console.log(placed);
+                 
+                    //this if statement compares 
+                    //the visible list view titles to the
+                    //titles of the markers; if they're equal,
+                    //then that marker will also remain visible
                     if(placeTitle === markTitle){
                         markArrCopy.setMap(map);
                     }
@@ -483,9 +483,6 @@ var filterList = {
         })
     }
 };
-
-
-
 
 
 //creates the div with the list of places in it
@@ -515,7 +512,7 @@ var listView = {
                 return ko.utils.arrayFilter(allTags, function(spot) {
                     var uniqueTags = [];
 
-                    //checks the places[i] arrays for duplicates
+                    //checks the tag arrays for duplicates
                     //so as not to search them/autofill them twice
                     $.each(allTags, function(i, el) {
                         if ($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
@@ -545,6 +542,7 @@ var pinView = {
     init: function() {
         var t, data;
         var len = model.places.length;
+
 
         for (t = 0; t < len; t++) {
             data = model.places[t];
@@ -607,18 +605,21 @@ var animateView = {
         var self = this;
         var allMark = model.markArr;
 
+        //uses knockout to iterate through all the markers
         allMark.forEach(function(allMarkCopy){
                 
             var timeOutId;
 
+            //initiates a click function to each marker
             allMarkCopy.addListener('click', function(){
-                console.log(this);
+             
                 var title = this.title;
                 var address = this.address;
                 var src = this.src;
 
                 $('.list').show('slow', function() {});
 
+                //pushes the current info for the info-div
                 model.currentInfo.shift();
                 model.currentInfo.push(
                     {
@@ -628,8 +629,10 @@ var animateView = {
                     }
                 );
 
+                //resets the markers on each click, so that
+                //they stop bouncing and switch back to 
+                //their original icon image
                 allMark.forEach(function(resetMark){
-                    console.log(resetMark);
                     resetMark.setIcon(null);
                     resetMark.setAnimation(null);
                 })
@@ -655,14 +658,15 @@ var initMap = {
 
     failInit: function() {
         var self = this;
+
+        //same functionality as the socrata, jambase, and 
+        //surfView timeouts described above
         this.text = 'Shoot. An interactive map of a beach town was supposed to' +
             ' show up but something went wrong, so all you get is a boring' +
             ' picture. Try re-loading the page, and if that does nothing' +
             ' rest assured if the problem is on our end, we will have' +
             ' it figured out as soon as possible.';
         
-        this.textArr = ko.observableArray([]);
-        this.textArr.push(this.text);
         
         this.mapTimeout = setTimeout(function() {
             self.fail(true);
@@ -694,10 +698,10 @@ var initMap = {
 
     render: function() {
         var that = this;
+
         //actually renders the map, and the pinView, which, if put
         //in the viewModel, would throw the error that "google" is
         //not defined
-        
         map = new google.maps.Map(this.mapDiv, this.mapOptions);
         pinView.init();
         filterList.init();
