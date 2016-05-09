@@ -111,7 +111,7 @@ var viewModel = {
         listView.init();
       //  markView.init();
         animateView.init();
-        initMap.fail();
+        initMap.failInit();
     },
     //returns whichever place is currently active, whichever one
     //has been clicked in the list div (default is the first
@@ -141,19 +141,21 @@ var socrataView = {
         this.socrataURL = 'https://odn.data.socrata.com/resource/uf4m-5u8r.json?' +
             'id=1600000US3401960';
         this.socrataInfo = model.socrataInfo;
-
+        this.text =
+            'You were supposed to see some awesome census data ' +
+            'about Asbury Park, NJ, but the request failed. And its all. my.' +
+            ' fault. I am sorry to let you down.';
+        this.textArr = ko.observableArray([]);
+        this.textArr.push(this.text);
         this.render();
     },
 
     render: function() {
         var self = this;
 
-        var text = 'You were supposed to see some awesome census data ' +
-            'about Asbury Park, NJ, but the request failed. And its all. my.' +
-            ' fault. Im sorry to let you down.';
-
         this.socrataTimeout = setTimeout(function() {
-            $('#socrata-header').append(text);
+            self.fail(true);
+            
         }, 3000);
 
         $.ajax({
@@ -180,10 +182,15 @@ var socrataView = {
             }
         });
 
-    }
+    },
+
+    fail: ko.observable(false)
+        //console.log('fail success!');
+        //text that appears if the request times out
+        //console.log(socrataView.textArr());
 };
 
-
+//console.log(socrataView.fail().textArr)
 
 //live music API --- shows the venue, band, location of upcoming
 //shows in the area, and you can click through to the band or 
@@ -191,26 +198,25 @@ var socrataView = {
 var jamBaseView = {
 
     init: function() {
-
+        var that = this;
         this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
             '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
-
-        this.render();
-    },
-
-    render: function() {
-        var self = this;
-
-        var text = 'This was supposed to show a bunch of information ' +
+        this.text = 'This was supposed to show a bunch of information ' +
             'about concerts in the area, and the request failed. Im so, so sorry. ' +
             'So instead, here is a picture of a microphone, which should make up for' +
             ' it. Right?';
 
         //establishes the timeout if the ajax request fails/takes too long
         this.jamBaseTimeout = setTimeout(function() {
-            var mic = '</br><img src="img/microphone.jpg" id="mic">';
-            $('#jamBase-header').append(text).append(mic);
+            that.fail(true);
         }, 3000);
+        this.render();
+    },
+
+    fail: ko.observable(false),
+
+    render: function() {
+        var self = this;
 
         $.ajax({
             url: self.jamBaseURL,
@@ -307,7 +313,9 @@ var surfView = {
             }
         });
 
-    }
+    },
+
+    fail: ko.observable(false)
 
 };
 
@@ -460,7 +468,6 @@ var filterList = {
                     placed.visibility(true);
                  //   console.log(placed);
                     if(placeTitle === markTitle){
-                        console.log(markArrCopy.title, 'map');
                         markArrCopy.setMap(map);
                     }
 
@@ -468,7 +475,6 @@ var filterList = {
                     placed.visibility(false);
                     
                     if(placeTitle === markTitle){
-                        console.log(markArrCopy.title, 'null');
                         markArrCopy.setMap(null);
                     }
               
@@ -648,23 +654,28 @@ var animateView = {
 //initiates the map
 var initMap = {
 
-    fail: function() {
-
-        //text that appears if the request times out
-        var text = 'Shoot. An interactive map of a beach town was supposed to' +
+    failInit: function() {
+        var self = this;
+        this.text = 'Shoot. An interactive map of a beach town was supposed to' +
             ' show up but something went wrong, so all you get is a boring' +
             ' picture. Try re-loading the page, and if that does nothing' +
             ' rest assured if the problem is on our end, we will have' +
             ' it figured out as soon as possible.';
-        var staticMap = '</br><img id="static" src="img/static.jpg">';
-        this.initMapTimeout = setTimeout(function() {
-            $('#failure').append(text).append(staticMap);
-        }, 2000);
-
+        
+        this.textArr = ko.observableArray([]);
+        this.textArr.push(this.text);
+        
+        this.mapTimeout = setTimeout(function() {
+            self.fail(true);
+            
+        }, 3000);
     },
+
+    fail: ko.observable(false),
 
     init: function() {
         var self = this;
+
         this.icon = 'img/marker-blue.png';
 
         this.mapDiv = document.getElementById('map');
@@ -677,20 +688,22 @@ var initMap = {
             scrollwheel: false,
             zoom: 15
         };
-
-        clearTimeout(self.initMapTimeout);
-
+        
         this.render();
 
     },
 
     render: function() {
+        var that = this;
         //actually renders the map, and the pinView, which, if put
         //in the viewModel, would throw the error that "google" is
         //not defined
+        
         map = new google.maps.Map(this.mapDiv, this.mapOptions);
         pinView.init();
         filterList.init();
+        clearTimeout(that.mapTimeout);
+        
 
         //activates the information for the LatLng and Zoom attributes
         //depending on screen size

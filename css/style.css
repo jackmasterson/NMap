@@ -51,6 +51,7 @@ ul {
 #static {
     height: 500px;
     width: 500px;
+    margin-left: 20%;
 }
 
 #mark-search {
@@ -83,6 +84,13 @@ ul {
     z-index: 5;
     margin-top: 5px;
     margin-left: 35%;
+}
+#map-fail {
+    position: absolute;
+    z-index: 7;
+    height: 820px;
+    width: 100%;
+    background-color: gray;
 }
 
 .toggle {

@@ -86,11 +86,16 @@
             </div>
         </div>
     </div>
-
+    <div id="map-fail" data-bind="visible: initMap.fail">
+      <h2 data-bind="text: initMap.textArr"></h2>
+      <img id="static" src="img/static.jpg">
+      
+    </div>
     <div id="map"></div>
 
     <div id="socrata-header">
         <h4>Asbury Park Census Info</h4>
+
         <ul data-bind="foreach: model.socrataInfo">
             <li>Year: 
               <span data-bind="text: Year"></span>
@@ -105,9 +110,15 @@
               <span data-bind="text: Associates"></span>
             </li>
         </ul>
-        <h4>Information Supplied by Socrata Open Data Network</h4>
+        <div data-bind="visible: socrataView.fail">
+          <h2 data-bind="text: socrataView.textArr"></h2>
+        </div>
+      <h4>Information Supplied by Socrata Open Data Network</h4>
     </div>
     <div id="jamBase-header">
+        <div data-bind="visible: jamBaseView.fail">
+          <h2 data-bind="text: jamBaseView.text"></h2>
+          <img src="img/microphone.jpg" id="mic">
         <div>
             <h2>Live Music in Asbury Park</h2>
             <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" id="tixImg">
