@@ -12,23 +12,23 @@
 <body>
     <div class="list" id="failure"></div>
     <div class="list" id="listed">
-        <ul id="listUL">
-            <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup', event: { keypress: toggle.filter }" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
+        <ul class="listUL">
+            <input class="searchBar" data-bind="value: query, valueUpdate: 'keyup', event: { keypress: toggle.filter }" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
         </ul>
-        <button id="hide" data-bind="click: toggle.hideList">Click to Hide</button>
+        <button class="hide" data-bind="click: toggle.hideList">Click to Hide</button>
 
-        <ul id="mark-list" data-bind="foreach: model.places">
+        <ul class="mark-list" data-bind="foreach: model.places">
           <span data-bind="if: visibility">
             <li data-bind="text: title, click: markView.render"></li>
           </span>
           
         </ul>
-        <div id="display"></div>
+        <div class="display"></div>
     </div>
     <div>
-        <img id="header" src="img/apnj.jpg" alt="Greetings from Asbury Park, NJ">
+        <img class="header" src="img/apnj.jpg" alt="Greetings from Asbury Park, NJ">
     </div>
-    <div id="listButton">
+    <div class="listButton">
         <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View" data-bind="click: toggle.list">
         <a href="#" class="slideout-menu-toggle">
             <img class="toggle" src="img/mic.png" alt="Toggle Live Shows">
@@ -38,12 +38,12 @@
         <div class="display"></div>
     </div>
     <div class="list" id="mark" data-bind="foreach: model.currentInfo">
-        <h2 id="mark-name" data-bind="text: currentTitle"></h2>
-        <h2 id="mark-address" data-bind="text: currentAddress"></h2>
-        <img id="mark-img" data-bind="attr: { src: currentSRC }">
+        <h2 class="mark-name" data-bind="text: currentTitle"></h2>
+        <h2 class="mark-address" data-bind="text: currentAddress"></h2>
+        <img class="mark-img" data-bind="attr: { src: currentSRC }">
     </div>
-    <div id="surf-header">
-        <div id="white-back">
+    <div class="surf-header">
+        <div class="white-back">
             <div>
                 <h4>Today's Surfing Info for Asbury Park
                   <br>
@@ -62,7 +62,7 @@
                     <li>Min Break:
                         <span data-bind="text: swell.minBreakingHeight"></span>ft
                     </li>
-                    <h5 id="wind-head">Wind</h5>
+                    <h5 class="wind-head">Wind</h5>
                     <li>Chill:
                         <span data-bind="text: wind.chill"></span>&degF
                     </li>
@@ -75,25 +75,25 @@
                     <li>Speed:
                         <span data-bind="text: wind.speed"></span>mph
                     </li>
-                    <li id="windImg">
+                    <li class="windImg">
                         <h5>Wind/Swell</h5>
                         <img class="chart" alt="Wind Chart" data-bind="attr: { src: charts.wind }">
                         <img class="chart" alt="Swell Chart" data-bind="attr: { src: charts.swell }">
                     </li>
                 </ul>
                 <br>
-                <h3 id="divBreak"> ---------------------------------------------- </h3>
+                <h3 class="divBreak"> ---------------------------------------------- </h3>
             </div>
         </div>
     </div>
-    <div id="map-fail" data-bind="visible: initMap.fail">
+    <div class="map-fail" data-bind="visible: initMap.fail">
       <h2 data-bind="text: initMap.textArr"></h2>
-      <img id="static" src="img/static.jpg">
+      <img class="static" src="img/static.jpg">
       
     </div>
     <div id="map"></div>
 
-    <div id="socrata-header">
+    <div class="socrata-header">
         <h4>Asbury Park Census Info</h4>
 
         <ul data-bind="foreach: model.socrataInfo">
@@ -115,17 +115,17 @@
         </div>
       <h4>Information Supplied by Socrata Open Data Network</h4>
     </div>
-    <div id="jamBase-header">
+    <div class="jamBase-header">
         <div data-bind="visible: jamBaseView.fail">
           <h2 data-bind="text: jamBaseView.text"></h2>
-          <img src="img/microphone.jpg" id="mic">
+          <img src="img/microphone.jpg" class="mic">
         <div>
             <h2>Live Music in Asbury Park</h2>
-            <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" id="tixImg">
+            <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
                 <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
             </a>
             <br>
-            <h7 id="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
+            <h7 class="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
         </div>
         <div data-bind="foreach: model.jamBaseInfo">
             <ul class="concerts">
@@ -133,7 +133,7 @@
                 </li>
                 <li>Venue:
                     <a target="blank" class="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
-              </a>
+                    </a>
                 </li>
                 <li>City: <span data-bind="text: Venue.City"></span>
                 </li>

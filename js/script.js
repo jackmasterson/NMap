@@ -245,16 +245,16 @@ var jamBaseView = {
             $('.slideout-menu-toggle').on('click', function(event) {
                 event.preventDefault();
 
-                var jamBaseElemWidth = $('#jamBase-header').width();
+                var jamBaseElemWidth = $('.jamBase-header').width();
 
-                $('#jamBase-header').toggleClass('open');
+                $('.jamBase-header').toggleClass('open');
 
-                if ($('#jamBase-header').hasClass('open')) {
-                    $('#jamBase-header').animate({
+                if ($('.jamBase-header').hasClass('open')) {
+                    $('.jamBase-header').animate({
                         right: '0px'
                     });
                 } else {
-                    $('#jamBase-header').animate({
+                    $('.jamBase-header').animate({
                         right: -jamBaseElemWidth
                     }, 250);
                 }
@@ -284,7 +284,7 @@ var surfView = {
 
         //sets the timeout parameters
         this.surfTimeout = setTimeout(function() {
-            $('#white-back').append(text);
+            $('.white-back').append(text);
         }, 1000);
 
         $.ajax({
@@ -328,7 +328,7 @@ var toggle = {
     },
 
     socrata: function() {
-        $("#socrata-header").toggle("slow", function() {});
+        $(".socrata-header").toggle("slow", function() {});
     },
 
     hideList: function() {
@@ -337,7 +337,7 @@ var toggle = {
     },
 
     surf: function() {
-        $("#surf-header").toggle("slow", function() {});
+        $(".surf-header").toggle("slow", function() {});
     },
 
     filter: function(d,e){
@@ -514,7 +514,6 @@ var listView = {
 
                 return ko.utils.arrayFilter(allTags, function(spot) {
                     var uniqueTags = [];
-                    var elemID = markCopy.id;
 
                     //checks the places[i] arrays for duplicates
                     //so as not to search them/autofill them twice
@@ -524,7 +523,7 @@ var listView = {
 
                     //initiates the autocomplete search function, using the
                     //uniqueTags array 
-                    $("#searchBar").autocomplete({
+                    $(".searchBar").autocomplete({
                         source: uniqueTags
                     });
                 });

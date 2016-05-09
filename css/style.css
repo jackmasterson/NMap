@@ -18,7 +18,7 @@ ul {
     list-style-type: none;
 }
 
-#header {
+.header {
     position: absolute;
     margin-left: 62%;
     margin-top: 41%;
@@ -48,13 +48,13 @@ ul {
     border: none;
 }
 
-#static {
+.static {
     height: 500px;
     width: 500px;
     margin-left: 20%;
 }
 
-#mark-search {
+.mark-search {
     margin-left: 36%;
     margin-top: 40%;
     height: 40px;
@@ -62,30 +62,31 @@ ul {
     display: none;
 }
 
-#mark-list {
+.mark-list {
     padding: 15px;
 }
 
-#mark-img {
+.mark-img {
     height: 75px;
     width: 75px;
 }
 
-#mark-name {
+.mark-name {
     font-size: 15px;
 }
 
-#mark-address {
+.mark-address {
     font-size: 10px;
 }
 
-#listButton {
+.listButton {
     position: absolute;
     z-index: 5;
     margin-top: 5px;
     margin-left: 35%;
 }
-#map-fail {
+
+.map-fail {
     position: absolute;
     z-index: 7;
     height: 820px;
@@ -106,7 +107,7 @@ ul {
     text-align: center;
     border: 2px solid black;
     border-radius: 15px;
-    font-family: 'Roboto', 'sans-serif';
+    font-family: "Roboto", "sans-serif";
     padding: auto 40% auto auto;
 }
 
@@ -116,7 +117,7 @@ ul {
     display: none;
 }
 
-#listUL {
+.listUL {
     text-align: center;
     margin: 5px;
     padding: 15px;
@@ -128,12 +129,12 @@ ul {
     margin: 5px;
 }
 
-#searchBar {
+.searchBar {
     margin: 15px;
     text-align: center;
 }
 
-#content {
+.content {
     text-align: center;
 }
 
@@ -148,12 +149,12 @@ ul {
 }
 
 .display {
-    background-color: #CCC;
+    background-color: #ccc;
     font-style: italic;
     color: rgba(0, 0, 0, 0.5);
 }
 
-#displayed {
+.displayed {
     position: absolute;
     z-index: 5;
     height: auto;
@@ -161,22 +162,22 @@ ul {
     margin: 45% auto auto 3%;
 }
 
-#white-back {
+.white-back {
     background-color: rgba(255, 255, 255, 0.7);
     margin: 25px;
 }
 
-#searched {
+.searched {
     padding-top: 15px;
 }
 
-#socrata-header,
-#infoHead {
+.socrata-header,
+.infoHead {
     list-style-type: none;
     display: inline-block;
 }
 
-#socrata-header {
+.socrata-header {
     position: absolute;
     top: 80%;
     text-align: center;
@@ -187,13 +188,13 @@ ul {
     padding: 5px;
     border: 1px solid #999;
     text-align: center;
-    font-family: 'Roboto', 'sans-serif';
+    font-family: "Roboto", "sans-serif";
     line-height: 30px;
     width: 80%;
     display: none;
 }
 
-#mic {
+.mic {
     height: 5em;
     width: 9em;
 }
@@ -205,16 +206,16 @@ ul {
     overflow-y: scroll;
 }
 
-#jamHead {
+.jamHead {
     font-size: 10px;
 }
 
-#tix {
+.tix {
     color: white;
     font-color: white;
 }
 
-#tixImg {
+.tixImg {
     margin-top: 25px;
 }
 
@@ -223,7 +224,7 @@ ul {
     font-color: white;
 }
 
-#jamBase-header {
+.jamBase-header {
     position: fixed;
     top: 0;
     right: -250px;
@@ -239,7 +240,7 @@ ul {
 }
 /*slideout menu courtesy of alijafarian.com/jquery-horizontal-slideout-menu*/
 
-#jamBase-header .slideout-menu-toggle {
+.jamBase-header .slideout-menu-toggle {
     position: absolute;
     top: 12px;
     left: 10px;
@@ -254,7 +255,7 @@ ul {
     vertical-align: top;
 }
 
-#surf-header {
+.surf-header {
     text-align: center;
     margin-top: 12%;
     margin-left: 20%;
@@ -275,7 +276,7 @@ ul {
     padding: 0px;
 }
 
-#divBreak {
+.divBreak {
     text-align: center;
     width: 100%;
 }
@@ -285,11 +286,11 @@ ul {
     width: 250px;
 }
 
-#timeSelect {
+.timeSelect {
     list-style-type: none;
     margin: none;
 }
 
-#wind-head {
+.wind-head {
     margin-bottom: 5px;
 }
