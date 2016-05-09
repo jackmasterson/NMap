@@ -36,7 +36,7 @@ var model = {
         nums: '0',
         href: 'http://www.johnnymacbar.com/',
         id: 'mac',
-        visible: ko.observable(true)
+        visibility: ko.observable(true)
     }, {
 
         position: {
@@ -51,7 +51,7 @@ var model = {
         nums: '1',
         href: 'http://stoneponyonline.com/',
         id: 'pony',
-        visible: ko.observable(true)
+        visibility: ko.observable(true)
     }, {
         position: {
             lat: 40.220239,
@@ -65,7 +65,7 @@ var model = {
         nums: '2',
         href: 'http://pizzaporta.com/ASBURY-PARK',
         id: 'porta',
-        visible: ko.observable(true)
+        visibility: ko.observable(true)
     }, {
 
         position: {
@@ -80,7 +80,7 @@ var model = {
         nums: '3',
         href: 'http://silverballmuseum.com/',
         id: 'silver',
-        visible: ko.observable(true)
+        visibility: ko.observable(true)
     }, {
         position: {
             lat: 40.223796,
@@ -94,7 +94,7 @@ var model = {
         nums: '4',
         href: 'https://en.wikipedia.org/wiki/Asbury_Park_Convention_Hall',
         id: 'hall',
-        visible: ko.observable(true)
+        visibility: ko.observable(true)
     }],
 };
 
@@ -112,6 +112,7 @@ var viewModel = {
       //  markView.init();
         filterList.init();
         animateView.init();
+        
         initMap.fail();
     },
     //returns whichever place is currently active, whichever one
@@ -427,23 +428,46 @@ var filterList = {
                 //tags are being searched
                 var x = placed.tag;
                 var elemID = document.getElementById(placed.id);
+             //   console.log(elemID);
                 //if the tag exists within that array, then the
                 //element will remain displayed with 'block' style,
                 //otherwise, it will be 'hidden'
-                $("#searchBar").keypress(function(e) {
-                    if (e.keyCode == 13) {
-                        if (x.contains(search)) {
-                 
-                            placed.visible(true);
-                          //  return true
-                        } else {
-                           // return false
-                            placed.visible(false);
+                model.markArr.forEach(function(markArrCopy){
+                    var placeTitle = placed.title();
+                    var markTitle = markArrCopy.title;
+                    var placeVis = placed.visibility;
+
+                    markArrCopy.setMap(map);
+                    $("#searchBar").keypress(function(e) {
+                        if (e.keyCode == 13) {
+
+                            if (x.contains(search)) {
+                           
+                                placed.visibility(true);
+  
+                                if(placeTitle === markTitle){
+                                    console.log(placeTitle, 'match!!');
+                                    markArrCopy.setMap(map);
+                                }
+
+                            } else {
+
+                                placed.visibility(false);
+                                
+                                if(placeTitle === markTitle){
+                                    console.log(placeTitle, 'NULL');
+                                    markArrCopy.setMap(null);
+                                }
+                          
+                            }
+
+                        
+
                         }
-                        console.log(placed);
-                    }
-                    
-                });
+                        
+                    });
+                })
+                
 
             });
 
@@ -554,6 +578,8 @@ var pinView = {
                     animation: google.maps.Animation.DROP,
                     icon: null,
                     id: data.id,
+                    visibility: data.visibility,
+                    tags: data.tag
                 })
             );
         }
@@ -657,6 +683,56 @@ var animateView = {
 
 //    });
 
+var markerFilterView = {
+
+    init: function() {
+       // console.log(model.markArr);
+        //console.log(model.places);
+        model.markArr.forEach(function(markArrCopy){
+           // function timed() {
+           // console.log(markArrCopy);
+            model.places.forEach(function(placesCopy){
+                function timed() {
+                    $("#searchBar").keypress(function(e) {
+                        if (e.keyCode == 13) {
+                            console.log(placesCopy.title(), placesCopy.visible());
+                        }
+                    });
+                };
+                var timeoutId = window.setTimeout(timed, 200);
+            })
+              /*  var placeID = document.getElementById(markArrCopy.id);
+                console.log(placeID);
+                var disp = placeID.style.display === 'block';
+
+                if(disp) {
+                    markArrCopy.setMap(map);
+                }
+                else {
+                    self.setMap(null);
+                }
+         //   };*/
+           // var timeoutId = window.setTimeout(timed, 200);
+            console.log(markArrCopy.id);
+        })
+        
+       /*    function timed() {
+                for (var g = 0; g < model.markArr.length; g++) {
+                    var placeID = document.getElementById(self.modelPlace[g].id);
+                    var disp = placeID.style.display === 'block';
+
+                    if (disp) {
+                        self.markAnimate[g].setMap(map);
+                    } 
+                    else {
+                        self.markAnimate[g].setMap(null);
+                    }
+                }
+            }*/
+
+           // var timeoutId = window.setTimeout(timed, 200);
+        }
+    };
 
 //initiates the map
 var initMap = {
@@ -703,6 +779,7 @@ var initMap = {
         //not defined
         map = new google.maps.Map(this.mapDiv, this.mapOptions);
         pinView.init();
+      //  markerFilterView.init();
 
         //activates the information for the LatLng and Zoom attributes
         //depending on screen size
@@ -742,9 +819,5 @@ viewModel.init();
 //applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
 
-
-$("#searchBar").keypress(function(e) {
-    console.log(filterList.render);
-});
 
 

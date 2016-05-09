@@ -18,7 +18,7 @@
         <button id="hide" data-bind="click: toggle.hideList">Click to Hide</button>
 
         <ul id="mark-list" data-bind="foreach: model.places">
-          <span data-bind="if: visible">
+          <span data-bind="if: visibility">
             <li data-bind="text: title, click: markView.render"></li>
           </span>
           
