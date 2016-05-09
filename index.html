@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/jquery-ui.min.css">
 </head>
+
 <body>
     <div class="list" id="failure"></div>
     <div class="list" id="listed">
@@ -16,12 +17,10 @@
             <input class="searchBar" data-bind="value: query, valueUpdate: 'keyup', event: { keypress: toggle.filter }" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
         </ul>
         <button class="hide" data-bind="click: toggle.hideList">Click to Hide</button>
-
         <ul class="mark-list" data-bind="foreach: model.places">
-          <span data-bind="if: visibility">
+            <div data-bind="if: visibility">
             <li data-bind="text: title, click: markView.render"></li>
-          </span>
-          
+            </div>
         </ul>
         <div class="display"></div>
     </div>
@@ -87,68 +86,68 @@
         </div>
     </div>
     <div class="map-fail" data-bind="visible: initMap.fail">
-      <h2 data-bind="text: initMap.text"></h2>
-      <img class="static" src="img/static.jpg">
-      
+        <h2 data-bind="text: initMap.text"></h2>
+        <img class="static" src="img/static.jpg">
+
     </div>
     <div id="map"></div>
-
     <div class="socrata-header">
         <h4>Asbury Park Census Info</h4>
-
         <ul data-bind="foreach: model.socrataInfo">
-            <li>Year: 
-              <span data-bind="text: Year"></span>
+            <li>Year:
+                <span data-bind="text: Year"></span>
             </li>
-            <li>Bachelor's Degree (%): 
-              <span data-bind="text: Bachelors"></span>
+            <li>Bachelor's Degree (%):
+                <span data-bind="text: Bachelors"></span>
             </li>
-            <li>High School Graduates (%): 
-              <span data-bind="text: HSGrad"></span>
+            <li>High School Graduates (%):
+                <span data-bind="text: HSGrad"></span>
             </li>
-            <li>Associates Degree (%): 
-              <span data-bind="text: Associates"></span>
+            <li>Associates Degree (%):
+                <span data-bind="text: Associates"></span>
             </li>
         </ul>
         <div data-bind="visible: socrataView.fail">
-          <h2 data-bind="text: socrataView.text"></h2>
+            <h2 data-bind="text: socrataView.text"></h2>
         </div>
-      <h4>Information Supplied by Socrata Open Data Network</h4>
+        <h4>Information Supplied by Socrata Open Data Network</h4>
     </div>
     <div class="jamBase-header">
         <div data-bind="visible: jamBaseView.fail">
-          <h2 data-bind="text: jamBaseView.text"></h2>
-          <img src="img/microphone.jpg" class="mic">
-        <div>
-            <h2>Live Music in Asbury Park</h2>
-            <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
-                <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
-            </a>
-            <br>
-            <h7 class="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
-        </div>
-        <div data-bind="foreach: model.jamBaseInfo">
-            <ul class="concerts">
-                <li>Artist: <span data-bind="text: Artists[0].Name"></span>
-                </li>
-                <li>Venue:
-                    <a target="blank" class="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
+            <h2 data-bind="text: jamBaseView.text"></h2>
+            <img src="img/microphone.jpg" class="mic">
+            <div>
+                <h2>Live Music in Asbury Park</h2>
+                <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
+                    <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
+                </a>
+                <br>
+                <h7 class="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
+            </div>
+            <div data-bind="foreach: model.jamBaseInfo">
+                <ul class="concerts">
+                    <li>Artist: <span data-bind="text: Artists[0].Name"></span>
+                    </li>
+                    <li>Venue:
+                        <a target="blank" class="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
                     </a>
-                </li>
-                <li>City: <span data-bind="text: Venue.City"></span>
-                </li>
-                <a target="blank" class="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
-            </ul>
+                    </li>
+                    <li>City: <span data-bind="text: Venue.City"></span>
+                    </li>
+                    <a target="blank" class="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
+                </ul>
+            </div>
         </div>
-    </div>
+      </div>
 
 
-    <script src="js/lib/knockout-3.2.0.js"></script>
-    <script src="js/lib/jquery.js"></script>
-    <script src="js/lib/jquery-ui.min.js"></script>
-    <script src="js/script.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
+        <script src="js/lib/knockout-3.2.0.js"></script>
+        <script src="js/lib/jquery.js"></script>
+        <script src="js/lib/jquery-ui.min.js"></script>
+        <script src="js/script.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
     &callback=initMap.init" async defer></script>
 
 </body>
+
 </html>

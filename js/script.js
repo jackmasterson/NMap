@@ -1,11 +1,11 @@
 //creates an interactive map of Asbury Park, NJ using the Google Maps API, 
 //as well as other APIs to add to the user experience. More information available
 //in the README
-
 //Jack Masterson, May 6th, 2016
-
 //Udacity, FEND Nanodegree, Project 5
+
 'use strict';
+
 //creates the map variable which will be initiated later in the script
 var map;
 
@@ -155,7 +155,7 @@ var socrataView = {
         //index.html visible that includes the 'fail' text
         this.socrataTimeout = setTimeout(function() {
             self.fail(true);
-            
+
         }, 3000);
 
         $.ajax({
@@ -200,7 +200,7 @@ var jamBaseView = {
         this.jamBaseURL = 'http://api.jambase.com/events?zipCode=07712' +
             '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
 
-            //same functionality as the socrata timeout detailed above
+        //same functionality as the socrata timeout detailed above
         this.text = 'This was supposed to show a bunch of information ' +
             'about concerts in the area, and the request failed. Im so, so sorry. ' +
             'So instead, here is a picture of a microphone, which should make up for' +
@@ -259,7 +259,7 @@ var jamBaseView = {
                     }, 250);
                 }
             });
-        })
+        });
     }
 };
 
@@ -340,9 +340,9 @@ var toggle = {
 
     //applies the filter when the 'enter' button is pressed
     //on the corresponding searchBar in index.html
-    filter: function(d,e){
+    filter: function(d, e) {
         e.keyCode === 13 && filterList.render();
-        return true; 
+        return true;
     }
 };
 
@@ -363,31 +363,34 @@ var markView = {
         var src = this.src;
 
         model.currentInfo.shift();
-        model.currentInfo.push({'currentTitle': title, 'currentAddress': address,
-            'currentSRC': src});
+        model.currentInfo.push({
+            'currentTitle': title,
+            'currentAddress': address,
+            'currentSRC': src
+        });
 
-        model.markArr.forEach(function(markArrCopy){
-            console.log(markArrCopy.id);
+        model.markArr.forEach(function(markArrCopy) {
+
             markArrCopy.setIcon(null);
             markArrCopy.setAnimation(null);
 
-            if(markArrCopy.title === self.title()){
+            if (markArrCopy.title === self.title()) {
 
                 var currentPin = markArrCopy;
                 var timeoutID = window.setTimeout(stopBouncing, 2300);
 
                 currentPin.setIcon(currentPin.image);
                 currentPin.setAnimation(google.maps.Animation.BOUNCE);
-                
+
                 function stopBouncing() {
                     currentPin.setAnimation(null);
                 }
 
             }
-        })
+        });
         animateView.init();
     }
-    
+
 };
 
 //establishes a filter for the list of places so that when 
@@ -447,13 +450,12 @@ var filterList = {
         var self = this;
 
 
-        model.places.forEach(function(placed){
+        model.places.forEach(function(placed) {
             var x = placed.tag;
-        
-            model.markArr.forEach(function(markArrCopy){
+
+            model.markArr.forEach(function(markArrCopy) {
                 var placeTitle = placed.title();
                 var markTitle = markArrCopy.title;
-                var placeVis = placed.visibility;
 
                 //if the place's tag is contained in the 
                 //search when enter is hit, then the list
@@ -462,25 +464,25 @@ var filterList = {
                 //visible binding
                 if (x.contains(self.search)) {
                     placed.visibility(true);
-                 
+
                     //this if statement compares 
                     //the visible list view titles to the
                     //titles of the markers; if they're equal,
                     //then that marker will also remain visible
-                    if(placeTitle === markTitle){
+                    if (placeTitle === markTitle) {
                         markArrCopy.setMap(map);
                     }
 
                 } else {
                     placed.visibility(false);
-                    
-                    if(placeTitle === markTitle){
+
+                    if (placeTitle === markTitle) {
                         markArrCopy.setMap(null);
                     }
-              
+
                 }
-            })
-        })
+            });
+        });
     }
 };
 
@@ -494,10 +496,9 @@ var listView = {
     },
 
     render: function() {
-        var mark, elem, i;
         var places = viewModel.getPlaces();
 
-        places.forEach(function(markCopy){
+        places.forEach(function(markCopy) {
             var autofill = ko.computed(function() {
                 var places = model.places;
                 //adds all the individual place's tags together
@@ -602,17 +603,14 @@ var animateView = {
     },
 
     render: function() {
-        var self = this;
         var allMark = model.markArr;
 
         //uses knockout to iterate through all the markers
-        allMark.forEach(function(allMarkCopy){
-                
-            var timeOutId;
+        allMark.forEach(function(allMarkCopy) {
 
             //initiates a click function to each marker
-            allMarkCopy.addListener('click', function(){
-             
+            allMarkCopy.addListener('click', function() {
+
                 var title = this.title;
                 var address = this.address;
                 var src = this.src;
@@ -621,34 +619,32 @@ var animateView = {
 
                 //pushes the current info for the info-div
                 model.currentInfo.shift();
-                model.currentInfo.push(
-                    {
-                        'currentTitle': title, 
-                        'currentAddress': address,
-                        'currentSRC': src
-                    }
-                );
+                model.currentInfo.push({
+                    'currentTitle': title,
+                    'currentAddress': address,
+                    'currentSRC': src
+                });
 
                 //resets the markers on each click, so that
                 //they stop bouncing and switch back to 
                 //their original icon image
-                allMark.forEach(function(resetMark){
+                allMark.forEach(function(resetMark) {
                     resetMark.setIcon(null);
                     resetMark.setAnimation(null);
-                })
+                });
 
                 var currentPin = allMarkCopy;
                 var timeoutID = window.setTimeout(stopBouncing, 2300);
 
                 currentPin.setIcon(currentPin.image);
                 currentPin.setAnimation(google.maps.Animation.BOUNCE);
-                
+
                 function stopBouncing() {
                     currentPin.setAnimation(null);
                 }
 
-            })
-        })
+            });
+        });
     }
 };
 
@@ -666,11 +662,11 @@ var initMap = {
             ' picture. Try re-loading the page, and if that does nothing' +
             ' rest assured if the problem is on our end, we will have' +
             ' it figured out as soon as possible.';
-        
-        
+
+
         this.mapTimeout = setTimeout(function() {
             self.fail(true);
-            
+
         }, 3000);
     },
 
@@ -691,7 +687,7 @@ var initMap = {
             scrollwheel: false,
             zoom: 15
         };
-        
+
         this.render();
 
     },
@@ -706,7 +702,7 @@ var initMap = {
         pinView.init();
         filterList.init();
         clearTimeout(that.mapTimeout);
-        
+
 
         //activates the information for the LatLng and Zoom attributes
         //depending on screen size
@@ -745,6 +741,3 @@ viewModel.init();
 
 //applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
-
-
-
