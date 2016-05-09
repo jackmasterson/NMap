@@ -13,7 +13,7 @@
     <div class="list" id="failure"></div>
     <div class="list" id="listed">
         <ul id="listUL">
-            <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
+            <input id="searchBar" data-bind="value: query, valueUpdate: 'keyup', event: { keypress: toggle.filter }" autocomplete="off" placeholder="Start Typing, Hit Enter" autofocus />
         </ul>
         <button id="hide" data-bind="click: toggle.hideList">Click to Hide</button>
 

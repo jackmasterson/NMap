@@ -330,6 +330,11 @@ var toggle = {
 
     surf: function() {
         $("#surf-header").toggle("slow", function() {});
+    },
+
+    filter: function(d,e){
+        e.keyCode === 13 && filterList.render();
+        return true; 
     }
 };
 
@@ -379,6 +384,12 @@ var markView = {
     
 };
 
+var mouse = {
+    init: function() {
+        console.log('moused!');
+        return true;
+    }
+}
 //establishes a filter for the list of places so that when 
 //you search and then hit enter, only the places on the list
 //with the searched keyword will remain
@@ -426,6 +437,8 @@ var filterList = {
             });
 
         });
+
+      
         that.searched();
 
     },
@@ -434,7 +447,7 @@ var filterList = {
         var self = this;
 
         model.places.forEach(function(placed){
-            console.log(placed);
+          //  console.log(placed);
             var x = placed.tag;
         
             model.markArr.forEach(function(markArrCopy){
@@ -442,32 +455,28 @@ var filterList = {
                 var markTitle = markArrCopy.title;
                 var placeVis = placed.visibility;
 
-                markArrCopy.setMap(map);
-                $("#searchBar").keypress(function(e) {
-                    if (e.keyCode == 13) {
-                        if (x.contains(self.search)) {
-                            placed.visibility(true);
-
-                            if(placeTitle === markTitle){
-                                markArrCopy.setMap(map);
-                            }
-
-                        } else {
-                            placed.visibility(false);
-                            
-                            if(placeTitle === markTitle){
-                                markArrCopy.setMap(null);
-                            }
-                      
-                        }
+            //    markArrCopy.setMap(map);
+                if (x.contains(self.search)) {
+                    placed.visibility(true);
+                 //   console.log(placed);
+                    if(placeTitle === markTitle){
+                        console.log(markArrCopy.title, 'map');
+                        markArrCopy.setMap(map);
                     }
-                });
+
+                } else {
+                    placed.visibility(false);
+                    
+                    if(placeTitle === markTitle){
+                        console.log(markArrCopy.title, 'null');
+                        markArrCopy.setMap(null);
+                    }
+              
+                }
             })
         })
     }
 };
-
-
 
 
 
@@ -634,49 +643,6 @@ var animateView = {
         })
     }
 };
-
-/////////next step --- figure out how to make markers/search
-  /*  $("#searchBar").keypress(function(e) {
-        model.markArr.forEach(function(markArrCopy){
-            function timed() {
-                var placeID = document.getElementById(markArrCopy.id);
-                console.log(placeID);
-                var disp = placeID.style.display === 'block';
-
-                if(disp) {
-                    markArrCopy.setMap(map);
-                }
-                else {
-                    self.setMap(null);
-                }
-            };
-            var timeoutId = window.setTimeout(timed, 200);
-            console.log(markArrCopy.id);
-        })
-       /* if (e.keyCode == 13) {
-            function timed() {
-                for (var g = 0; g < model.markArr.length; g++) {
-                    var placeID = document.getElementById(self.modelPlace[g].id);
-                    var disp = placeID.style.display === 'block';
-
-                    if (disp) {
-                        self.markAnimate[g].setMap(map);
-                    } 
-                    else {
-                        self.markAnimate[g].setMap(null);
-                    }
-                }
-            }
-
-            var timeoutId = window.setTimeout(timed, 200);
-
-        }*/
-
-//    });
-
-var keypress = {
-
-}
 
 
 //initiates the map
