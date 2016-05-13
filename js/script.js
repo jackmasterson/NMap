@@ -30,7 +30,6 @@ var model = {
         },
         title: ko.observable('Johnny Mac House Of Spirits'),
         tag: ['', 'visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
-        address: '208 Main St, Asbury Park, NJ 07712',
         src: 'img/macs.jpg',
         mkImg: 'img/beer.png',
         nums: '0',
@@ -45,7 +44,6 @@ var model = {
         },
         title: ko.observable('The Stone Pony'),
         tag: ['', 'visit', 'music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
-        address: '913 Ocean Ave, Asbury Park, NJ 07712',
         src: 'img/pony.jpg',
         mkImg: 'img/music.png',
         nums: '1',
@@ -59,7 +57,6 @@ var model = {
         },
         title: ko.observable('Porta Pizzeria'),
         tag: ['', 'visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
-        address: '911 Kingsley St, Asbury Park, NJ 07712',
         src: 'img/porta.jpg',
         mkImg: 'img/pizza.png',
         nums: '2',
@@ -74,7 +71,6 @@ var model = {
         },
         title: ko.observable('Silverball Museum'),
         tag: ['', 'visit', 'vacation', 'pinball', 'silverball', 'museum', 'silver'],
-        address: '1000 Ocean Ave, Asbury Park, NJ 07712',
         src: 'img/silverball.jpg',
         mkImg: 'img/pinball.png',
         nums: '3',
@@ -88,7 +84,6 @@ var model = {
         },
         title: ko.observable('Asbury Park Convention Hall'),
         tag: ['', 'visit', 'shopping', 'tourist', 'pictures', 'convention', 'hall'],
-        address: '1300 Ocean Ave, Asbury Park, NJ 07712',
         src: 'img/hall.jpg',
         mkImg: 'img/shopping.png',
         nums: '4',
@@ -240,7 +235,6 @@ var fourSqView = {
                 });
 
                 clearTimeout(self.squareTimeout);
-          //      console.log(model.fourSqInfo());
             }
         });
 
@@ -280,7 +274,6 @@ var jamBaseView = {
 
     render: function() {
         var self = this;
-        console.log('hey!');
 
         $.ajax({
             url: self.jamBaseURL,
@@ -430,11 +423,11 @@ var markView = {
         model.currentInfo.shift();
 
         sq.forEach(function(sqInf){
-            
+
             var sqTitle = sqInf.Name;
 
              if(title === sqTitle){
-                console.log(title, sqTitle);
+
                 model.currentInfo.push({
                     'currentTitle': sqInf.Name,
                     'currentAddress': sqInf.Address,
@@ -443,7 +436,6 @@ var markView = {
             }
         });
 
-        console.log(model.currentInfo());
 
         model.markArr.forEach(function(markArrCopy) {
 
@@ -687,7 +679,6 @@ var animateView = {
             //initiates a click function to each marker
             allMarkCopy.addListener('click', function() {
                 var sq = model.fourSqInfo();
-                console.log(sq);
                 var title = this.title;
                 var address = this.address;
                 var src = this.src;
@@ -696,13 +687,16 @@ var animateView = {
 
                 //pushes the current info for the info-div
                 model.currentInfo.shift();
-                model.currentInfo.push({
-                    'currentTitle': sq.Name,
-                    'currentAddress': sq.Address,
-                    'currentTwitter': sq.Twitter
+                sq.forEach(function(sqInf){
+                    var sqTitle = sqInf.Name;
+                    if(title === sqTitle){
+                        model.currentInfo.push({
+                            'currentTitle': sqInf.Name,
+                            'currentAddress': sqInf.Address,
+                            'currentTwitter': sqInf.Twitter
+                        });
+                    }
                 });
-                console.log(model.currentInfo());
-                console.log(model.fourSqInfo());
 
                 //resets the markers on each click, so that
                 //they stop bouncing and switch back to 
