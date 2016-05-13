@@ -719,8 +719,8 @@ var initMap = {
         //same functionality as the socrata, jambase, and 
         //surfView timeouts described above
         this.text = 'Shoot. An interactive map of a beach town was supposed to' +
-            ' show up but something went wrong, so all you get is a boring' +
-            ' picture. Try re-loading the page, and if that does nothing' +
+            ' show up but something went wrong. Try re-loading the page,' +
+            ' and if that does nothing' +
             ' rest assured if the problem is on our end, we will have' +
             ' it figured out as soon as possible.';
 

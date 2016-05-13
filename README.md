@@ -17,6 +17,8 @@ APIs
 
 Google Maps API provides the maps, markers, marker animation.
 
+Foursquare provides data for each individual location: name, address, website and twitter (if available), and Foursquare web page under the 'More Info' link.
+
 JamBase provides the live music information for upcoming concerts in the area as well as a link to the online ticket purchase site if one is available.
 
 Socrata Open Data Network provides the 2013 Census information for Asbury Park, NJ.
