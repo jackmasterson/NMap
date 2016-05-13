@@ -28,7 +28,7 @@ var model = {
             lat: 40.216147,
             lng: -74.012914
         },
-        title: ko.observable('Johnny Mac House of Spirits'),
+        title: ko.observable('Johnny Mac House Of Spirits'),
         tag: ['', 'visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
         address: '208 Main St, Asbury Park, NJ 07712',
         src: 'img/macs.jpg',
@@ -57,7 +57,7 @@ var model = {
             lat: 40.220239,
             lng: -74.002344
         },
-        title: ko.observable('Porta'),
+        title: ko.observable('Porta Pizzeria'),
         tag: ['', 'visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
         address: '911 Kingsley St, Asbury Park, NJ 07712',
         src: 'img/porta.jpg',
@@ -86,7 +86,7 @@ var model = {
             lat: 40.223796,
             lng: -73.998585
         },
-        title: ko.observable('Convention Hall'),
+        title: ko.observable('Asbury Park Convention Hall'),
         tag: ['', 'visit', 'shopping', 'tourist', 'pictures', 'convention', 'hall'],
         address: '1300 Ocean Ave, Asbury Park, NJ 07712',
         src: 'img/hall.jpg',
@@ -240,7 +240,7 @@ var fourSqView = {
                 });
 
                 clearTimeout(self.squareTimeout);
-                console.log(model.fourSqInfo());
+          //      console.log(model.fourSqInfo());
             }
         });
 
@@ -425,13 +425,25 @@ var markView = {
         var title = this.title();
         var address = this.address;
         var src = this.src;
+        var sq = model.fourSqInfo();
 
         model.currentInfo.shift();
-        model.currentInfo.push({
-            'currentTitle': title,
-            'currentAddress': address,
-            'currentSRC': src
+
+        sq.forEach(function(sqInf){
+            
+            var sqTitle = sqInf.Name;
+
+             if(title === sqTitle){
+                console.log(title, sqTitle);
+                model.currentInfo.push({
+                    'currentTitle': sqInf.Name,
+                    'currentAddress': sqInf.Address,
+                    'currentTwitter': sqInf.Twitter
+                });
+            }
         });
+
+        console.log(model.currentInfo());
 
         model.markArr.forEach(function(markArrCopy) {
 
@@ -674,7 +686,8 @@ var animateView = {
 
             //initiates a click function to each marker
             allMarkCopy.addListener('click', function() {
-
+                var sq = model.fourSqInfo();
+                console.log(sq);
                 var title = this.title;
                 var address = this.address;
                 var src = this.src;
@@ -684,10 +697,12 @@ var animateView = {
                 //pushes the current info for the info-div
                 model.currentInfo.shift();
                 model.currentInfo.push({
-                    'currentTitle': title,
-                    'currentAddress': address,
-                    'currentSRC': src
+                    'currentTitle': sq.Name,
+                    'currentAddress': sq.Address,
+                    'currentTwitter': sq.Twitter
                 });
+                console.log(model.currentInfo());
+                console.log(model.fourSqInfo());
 
                 //resets the markers on each click, so that
                 //they stop bouncing and switch back to 
@@ -803,11 +818,10 @@ var initMap = {
 //runs the viewModel code, and everything within it
 viewModel.init();
 
-
-
-
-
-
-
 //applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
+
+
+
+
+

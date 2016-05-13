@@ -39,7 +39,9 @@
     <div class="list" id="mark" data-bind="foreach: model.currentInfo">
         <h2 class="mark-name" data-bind="text: currentTitle"></h2>
         <h2 class="mark-address" data-bind="text: currentAddress"></h2>
-        <img class="mark-img" data-bind="attr: { src: currentSRC }">
+        <h3 class="mark-address">Twitter: 
+            <span data-bind="text: currentTwitter"></span>
+        </h3>
     </div>
     <div class="surf-header">
         <div class="white-back">
