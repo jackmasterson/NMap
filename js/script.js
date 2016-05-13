@@ -490,8 +490,6 @@ var filterList = {
         var that = this;
         var place = model.places;
         var places = ko.observableArray(place);
-        //creates a computed function for the given array
-        filterList: ko.computed(function() {
 
             //uses knockout to check the value of the search bar
             //in the list view; this variable is logged as whatever
@@ -511,8 +509,6 @@ var filterList = {
                 };
 
             });
-
-        });
 
         that.searched();
 
@@ -569,6 +565,7 @@ var listView = {
     },
 
     render: function() {
+        var self = this;
         var places = viewModel.getPlaces();
 
         places.forEach(function(markCopy) {
@@ -584,18 +581,42 @@ var listView = {
                     .concat(places[4].tag);
 
                 return ko.utils.arrayFilter(allTags, function(spot) {
-                    var uniqueTags = [];
+                    self.uniqueTags = ko.observableArray([]);
 
                     //checks the tag arrays for duplicates
                     //so as not to search them/autofill them twice
                     $.each(allTags, function(i, el) {
-                        if ($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
+                        if ($.inArray(el, self.uniqueTags()) === -1) self.uniqueTags.push(el);
                     });
 
                     //initiates the autocomplete search function, using the
                     //uniqueTags array 
                     $(".searchBar").autocomplete({
-                        source: uniqueTags
+                        source: self.uniqueTags(),
+
+                        //if you take out the below
+                        //then the search runs fine, but with 
+                        //the 'double-tap enter' problem
+                        select: function(a, b) {
+                            console.log(this);
+                            console.log(a);
+                            console.log(b);
+                            console.log(this);
+                            $(this).val(b.item.value);
+                          //  console.log($(this).val());
+                            var val = $(this).val();
+                            console.log(val);
+                            console.log(self.uniqueTags());
+
+                            self.uniqueTags().forEach(function(tagged){
+                                //console.log(tagged);
+                                if(val === tagged){
+                                    filterList.init();
+                                    return true;
+                                }
+                            })
+                        //   if
+                        }
                     });
                 });
             });
