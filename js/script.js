@@ -222,20 +222,20 @@ var fourSqView = {
             dataType: 'json',
             success: function(response){
                 var place = response.response.venues[0];
-                console.log(place);
                 var name = place.name;
                 var address = place.location.address;
                 var phone = place.contact.formattedPhone;
                 var twitter = place.contact.twitter;
                 var url = place.url;
-                console.log(url);
+                var sqUrl = 'http://foursquare.com/v/' + place.id;
 
                 model.fourSqInfo.push({
                     'Name': name,
                     'Address': address,
                     'Twitter': twitter,
                     'Phone': phone,
-                    'url': url
+                    'url': url,
+                    'sqUrl': sqUrl
                 });
 
                 clearTimeout(self.squareTimeout);
@@ -436,7 +436,8 @@ var markView = {
                     'currentTitle': sqInf.Name,
                     'currentAddress': sqInf.Address,
                     'currentTwitter': sqInf.Twitter,
-                    'currentURL': sqInf.url
+                    'currentURL': sqInf.url,
+                    'currentSqUrl': sqInf.sqUrl
                 });
             }
         });
@@ -679,7 +680,8 @@ var animateView = {
                             'currentTitle': sqInf.Name,
                             'currentAddress': sqInf.Address,
                             'currentTwitter': sqInf.Twitter,
-                            'currentURL': sqInf.url
+                            'currentURL': sqInf.url,
+                            'currentSqUrl': sqInf.sqUrl
                         });
                     }
                 });

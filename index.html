@@ -55,6 +55,7 @@
         <h3 class="mark-address">Twitter: 
             <span data-bind="text: currentTwitter"></span>
         </h3>
+        <a target="_blank" data-bind="attr: { href: currentSqUrl }">More Info</a>
         <h5>Information Provided by 
             <a target="_blank" href="https://foursquare.com/">Foursquare</a>
         </h5>
@@ -105,8 +106,6 @@
     </div>
     <div class="map-fail" data-bind="visible: initMap.fail">
         <h2 data-bind="text: initMap.text"></h2>
-        <img class="static" src="img/static.jpg">
-
     </div>
     <div id="map"></div>
     <div class="socrata-header">
