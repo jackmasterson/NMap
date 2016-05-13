@@ -28,20 +28,36 @@
         <img class="header" src="img/apnj.jpg" alt="Greetings from Asbury Park, NJ">
     </div>
     <div class="listButton">
-        <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View" data-bind="click: toggle.list">
-        <a href="#" class="slideout-menu-toggle">
-            <img class="toggle" src="img/mic.png" alt="Toggle Live Shows">
-        </a>
-        <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info" data-bind="click: toggle.socrata">
-        <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info" data-bind="click: toggle.surf">
+        <div class="search-div">
+            <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View" data-bind="click: toggle.list">
+            <h4 class="search-head">Search</h4>
+        </div>
+        <div class="search-div">
+            <a href="#" class="slideout-menu-toggle">
+                <img class="toggle" src="img/mic.png" alt="Toggle Live Shows">
+            </a>
+            <h4 class="search-head">Live Music</h4>
+        </div>
+        <div class="search-div">
+            <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info" data-bind="click: toggle.socrata">
+            <h4 class="search-head">Census Info</h4>
+        </div>
+        <div class="search-div">
+            <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info" data-bind="click: toggle.surf">
+            <h4 class="search-head">Surf Info</h4>
+        </div>
         <div class="display"></div>
     </div>
     <div class="list" id="mark" data-bind="foreach: model.currentInfo">
         <h2 class="mark-name" data-bind="text: currentTitle"></h2>
         <h2 class="mark-address" data-bind="text: currentAddress"></h2>
+        <a target="_blank" data-bind="attr: { href: currentURL }">Website</a>
         <h3 class="mark-address">Twitter: 
             <span data-bind="text: currentTwitter"></span>
         </h3>
+        <h5>Information Provided by 
+            <a target="_blank" href="https://foursquare.com/">Foursquare</a>
+        </h5>
     </div>
     <div class="surf-header">
         <div class="white-back">
