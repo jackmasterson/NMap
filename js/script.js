@@ -17,7 +17,7 @@ var model = {
     socrataInfo: ko.observableArray([]),
     //jamBaseInfo is where I store the info for the live music API
     jamBaseInfo: ko.observableArray([]),
-
+    fourSqInfo: ko.observableArray([]),
     surfInfo: ko.observableArray([]),
     dates: ko.observableArray([]),
     //individual marker data gets pushed here
@@ -57,7 +57,7 @@ var model = {
             lat: 40.220239,
             lng: -74.002344
         },
-        title: ko.observable('Porta Pizza/Wine Bar'),
+        title: ko.observable('Porta'),
         tag: ['', 'visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
         address: '911 Kingsley St, Asbury Park, NJ 07712',
         src: 'img/porta.jpg',
@@ -106,6 +106,7 @@ var viewModel = {
         model.currentPlace = model.places[0];
         socrataView.init();
         jamBaseView.init();
+        fourSqView.init();
         surfView.init();
         listView.init();
         animateView.init();
@@ -190,6 +191,68 @@ var socrataView = {
 };
 
 
+var fourSqView = {
+    init: function() {
+        var that = this;
+
+        this.squareTimeout = setTimeout(function() {
+            that.fail(true);
+        }, 3000);
+
+        model.places.forEach(function(place){
+            that.title = place.title();
+        
+            that.fourSqURL = 'https://api.foursquare.com/v2/venues/search' +
+              '?client_id=Q4GS4EPCPCFTINXSCJO0HZ33UX1CS555SC0B1NSM2UNJZTRM' +
+              '&client_secret=MWNXI2MIQXXMEUUTVRHMIAXMIHYUDMVGOBQFX225K1X0ZCHJ' +
+              '&v=20130815' +
+              '&near=Asbury Park, NJ' +
+              '&query=' + that.title;
+                    //Johnny Mac
+                    //Porta
+                    //Stone Pony
+                    //Pinball Museum
+                    //Convention Hall
+                    that.render();
+        });
+
+          
+    },
+
+    render: function() {
+        var self = this;
+
+        $.ajax({
+            url: this.fourSqURL,
+            dataType: 'json',
+            success: function(response){
+                var place = response.response.venues[0];
+                var name = place.name
+                var address = place.location.address;
+                var phone = place.contact.formattedPhone;
+                var twitter = place.contact.twitter;
+
+                model.fourSqInfo.push({
+                    'Name': name,
+                    'Address': address,
+                    'Twitter': twitter,
+                    'Phone': phone
+                });
+
+                clearTimeout(self.squareTimeout);
+                console.log(model.fourSqInfo());
+            }
+        });
+
+    },
+
+    fail: ko.observable(false)
+
+};
+
+
+
+
 //live music API --- shows the venue, band, location of upcoming
 //shows in the area, and you can click through to the band or 
 //ticket websites
@@ -217,6 +280,7 @@ var jamBaseView = {
 
     render: function() {
         var self = this;
+        console.log('hey!');
 
         $.ajax({
             url: self.jamBaseURL,
@@ -738,6 +802,12 @@ var initMap = {
 
 //runs the viewModel code, and everything within it
 viewModel.init();
+
+
+
+
+
+
 
 //applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
