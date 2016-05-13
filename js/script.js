@@ -16,6 +16,7 @@ var model = {
     socrataInfo: ko.observableArray([]),
     //jamBaseInfo is where I store the info for the live music API
     jamBaseInfo: ko.observableArray([]),
+    //uses info from Foursquare to populate the info-div for all the locations
     fourSqInfo: ko.observableArray([]),
     surfInfo: ko.observableArray([]),
     dates: ko.observableArray([]),
@@ -419,8 +420,6 @@ var markView = {
     render: function() {
         var self = this;
         var title = this.title();
-        var address = this.address;
-        var src = this.src;
         var sq = model.fourSqInfo();
 
         model.currentInfo.shift();
@@ -494,28 +493,34 @@ var filterList = {
         //uses knockout to check the value of the search bar
         //in the list view; this variable is logged as whatever
         //was in that search bar, all lower case
-        that.search = viewModel.query().toLowerCase();
+        //creates a computed function for the given array
+        filterList: ko.computed(function() {
+            that.search = viewModel.query().toLowerCase();
 
-        //filters the given array
-        return ko.utils.arrayFilter(places(), function(placed) {
+            //filters the given array
+            return ko.utils.arrayFilter(places(), function(placed) {
 
-            //if the array contains the searched word, it will
-            //return true
-            Array.prototype.contains = function(searched) {
-                for (var r in this) {
-                    if (this[r] == searched) return true;
-                }
-                return false;
-            };
+                //if the array contains the searched word, it will
+                //return true
+                Array.prototype.contains = function(searched) {
+                    for (var r in this) {
+                        if (this[r] == searched) return true;
+                    }
+                    return false;
+                };
 
+            });
         });
 
         that.searched();
+
+        
 
     },
 
     //actually initiates the search functionality for each place
     searched: function() {
+        console.log('searchedIT!');
         var self = this;
 
 
@@ -565,13 +570,12 @@ var listView = {
     },
 
     render: function() {
-        var places = viewModel.getPlaces();
-
+      
         var places = model.places;
 
         var allTags = places.reduce(function(prev, curr) {
-            return prev.concat(curr.tag)
-        }, [])
+            return prev.concat(curr.tag);
+        }, []);
 
         var uniqueTags = [];
 
@@ -665,8 +669,6 @@ var animateView = {
             allMarkCopy.addListener('click', function() {
                 var sq = model.fourSqInfo();
                 var title = this.title;
-                var address = this.address;
-                var src = this.src;
 
                 $('.list').show('slow', function() {});
 
@@ -733,7 +735,6 @@ var initMap = {
     fail: ko.observable(false),
 
     init: function() {
-        var self = this;
 
         this.icon = 'img/marker-blue.png';
 
