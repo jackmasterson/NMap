@@ -565,67 +565,26 @@ var listView = {
     },
 
     render: function() {
-        var self = this;
         var places = viewModel.getPlaces();
 
-        places.forEach(function(markCopy) {
-            var autofill = ko.computed(function() {
-                var places = model.places;
-                //adds all the individual place's tags together
-                //so that the function can search through them all
-                //at once
-                var allTags = places[0].tag
-                    .concat(places[1].tag)
-                    .concat(places[2].tag)
-                    .concat(places[3].tag)
-                    .concat(places[4].tag);
+        var places = model.places;
 
-                return ko.utils.arrayFilter(allTags, function(spot) {
-                    self.uniqueTags = ko.observableArray([]);
+        var allTags = places.reduce(function(prev, curr){
+            return prev.concat(curr.tag)
+        }, [])
 
-                    //checks the tag arrays for duplicates
-                    //so as not to search them/autofill them twice
-                    $.each(allTags, function(i, el) {
-                        if ($.inArray(el, self.uniqueTags()) === -1) self.uniqueTags.push(el);
-                    });
+        var uniqueTags = [];
 
-                    //initiates the autocomplete search function, using the
-                    //uniqueTags array 
-                    $(".searchBar").autocomplete({
-                        source: self.uniqueTags(),
+        //checks the tag arrays for duplicates
+        //so as not to search them/autofill them twice
+        $.each(allTags, function(i, el) {
+            if ($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
+        });
 
-                        //if you take out the below
-                        //then the search runs fine, but with 
-                        //the 'double-tap enter' problem
-                        select: function(a, b) {
-                            console.log(this);
-                            console.log(a);
-                            console.log(b);
-                            console.log(this);
-                            $(this).val(b.item.value);
-                          //  console.log($(this).val());
-                            var val = $(this).val();
-                            console.log(val);
-                            console.log(self.uniqueTags());
-
-                            self.uniqueTags().forEach(function(tagged){
-                                //console.log(tagged);
-                                if(val === tagged){
-                                    filterList.init();
-                                    return true;
-                                }
-                            })
-                        //   if
-                        }
-                    });
-                });
-            });
-
-            return function() {
-
-                viewModel.setCurrentPlace(markCopy);
-                markView.render();
-            };
+        //initiates the autocomplete search function, using the
+        //uniqueTags array 
+        $(".searchBar").autocomplete({
+            source: uniqueTags
         });
     }
 };
