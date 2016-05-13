@@ -38,7 +38,7 @@
             </a>
             <h4 class="search-head">Live Music</h4>
         </div>
-        <div class="search-div">
+        <div class="search-div" id="socrata-search-div">
             <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info" data-bind="click: toggle.socrata">
             <h4 class="search-head">Census Info</h4>
         </div>
@@ -46,19 +46,21 @@
             <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info" data-bind="click: toggle.surf">
             <h4 class="search-head">Surf Info</h4>
         </div>
-        <div class="display"></div>
     </div>
     <div class="list" id="mark" data-bind="foreach: model.currentInfo">
-        <h2 class="mark-name" data-bind="text: currentTitle"></h2>
+        <a target="_blank" data-bind="attr: { href: currentURL }">
+            <h2 class="mark-name" data-bind="text: currentTitle"></h2>
+        </a>
         <h2 class="mark-address" data-bind="text: currentAddress"></h2>
-        <a target="_blank" data-bind="attr: { href: currentURL }">Website</a>
         <h3 class="mark-address">Twitter: 
             <span data-bind="text: currentTwitter"></span>
         </h3>
-        <a target="_blank" data-bind="attr: { href: currentSqUrl }">More Info</a>
-        <h5>Information Provided by 
+        <a class="mark-address" target="_blank" data-bind="attr: { href: currentSqUrl }">
+            <h3 class="mark-address">More Info</h3>
+        </a>
+        <h3 class="mark-address">Information Provided by 
             <a target="_blank" href="https://foursquare.com/">Foursquare</a>
-        </h5>
+        </h3>
     </div>
     <div class="surf-header">
         <div class="white-back">
@@ -100,7 +102,7 @@
                     </li>
                 </ul>
                 <br>
-                <h3 class="divBreak"> ---------------------------------------------- </h3>
+                <h3 class="divBreak"> --------------------------------- </h3>
             </div>
         </div>
     </div>
@@ -135,7 +137,8 @@
             <img src="img/microphone.jpg" class="mic">
         </div>
         <div>
-            <h2>Live Music in Asbury Park</h2>
+            <a href="#/" class="slideout-menu-toggle">X</a><br>
+                <h2>Live Music in Asbury Park</h2>
             <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
                 <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
             </a>
