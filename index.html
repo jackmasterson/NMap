@@ -19,7 +19,7 @@
         <button class="hide" data-bind="click: toggle.hideList">Click to Hide</button>
         <ul class="mark-list" data-bind="foreach: model.places">
             <div data-bind="if: visibility">
-            <li data-bind="text: title, click: markView.render"></li>
+                <li data-bind="text: title, click: markView.render"></li>
             </div>
         </ul>
         <div class="display"></div>
@@ -137,8 +137,9 @@
             <img src="img/microphone.jpg" class="mic">
         </div>
         <div>
-            <a href="#/" class="slideout-menu-toggle">X</a><br>
-                <h2>Live Music in Asbury Park</h2>
+            <a href="#/" class="slideout-menu-toggle">X</a>
+            <br>
+            <h2>Live Music in Asbury Park</h2>
             <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
                 <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
             </a>
@@ -161,11 +162,11 @@
     </div>
 
 
-        <script src="js/lib/knockout-3.2.0.js"></script>
-        <script src="js/lib/jquery.js"></script>
-        <script src="js/lib/jquery-ui.min.js"></script>
-        <script src="js/script.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/jquery-ui.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
     &callback=initMap.init" async defer></script>
 
 </body>

@@ -3,7 +3,6 @@
 //in the README
 //Jack Masterson, May 6th, 2016
 //Udacity, FEND Nanodegree, Project 5
-
 'use strict';
 
 //creates the map variable which will be initiated later in the script
@@ -194,24 +193,24 @@ var fourSqView = {
             that.fail(true);
         }, 3000);
 
-        model.places.forEach(function(place){
+        model.places.forEach(function(place) {
             that.title = place.title();
-        
+
             that.fourSqURL = 'https://api.foursquare.com/v2/venues/search' +
-              '?client_id=Q4GS4EPCPCFTINXSCJO0HZ33UX1CS555SC0B1NSM2UNJZTRM' +
-              '&client_secret=MWNXI2MIQXXMEUUTVRHMIAXMIHYUDMVGOBQFX225K1X0ZCHJ' +
-              '&v=20130815' +
-              '&near=Asbury Park, NJ' +
-              '&query=' + that.title;
-                    //Johnny Mac
-                    //Porta
-                    //Stone Pony
-                    //Pinball Museum
-                    //Convention Hall
-                    that.render();
+                '?client_id=Q4GS4EPCPCFTINXSCJO0HZ33UX1CS555SC0B1NSM2UNJZTRM' +
+                '&client_secret=MWNXI2MIQXXMEUUTVRHMIAXMIHYUDMVGOBQFX225K1X0ZCHJ' +
+                '&v=20130815' +
+                '&near=Asbury Park, NJ' +
+                '&query=' + that.title;
+            //Johnny Mac
+            //Porta
+            //Stone Pony
+            //Pinball Museum
+            //Convention Hall
+            that.render();
         });
 
-          
+
     },
 
     render: function() {
@@ -220,7 +219,7 @@ var fourSqView = {
         $.ajax({
             url: this.fourSqURL,
             dataType: 'json',
-            success: function(response){
+            success: function(response) {
                 var place = response.response.venues[0];
                 var name = place.name;
                 var address = place.location.address;
@@ -426,11 +425,11 @@ var markView = {
 
         model.currentInfo.shift();
 
-        sq.forEach(function(sqInf){
+        sq.forEach(function(sqInf) {
 
             var sqTitle = sqInf.Name;
 
-             if(title === sqTitle){
+            if (title === sqTitle) {
 
                 model.currentInfo.push({
                     'currentTitle': sqInf.Name,
@@ -492,24 +491,24 @@ var filterList = {
         var place = model.places;
         var places = ko.observableArray(place);
 
-            //uses knockout to check the value of the search bar
-            //in the list view; this variable is logged as whatever
-            //was in that search bar, all lower case
-            that.search = viewModel.query().toLowerCase();
+        //uses knockout to check the value of the search bar
+        //in the list view; this variable is logged as whatever
+        //was in that search bar, all lower case
+        that.search = viewModel.query().toLowerCase();
 
-            //filters the given array
-            return ko.utils.arrayFilter(places(), function(placed) {
+        //filters the given array
+        return ko.utils.arrayFilter(places(), function(placed) {
 
-                //if the array contains the searched word, it will
-                //return true
-                Array.prototype.contains = function(searched) {
-                    for (var r in this) {
-                        if (this[r] == searched) return true;
-                    }
-                    return false;
-                };
+            //if the array contains the searched word, it will
+            //return true
+            Array.prototype.contains = function(searched) {
+                for (var r in this) {
+                    if (this[r] == searched) return true;
+                }
+                return false;
+            };
 
-            });
+        });
 
         that.searched();
 
@@ -570,7 +569,7 @@ var listView = {
 
         var places = model.places;
 
-        var allTags = places.reduce(function(prev, curr){
+        var allTags = places.reduce(function(prev, curr) {
             return prev.concat(curr.tag)
         }, [])
 
@@ -673,9 +672,9 @@ var animateView = {
 
                 //pushes the current info for the info-div
                 model.currentInfo.shift();
-                sq.forEach(function(sqInf){
+                sq.forEach(function(sqInf) {
                     var sqTitle = sqInf.Name;
-                    if(title === sqTitle){
+                    if (title === sqTitle) {
                         model.currentInfo.push({
                             'currentTitle': sqInf.Name,
                             'currentAddress': sqInf.Address,
@@ -802,8 +801,3 @@ viewModel.init();
 
 //applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
-
-
-
-
-
