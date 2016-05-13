@@ -520,7 +520,6 @@ var filterList = {
 
     //actually initiates the search functionality for each place
     searched: function() {
-        console.log('searchedIT!');
         var self = this;
 
 
