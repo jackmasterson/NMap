@@ -11,15 +11,14 @@
 </head>
 
 <body>
-    <div class="list" id="failure"></div>
     <div class="list" id="listed">
-        <ul class="listUL">
+        <div class="search-buttons">
             <input class="searchBar" data-bind="value: query, valueUpdate: 'keyup', event: { keypress: toggle.filter }" autocomplete="off" placeholder="Hit Enter Twice to Clear" autofocus />
-        </ul>
-        <button class="hide" data-bind="click: toggle.hideList">Click to Hide</button>
+            <button class="hide" data-bind="click: toggle.hideList">Click to Hide</button>
+        </div>
         <div class="mark-list" data-bind="foreach: model.places">
             <ul data-bind="if: visibility">
-                <li data-bind="text: title, click: markView.render"></li>
+                <li class="mark-li" data-bind="text: title, click: markView.render"></li>
             </ul>
         </div>
         <div class="display"></div>
@@ -133,7 +132,6 @@
     </div>
     <div class="jamBase-header">
         <div data-bind="visible: jamBaseView.fail">
-            <h2 data-bind="text: jamBaseView.text"></h2>
             <img alt="Microphone" src="img/microphone.jpg" class="mic">
         </div>
         <div>

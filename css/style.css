@@ -45,15 +45,20 @@ hr {
 #mark {
     margin-left: 62%;
     margin-top: 41%;
+    padding: 5px;
     height: 150px;
     width: 250px;
     display: none;
 }
 
-#failure {
-    z-index: 6;
-    margin: 20px;
-    border: none;
+.search-buttons {
+    padding-left: 55px;
+
+}
+
+.hide {
+    width: 75px;
+    margin-left: 45px;
 }
 
 .static {
@@ -70,13 +75,14 @@ hr {
     display: none;
 }
 
-.mark-list {
-    padding: 15px;
-}
-
 .mark-img {
     height: 75px;
     width: 75px;
+}
+
+.mark-li {
+    width: 200px;
+    padding: 0px 15px 0px 15px;
 }
 
 .mark-name {
@@ -215,8 +221,13 @@ hr {
 }
 
 .mic {
-    height: 5em;
-    width: 9em;
+    height: 13em;
+    width: 12em;
+}
+
+.fail-text {
+    color: white;
+
 }
 
 .concerts {

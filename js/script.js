@@ -271,10 +271,7 @@ var jamBaseView = {
             '&radius=5&page=0&api_key=u34rze74n8752gcq7nt3bzn3';
 
         //same functionality as the socrata timeout detailed above
-        this.text = 'This was supposed to show a bunch of information ' +
-            'about concerts in the area, and the request failed. Im so, so sorry. ' +
-            'So instead, here is a picture of a microphone, which should make up for' +
-            ' it. Right?';
+
 
         //establishes the timeout if the ajax request fails/takes too long
         this.jamBaseTimeout = setTimeout(function() {
@@ -286,6 +283,7 @@ var jamBaseView = {
     fail: ko.observable(false),
 
     render: function() {
+
         var self = this;
 
         $.ajax({
