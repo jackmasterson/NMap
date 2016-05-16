@@ -28,7 +28,7 @@ var model = {
             lat: 40.216147,
             lng: -74.012914
         },
-        title: ko.observable('Johnny Mac House Of Spirits'),
+        title: 'Johnny Mac House Of Spirits',
         tag: ['', 'visit', 'bar', 'alcohol', 'beer', 'nightlife', 'night life', 'pizza', 'johnny', 'mac'],
         src: 'img/macs.jpg',
         mkImg: 'img/beer.png',
@@ -42,7 +42,7 @@ var model = {
             lat: 40.220001,
             lng: -74.000947
         },
-        title: ko.observable('The Stone Pony'),
+        title: 'The Stone Pony',
         tag: ['', 'visit', 'music', 'concert', 'live', 'stone', 'pony', 'entertainment'],
         src: 'img/pony.jpg',
         mkImg: 'img/music.png',
@@ -55,7 +55,7 @@ var model = {
             lat: 40.220239,
             lng: -74.002344
         },
-        title: ko.observable('Porta Pizzeria'),
+        title: 'Porta Pizzeria',
         tag: ['', 'visit', 'bar', 'restaurant', 'pizza', 'nightclub', 'porta', 'wine'],
         src: 'img/porta.jpg',
         mkImg: 'img/pizza.png',
@@ -69,7 +69,7 @@ var model = {
             lat: 40.2207,
             lng: -73.999884
         },
-        title: ko.observable('Silverball Museum'),
+        title: 'Silverball Museum',
         tag: ['', 'visit', 'vacation', 'pinball', 'silverball', 'museum', 'silver'],
         src: 'img/silverball.jpg',
         mkImg: 'img/pinball.png',
@@ -82,7 +82,7 @@ var model = {
             lat: 40.223796,
             lng: -73.998585
         },
-        title: ko.observable('Asbury Park Convention Hall'),
+        title: 'Asbury Park Convention Hall',
         tag: ['', 'visit', 'shopping', 'tourist', 'pictures', 'convention', 'hall'],
         src: 'img/hall.jpg',
         mkImg: 'img/shopping.png',
@@ -156,8 +156,9 @@ var socrataView = {
 
         $.ajax({
             url: this.socrataURL,
-            dataType: 'json',
-            success: function(response) {
+            dataType: 'json'
+        })
+        .done (function(response) {
                 var infos = response;
                 //I only wanted the most recent information on the site
                 //so I created the 'info' variable
@@ -176,8 +177,8 @@ var socrataView = {
                 //if the request fails or takes too long, it times out
                 clearTimeout(self.socrataTimeout);
 
-            }
-        });
+        })
+        
 
     },
 
@@ -187,15 +188,23 @@ var socrataView = {
 
 
 var fourSqView = {
+
     init: function() {
         var that = this;
+
+        this.text = 
+            'Welp, this is embarrassing. We were supposed to see' +
+            ' information provided by Foursquare about the' +
+            ' location you clicked on, but something went wrong.' +
+            ' refresh the page, and we will do some work on our end' +
+            ' to get things up and running again.';
 
         this.squareTimeout = setTimeout(function() {
             that.fail(true);
         }, 3000);
 
         model.places.forEach(function(place) {
-            that.title = place.title();
+            that.title = place.title;
 
             that.fourSqURL = 'https://api.foursquare.com/v2/venues/search' +
                 '?client_id=Q4GS4EPCPCFTINXSCJO0HZ33UX1CS555SC0B1NSM2UNJZTRM' +
@@ -219,8 +228,9 @@ var fourSqView = {
 
         $.ajax({
             url: this.fourSqURL,
-            dataType: 'json',
-            success: function(response) {
+            dataType: 'json'
+        })
+        .done (function(response) {
                 var place = response.response.venues[0];
                 var name = place.name;
                 var address = place.location.address;
@@ -239,8 +249,7 @@ var fourSqView = {
                 });
 
                 clearTimeout(self.squareTimeout);
-            }
-        });
+        })
 
     },
 
@@ -281,8 +290,9 @@ var jamBaseView = {
 
         $.ajax({
             url: self.jamBaseURL,
-            dataType: "json",
-            success: function(response) {
+            dataType: "json"
+        })
+        .done (function(response) {
                 var infos = response;
 
                 //pushes the needed jamBase information to the
@@ -295,8 +305,7 @@ var jamBaseView = {
                 //initiates the timeout request
                 clearTimeout(self.jamBaseTimeout);
 
-            }
-        });
+        })
 
         //puts the jamBase info into a slideout menu that comes in
         //from the right side of teh screen when the microphone PNG
@@ -350,8 +359,9 @@ var surfView = {
 
         $.ajax({
             url: this.surfURL,
-            dataType: 'jsonp',
-            success: function(response) {
+            dataType: 'jsonp'
+        })
+        .done (function(response) {
                 var infos = response;
                 //I only wanted the certain information from the JSON
                 //so I created the 'infos' variable and pushed them to
@@ -371,8 +381,7 @@ var surfView = {
                 //if the request fails or takes too long, it times out
                 clearTimeout(self.surfTimeout);
 
-            }
-        });
+        })
 
     },
 
@@ -431,7 +440,7 @@ var markView = {
 
     render: function() {
         var self = this;
-        var title = this.title();
+        var title = this.title;
         var sq = model.fourSqInfo();
 
         model.currentInfo.shift();
@@ -458,7 +467,7 @@ var markView = {
             markArrCopy.setIcon(null);
             markArrCopy.setAnimation(null);
 
-            if (markArrCopy.title === self.title()) {
+            if (markArrCopy.title === self.title) {
 
                 var currentPin = markArrCopy;
                 var timeoutID = window.setTimeout(stopBouncing, 2300);
@@ -545,7 +554,7 @@ var filterList = {
             })
 
             model.markArr.forEach(function(markArrCopy) {
-                var placeTitle = placed.title();
+                var placeTitle = placed.title;
                 var markTitle = markArrCopy.title;
 
                 //if the place's tag is contained in the 
@@ -615,7 +624,7 @@ var listView = {
                     })
         
                     model.markArr.forEach(function(markArrCopy) {
-                        var placeTitle = placed.title();
+                        var placeTitle = placed.title;
                         var markTitle = markArrCopy.title;
 
                         //if the place's tag is contained in the 
@@ -681,7 +690,7 @@ var pinView = {
 
             model.markArr.push(
                 new google.maps.Marker({
-                    title: data.title(),
+                    title: data.title,
                     src: data.src,
                     address: data.address,
                     position: data.position,
@@ -786,6 +795,9 @@ var initMap = {
     fail: ko.observable(false),
 
     init: function() {
+        
+        //runs the viewModel code, and everything within it
+        viewModel.init();
 
         this.icon = 'img/marker-blue.png';
 
@@ -848,8 +860,7 @@ var initMap = {
     }
 };
 
-//runs the viewModel code, and everything within it
-viewModel.init();
+
 
 //applies the knockoutjs bindings to the viewModel info
 ko.applyBindings(viewModel);
