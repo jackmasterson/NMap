@@ -17,11 +17,11 @@
             <input class="searchBar" data-bind="value: query, valueUpdate: 'keyup', event: { keypress: toggle.filter }" autocomplete="off" placeholder="Hit Enter Twice to Clear" autofocus />
         </ul>
         <button class="hide" data-bind="click: toggle.hideList">Click to Hide</button>
-        <ul class="mark-list" data-bind="foreach: model.places">
-            <div data-bind="if: visibility">
+        <div class="mark-list" data-bind="foreach: model.places">
+            <ul data-bind="if: visibility">
                 <li data-bind="text: title, click: markView.render"></li>
-            </div>
-        </ul>
+            </ul>
+        </div>
         <div class="display"></div>
     </div>
     <div>
@@ -75,16 +75,16 @@
             <div data-bind="foreach: model.surfInfo">
                 <br>
                 <ul class="surf" id="waves">
-                    <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&degF</li>
+                    <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&deg;F</li>
                     <li>Max Break:
                         <span data-bind="text: swell.maxBreakingHeight"></span>ft
                     </li>
                     <li>Min Break:
                         <span data-bind="text: swell.minBreakingHeight"></span>ft
                     </li>
-                    <h5 class="wind-head">Wind</h5>
+                    <li class="wind-head">Wind</li>
                     <li>Chill:
-                        <span data-bind="text: wind.chill"></span>&degF
+                        <span data-bind="text: wind.chill"></span>&deg;F
                     </li>
                     <li>Direction:
                         <span data-bind="text: wind.compassDirection"></span>
@@ -97,19 +97,19 @@
                     </li>
                     <li class="windImg">
                         <h5>Wind/Swell</h5>
-                        <img class="chart" alt="Wind Chart" data-bind="attr: { src: charts.wind }">
-                        <img class="chart" alt="Swell Chart" data-bind="attr: { src: charts.swell }">
+                        <img alt="Wind Chart" class="chart" alt="Wind Chart" data-bind="attr: { src: charts.wind }">
+                        <img alt="Sweel Chart" class="chart" alt="Swell Chart" data-bind="attr: { src: charts.swell }">
                     </li>
                 </ul>
                 <br>
-                <h3 class="divBreak"> --------------------------------- </h3>
+                <hr>
             </div>
         </div>
     </div>
     <div class="map-fail" data-bind="visible: initMap.fail">
         <h2 data-bind="text: initMap.text"></h2>
     </div>
-    <div id="map"></div>
+    <div id="map" class="my-map"></div>
     <div class="socrata-header">
         <h4>Asbury Park Census Info</h4>
         <ul data-bind="foreach: model.socrataInfo">
@@ -134,29 +134,33 @@
     <div class="jamBase-header">
         <div data-bind="visible: jamBaseView.fail">
             <h2 data-bind="text: jamBaseView.text"></h2>
-            <img src="img/microphone.jpg" class="mic">
+            <img alt="Microphone" src="img/microphone.jpg" class="mic">
         </div>
         <div>
             <a href="#/" class="slideout-menu-toggle">X</a>
             <br>
             <h2>Live Music in Asbury Park</h2>
             <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
-                <img src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" border="0" />
+                <img "JamBase logo" class="jam-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts"/>
             </a>
             <br>
-            <h7 class="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h7>
+            <h6 class="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h6>
         </div>
         <div data-bind="foreach: model.jamBaseInfo">
             <ul class="concerts">
-                <li>Artist: <span data-bind="text: Artists[0].Name"></span>
+                <li>Artist: 
+                    <span data-bind="text: Artists[0].Name"></span>
                 </li>
                 <li>Venue:
-                    <a target="blank" class="jamHREF" data-bind="attr: { href: Venue.Url }"><span data-bind="text: Venue.Name"></span>
-                </a>
+                    <a target="_blank" class="jamHREF" data-bind="attr: { href: Venue.Url }">
+                        <span data-bind="text: Venue.Name"></span>
+                    </a>
                 </li>
                 <li>City: <span data-bind="text: Venue.City"></span>
                 </li>
-                <a target="blank" class="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
+                <li>
+                    <a target="blank" class="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -166,8 +170,7 @@
     <script src="js/lib/jquery.js"></script>
     <script src="js/lib/jquery-ui.min.js"></script>
     <script src="js/script.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs  
-    &callback=initMap.init" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs&callback=initMap.init" async defer></script>
 
 </body>
 

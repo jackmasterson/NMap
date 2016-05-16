@@ -5,8 +5,8 @@
 html,
 body {
     height: 100vh;
-    margin: 0;
-    padding: 0;
+    margin: 0px;
+    padding: 0px;
     width: 100vw;
 }
 
@@ -20,6 +20,10 @@ ul {
 
 li {
     cursor: pointer;
+}
+
+hr {
+    width: 80%;
 }
 
 .header {
@@ -124,7 +128,7 @@ li {
     border: 2px solid black;
     border-radius: 15px;
     font-family: "Roboto", "sans-serif";
-    padding: auto 40% auto auto;
+    padding: 0% 40% 0% 0%;
 }
 
 #listed {
@@ -159,7 +163,7 @@ li {
     width: 140px;
     margin: auto;
     margin-left: 15px;
-    padding: auto;
+    padding: 0%;
     border-radius: 15px;
     border: 5px solid black;
 }
@@ -226,9 +230,12 @@ li {
     font-size: 10px;
 }
 
+.jam-logo {
+    border: 0;
+}
+
 .tix {
     color: white;
-    font-color: white;
 }
 
 .tixImg {
@@ -237,7 +244,6 @@ li {
 
 .jamHREF {
     color: white;
-    font-color: white;
 }
 
 .jamBase-header {
@@ -261,7 +267,7 @@ li {
     top: 12px;
     left: 10px;
     display: inline-block;
-    padding: 6px 9px 5px;
+    padding: 6px 9px 5px 0px;
     font-family: Arial, sans-serif;
     font-weight: bold;
     line-height: 1;
@@ -304,7 +310,7 @@ li {
 
 .timeSelect {
     list-style-type: none;
-    margin: none;
+    margin: 0px;
 }
 
 .wind-head {
