@@ -521,14 +521,42 @@ var filterList = {
     //actually initiates the search functionality for each place
     searched: function() {
         var self = this;
+        console.log(self.search);
+        var q = self.search;
+
+
 
 
         model.places.forEach(function(placed) {
             var x = placed.tag;
+            var placeArr = ko.observableArray([]);
 
-            model.markArr.forEach(function(markArrCopy) {
+          //  console.log(x);
+         //   placed.visibility(true);
+
+
+            x.filter(function(i){
+                console.log(i.indexOf(q) > -1);
+
+                var searchTrue = i.indexOf(q) > -1;
+
+                    placeArr.push(searchTrue);
+
+            })
+           console.log(placeArr());
+
+           if(placeArr().contains(true)){
+                placed.visibility(true);
+           }
+           else {
+            placed.visibility(false);
+           }
+
+
+          /*  model.markArr.forEach(function(markArrCopy) {
                 var placeTitle = placed.title();
                 var markTitle = markArrCopy.title;
+                console.log(markArrCopy);
 
                 //if the place's tag is contained in the 
                 //search when enter is hit, then the list
@@ -554,7 +582,7 @@ var filterList = {
                     }
 
                 }
-            });
+            });*/
         });
     }
 };
