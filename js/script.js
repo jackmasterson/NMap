@@ -402,7 +402,7 @@ var toggle = {
     //applies the filter when the 'enter' button is pressed
     //on the corresponding searchBar in index.html
     filter: function(d, e) {
-        e.keyCode === 13 && filterList.render();
+        filterList.render();
         return true;
     }
 };
@@ -524,16 +524,9 @@ var filterList = {
         console.log(self.search);
         var q = self.search;
 
-
-
-
         model.places.forEach(function(placed) {
             var x = placed.tag;
             var placeArr = ko.observableArray([]);
-
-          //  console.log(x);
-         //   placed.visibility(true);
-
 
             x.filter(function(i){
                 console.log(i.indexOf(q) > -1);
@@ -543,17 +536,8 @@ var filterList = {
                     placeArr.push(searchTrue);
 
             })
-           console.log(placeArr());
 
-           if(placeArr().contains(true)){
-                placed.visibility(true);
-           }
-           else {
-            placed.visibility(false);
-           }
-
-
-          /*  model.markArr.forEach(function(markArrCopy) {
+            model.markArr.forEach(function(markArrCopy) {
                 var placeTitle = placed.title();
                 var markTitle = markArrCopy.title;
                 console.log(markArrCopy);
@@ -563,26 +547,22 @@ var filterList = {
                 //view item will
                 //remain visible according to knockout's
                 //visible binding
-                if (x.contains(self.search)) {
-                    placed.visibility(true);
+                   if(placeArr().contains(true)){
+                        placed.visibility(true);
 
-                    //this if statement compares 
-                    //the visible list view titles to the
-                    //titles of the markers; if they're equal,
-                    //then that marker will also remain visible
-                    if (placeTitle === markTitle) {
-                        markArrCopy.setMap(map);
-                    }
+                        if(placeTitle === markTitle) {
+                            markArrCopy.setMap(map);
+                        }
+                   }
+                   else {
+                        placed.visibility(false);
 
-                } else {
-                    placed.visibility(false);
+                        if(placeTitle === markTitle) {
+                            markArrCopy.setMap(null);
+                        }
+                   }
 
-                    if (placeTitle === markTitle) {
-                        markArrCopy.setMap(null);
-                    }
-
-                }
-            });*/
+            });
         });
     }
 };
