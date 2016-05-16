@@ -34,10 +34,6 @@ Download or fork the application from:
 
 Select index.html to start the app.
 
-Site is also available using GitHub Project Pages at: 
-
-	[https://jackmasterson.github.io/NMap/];
-
 To Use
 ------
 
