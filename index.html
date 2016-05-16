@@ -96,8 +96,8 @@
                     </li>
                     <li class="windImg">
                         <h5>Wind/Swell</h5>
-                        <img alt="Wind Chart" class="chart" alt="Wind Chart" data-bind="attr: { src: charts.wind }">
-                        <img alt="Sweel Chart" class="chart" alt="Swell Chart" data-bind="attr: { src: charts.swell }">
+                        <img class="chart" alt="Wind Chart" data-bind="attr: { src: charts.wind }">
+                        <img class="chart" alt="Swell Chart" data-bind="attr: { src: charts.swell }">
                     </li>
                 </ul>
                 <br>
@@ -139,14 +139,14 @@
             <br>
             <h2>Live Music in Asbury Park</h2>
             <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
-                <img "JamBase logo" class="jam-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts"/>
+                <img class="jam-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" />
             </a>
             <br>
             <h6 class="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h6>
         </div>
         <div data-bind="foreach: model.jamBaseInfo">
             <ul class="concerts">
-                <li>Artist: 
+                <li>Artist:
                     <span data-bind="text: Artists[0].Name"></span>
                 </li>
                 <li>Venue:

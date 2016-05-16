@@ -155,10 +155,10 @@ var socrataView = {
         }, 3000);
 
         $.ajax({
-            url: this.socrataURL,
-            dataType: 'json'
-        })
-        .done (function(response) {
+                url: this.socrataURL,
+                dataType: 'json'
+            })
+            .done(function(response) {
                 var infos = response;
                 //I only wanted the most recent information on the site
                 //so I created the 'info' variable
@@ -177,8 +177,8 @@ var socrataView = {
                 //if the request fails or takes too long, it times out
                 clearTimeout(self.socrataTimeout);
 
-        })
-        
+            });
+
 
     },
 
@@ -192,7 +192,7 @@ var fourSqView = {
     init: function() {
         var that = this;
 
-        this.text = 
+        this.text =
             'Welp, this is embarrassing. We were supposed to see' +
             ' information provided by Foursquare about the' +
             ' location you clicked on, but something went wrong.' +
@@ -227,10 +227,10 @@ var fourSqView = {
         var self = this;
 
         $.ajax({
-            url: this.fourSqURL,
-            dataType: 'json'
-        })
-        .done (function(response) {
+                url: this.fourSqURL,
+                dataType: 'json'
+            })
+            .done(function(response) {
                 var place = response.response.venues[0];
                 var name = place.name;
                 var address = place.location.address;
@@ -249,7 +249,7 @@ var fourSqView = {
                 });
 
                 clearTimeout(self.squareTimeout);
-        })
+            });
 
     },
 
@@ -287,10 +287,10 @@ var jamBaseView = {
         var self = this;
 
         $.ajax({
-            url: self.jamBaseURL,
-            dataType: "json"
-        })
-        .done (function(response) {
+                url: self.jamBaseURL,
+                dataType: "json"
+            })
+            .done(function(response) {
                 var infos = response;
 
                 //pushes the needed jamBase information to the
@@ -303,7 +303,7 @@ var jamBaseView = {
                 //initiates the timeout request
                 clearTimeout(self.jamBaseTimeout);
 
-        })
+            });
 
         //puts the jamBase info into a slideout menu that comes in
         //from the right side of teh screen when the microphone PNG
@@ -356,10 +356,10 @@ var surfView = {
         }, 1000);
 
         $.ajax({
-            url: this.surfURL,
-            dataType: 'jsonp'
-        })
-        .done (function(response) {
+                url: this.surfURL,
+                dataType: 'jsonp'
+            })
+            .done(function(response) {
                 var infos = response;
                 //I only wanted the certain information from the JSON
                 //so I created the 'infos' variable and pushed them to
@@ -379,7 +379,7 @@ var surfView = {
                 //if the request fails or takes too long, it times out
                 clearTimeout(self.surfTimeout);
 
-        })
+            });
 
     },
 
@@ -409,18 +409,17 @@ var toggle = {
     //applies the filter when the 'enter' button is pressed
     //on the corresponding searchBar in index.html
     filter: function(d, e) {
-        
-        if(e.keyCode !== 13){
-            filterList.render();
-            return true
-        }
-        else {
-            $('.searchBar').val('');
-            
+
+        if (e.keyCode !== 13) {
             filterList.render();
             return true;
-               
-            
+        } else {
+            $('.searchBar').val('');
+
+            filterList.render();
+            return true;
+
+
         }
 
     }
@@ -533,7 +532,7 @@ var filterList = {
 
         that.searched();
 
-        
+
 
     },
 
@@ -546,10 +545,10 @@ var filterList = {
             var x = placed.tag;
             self.placeArr = ko.observableArray([]);
 
-            x.filter(function(i){
+            x.filter(function(i) {
                 var searchTrue = i.indexOf(q) > -1;
-                    self.placeArr.push(searchTrue);
-            })
+                self.placeArr.push(searchTrue);
+            });
 
             model.markArr.forEach(function(markArrCopy) {
                 var placeTitle = placed.title;
@@ -560,20 +559,19 @@ var filterList = {
                 //view item will
                 //remain visible according to knockout's
                 //visible binding
-                   if(self.placeArr().contains(true)){
-                        placed.visibility(true);
+                if (self.placeArr().contains(true)) {
+                    placed.visibility(true);
 
-                        if(placeTitle === markTitle) {
-                            markArrCopy.setMap(map);
-                        }
-                   }
-                   else {
-                        placed.visibility(false);
+                    if (placeTitle === markTitle) {
+                        markArrCopy.setMap(map);
+                    }
+                } else {
+                    placed.visibility(false);
 
-                        if(placeTitle === markTitle) {
-                            markArrCopy.setMap(null);
-                        }
-                   }
+                    if (placeTitle === markTitle) {
+                        markArrCopy.setMap(null);
+                    }
+                }
 
             });
         });
@@ -590,7 +588,7 @@ var listView = {
     },
 
     render: function() {
-      
+
         var places = model.places;
 
         var allTags = places.reduce(function(prev, curr) {
@@ -609,18 +607,21 @@ var listView = {
         //uniqueTags array 
         $(".searchBar").autocomplete({
             source: uniqueTags,
-            select: function(event, item){
+
+            //filters the list if user selects an item
+            //from autocomplete
+            select: function(event, item) {
                 var q = item.item.value;
-                
+
                 model.places.forEach(function(placed) {
                     var x = placed.tag;
                     var placeArr = ko.observableArray([]);
 
-                    x.filter(function(i){
+                    x.filter(function(i) {
                         var searchTrue = i.indexOf(q) > -1;
-                            placeArr.push(searchTrue);
-                    })
-        
+                        placeArr.push(searchTrue);
+                    });
+
                     model.markArr.forEach(function(markArrCopy) {
                         var placeTitle = placed.title;
                         var markTitle = markArrCopy.title;
@@ -630,20 +631,19 @@ var listView = {
                         //view item will
                         //remain visible according to knockout's
                         //visible binding
-                       if(placeArr().contains(true)){
+                        if (placeArr().contains(true)) {
                             placed.visibility(true);
 
-                            if(placeTitle === markTitle) {
+                            if (placeTitle === markTitle) {
                                 markArrCopy.setMap(map);
                             }
-                       }
-                       else {
+                        } else {
                             placed.visibility(false);
 
-                            if(placeTitle === markTitle) {
+                            if (placeTitle === markTitle) {
                                 markArrCopy.setMap(null);
                             }
-                       }
+                        }
                     });
                 });
             }
@@ -793,7 +793,7 @@ var initMap = {
     fail: ko.observable(false),
 
     init: function() {
-        
+
         //runs the viewModel code, and everything within it
         viewModel.init();
 
