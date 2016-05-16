@@ -402,8 +402,20 @@ var toggle = {
     //applies the filter when the 'enter' button is pressed
     //on the corresponding searchBar in index.html
     filter: function(d, e) {
-        filterList.render();
-        return true;
+        
+        if(e.keyCode !== 13){
+            filterList.render();
+            return true
+        }
+        else {
+            $('.searchBar').val('');
+            
+            filterList.render();
+            return true;
+               
+            
+        }
+
     }
 };
 
@@ -521,33 +533,27 @@ var filterList = {
     //actually initiates the search functionality for each place
     searched: function() {
         var self = this;
-        console.log(self.search);
         var q = self.search;
 
         model.places.forEach(function(placed) {
             var x = placed.tag;
-            var placeArr = ko.observableArray([]);
+            self.placeArr = ko.observableArray([]);
 
             x.filter(function(i){
-                console.log(i.indexOf(q) > -1);
-
                 var searchTrue = i.indexOf(q) > -1;
-
-                    placeArr.push(searchTrue);
-
+                    self.placeArr.push(searchTrue);
             })
 
             model.markArr.forEach(function(markArrCopy) {
                 var placeTitle = placed.title();
                 var markTitle = markArrCopy.title;
-                console.log(markArrCopy);
 
                 //if the place's tag is contained in the 
                 //search when enter is hit, then the list
                 //view item will
                 //remain visible according to knockout's
                 //visible binding
-                   if(placeArr().contains(true)){
+                   if(self.placeArr().contains(true)){
                         placed.visibility(true);
 
                         if(placeTitle === markTitle) {
@@ -595,7 +601,45 @@ var listView = {
         //initiates the autocomplete search function, using the
         //uniqueTags array 
         $(".searchBar").autocomplete({
-            source: uniqueTags
+            source: uniqueTags,
+            select: function(event, item){
+                var q = item.item.value;
+                
+                model.places.forEach(function(placed) {
+                    var x = placed.tag;
+                    var placeArr = ko.observableArray([]);
+
+                    x.filter(function(i){
+                        var searchTrue = i.indexOf(q) > -1;
+                            placeArr.push(searchTrue);
+                    })
+        
+                    model.markArr.forEach(function(markArrCopy) {
+                        var placeTitle = placed.title();
+                        var markTitle = markArrCopy.title;
+
+                        //if the place's tag is contained in the 
+                        //search when enter is hit, then the list
+                        //view item will
+                        //remain visible according to knockout's
+                        //visible binding
+                       if(placeArr().contains(true)){
+                            placed.visibility(true);
+
+                            if(placeTitle === markTitle) {
+                                markArrCopy.setMap(map);
+                            }
+                       }
+                       else {
+                            placed.visibility(false);
+
+                            if(placeTitle === markTitle) {
+                                markArrCopy.setMap(null);
+                            }
+                       }
+                    });
+                });
+            }
         });
     }
 };
