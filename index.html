@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Asbury Park - Stuff to See!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css">
+</head>
+
+<body>
+    <div class="list" id="listed">
+        <div class="search-buttons">
+            <input class="searchBar" data-bind="value: query, valueUpdate: 'keyup', event: { keypress: toggle.filter }" autocomplete="off" placeholder="Hit Enter Twice to Clear" autofocus />
+            <button class="hide" data-bind="click: toggle.hideList">Click to Hide</button>
+        </div>
+        <div class="mark-list" data-bind="foreach: model.places">
+            <ul data-bind="if: visibility">
+                <li class="mark-li" data-bind="text: title, click: markView.render"></li>
+            </ul>
+        </div>
+        <div class="display"></div>
+    </div>
+    <div>
+        <img class="header" src="img/apnj.jpg" alt="Greetings from Asbury Park, NJ">
+    </div>
+    <div class="listButton">
+        <div class="search-div">
+            <img class="toggle" id="toggleListButton" src="img/search.png" alt="Toggle List View" data-bind="click: toggle.list">
+            <h4 class="search-head">Search</h4>
+        </div>
+        <div class="search-div">
+            <a href="#" class="slideout-menu-toggle">
+                <img class="toggle" src="img/mic.png" alt="Toggle Live Shows">
+            </a>
+            <h4 class="search-head">Live Music</h4>
+        </div>
+        <div class="search-div" id="socrata-search-div">
+            <img class="toggle" id="socrata-data" src="img/census.png" alt="Toggle Census Info" data-bind="click: toggle.socrata">
+            <h4 class="search-head">Census Info</h4>
+        </div>
+        <div class="search-div">
+            <img class="toggle" id="surf-data" src="img/surf.png" alt="Toggle Surfing Info" data-bind="click: toggle.surf">
+            <h4 class="search-head">Surf Info</h4>
+        </div>
+    </div>
+    <div class="list" id="mark" data-bind="foreach: model.currentInfo">
+        <a target="_blank" data-bind="attr: { href: currentURL }">
+            <h2 class="mark-name" data-bind="text: currentTitle"></h2>
+        </a>
+        <h2 class="mark-address" data-bind="text: currentAddress"></h2>
+        <h3 class="mark-address">Twitter: 
+            <span data-bind="text: currentTwitter"></span>
+        </h3>
+        <a class="mark-address" target="_blank" data-bind="attr: { href: currentSqUrl }">
+            <h3 class="mark-address">More Info</h3>
+        </a>
+        <h3 class="mark-address">Information Provided by 
+            <a target="_blank" href="https://foursquare.com/">Foursquare</a>
+        </h3>
+    </div>
+    <div class="surf-header">
+        <div class="white-back">
+            <div>
+                <h4>Today's Surfing Info for Asbury Park
+                  <br>
+                  Provided by 
+                  <a target="_blank" href="http://magicseaweed.com">Magic Seaweed</a>
+                </h4>
+                <h5>Information is for today at 6am, 12pm, and 6pm</h5>
+            </div>
+            <div data-bind="foreach: model.surfInfo">
+                <br>
+                <ul class="surf" id="waves">
+                    <li>Water Temperature: <span data-bind="text: condition.temperature"></span>&deg;F</li>
+                    <li>Max Break:
+                        <span data-bind="text: swell.maxBreakingHeight"></span>ft
+                    </li>
+                    <li>Min Break:
+                        <span data-bind="text: swell.minBreakingHeight"></span>ft
+                    </li>
+                    <li class="wind-head">Wind</li>
+                    <li>Chill:
+                        <span data-bind="text: wind.chill"></span>&deg;F
+                    </li>
+                    <li>Direction:
+                        <span data-bind="text: wind.compassDirection"></span>
+                    </li>
+                    <li>Gusts:
+                        <span data-bind="text: wind.gusts"></span>mph
+                    </li>
+                    <li>Speed:
+                        <span data-bind="text: wind.speed"></span>mph
+                    </li>
+                    <li class="windImg">
+                        <h5>Wind/Swell</h5>
+                        <img class="chart" alt="Wind Chart" data-bind="attr: { src: charts.wind }">
+                        <img class="chart" alt="Swell Chart" data-bind="attr: { src: charts.swell }">
+                    </li>
+                </ul>
+                <br>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <div class="map-fail" data-bind="visible: initMap.fail">
+        <h2 data-bind="text: initMap.text"></h2>
+    </div>
+    <div id="map" class="my-map"></div>
+    <div class="socrata-header">
+        <h4>Asbury Park Census Info</h4>
+        <ul data-bind="foreach: model.socrataInfo">
+            <li>Year:
+                <span data-bind="text: Year"></span>
+            </li>
+            <li>Bachelor's Degree (%):
+                <span data-bind="text: Bachelors"></span>
+            </li>
+            <li>High School Graduates (%):
+                <span data-bind="text: HSGrad"></span>
+            </li>
+            <li>Associates Degree (%):
+                <span data-bind="text: Associates"></span>
+            </li>
+        </ul>
+        <div data-bind="visible: socrataView.fail">
+            <h2 data-bind="text: socrataView.text"></h2>
+        </div>
+        <h4>Information Supplied by Socrata Open Data Network</h4>
+    </div>
+    <div class="jamBase-header">
+        <div data-bind="visible: jamBaseView.fail">
+            <img alt="Microphone" src="img/microphone.jpg" class="mic">
+        </div>
+        <div>
+            <a href="#/" class="slideout-menu-toggle">X</a>
+            <br>
+            <h2>Live Music in Asbury Park</h2>
+            <a href="http://www.JamBase.com" target="_blank" title="JamBase Concert Search" class="tixImg">
+                <img class="jam-logo" src="http://images.jambase.com/logos/jambase140x70.gif" alt="Search JamBase Concerts" />
+            </a>
+            <br>
+            <h6 class="jamHead">*Note: If tickets are not available online, you will be directed back to this site</h6>
+        </div>
+        <div data-bind="foreach: model.jamBaseInfo">
+            <ul class="concerts">
+                <li>Artist:
+                    <span data-bind="text: Artists[0].Name"></span>
+                </li>
+                <li>Venue:
+                    <a target="_blank" class="jamHREF" data-bind="attr: { href: Venue.Url }">
+                        <span data-bind="text: Venue.Name"></span>
+                    </a>
+                </li>
+                <li>City: <span data-bind="text: Venue.City"></span>
+                </li>
+                <li>
+                    <a target="blank" class="jamHREF" data-bind="attr: { href: TicketUrl }">Tickets</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/lib/jquery.js"></script>
+    <script src="js/lib/jquery-ui.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCd4YXx4EnfeQG67wMFXsCA78ei-rMvpQs&callback=initMap.init" async defer></script>
+
+</body>
+
+</html>

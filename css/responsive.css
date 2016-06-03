@@ -1,0 +1,114 @@
+/*handheld devices, portrait */
+
+@media only screen and (min-device-width: 315px) and (max-device-width: 750px) {
+    h1 {
+        font-size: 18px;
+    }
+
+    body {
+        background: #ccc;
+    }
+
+    .header,
+    #mark {
+        margin: 125% auto 0% auto;
+        height: 125px;
+        width: 125px;
+        line-height: 10px;
+    }
+
+    .list {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    #listed {
+        width: 60%;
+        margin: 5% 2% auto 40%;
+        height: 160px;
+    }
+
+    .toggle {
+        height: 50px;
+        width: 50px;
+    }
+
+    .mark-name {
+        font-size: 10px;
+        margin-top: 2%;
+    }
+
+    .listButton {
+        position: absolute;
+        z-index: 5;
+        width: 180px;
+        margin-top: 64vh;
+        margin-left: 38vw;
+    }
+
+    .listUL {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .searchBar {
+        margin: 5px;
+    }
+
+    .search-head {
+        font-size: 12px;
+    }
+
+    .surf-header {
+        height: 50%;
+        width: 60%;
+        margin-top: 25px;
+    }
+
+    .chart {
+        height: 75px;
+        width: 75px;
+    }
+
+    .socrata-header {
+        display: none;
+    }
+
+    #socrata-search-div {
+        display: none;
+    }
+
+}
+@media only screen and (min-width: 750px) and (max-width: 850px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    li {
+        cursor: pointer;
+    }
+
+    .header,
+    #mark {
+        margin-top: 5%;
+    }
+
+    #listed {
+        width: 40%;
+        margin: 90% 30% auto 2%;
+    }
+
+    .listButton {
+        position: absolute;
+        z-index: 5;
+        margin-top: 18%;
+        margin-left: 5%;
+        height: 250px;
+        width: 100px;
+    }
+
+    .surf-header {
+        height: 50%;
+    }
+
+}
